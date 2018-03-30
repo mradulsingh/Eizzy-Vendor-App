@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Eizzy</string>
+    <string name="app_name">Eizzy-Vendor</string>
 
     <!-- to be removed -->
     <string name="retry">Retry</string>
