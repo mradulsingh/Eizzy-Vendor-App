@@ -47,22 +47,16 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor) {
+    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor,
+                                     TLSSocketFactory tlsSocketFactory,
+                                     X509TrustManager trustManager) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         if (loggingInterceptor != null) {
             client.addInterceptor(loggingInterceptor);
         }
 
         //adding SSL certificate trust managers
-        X509TrustManager trustManager = getTrustManager();
-        TrustManager[] byPassTrustManagers = new TrustManager[]{trustManager};
-        try {
-            client.sslSocketFactory(new TLSSocketFactory(byPassTrustManagers), trustManager);
-        } catch (NoSuchAlgorithmException e) {
-            Logger.tag(TAG_API).e(e, e.getMessage());
-        } catch (KeyManagementException e) {
-            Logger.tag(TAG_API).e(e, e.getMessage());
-        }
+        client.sslSocketFactory(tlsSocketFactory, trustManager);
 
         return client.build();
     }
@@ -78,7 +72,22 @@ public class NetworkModule {
         return null;
     }
 
-    private X509TrustManager getTrustManager() {
+    @Singleton
+    @Provides
+    TLSSocketFactory provideTLSSocketFactory(X509TrustManager trustManager) {
+        try {
+            return new TLSSocketFactory(new TrustManager[]{trustManager});
+        } catch (NoSuchAlgorithmException e) {
+            Logger.tag(TAG_API).e(e, e.getMessage());
+        } catch (KeyManagementException e) {
+            Logger.tag(TAG_API).e(e, e.getMessage());
+        }
+        return null;
+    }
+
+    @Singleton
+    @Provides
+    X509TrustManager provideX509TrustManager() {
         return new X509TrustManager() {
             public X509Certificate[] getAcceptedIssuers() {
                 return new X509Certificate[0];
