@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import javax.inject.Singleton;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -33,7 +32,7 @@ public class NetworkModule {
         this.mBaseUrl = baseUrl;
     }
 
-    @Singleton
+    @AppScope
     @Provides
     AppService provideAppService(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
@@ -46,7 +45,7 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
+    @AppScope
     OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor,
                                      TLSSocketFactory tlsSocketFactory,
                                      X509TrustManager trustManager) {
@@ -61,7 +60,7 @@ public class NetworkModule {
         return client.build();
     }
 
-    @Singleton
+    @AppScope
     @Provides
     HttpLoggingInterceptor provideHttpLoggingInterceptor() {
         if (AppGlobal.APP_ENV.isHttpLoggerEnabled()) {
@@ -72,7 +71,7 @@ public class NetworkModule {
         return null;
     }
 
-    @Singleton
+    @AppScope
     @Provides
     TLSSocketFactory provideTLSSocketFactory(X509TrustManager trustManager) {
         try {
@@ -85,7 +84,7 @@ public class NetworkModule {
         return null;
     }
 
-    @Singleton
+    @AppScope
     @Provides
     X509TrustManager provideX509TrustManager() {
         return new X509TrustManager() {

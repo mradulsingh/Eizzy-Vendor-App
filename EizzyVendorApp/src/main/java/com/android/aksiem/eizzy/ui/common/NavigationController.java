@@ -18,8 +18,8 @@ package com.android.aksiem.eizzy.ui.common;
 
 import android.support.v4.app.FragmentManager;
 
-import com.android.aksiem.eizzy.MainActivity;
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.ui.repo.RepoFragment;
 import com.android.aksiem.eizzy.ui.search.SearchFragment;
 import com.android.aksiem.eizzy.ui.user.UserFragment;
@@ -27,15 +27,16 @@ import com.android.aksiem.eizzy.ui.user.UserFragment;
 import javax.inject.Inject;
 
 /**
- * A utility class that handles navigation in {@link MainActivity}.
+ * A utility class that handles navigation in {@link EizzyActivity}.
  */
 public class NavigationController {
     private final int containerId;
     private final FragmentManager fragmentManager;
+
     @Inject
-    public NavigationController(MainActivity mainActivity) {
+    public NavigationController(EizzyActivity activity) {
         this.containerId = R.id.container;
-        this.fragmentManager = mainActivity.getSupportFragmentManager();
+        this.fragmentManager = activity.getSupportFragmentManager();
     }
 
     public void navigateToSearch() {

@@ -23,15 +23,14 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.BaseInjectableFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.RepoFragmentBinding;
-import com.android.aksiem.eizzy.di.Injectable;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.vo.Repo;
@@ -44,7 +43,7 @@ import javax.inject.Inject;
 /**
  * The UI Controller for displaying a Github Repo's information with its contributors.
  */
-public class RepoFragment extends Fragment implements Injectable {
+public class RepoFragment extends BaseInjectableFragment {
 
     private static final String REPO_OWNER_KEY = "repo_owner";
 

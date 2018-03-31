@@ -23,22 +23,21 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.BaseInjectableFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.UserFragmentBinding;
-import com.android.aksiem.eizzy.di.Injectable;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.RepoListAdapter;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
 
-public class UserFragment extends Fragment implements Injectable {
+public class UserFragment extends BaseInjectableFragment {
     private static final String LOGIN_KEY = "login";
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -62,7 +61,7 @@ public class UserFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         UserFragmentBinding dataBinding = DataBindingUtil.inflate(inflater, R.layout.user_fragment,
                 container, false, dataBindingComponent);
         dataBinding.setRetryCallback(() -> userViewModel.retry());

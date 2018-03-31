@@ -27,6 +27,7 @@ import com.android.aksiem.eizzy.api.AppService;
 import com.android.aksiem.eizzy.api.RepoSearchResponse;
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.RepoDao;
+import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.util.RateLimiter;
@@ -39,7 +40,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 
 /**
@@ -49,7 +49,7 @@ import javax.inject.Singleton;
  * Repo - value object name
  * Repository - type of this class.
  */
-@Singleton
+@AppScope
 public class RepoRepository {
 
     private final AppDb db;

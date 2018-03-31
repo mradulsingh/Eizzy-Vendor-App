@@ -24,16 +24,16 @@ import com.android.aksiem.eizzy.AppExecutors;
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
 import com.android.aksiem.eizzy.db.UserDao;
+import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.User;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Repository that handles User objects.
  */
-@Singleton
+@AppScope
 public class UserRepository {
     private final UserDao userDao;
     private final AppService appService;

@@ -24,34 +24,34 @@ import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.RepoDao;
 import com.android.aksiem.eizzy.db.UserDao;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = ViewModelModule.class)
+@Module(includes = {
+        ViewModelModule.class,
+        UtilsModule.class})
 class AppModule {
     private static final String APP_DB_NAME = "app.db";
 
-    @Singleton
+    @AppScope
     @Provides
     AppDb provideDb(Application app) {
         return Room.databaseBuilder(app, AppDb.class, APP_DB_NAME).build();
     }
 
-
+    @ApplicationContext
     @Provides
     Context provideAppContext(Application app) {
         return app.getApplicationContext();
     }
 
-    @Singleton
+    @AppScope
     @Provides
     UserDao provideUserDao(AppDb db) {
         return db.userDao();
     }
 
-    @Singleton
+    @AppScope
     @Provides
     RepoDao provideRepoDao(AppDb db) {
         return db.repoDao();

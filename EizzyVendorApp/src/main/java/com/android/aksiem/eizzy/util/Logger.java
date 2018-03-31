@@ -88,7 +88,7 @@ public class Logger {
     }
 
     public static class LoggerFacade {
-        private final static String DEFAULT_TAG = "EzyLog";
+        private final static String DEFAULT_TAG = "EzyVendorLog";
         private final ThreadLocal<String> providedTag = new ThreadLocal<>();
         private static int LOG_LEVEL;
 

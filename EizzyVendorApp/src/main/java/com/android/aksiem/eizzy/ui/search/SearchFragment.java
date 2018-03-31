@@ -18,15 +18,11 @@ package com.android.aksiem.eizzy.ui.search;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -34,19 +30,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.BaseInjectableFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.SearchFragmentBinding;
-import com.android.aksiem.eizzy.di.Injectable;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.RepoListAdapter;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
 
-public class SearchFragment extends Fragment implements Injectable {
+public class SearchFragment extends BaseInjectableFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -65,7 +60,7 @@ public class SearchFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         SearchFragmentBinding dataBinding = DataBindingUtil
                 .inflate(inflater, R.layout.search_fragment, container, false,
                         dataBindingComponent);
@@ -148,14 +143,5 @@ public class SearchFragment extends Fragment implements Injectable {
             }
             binding.get().executePendingBindings();
         });
-    }
-
-    private void dismissKeyboard(IBinder windowToken) {
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(
-                    Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(windowToken, 0);
-        }
     }
 }

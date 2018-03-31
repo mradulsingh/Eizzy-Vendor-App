@@ -16,13 +16,13 @@
 
 package com.android.aksiem.eizzy.di;
 
-import com.android.aksiem.eizzy.MainActivity;
+import com.android.aksiem.eizzy.app.EizzyActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class MainActivityModule {
+public abstract class EizzyActivityModule {
     @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
-    abstract MainActivity contributeMainActivity();
+    abstract EizzyActivity contributeEizzyActivity();
 }

@@ -20,18 +20,16 @@ import android.app.Application;
 
 import com.android.aksiem.eizzy.EizzyApp;
 
-import javax.inject.Singleton;
-
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
-@Singleton
+@AppScope
 @Component(modules = {
         AndroidInjectionModule.class,
         AppModule.class,
         NetworkModule.class,
-        MainActivityModule.class
+        EizzyActivityModule.class
 })
 public interface AppComponent {
     @Component.Builder

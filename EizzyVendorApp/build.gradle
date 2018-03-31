@@ -42,8 +42,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             debuggable true
             testCoverageEnabled !project.hasProperty('android.injected.invoked.from.ide')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -121,7 +121,6 @@ dependencies {
     implementation deps.dagger.android_support
     implementation deps.constraint_layout
 
-    implementation deps.libs.secure_pref
     implementation(deps.libs.calligraphy, {
         exclude module: 'support-v4'
     })
