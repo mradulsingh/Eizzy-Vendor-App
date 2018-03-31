@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.android.aksiem.eizzy.di.AppInjector;
 import com.android.aksiem.eizzy.util.Logger;
@@ -32,6 +33,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
 public class EizzyApp extends Application implements HasActivityInjector {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
