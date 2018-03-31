@@ -20,7 +20,7 @@ public class PrefUtil {
 
     private static SharedPreferences getSecuredSharedPreferences(Context context) {
         if (mSecurePrefs == null) {
-            mSecurePrefs = new SecurePreferences(context, "Eizzy", context.getPackageName());
+            mSecurePrefs = new SecurePreferences(context, "Eizzy_Vendor", context.getPackageName());
         }
         return mSecurePrefs;
     }
