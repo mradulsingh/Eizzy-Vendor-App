@@ -20,19 +20,12 @@ package com.android.aksiem.eizzy.db;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.android.aksiem.eizzy.vo.Contributor;
-import com.android.aksiem.eizzy.vo.Repo;
-import com.android.aksiem.eizzy.vo.RepoSearchResult;
 import com.android.aksiem.eizzy.vo.User;
 
 /**
  * Main database description.
  */
-@Database(entities = {User.class, Repo.class, Contributor.class,
-        RepoSearchResult.class}, version = 3)
+@Database(entities = {User.class}, version = 1)
 public abstract class AppDb extends RoomDatabase {
 
-    abstract public UserDao userDao();
-
-    abstract public RepoDao repoDao();
 }

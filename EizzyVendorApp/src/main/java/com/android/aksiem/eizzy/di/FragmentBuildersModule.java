@@ -16,9 +16,7 @@
 
 package com.android.aksiem.eizzy.di;
 
-import com.android.aksiem.eizzy.ui.repo.RepoFragment;
-import com.android.aksiem.eizzy.ui.search.SearchFragment;
-import com.android.aksiem.eizzy.ui.user.UserFragment;
+import com.android.aksiem.eizzy.ui.login.LoginFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -26,11 +24,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
-    abstract RepoFragment contributeRepoFragment();
-
-    @ContributesAndroidInjector
-    abstract UserFragment contributeUserFragment();
-
-    @ContributesAndroidInjector
-    abstract SearchFragment contributeSearchFragment();
+    abstract LoginFragment contributeLoginFragment();
 }

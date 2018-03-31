@@ -47,7 +47,7 @@ public class EizzyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eizzy_activity);
         if (savedInstanceState == null) {
-            navigationController.navigateToSearch();
+            navigationController.navigateToLogin();
         }
     }
 

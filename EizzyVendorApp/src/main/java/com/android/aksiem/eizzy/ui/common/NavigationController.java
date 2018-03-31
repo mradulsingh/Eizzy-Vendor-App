@@ -20,9 +20,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.EizzyActivity;
-import com.android.aksiem.eizzy.ui.repo.RepoFragment;
-import com.android.aksiem.eizzy.ui.search.SearchFragment;
-import com.android.aksiem.eizzy.ui.user.UserFragment;
+import com.android.aksiem.eizzy.ui.login.LoginFragment;
 
 import javax.inject.Inject;
 
@@ -39,28 +37,10 @@ public class NavigationController {
         this.fragmentManager = activity.getSupportFragmentManager();
     }
 
-    public void navigateToSearch() {
-        SearchFragment searchFragment = new SearchFragment();
+    public void navigateToLogin() {
+        LoginFragment loginFragment = new LoginFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, searchFragment)
-                .commitAllowingStateLoss();
-    }
-
-    public void navigateToRepo(String owner, String name) {
-        RepoFragment fragment = RepoFragment.create(owner, name);
-        String tag = "repo" + "/" + owner + "/" + name;
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
-    }
-
-    public void navigateToUser(String login) {
-        String tag = "user" + "/" + login;
-        UserFragment userFragment = UserFragment.create(login);
-        fragmentManager.beginTransaction()
-                .replace(containerId, userFragment, tag)
-                .addToBackStack(null)
+                .replace(containerId, loginFragment)
                 .commitAllowingStateLoss();
     }
 }

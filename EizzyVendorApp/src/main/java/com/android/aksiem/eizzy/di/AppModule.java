@@ -21,8 +21,6 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.android.aksiem.eizzy.db.AppDb;
-import com.android.aksiem.eizzy.db.RepoDao;
-import com.android.aksiem.eizzy.db.UserDao;
 
 import dagger.Module;
 import dagger.Provides;
@@ -45,15 +43,4 @@ class AppModule {
         return app.getApplicationContext();
     }
 
-    @AppScope
-    @Provides
-    UserDao provideUserDao(AppDb db) {
-        return db.userDao();
-    }
-
-    @AppScope
-    @Provides
-    RepoDao provideRepoDao(AppDb db) {
-        return db.repoDao();
-    }
 }

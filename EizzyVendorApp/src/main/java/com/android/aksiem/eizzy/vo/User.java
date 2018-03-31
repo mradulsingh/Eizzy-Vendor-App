@@ -21,29 +21,19 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(primaryKeys = "login")
+@Entity(primaryKeys = "userId")
 public class User {
-    @SerializedName("login")
+    @SerializedName("userId")
     @NonNull
-    public final String login;
-    @SerializedName("avatar_url")
-    public final String avatarUrl;
+    public final String userId;
+    @SerializedName("profile_url")
+    public final String profileUrl;
     @SerializedName("name")
     public final String name;
-    @SerializedName("company")
-    public final String company;
-    @SerializedName("repos_url")
-    public final String reposUrl;
-    @SerializedName("blog")
-    public final String blog;
 
-    public User(String login, String avatarUrl, String name, String company,
-                String reposUrl, String blog) {
-        this.login = login;
-        this.avatarUrl = avatarUrl;
+    public User(String userId, String profileUrl, String name) {
+        this.userId = userId;
+        this.profileUrl = profileUrl;
         this.name = name;
-        this.company = company;
-        this.reposUrl = reposUrl;
-        this.blog = blog;
     }
 }

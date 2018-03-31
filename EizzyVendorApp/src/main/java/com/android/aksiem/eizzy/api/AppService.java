@@ -18,36 +18,17 @@ package com.android.aksiem.eizzy.api;
 
 import android.arch.lifecycle.LiveData;
 
-import com.android.aksiem.eizzy.vo.Contributor;
-import com.android.aksiem.eizzy.vo.Repo;
 import com.android.aksiem.eizzy.vo.User;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Field;
+import retrofit2.http.POST;
 
 /**
  * REST API access points
  */
 public interface AppService {
-    @GET("users/{login}")
-    LiveData<ApiResponse<User>> getUser(@Path("login") String login);
 
-    @GET("users/{login}/repos")
-    LiveData<ApiResponse<List<Repo>>> getRepos(@Path("login") String login);
+    @POST("user/login")
+    LiveData<ApiResponse<User>> doUserLogin(@Field("userId") String userId, @Field("password") String password);
 
-    @GET("repos/{owner}/{name}")
-    LiveData<ApiResponse<Repo>> getRepo(@Path("owner") String owner, @Path("name") String name);
-
-    @GET("repos/{owner}/{name}/contributors")
-    LiveData<ApiResponse<List<Contributor>>> getContributors(@Path("owner") String owner, @Path("name") String name);
-
-    @GET("search/repositories")
-    LiveData<ApiResponse<RepoSearchResponse>> searchRepos(@Query("q") String query);
-
-    @GET("search/repositories")
-    Call<RepoSearchResponse> searchRepos(@Query("q") String query, @Query("page") int page);
 }
