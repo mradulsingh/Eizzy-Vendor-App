@@ -16,7 +16,7 @@
 
 package com.android.aksiem.eizzy.util;
 
-import com.android.aksiem.eizzy.AppExecutors;
+import com.android.aksiem.eizzy.app.AppExecutors;
 
 import java.util.concurrent.Executor;
 

@@ -20,9 +20,10 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.android.aksiem.eizzy.AppExecutors;
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
+import com.android.aksiem.eizzy.app.AppExecutors;
+import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.User;
@@ -36,11 +37,13 @@ import javax.inject.Inject;
 public class LoginRepository {
     private final AppService appService;
     private final AppExecutors appExecutors;
+    private final AppResourceManager resourceManager;
 
     @Inject
-    LoginRepository(AppExecutors appExecutors, AppService appService) {
+    LoginRepository(AppExecutors appExecutors, AppService appService, AppResourceManager resourceManager) {
         this.appService = appService;
         this.appExecutors = appExecutors;
+        this.resourceManager = resourceManager;
     }
 
     public LiveData<Resource<User>> doUserLogin(String userId, String password) {

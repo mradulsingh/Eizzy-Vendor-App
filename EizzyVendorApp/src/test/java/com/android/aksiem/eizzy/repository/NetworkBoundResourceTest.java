@@ -24,8 +24,8 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.android.aksiem.eizzy.AppExecutors;
 import com.android.aksiem.eizzy.api.ApiResponse;
+import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.util.ApiUtil;
 import com.android.aksiem.eizzy.util.CountingAppExecutors;
 import com.android.aksiem.eizzy.util.InstantAppExecutors;

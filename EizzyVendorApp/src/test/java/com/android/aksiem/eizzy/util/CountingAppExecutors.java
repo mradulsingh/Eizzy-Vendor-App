@@ -18,7 +18,7 @@ package com.android.aksiem.eizzy.util;
 
 import android.support.annotation.NonNull;
 
-import com.android.aksiem.eizzy.AppExecutors;
+import com.android.aksiem.eizzy.app.AppExecutors;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

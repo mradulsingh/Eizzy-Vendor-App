@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.aksiem.eizzy;
+package com.android.aksiem.eizzy.app;
 
 import android.os.Handler;
 import android.os.Looper;

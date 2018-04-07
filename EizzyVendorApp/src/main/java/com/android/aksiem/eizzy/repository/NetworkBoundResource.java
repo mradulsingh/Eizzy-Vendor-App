@@ -23,8 +23,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import com.android.aksiem.eizzy.AppExecutors;
 import com.android.aksiem.eizzy.api.ApiResponse;
+import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.util.Objects;
 import com.android.aksiem.eizzy.vo.Resource;
 

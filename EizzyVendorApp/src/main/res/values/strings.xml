@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Eizzy-Vendor</string>
+    <string name="app_name">Eizzy B2B</string>
     <string name="userid_hint">Enter User Id</string>
     <string name="password_hint">Enter Password</string>
     <string name="retry">Retry</string>
