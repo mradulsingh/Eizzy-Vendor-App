@@ -16,11 +16,12 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#3E7C8A</color>
+    <color name="colorPrimary">#467ef7</color>
     <color name="colorPrimaryDark">#1D4652</color>
     <color name="colorAccent">#ff4081</color>
     <color name="bitterSweet">#fff77062</color>
     <color name="colorPrimaryText">#FFFFFF</color>
     <color name="colorPrimaryActionBGInGradient">#FFFFFF</color>
     <color name="colorBtnShadow">#33000000</color>
+    <color name="colorSecondary">#f1c40f</color>
 </resources>

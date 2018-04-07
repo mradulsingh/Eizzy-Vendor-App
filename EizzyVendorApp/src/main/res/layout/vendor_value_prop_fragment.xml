@@ -23,7 +23,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient_primary">
+        android:background="@color/colorPrimary">
 
         <ImageView
             android:id="@+id/eizzyLogo"
@@ -108,7 +108,8 @@
             android:layout_marginBottom="120dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:background="@drawable/bg_button_white"
+            android:elevation="@dimen/atom_1"
+            android:background="@drawable/bg_button_secondary"
             android:text="@{vendorValueProp.primaryAction}"
             android:textColor="@color/bitterSweet" />
 
