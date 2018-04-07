@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
+import com.android.aksiem.eizzy.ui.vendorValueProp.VendorValuePropFragment;
 
 import javax.inject.Inject;
 
@@ -28,6 +29,7 @@ import javax.inject.Inject;
  * A utility class that handles navigation in {@link EizzyActivity}.
  */
 public class NavigationController {
+
     private final int containerId;
     private final FragmentManager fragmentManager;
 
@@ -41,6 +43,13 @@ public class NavigationController {
         LoginFragment loginFragment = new LoginFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, loginFragment)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToVendorValuePropFragment() {
+        VendorValuePropFragment fragment = VendorValuePropFragment.create();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment)
                 .commitAllowingStateLoss();
     }
 }

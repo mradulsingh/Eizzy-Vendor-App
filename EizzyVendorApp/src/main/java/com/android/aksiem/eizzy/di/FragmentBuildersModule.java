@@ -17,6 +17,7 @@
 package com.android.aksiem.eizzy.di;
 
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
+import com.android.aksiem.eizzy.ui.vendorValueProp.VendorValuePropFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -25,4 +26,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract LoginFragment contributeLoginFragment();
+
+    @ContributesAndroidInjector
+    abstract VendorValuePropFragment contributeVendorValuePropFragment();
 }
