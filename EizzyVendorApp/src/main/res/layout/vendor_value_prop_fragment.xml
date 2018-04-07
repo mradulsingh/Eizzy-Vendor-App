@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.android.aksiem.eizzy.vo.VendorValueProp" />
+
+        <import type="com.android.aksiem.eizzy.vo.Resource" />
+
+        <import type="com.android.aksiem.eizzy.vo.Status" />
+
+        <variable
+            name="vendorValueProp"
+            type="VendorValueProp" />
+
+        <variable
+            name="callback"
+            type="com.android.aksiem.eizzy.ui.common.RetryCallback" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_primary">
+
+        <ImageView
+            android:id="@+id/eizzyLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eizzyLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="30sp"
+            tools:text="@{vendorValueProp.title}" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="21dp"
+            android:text="@{vendorValueProp.subtitle}"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryText" />
+
+        <TextView
+            android:id="@+id/copyright"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:text="@{vendorValueProp.copyright}"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryText" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/copyright"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/existingAccountPrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vendorValueProp.existingAccountPrompt}"
+                android:textColor="@color/colorPrimaryText" />
+
+            <TextView
+                android:id="@+id/existingAccountAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vendorValueProp.existingAccountAction}"
+                android:textColor="@color/colorPrimaryText"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/primaryAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="120dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/bg_button_white"
+            android:text="@{vendorValueProp.primaryAction}"
+            android:textColor="@color/bitterSweet" />
+
+    </RelativeLayout>
+</layout>
