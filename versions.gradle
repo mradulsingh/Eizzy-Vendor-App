@@ -49,7 +49,7 @@ versions.hamcrest = "1.3"
 versions.kotlin = "1.2.20"
 versions.paging = "1.0.0-alpha7"
 versions.secure_pref="0.1.4"
-versions.calligraphy="2.0.2"
+versions.calligraphy="2.3.0"
 def deps = [:]
 
 def support = [:]

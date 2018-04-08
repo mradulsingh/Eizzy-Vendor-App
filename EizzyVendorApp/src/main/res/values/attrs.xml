@@ -14,5 +14,7 @@
         <attr name="bgGradientBeginColor" format="color" />
         <attr name="bgGradientEndColor" format="color" />
         <attr name="bgGradientAngle" format="integer" />
+
+        <attr name="colorScreenTitle" format="color" />
     </declare-styleable>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2017 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +15,29 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#467ef7</color>
-    <color name="colorPrimaryDark">#1D4652</color>
-    <color name="colorAccent">#ff4081</color>
-    <color name="bitterSweet">#fff77062</color>
-    <color name="colorPrimaryText">#FFFFFF</color>
-    <color name="colorPrimaryActionBGInGradient">#FFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="darkMidnightBlue">#0f3762</color>
+    <color name="oxfordBlue">#0d1d3e</color>
+    <color name="seaBlue">#006494</color>
+    <color name="black">#000000</color>
+    <color name="sandstorm">#eec643</color>
+    <color name="khaki">#c1aba6</color>
+    <color name="deepSkyBlue">#00a6fb</color>
+    <color name="gainsb0ro">#dad9e2</color>
+    <color name="ghostWhite">#f6f9fc</color>
+    <color name="pastelGray">#c8cfce</color>
+
+
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/deepSkyBlue</color>
+    <color name="colorAccent">@color/deepSkyBlue</color>
+    <color name="colorPrimaryText">@color/white</color>
+    <color name="colorPrimaryActionBGInGradient">@color/white</color>
+    <color name="colorSecondary">@color/sandstorm</color>
+    <color name="colorSecondaryText">@color/khaki</color>
     <color name="colorBtnShadow">#33000000</color>
-    <color name="colorSecondary">#f1c40f</color>
+    <color name="colorBgScreen">@color/ghostWhite</color>
+    <color name="colorScreenTitle">@color/darkMidnightBlue</color>
+    <color name="colorEtText">@color/black</color>
+    <color name="colorEtHintText">@color/khaki</color>
 </resources>

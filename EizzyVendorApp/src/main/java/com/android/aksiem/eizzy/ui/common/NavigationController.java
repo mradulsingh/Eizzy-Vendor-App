@@ -41,8 +41,10 @@ public class NavigationController {
 
     public void navigateToLogin() {
         LoginFragment loginFragment = new LoginFragment();
+        String tag = LoginFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
-                .replace(containerId, loginFragment)
+                .replace(containerId, loginFragment, tag)
+                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 

@@ -24,6 +24,49 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorScreenTitle">@color/colorScreenTitle</item>
+    </style>
+
+    <style name="FontMontserratBold">
+        <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
+    </style>
+
+    <style name="FontMontserratLight">
+        <item name="fontPath">fonts/Montserrat-Light.ttf</item>
+    </style>
+
+    <style name="FontMontserratMedium">
+        <item name="fontPath">fonts/Montserrat-Medium.ttf</item>
+    </style>
+
+    <style name="FontMontserratRegular">
+        <item name="fontPath">fonts/Montserrat-Regular.ttf</item>
+    </style>
+
+    <style name="FontRobotoRegular">
+        <item name="fontPath">fonts/Roboto-Regular.ttf</item>
+    </style>
+
+    <style name="FontRobotoLight">
+        <item name="fontPath">fonts/Roboto-Light.ttf</item>
+    </style>
+
+    <style name="FontRobotoMedium">
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+
+    <style name="FontRobotoThin">
+        <item name="fontPath">fonts/Roboto-Thin.ttf</item>
+    </style>
+
+    <style name="AppEditText">
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:textColor">@color/colorEtText</item>
+        <item name="android:textColorHint">@color/colorEtHintText</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:longClickable">false</item>
     </style>
 
 </resources>

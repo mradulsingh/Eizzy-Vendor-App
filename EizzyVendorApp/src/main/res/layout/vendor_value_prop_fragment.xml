@@ -23,7 +23,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/oxfordBlue"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/eizzyLogo"
@@ -31,18 +32,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="140dp"
             app:srcCompat="@drawable/logo" />
 
         <TextView
             android:id="@+id/title"
+            style="@style/FontMontserratBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/eizzyLogo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="25dp"
             android:textColor="@color/colorPrimaryText"
-            android:textSize="30sp"
+            android:textSize="@dimen/font_28"
             tools:text="@{vendorValueProp.title}" />
 
         <TextView
@@ -53,65 +55,62 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="25dp"
+            android:lineSpacingExtra="@dimen/font_8"
             android:text="@{vendorValueProp.subtitle}"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimaryText" />
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/font_14" />
 
-        <TextView
-            android:id="@+id/copyright"
+        <Button
+            android:id="@+id/primaryAction"
+            style="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:text="@{vendorValueProp.copyright}"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryText" />
+            android:layout_below="@id/subtitle"
+            android:layout_margin="40dp"
+            android:background="@drawable/bg_button_secondary"
+            android:elevation="@dimen/atom_1"
+            android:padding="20dp"
+            android:text="@{vendorValueProp.primaryAction}"
+            android:textColor="@color/oxfordBlue" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/copyright"
-            android:layout_marginBottom="40dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_below="@id/primaryAction"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/existingAccountPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{vendorValueProp.existingAccountPrompt}"
-                android:textColor="@color/colorPrimaryText" />
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/font_12" />
 
             <TextView
                 android:id="@+id/existingAccountAction"
+                style="@style/FontMontserratBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{vendorValueProp.existingAccountAction}"
                 android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/font_12"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/primaryAction"
+            android:id="@+id/copyright"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="120dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:elevation="@dimen/atom_1"
-            android:background="@drawable/bg_button_secondary"
-            android:text="@{vendorValueProp.primaryAction}"
-            android:textColor="@color/bitterSweet" />
-
+            android:layout_marginBottom="45dp"
+            android:text="@{vendorValueProp.copyright}"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/font_10" />
     </RelativeLayout>
 </layout>

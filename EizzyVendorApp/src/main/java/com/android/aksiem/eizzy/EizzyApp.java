@@ -52,7 +52,7 @@ public class EizzyApp extends Application implements HasActivityInjector {
     private void initLibs() {
         //set the font throughout the app
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-Regular.ttf")
+                .setDefaultFontPath("fonts/Montserrat-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
     }
