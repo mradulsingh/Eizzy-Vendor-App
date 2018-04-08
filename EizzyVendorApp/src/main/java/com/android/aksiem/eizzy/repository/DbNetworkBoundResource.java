@@ -36,13 +36,13 @@ import com.android.aksiem.eizzy.vo.Resource;
  * @param <ResultType>
  * @param <RequestType>
  */
-public abstract class NetworkBoundResource<ResultType, RequestType> {
+public abstract class DbNetworkBoundResource<ResultType, RequestType> {
     private final AppExecutors appExecutors;
 
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
     @MainThread
-    NetworkBoundResource(AppExecutors appExecutors) {
+    DbNetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();

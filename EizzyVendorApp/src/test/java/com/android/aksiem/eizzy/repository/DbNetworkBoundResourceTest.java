@@ -57,7 +57,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(Parameterized.class)
-public class NetworkBoundResourceTest {
+public class DbNetworkBoundResourceTest {
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
@@ -69,7 +69,7 @@ public class NetworkBoundResourceTest {
 
     private MutableLiveData<Foo> dbData = new MutableLiveData<>();
 
-    private NetworkBoundResource<Foo, Foo> networkBoundResource;
+    private DbNetworkBoundResource<Foo, Foo> networkBoundResource;
 
     private AtomicBoolean fetchedOnce = new AtomicBoolean(false);
     private CountingAppExecutors countingAppExecutors;
@@ -80,7 +80,7 @@ public class NetworkBoundResourceTest {
         return Arrays.asList(true, false);
     }
 
-    public NetworkBoundResourceTest(boolean useRealExecutors) {
+    public DbNetworkBoundResourceTest(boolean useRealExecutors) {
         this.useRealExecutors = useRealExecutors;
         if (useRealExecutors) {
             countingAppExecutors = new CountingAppExecutors();
@@ -92,7 +92,7 @@ public class NetworkBoundResourceTest {
         AppExecutors appExecutors = useRealExecutors
                 ? countingAppExecutors.getAppExecutors()
                 : new InstantAppExecutors();
-        networkBoundResource = new NetworkBoundResource<Foo, Foo>(appExecutors) {
+        networkBoundResource = new DbNetworkBoundResource<Foo, Foo>(appExecutors) {
             @Override
             protected void saveCallResult(@NonNull Foo item) {
                 saveCallResult.apply(item);
