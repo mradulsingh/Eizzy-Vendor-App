@@ -17,13 +17,12 @@
 package com.android.aksiem.eizzy.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
 import com.android.aksiem.eizzy.app.AppExecutors;
-import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.User;
@@ -37,29 +36,20 @@ import javax.inject.Inject;
 public class LoginRepository {
     private final AppService appService;
     private final AppExecutors appExecutors;
-    private final AppResourceManager resourceManager;
 
     @Inject
-    LoginRepository(AppExecutors appExecutors, AppService appService, AppResourceManager resourceManager) {
+    LoginRepository(AppExecutors appExecutors, AppService appService) {
         this.appService = appService;
         this.appExecutors = appExecutors;
-        this.resourceManager = resourceManager;
     }
 
     public LiveData<Resource<User>> doUserLogin(String userId, String password) {
-        return new NetworkBoundResource<User, User>(appExecutors) {
+        return new NoCacheNetworkBoundResource<User, User>(appExecutors) {
             @Override
-            protected void saveCallResult(@NonNull User item) {
-            }
-
-            @Override
-            protected boolean shouldFetch(@Nullable User data) {
-                return true;
-            }
-
-            @Override
-            protected LiveData<User> loadFromDb() {
-                return null;
+            protected LiveData<User> getCallResult(@NonNull User user) {
+                MutableLiveData<User> repoList = new MutableLiveData();
+                repoList.setValue(user);
+                return repoList;
             }
 
             @NonNull
