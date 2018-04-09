@@ -24,11 +24,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
@@ -42,12 +46,15 @@ public class EizzyActivity extends BaseActivity {
     @Inject
     NavigationController navigationController;
 
+    BottomNavigationView mBottomNavigationView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eizzy_activity);
+        setupBottomNavigation();
         if (savedInstanceState == null) {
-            navigationController.navigateToVendorValuePropFragment();
+            navigationController.navigateToVendorOnboardingFragment();
         }
     }
 
@@ -130,4 +137,28 @@ public class EizzyActivity extends BaseActivity {
     public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
+    public void setBottomNavigationViewVisibility(boolean visible) {
+        if (mBottomNavigationView.isShown() && !visible) {
+            mBottomNavigationView.setVisibility(View.GONE);
+        } else if (mBottomNavigationView.isShown() && visible) {
+            mBottomNavigationView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupBottomNavigation() {
+        mBottomNavigationView = findViewById(R.id.bottom_navigation);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_orders:
+                    // TODO: Navigate to orders fragment
+                    return true;
+                case R.id.nav_settlements:
+                    // TODO: Navigate to settlements fragment
+                    return true;
+            }
+            return false;
+        });
+    }
+
 }

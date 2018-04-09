@@ -17,10 +17,36 @@
 
 <resources>
     <dimen name="atom_1">4dp</dimen>
-    <dimen name="photo_size">64dp</dimen>
-    <dimen name="default_margin">8dp</dimen>
+    <dimen name="atom_2">8dp</dimen>
+    <dimen name="atom_3">12dp</dimen>
+    <dimen name="atom_4">16dp</dimen>
+    <dimen name="atom_5">20dp</dimen>
+    <dimen name="atom_6">24dp</dimen>
+    <dimen name="atom_7">28dp</dimen>
+    <dimen name="atom_8">32dp</dimen>
+    <dimen name="atom_9">36dp</dimen>
+    <dimen name="atom_10">40dp</dimen>
+    <dimen name="atom_11">44dp</dimen>
+    <dimen name="atom_12">48dp</dimen>
+    <dimen name="atom_13">52dp</dimen>
+    <dimen name="atom_14">56dp</dimen>
+    <dimen name="atom_15">60dp</dimen>
+    <dimen name="atom_16">64dp</dimen>
+    <dimen name="atom_17">68dp</dimen>
+    <dimen name="atom_18">72dp</dimen>
+    <dimen name="atom_19">76dp</dimen>
+    <dimen name="atom_20">80dp</dimen>
+    <dimen name="atom_21">84dp</dimen>
+    <dimen name="atom_22">88dp</dimen>
+    <dimen name="atom_23">92dp</dimen>
+    <dimen name="atom_24">96dp</dimen>
+    <dimen name="atom_25">100dp</dimen>
+
+    <dimen name="photo_size">@dimen/atom_16</dimen>
+    <dimen name="default_margin">@dimen/atom_2</dimen>
     <dimen name="primary_btn_radius">5dp</dimen>
-    <dimen name="primary_btn_ht">56dp</dimen>
+    <dimen name="primary_btn_ht">@dimen/atom_14</dimen>
+    <dimen name="bottom_nav_height">@dimen/atom_14</dimen>
 
     <!-- fonts -->
     <dimen name="font_8">8sp</dimen>

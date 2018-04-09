@@ -31,5 +31,12 @@ public abstract class BaseInjectableFragment extends Fragment implements Injecta
             imm.hideSoftInputFromWindow(windowToken, 0);
         }
     }
+
+    protected void setBottomNavigationViewVisibility(boolean visible) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof EizzyActivity) {
+            ((EizzyActivity) activity).setBottomNavigationViewVisibility(visible);
+        }
+    }
 }
 

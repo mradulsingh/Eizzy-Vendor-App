@@ -21,7 +21,8 @@ import android.support.v4.app.FragmentManager;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorValuePropFragment;
+import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingFragment;
 
 import javax.inject.Inject;
 
@@ -48,8 +49,8 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToVendorValuePropFragment() {
-        VendorValuePropFragment fragment = VendorValuePropFragment.create();
+    public void navigateToVendorOnboardingFragment() {
+        VendorOnboardingFragment fragment = VendorOnboardingFragment.create();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment)
                 .commitAllowingStateLoss();

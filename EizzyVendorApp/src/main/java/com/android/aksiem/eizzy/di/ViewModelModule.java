@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorValuePropViewModel;
+import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
 import dagger.Binds;
@@ -20,8 +20,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(VendorValuePropViewModel.class)
-    abstract ViewModel bindVendorValuePropViewModel(VendorValuePropViewModel vendorValuePropViewModel);
+    @ViewModelKey(VendorOnboardingViewModel.class)
+    abstract ViewModel bindVendorOnboardingViewModel(VendorOnboardingViewModel vendorOnboardingViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

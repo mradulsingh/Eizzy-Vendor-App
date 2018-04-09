@@ -30,6 +30,7 @@ import android.view.inputmethod.EditorInfo;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.BaseInjectableFragment;
+import com.android.aksiem.eizzy.app.NoBottomNavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.LoginFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
@@ -41,7 +42,7 @@ import javax.inject.Inject;
  * Created by napendersingh on 31/03/18.
  */
 
-public class LoginFragment extends BaseInjectableFragment {
+public class LoginFragment extends NoBottomNavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;

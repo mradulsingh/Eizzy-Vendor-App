@@ -69,4 +69,9 @@
         <item name="android:longClickable">false</item>
     </style>
 
+    <style name="Toolbar" parent="AppTheme">
+        <item name="toolbarColor">@color/colorTopBar</item>
+        <item name="tallToolbarHeight">@dimen/tall_toolbar_height</item>
+    </style>
+
 </resources>

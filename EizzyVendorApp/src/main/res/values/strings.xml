@@ -21,5 +21,7 @@
     <string name="password_hint">PASSWORD</string>
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="bottom_nav_order">Order</string>
+    <string name="bottom_nav_settlement">Settlements</string>
 
 </resources>

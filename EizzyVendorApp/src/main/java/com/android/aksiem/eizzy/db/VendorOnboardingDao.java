@@ -5,16 +5,16 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.android.aksiem.eizzy.vo.VendorValueProp;
+import com.android.aksiem.eizzy.vo.VendorOnboarding;
 
 /**
  * Created by pdubey on 04/04/18.
  */
 
-public interface VendorValuePropDao {
+public interface VendorOnboardingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertVendorValueProp(VendorValueProp vendorValueProp);
+    void insertVendorValueProp(VendorOnboarding vendorOnboarding);
 
-    @Query("SELECT * FROM vendorvalueprop WHERE title = :title")
-    LiveData<VendorValueProp> findByTitle(String title);
+    @Query("SELECT * FROM VendorOnboarding WHERE title = :title")
+    LiveData<VendorOnboarding> findByTitle(String title);
 }

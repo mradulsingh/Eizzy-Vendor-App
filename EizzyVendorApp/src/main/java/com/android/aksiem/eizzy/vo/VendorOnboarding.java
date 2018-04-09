@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 @Entity(primaryKeys = "title")
-public class VendorValueProp {
+public class VendorOnboarding {
 
     @SerializedName("title")
     @NonNull
@@ -36,9 +36,9 @@ public class VendorValueProp {
     @NonNull
     public final String copyright;
 
-    public VendorValueProp(@NonNull String title, @NonNull String subtitle,
-                           @NonNull String primaryAction, @NonNull String existingAccountPrompt,
-                           @NonNull String existingAccountAction, @NonNull String copyright) {
+    public VendorOnboarding(@NonNull String title, @NonNull String subtitle,
+                            @NonNull String primaryAction, @NonNull String existingAccountPrompt,
+                            @NonNull String existingAccountAction, @NonNull String copyright) {
         this.title = title;
         this.subtitle = subtitle;
         this.primaryAction = primaryAction;
@@ -49,7 +49,7 @@ public class VendorValueProp {
 
     @Override
     public String toString() {
-        return "VendorValueProp{" +
+        return "VendorOnboarding{" +
                 "title='" + title + '\'' +
                 ", subtitle='" + subtitle + '\'' +
                 ", primaryAction='" + primaryAction + '\'' +

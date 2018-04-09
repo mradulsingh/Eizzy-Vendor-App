@@ -5,15 +5,15 @@
 
     <data>
 
-        <import type="com.android.aksiem.eizzy.vo.VendorValueProp" />
+        <import type="com.android.aksiem.eizzy.vo.VendorOnboarding" />
 
         <import type="com.android.aksiem.eizzy.vo.Resource" />
 
         <import type="com.android.aksiem.eizzy.vo.Status" />
 
         <variable
-            name="vendorValueProp"
-            type="VendorValueProp" />
+            name="vendorOnboarding"
+            type="com.android.aksiem.eizzy.vo.VendorOnboarding" />
 
         <variable
             name="callback"
@@ -45,7 +45,7 @@
             android:layout_marginTop="25dp"
             android:textColor="@color/colorPrimaryText"
             android:textSize="@dimen/font_28"
-            tools:text="@{vendorValueProp.title}" />
+            tools:text="@{vendorOnboarding.title}" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -57,7 +57,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginTop="25dp"
             android:lineSpacingExtra="@dimen/font_8"
-            android:text="@{vendorValueProp.subtitle}"
+            android:text="@{vendorOnboarding.subtitle}"
             android:textAlignment="center"
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/font_14" />
@@ -72,7 +72,7 @@
             android:background="@drawable/bg_button_secondary"
             android:elevation="@dimen/atom_1"
             android:padding="20dp"
-            android:text="@{vendorValueProp.primaryAction}"
+            android:text="@{vendorOnboarding.primaryAction}"
             android:textColor="@color/oxfordBlue" />
 
         <LinearLayout
@@ -86,7 +86,7 @@
                 android:id="@+id/existingAccountPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{vendorValueProp.existingAccountPrompt}"
+                android:text="@{vendorOnboarding.existingAccountPrompt}"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/font_12" />
 
@@ -95,7 +95,7 @@
                 style="@style/FontMontserratBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{vendorValueProp.existingAccountAction}"
+                android:text="@{vendorOnboarding.existingAccountAction}"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/font_12"
                 android:textStyle="bold" />
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="45dp"
-            android:text="@{vendorValueProp.copyright}"
+            android:text="@{vendorOnboarding.copyright}"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryText"
             android:textSize="@dimen/font_10" />
