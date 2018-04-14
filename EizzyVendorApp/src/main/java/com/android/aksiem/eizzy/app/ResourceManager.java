@@ -12,4 +12,8 @@ public interface ResourceManager {
     int getColor(@ColorRes final int resourceId);
 
     Drawable getDrawable(@DrawableRes int resourceId);
+
+    float applyDimen(float value, int unit);
+
+    float dp(float dp);
 }

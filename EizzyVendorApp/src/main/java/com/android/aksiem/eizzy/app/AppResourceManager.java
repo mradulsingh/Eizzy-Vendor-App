@@ -1,17 +1,21 @@
 package com.android.aksiem.eizzy.app;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 
 import javax.inject.Inject;
+
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 
 @AppScope
 public class AppResourceManager implements ResourceManager {
@@ -46,4 +50,14 @@ public class AppResourceManager implements ResourceManager {
         }
     }
 
+    @Override
+    public float applyDimen(float value, int unit) {
+        Resources res = mContext.getResources();
+        return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
+    }
+
+    @Override
+    public float dp(float dp) {
+        return applyDimen(dp, COMPLEX_UNIT_DIP);
+    }
 }

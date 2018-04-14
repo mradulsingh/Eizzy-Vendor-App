@@ -8,26 +8,27 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.app.NoBottomNavigationFragment;
+import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
-import com.android.aksiem.eizzy.databinding.VendorValuePropFragmentBinding;
-import com.android.aksiem.eizzy.di.Injectable;
+import com.android.aksiem.eizzy.databinding.VendorOnboardingFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
+
+import static com.android.aksiem.eizzy.ui.toolbar.NoNavigationBuilder.includeNoNavigationItems;
 
 /**
  * Created by pdubey on 04/04/18.
  */
 
-public class VendorOnboardingFragment extends NoBottomNavigationFragment {
+public class VendorOnboardingFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -39,7 +40,7 @@ public class VendorOnboardingFragment extends NoBottomNavigationFragment {
     private VendorOnboardingViewModel vendorOnboardingViewModel;
 
     @VisibleForTesting
-    AutoClearedValue<VendorValuePropFragmentBinding> binding;
+    AutoClearedValue<VendorOnboardingFragmentBinding> binding;
 
     public static VendorOnboardingFragment create() {
         VendorOnboardingFragment vendorValuePropFragment = new VendorOnboardingFragment();
@@ -50,11 +51,11 @@ public class VendorOnboardingFragment extends NoBottomNavigationFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        VendorValuePropFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
+        VendorOnboardingFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
                 R.layout.vendor_onboarding_fragment, container,
                 false, dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
-        return dataBinding.getRoot();
+        return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
     @Override
@@ -63,10 +64,15 @@ public class VendorOnboardingFragment extends NoBottomNavigationFragment {
         vendorOnboardingViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(VendorOnboardingViewModel.class);
         vendorOnboardingViewModel.getVendorValueProp().observe(this, vendorValuePropResource -> {
-            binding.get().setVendorValueProp(vendorValuePropResource == null ? null : vendorValuePropResource.data);
+            binding.get().setVendorOnboarding(vendorValuePropResource == null ? null : vendorValuePropResource.data);
             binding.get().existingAccountAction.setOnClickListener(v -> {
                 navigationController.navigateToLogin();
             });
         });
+    }
+
+    @Override
+    public NavigationBuilder buildNavigation() {
+        return includeNoNavigationItems();
     }
 }

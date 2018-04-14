@@ -17,6 +17,7 @@
 <resources>
     <string name="app_name">Eizzy B2B</string>
     <string name="screen_login">Login</string>
+    <string name="screen_subtitle_login">Enter your username or mobile number along with your password to proceed</string>
     <string name="userid_hint">USERNAME</string>
     <string name="password_hint">PASSWORD</string>
     <string name="retry">Retry</string>

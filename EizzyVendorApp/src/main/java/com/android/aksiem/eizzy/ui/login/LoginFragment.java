@@ -29,20 +29,22 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
 import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.app.BaseInjectableFragment;
-import com.android.aksiem.eizzy.app.NoBottomNavigationFragment;
+import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.LoginFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
+
+import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
  * Created by napendersingh on 31/03/18.
  */
 
-public class LoginFragment extends NoBottomNavigationFragment {
+public class LoginFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -50,11 +52,18 @@ public class LoginFragment extends NoBottomNavigationFragment {
     @Inject
     NavigationController navigationController;
 
-    DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
-
     AutoClearedValue<LoginFragmentBinding> binding;
 
     private LoginViewModel loginViewModel;
+
+    protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+
+    @Override
+    public NavigationBuilder buildNavigation() {
+        return mainCollapsableToolbar()
+                .toolbarTitleRes(R.string.screen_login)
+                .toolbarSubtitleRes(R.string.screen_subtitle_login);
+    }
 
     @Nullable
     @Override
@@ -64,7 +73,7 @@ public class LoginFragment extends NoBottomNavigationFragment {
                 .inflate(inflater, R.layout.login_fragment, container, false,
                         dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
-        return dataBinding.getRoot();
+        return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
     @Override

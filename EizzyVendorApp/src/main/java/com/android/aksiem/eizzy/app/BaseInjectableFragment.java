@@ -38,5 +38,6 @@ public abstract class BaseInjectableFragment extends Fragment implements Injecta
             ((EizzyActivity) activity).setBottomNavigationViewVisibility(visible);
         }
     }
+
 }
 
