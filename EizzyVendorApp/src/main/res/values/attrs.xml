@@ -14,4 +14,15 @@
     <!-- corner radius and color attributes for actions -->
     <attr name="bgRoundedViewRadius" format="dimension" />
     <attr name="bgRoundedViewColor" format="color" />
+
+    <attr name="etHintFont">
+        <enum name="MONTSERRAT_BOLD" value="0" />
+        <enum name="MONTSERRAT_LIGHT" value="1" />
+        <enum name="MONTSERRAT_MEDIUM" value="2" />
+        <enum name="MONTSERRAT_REGULAR" value="3" />
+        <enum name="ROBOTO_THIN" value="4" />
+        <enum name="ROBOTO_LIGHT" value="5" />
+        <enum name="ROBOTO_MEDIUM" value="6" />
+        <enum name="ROBOTO_REGULAR" value="7" />
+    </attr>
 </resources>

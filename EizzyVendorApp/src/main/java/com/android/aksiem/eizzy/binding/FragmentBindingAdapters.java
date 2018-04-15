@@ -16,10 +16,15 @@
 
 package com.android.aksiem.eizzy.binding;
 
+import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.aksiem.eizzy.util.AppFontManager;
+import com.android.aksiem.eizzy.view.CustomHint;
 import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
@@ -34,8 +39,17 @@ public class FragmentBindingAdapters {
     public FragmentBindingAdapters(Fragment fragment) {
         this.fragment = fragment;
     }
+
     @BindingAdapter("imageUrl")
     public void bindImage(ImageView imageView, String url) {
         Glide.with(fragment).load(url).into(imageView);
+    }
+
+    @BindingAdapter("etHintFont")
+    public void bindEtHintFont(EditText editText, int fontType) {
+        Context context = editText.getContext();
+        Typeface hintTypeface = AppFontManager.getTypeface(context, fontType);
+        CustomHint customHint = new CustomHint(hintTypeface, editText.getHint(), editText.getTextSize());
+        editText.setHint(customHint);
     }
 }
