@@ -120,7 +120,7 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/atom_2"
                 android:padding="@dimen/atom_1"
-                android:text="@{orderItem.orderState}"
+                android:text="@{orderItem.getOrderState().getState()}"
                 app:drawableLeftCompat="@drawable/ic_order_state" />
 
 

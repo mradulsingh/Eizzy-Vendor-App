@@ -52,7 +52,7 @@ public class OrderItem implements Serializable {
 
     @SerializedName("currentOrderState")
     @NonNull
-    private OrderState currentOrderState;
+    private OrderState orderState;
 
     @SerializedName("orderTracking")
     @NonNull
@@ -74,16 +74,16 @@ public class OrderItem implements Serializable {
         this.timestamp = timestamp;
         this.stringTimestamp = stringTimestamp;
         this.orderType = orderType;
-        this.currentOrderState = currentOrderState;
+        this.orderState = currentOrderState;
     }
 
     @NonNull
-    public OrderState getCurrentOrderState() {
-        return currentOrderState;
+    public OrderState getOrderState() {
+        return orderState;
     }
 
-    public void setCurrentOrderState(@NonNull OrderState currentOrderState) {
-        this.currentOrderState = currentOrderState;
+    public void setOrderState(@NonNull OrderState currentOrderState) {
+        this.orderState = currentOrderState;
     }
 
     @NonNull

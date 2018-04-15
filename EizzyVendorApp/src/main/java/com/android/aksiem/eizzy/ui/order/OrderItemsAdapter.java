@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.databinding.OrderItemBinding;
+import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
 import com.android.aksiem.eizzy.util.Objects;
 import com.android.aksiem.eizzy.vo.OrderItem;
 
@@ -30,7 +32,7 @@ public class OrderItemsAdapter extends DataBoundListAdapter<OrderItem, OrderItem
         OrderItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.order_item, parent, false, dataBindingComponent);
         binding.getRoot().setOnClickListener(v -> {
-            OrderItem orderItem = binding.getOrder();
+            OrderItem orderItem = binding.getOrderItem();
             if (orderItem != null && orderClickCallback != null) {
                 orderClickCallback.onClick(orderItem);
             }
@@ -40,7 +42,7 @@ public class OrderItemsAdapter extends DataBoundListAdapter<OrderItem, OrderItem
 
     @Override
     protected void bind(OrderItemBinding binding, OrderItem item) {
-        binding.setOrder(item);
+        binding.setOrderItem(item);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class OrderItemsAdapter extends DataBoundListAdapter<OrderItem, OrderItem
                 Objects.equals(oldItem.price, newItem.price) &&
                 Objects.equals(oldItem.orderDetails, newItem.orderDetails) &&
                 Objects.equals(oldItem.getDeliveryAssociate(), newItem.getDeliveryAssociate()) &&
-                Objects.equals(oldItem.getCurrentOrderState(), newItem.getCurrentOrderState());
+                Objects.equals(oldItem.getOrderState(), newItem.getOrderState());
     }
 
     public interface OrderClickCallback {
