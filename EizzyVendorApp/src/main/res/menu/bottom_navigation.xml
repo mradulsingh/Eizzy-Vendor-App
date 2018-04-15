@@ -3,9 +3,9 @@
     <item
         android:id="@+id/nav_orders"
         android:icon="@drawable/ic_bn_order"
-        android:title="@string/bottom_nav_order" />
+        android:title="@string/menu.bottom.order" />
     <item
         android:id="@+id/nav_settlements"
         android:icon="@drawable/ic_bn_settlement"
-        android:title="@string/bottom_nav_settlement" />
+        android:title="@string/menu.bottom.settlement" />
 </menu>

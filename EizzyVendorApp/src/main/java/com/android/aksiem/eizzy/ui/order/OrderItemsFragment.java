@@ -60,7 +60,7 @@ public class OrderItemsFragment extends NavigationFragment {
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
                 .includeBottomNavBar(true)
-                .toolbarTitleRes(R.string.screen_orders)
+                .toolbarTitleRes(R.string.screen_title_orders)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment), buildMenuActions());

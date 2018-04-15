@@ -61,7 +61,7 @@ public class LoginFragment extends NavigationFragment {
     @Override
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
-                .toolbarTitleRes(R.string.screen_login)
+                .toolbarTitleRes(R.string.screen_title_login)
                 .toolbarSubtitleRes(R.string.screen_subtitle_login)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed());

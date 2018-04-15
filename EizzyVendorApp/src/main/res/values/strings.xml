@@ -15,16 +15,21 @@
   -->
 
 <resources>
-    <string name="app_name">Eizzy B2B</string>
-    <string name="screen_login">Login</string>
-    <string name="screen_subtitle_login">Enter your username or mobile number along with your password to proceed</string>
-    <string name="screen_orders">Orders</string>
-    <string name="userid_hint">USERNAME</string>
-    <string name="password_hint">PASSWORD</string>
+    <string name="app.name">Eizzy B2B</string>
+
+    <string name="screen.title.login">Login</string>
+    <string name="screen.title.orders">Orders</string>
+
+    <string name="screen.subtitle.login">Enter your username or mobile number along with your password to proceed</string>
+
+    <string name="edittext.hint.userid">USERNAME</string>
+    <string name="edittext.hint.password">PASSWORD</string>
+
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
-    <string name="bottom_nav_order">Order</string>
-    <string name="bottom_nav_settlement">Settlements</string>
+
+    <string name="menu.bottom.order">Order</string>
+    <string name="menu.bottom.settlement">Settlements</string>
 
     <string name="menu.checkout">Checkout</string>
 </resources>
