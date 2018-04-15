@@ -21,8 +21,7 @@ import android.support.v4.app.FragmentManager;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingFragment;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
 
 import javax.inject.Inject;
 

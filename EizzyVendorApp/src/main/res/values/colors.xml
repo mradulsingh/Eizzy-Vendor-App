@@ -21,11 +21,13 @@
     <color name="seaBlue">#006494</color>
     <color name="black">#000000</color>
     <color name="sandstorm">#eec643</color>
+    <color name="indianYellow">#e4a056</color>
     <color name="khaki">#c1aba6</color>
     <color name="deepSkyBlue">#00a6fb</color>
-    <color name="gainsb0ro">#dad9e2</color>
+    <color name="gainsboro">#dad9e2</color>
     <color name="ghostWhite">#f6f9fc</color>
     <color name="pastelGray">#c8cfce</color>
+    <color name="red">#f80002</color>
 
 
     <color name="colorPrimary">@color/white</color>
@@ -40,4 +42,13 @@
     <color name="colorScreenTitle">@color/darkMidnightBlue</color>
     <color name="colorEtText">@color/black</color>
     <color name="colorEtHintText">@color/khaki</color>
+    <color name="colorTopBar">@color/white</color>
+
+    <!-- delivery states -->
+    <color name="orderUndelivered">@color/red</color>
+    <color name="orderPlaced">@color/seaBlue</color>
+    <color name="orderConfirmed">@color/khaki</color>
+    <color name="orderAssigned">@color/deepSkyBlue</color>
+    <color name="orderPicked">@color/pastelGray</color>
+    <color name="orderDelivered">@color/indianYellow</color>
 </resources>

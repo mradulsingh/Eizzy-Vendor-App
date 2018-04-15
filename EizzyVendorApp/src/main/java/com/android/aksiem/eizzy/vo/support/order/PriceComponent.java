@@ -16,7 +16,7 @@ public class PriceComponent implements Serializable {
     @NonNull
     public final String componentName;
 
-    @SerializedName("amount")
+    @SerializedName("price")
     @NonNull
     public final double amount;
 

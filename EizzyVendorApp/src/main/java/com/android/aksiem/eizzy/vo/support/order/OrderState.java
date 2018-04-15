@@ -11,21 +11,30 @@ import java.io.Serializable;
 public enum OrderState implements Serializable {
 
     @SerializedName("placed")
-    PLACED,
+    PLACED("placed"),
 
     @SerializedName("confirmed")
-    CONFIRMED,
+    CONFIRMED("confirmed"),
 
     @SerializedName("assigned")
-    ASSIGNED,
+    ASSIGNED("assigned"),
 
     @SerializedName("picked")
-    PICKED,
+    PICKED("picked"),
 
     @SerializedName("delivered")
-    DELIVERED,
+    DELIVERED("delivered"),
 
     @SerializedName("undelivered")
-    UNDELIVERED;
+    UNDELIVERED("undelivered");
 
+    private String state;
+
+    OrderState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
 }

@@ -5,13 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.android.aksiem.eizzy.vo.support.Actor;
+import com.android.aksiem.eizzy.vo.support.Price;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Calendar;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 
 @Entity(primaryKeys = "orderId")
-public class Order {
+public class OrderItem implements Serializable {
 
     @SerializedName("orderId")
     @NonNull
@@ -33,13 +34,13 @@ public class Order {
     @NonNull
     public final Actor customer;
 
-    @SerializedName("amount")
+    @SerializedName("price")
     @NonNull
-    public final Double amount;
+    public final Price price;
 
     @SerializedName("timestamp")
     @NonNull
-    public final Calendar timestamp;
+    public final Float timestamp;
 
     @SerializedName("stringTimestamp")
     @NonNull
@@ -61,15 +62,15 @@ public class Order {
     @Nullable
     private Actor deliveryAssociate;
 
-    public Order(@NonNull String orderId, @NonNull OrderDetails orderDetails,
-                 @NonNull Actor customer, @NonNull Double amount, @NonNull Calendar timestamp,
-                 @NonNull String stringTimestamp, @NonNull OrderType orderType,
-                 @NonNull OrderState currentOrderState) {
+    public OrderItem(@NonNull String orderId, @NonNull OrderDetails orderDetails,
+                     @NonNull Actor customer, @NonNull Price price, @NonNull Float timestamp,
+                     @NonNull String stringTimestamp, @NonNull OrderType orderType,
+                     @NonNull OrderState currentOrderState) {
 
         this.orderId = orderId;
         this.orderDetails = orderDetails;
         this.customer = customer;
-        this.amount = amount;
+        this.price = price;
         this.timestamp = timestamp;
         this.stringTimestamp = stringTimestamp;
         this.orderType = orderType;
@@ -101,5 +102,20 @@ public class Order {
 
     public void setDeliveryAssociate(@Nullable Actor deliveryAssociate) {
         this.deliveryAssociate = deliveryAssociate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderItem orderItem = (OrderItem) o;
+
+        return orderId.equals(orderItem.orderId);
+    }
+
+    @Override
+    public int hashCode() {
+        return orderId.hashCode();
     }
 }

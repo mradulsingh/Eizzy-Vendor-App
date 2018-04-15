@@ -47,6 +47,7 @@
     <dimen name="primary_btn_radius">5dp</dimen>
     <dimen name="primary_btn_ht">@dimen/atom_14</dimen>
     <dimen name="bottom_nav_height">@dimen/atom_14</dimen>
+    <dimen name="tall_toolbar_height">208dp</dimen>
 
     <!-- fonts -->
     <dimen name="font_8">8sp</dimen>

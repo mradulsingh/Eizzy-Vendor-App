@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/subtitle"
             android:layout_margin="40dp"
-            android:background="@drawable/bg_button_secondary"
+            android:background="@drawable/bg_rounded_action"
             android:elevation="@dimen/atom_1"
             android:padding="20dp"
             android:text="@{vendorOnboarding.primaryAction}"

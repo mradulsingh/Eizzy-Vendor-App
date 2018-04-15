@@ -17,8 +17,7 @@
 package com.android.aksiem.eizzy.di;
 
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingFragment;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

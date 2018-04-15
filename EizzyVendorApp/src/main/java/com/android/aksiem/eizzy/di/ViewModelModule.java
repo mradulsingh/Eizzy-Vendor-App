@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
-import com.android.aksiem.eizzy.ui.vendorValueProp.VendorOnboardingViewModel;
+import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
 import dagger.Binds;

@@ -32,4 +32,26 @@ public class Actor implements Serializable {
         this.phone = phone;
         this.role = role;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Actor actor = (Actor) o;
+
+        if (!id.equals(actor.id)) return false;
+        if (!name.equals(actor.name)) return false;
+        if (!phone.equals(actor.phone)) return false;
+        return role == actor.role;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + phone.hashCode();
+        result = 31 * result + role.hashCode();
+        return result;
+    }
 }

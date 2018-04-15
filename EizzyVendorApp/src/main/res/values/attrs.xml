@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="PrimaryButton">
-        <attr name="bgMode" format="enum">
-            <enum name="solid" value="0" />
-            <enum name="gradient" value="1" />
-        </attr>
-        <attr name="highlightMode" format="enum">
-            <enum name="none" value="0" />
-            <enum name="background" value="1" />
-            <enum name="all" value="2" />
-        </attr>
-        <attr name="bgSolidColor" format="color" />
-        <attr name="bgGradientBeginColor" format="color" />
-        <attr name="bgGradientEndColor" format="color" />
-        <attr name="bgGradientAngle" format="integer" />
 
-        <attr name="colorScreenTitle" format="color" />
+    <declare-styleable name="AksiemTextView">
+        <attr name="drawableLeftCompat" format="reference" />
+        <attr name="drawableRightCompat" format="reference" />
+        <attr name="drawableTopCompat" format="reference" />
+        <attr name="drawableBottomCompat" format="reference" />
     </declare-styleable>
+
+    <attr name="toolbarColor" format="color|reference" />
+    <attr name="tallToolbarHeight" format="dimension|reference" />
+    <attr name="colorScreenTitle" format="color" />
+
+    <!-- corner radius and color attributes for actions -->
+    <attr name="bgRoundedViewRadius" format="dimension" />
+    <attr name="bgRoundedViewColor" format="color" />
 </resources>

@@ -32,7 +32,7 @@ public class VendorOnboardingRepository {
         this.resourceManager = resourceManager;
     }
 
-    public LiveData<Resource<VendorOnboarding>> getVendorValueProp() {
+    public LiveData<Resource<VendorOnboarding>> getVendorOnboarding() {
         VendorOnboarding vvp = new VendorOnboarding(resourceManager.getString(R.string.app_name),
                 "Eizzy Delivery is Uber for Courier services. We deliver products all around Metro cities.",
                 "GET STARTED",

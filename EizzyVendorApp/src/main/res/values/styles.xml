@@ -74,4 +74,36 @@
          <item name="tallToolbarHeight">@dimen/tall_toolbar_height</item>
      </style>-->
 
+    <style name="RoundedView">
+        <item name="bgRoundedViewRadius">@dimen/primary_btn_radius</item>
+    </style>
+
+    <style name="PrimaryRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="DeliveredTagRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/orderDelivered</item>
+    </style>
+
+    <style name="UndeliveredTagRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/orderUndelivered</item>
+    </style>
+
+    <style name="PlacedTagRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/orderPlaced</item>
+    </style>
+
+    <style name="ConfirmedTagRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/orderConfirmed</item>
+    </style>
+
+    <style name="AssignedTagRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/orderAssigned</item>
+    </style>
+
+    <style name="PickedTagRoundedView" parent="RoundedView">
+        <item name="bgRoundedViewColor">@color/orderPicked</item>
+    </style>
+
 </resources>

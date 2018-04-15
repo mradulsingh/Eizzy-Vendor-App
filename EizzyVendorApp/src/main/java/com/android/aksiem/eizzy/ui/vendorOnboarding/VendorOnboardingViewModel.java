@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.ui.vendorValueProp;
+package com.android.aksiem.eizzy.ui.vendorOnboarding;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -16,17 +16,17 @@ import javax.inject.Inject;
 
 public class VendorOnboardingViewModel extends ViewModel {
 
-    private final LiveData<Resource<VendorOnboarding>> vendorValueProp;
+    private final LiveData<Resource<VendorOnboarding>> vendorOnboarding;
 
     @SuppressWarnings("unchecked")
     @Inject
     public VendorOnboardingViewModel(VendorOnboardingRepository repository) {
-        this.vendorValueProp = repository.getVendorValueProp();
+        this.vendorOnboarding = repository.getVendorOnboarding();
     }
 
     @VisibleForTesting
-    public LiveData<Resource<VendorOnboarding>> getVendorValueProp() {
-        return vendorValueProp;
+    public LiveData<Resource<VendorOnboarding>> getVendorOnboarding() {
+        return vendorOnboarding;
     }
 
     @VisibleForTesting

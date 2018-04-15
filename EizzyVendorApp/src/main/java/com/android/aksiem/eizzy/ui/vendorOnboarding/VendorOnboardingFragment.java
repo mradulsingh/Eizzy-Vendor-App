@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.ui.vendorValueProp;
+package com.android.aksiem.eizzy.ui.vendorOnboarding;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -63,8 +63,8 @@ public class VendorOnboardingFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         vendorOnboardingViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(VendorOnboardingViewModel.class);
-        vendorOnboardingViewModel.getVendorValueProp().observe(this, vendorValuePropResource -> {
-            binding.get().setVendorOnboarding(vendorValuePropResource == null ? null : vendorValuePropResource.data);
+        vendorOnboardingViewModel.getVendorOnboarding().observe(this, vendorOnboardingResource -> {
+            binding.get().setVendorOnboarding(vendorOnboardingResource == null ? null : vendorOnboardingResource.data);
             binding.get().existingAccountAction.setOnClickListener(v -> {
                 navigationController.navigateToLogin();
             });
