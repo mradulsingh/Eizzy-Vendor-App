@@ -159,4 +159,12 @@ public class EizzyActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+            return;
+        }
+        super.onBackPressed();
+    }
 }

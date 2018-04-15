@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.LayoutFactory;
+import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,13 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
     CharSequence toolbarSubtitle;
     int toolbarNavIconRes;
     Drawable toolbarNavIcon;
+    View.OnClickListener toolbarNavClickListener = null;
     private NavigationDefaults navigationDefaults;
     boolean includeBottomNavBar;
     boolean includeTopNavBar;
 
     List<Integer> menuRes = new ArrayList<>();
+    MenuActions.Builder menuActions = new MenuActions.Builder();
 
     public NavigationBuilder(LayoutFactory layoutFactory, NavigationDefaults navigationDefaults) {
         this.layoutFactory = layoutFactory;
@@ -75,6 +78,27 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
 
     public T toolbarNavIcon(Drawable toolbarLogo) {
         this.toolbarNavIcon = toolbarLogo;
+        return getThis();
+    }
+
+    public T setToolbarNavClickListener(View.OnClickListener toolbarNavClickListener) {
+        this.toolbarNavClickListener = toolbarNavClickListener;
+        return getThis();
+    }
+
+    public T menuRes(int menuRes, MenuActions.MenuActionItem... items) {
+        return menuRes(menuRes, new MenuActions.Builder(items));
+    }
+
+    public T menuRes(int menuRes, MenuActions.Builder menuBuilder) {
+        this.menuRes.add(menuRes);
+        this.menuActions.append(menuBuilder);
+        return getThis();
+    }
+
+    public T menuRes(int menuRes, MenuActions menuActions) {
+        this.menuRes.add(menuRes);
+        this.menuActions.append(menuActions);
         return getThis();
     }
 

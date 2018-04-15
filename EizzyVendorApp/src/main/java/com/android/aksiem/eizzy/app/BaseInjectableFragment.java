@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.android.aksiem.eizzy.di.Injectable;
 import com.android.aksiem.eizzy.util.AppUtils;
@@ -15,6 +16,12 @@ public abstract class BaseInjectableFragment extends Fragment implements Injecta
     protected void showInfoMessage(View view, String message) {
         if (isVisible()) {
             AppUtils.showInfoMessage(view, message);
+        }
+    }
+
+    protected void showToast(String message) {
+        if (isVisible()) {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -39,5 +46,11 @@ public abstract class BaseInjectableFragment extends Fragment implements Injecta
         }
     }
 
+    protected void onBackPressed() {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof EizzyActivity) {
+            ((EizzyActivity) activity).onBackPressed();
+        }
+    }
 }
 

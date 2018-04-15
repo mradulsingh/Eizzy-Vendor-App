@@ -1,7 +1,7 @@
 package com.android.aksiem.eizzy.ui.order;
 
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,21 +12,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.app.BottomNavigationFragment;
+import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.OrderItemsFragmentBinding;
+import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
+import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
+import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
+import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import java.util.Collections;
 
 import javax.inject.Inject;
 
+import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
+
 /**
  * Created by pdubey on 09/04/18.
  */
 
-public class OrderItemsFragment extends BottomNavigationFragment {
+public class OrderItemsFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -44,20 +51,41 @@ public class OrderItemsFragment extends BottomNavigationFragment {
         return new OrderItemsFragment();
     }
 
+
+    @Inject
+    @ApplicationContext
+    Context applicationContext;
+
+    @Override
+    public NavigationBuilder buildNavigation() {
+        return mainCollapsableToolbar()
+                .includeBottomNavBar(true)
+                .toolbarTitleRes(R.string.screen_orders)
+                .toolbarNavIconRes(R.drawable.ic_back)
+                .setToolbarNavClickListener(v -> onBackPressed())
+                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment), buildMenuActions());
+    }
+
+    private MenuActions buildMenuActions() {
+        return new MenuActions.Builder()
+                .action(R.id.nav_checkout, new MenuToastAction(applicationContext, "Do Checkout"))
+                .build();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        OrderItemsFragmentBinding binding = DataBindingUtil.inflate(inflater,
+        OrderItemsFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
                 R.layout.order_items_fragment, container, false);
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+        binding = new AutoClearedValue<>(this, dataBinding);
+        return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(OrderItemsViewModel.class);
+        //      orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(OrderItemsViewModel.class);
 
         OrderItemsAdapter adapter = new OrderItemsAdapter(dataBindingComponent,
                 orderItem -> {
@@ -65,7 +93,7 @@ public class OrderItemsFragment extends BottomNavigationFragment {
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         binding.get().orderList.setAdapter(adapter);
-        initOrdersList(orderItemsViewModel);
+        //initOrdersList(orderItemsViewModel);
     }
 
     private void initOrdersList(OrderItemsViewModel viewModel) {

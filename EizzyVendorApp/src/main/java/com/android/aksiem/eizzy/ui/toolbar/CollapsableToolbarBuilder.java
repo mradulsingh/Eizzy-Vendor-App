@@ -4,7 +4,10 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +15,7 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.databinding.CollapsableToolbarBinding;
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.IdLayoutFactory;
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.LayoutFactory;
+import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 
 public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableToolbarBuilder> {
 
@@ -34,19 +38,19 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
 
         if (toolbarTitleRes != 0) {
             dataBinding.setTitleText(context.getString(toolbarTitleRes));
-        } else {
+        } else if (toolbarTitle != null) {
             dataBinding.setTitleText(toolbarTitle.toString());
         }
 
         if (toolbarSubtitleRes != 0) {
             dataBinding.setSubTitleText(context.getString(toolbarSubtitleRes));
-        } else {
+        } else if (toolbarSubtitle != null) {
             dataBinding.setSubTitleText(toolbarSubtitle.toString());
         }
 
         if (toolbarNavIconRes != 0) {
             dataBinding.toolbar.setNavigationIcon(toolbarNavIconRes);
-        } else {
+        } else if (toolbarNavIcon != null) {
             dataBinding.toolbar.setNavigationIcon(toolbarNavIcon);
         }
 
@@ -62,12 +66,24 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
             }
         });
 
-        dataBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        dataBinding.toolbar.setNavigationOnClickListener(toolbarNavClickListener);
 
+        Menu menu = dataBinding.toolbar.getMenu();
+        if (menu != null) {
+            menu.clear();
+        }
+        if (!menuRes.isEmpty()) {
+            final MenuActions actions = menuActions.build();
+            for (Integer menuRes : menuRes) {
+                dataBinding.toolbar.inflateMenu(menuRes);
             }
-        });
+            dataBinding.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return actions.onMenuItemClick(item);
+                }
+            });
+        }
     }
 
     public static CollapsableToolbarBuilder mainCollapsableToolbar() {
