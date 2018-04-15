@@ -3,6 +3,7 @@ package com.android.aksiem.eizzy.ui.toolbar;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +31,43 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
 
     private void prepareToolbar(CollapsableToolbarBinding dataBinding) {
         Context context = dataBinding.getRoot().getContext();
+
         if (toolbarTitleRes != 0) {
-            dataBinding.setTitle(context.getString(toolbarTitleRes));
+            dataBinding.setTitleText(context.getString(toolbarTitleRes));
         } else {
-            dataBinding.setTitle(toolbarTitle.toString());
+            dataBinding.setTitleText(toolbarTitle.toString());
         }
+
+        if (toolbarSubtitleRes != 0) {
+            dataBinding.setSubTitleText(context.getString(toolbarSubtitleRes));
+        } else {
+            dataBinding.setSubTitleText(toolbarSubtitle.toString());
+        }
+
+        if (toolbarNavIconRes != 0) {
+            dataBinding.toolbar.setNavigationIcon(toolbarNavIconRes);
+        } else {
+            dataBinding.toolbar.setNavigationIcon(toolbarNavIcon);
+        }
+
+        dataBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                dataBinding.tvTitle.setAlpha(Math.abs(verticalOffset / (float)
+                        appBarLayout.getTotalScrollRange()));
+
+                dataBinding.tvExpandedTitle.setAlpha(1 - (Math.abs(verticalOffset / (float)
+                        appBarLayout.getTotalScrollRange())));
+            }
+        });
+
+        dataBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public static CollapsableToolbarBuilder mainCollapsableToolbar() {

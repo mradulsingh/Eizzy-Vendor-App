@@ -15,6 +15,7 @@
   -->
 
 <resources>
+    <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="darkMidnightBlue">#0f3762</color>
     <color name="oxfordBlue">#0d1d3e</color>
@@ -40,6 +41,7 @@
     <color name="colorBtnShadow">#33000000</color>
     <color name="colorBgScreen">@color/ghostWhite</color>
     <color name="colorScreenTitle">@color/darkMidnightBlue</color>
+    <color name="colorScreenSubTitle">@color/seaBlue</color>
     <color name="colorEtText">@color/black</color>
     <color name="colorEtHintText">@color/khaki</color>
     <color name="colorTopBar">@color/white</color>

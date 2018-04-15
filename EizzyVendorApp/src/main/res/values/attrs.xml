@@ -10,7 +10,6 @@
 
     <attr name="toolbarColor" format="color|reference" />
     <attr name="tallToolbarHeight" format="dimension|reference" />
-    <attr name="colorScreenTitle" format="color" />
 
     <!-- corner radius and color attributes for actions -->
     <attr name="bgRoundedViewRadius" format="dimension" />

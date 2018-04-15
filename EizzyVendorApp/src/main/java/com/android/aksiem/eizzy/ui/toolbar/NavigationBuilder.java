@@ -1,8 +1,12 @@
 package com.android.aksiem.eizzy.ui.toolbar;
 
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +21,12 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
 
     private final LayoutFactory layoutFactory;
 
-    int toolbarNavigationIcon;
     int toolbarTitleRes;
     CharSequence toolbarTitle;
     int toolbarSubtitleRes;
     CharSequence toolbarSubtitle;
-    int toolbarLogoRes;
-    Drawable toolbarLogo;
+    int toolbarNavIconRes;
+    Drawable toolbarNavIcon;
     private NavigationDefaults navigationDefaults;
     boolean includeBottomNavBar;
     boolean includeTopNavBar;
@@ -65,13 +68,13 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
         return getThis();
     }
 
-    public T toolbarLogoRes(int toolbarLogoRes) {
-        this.toolbarLogoRes = toolbarLogoRes;
+    public T toolbarNavIconRes(int toolbarLogoRes) {
+        this.toolbarNavIconRes = toolbarLogoRes;
         return getThis();
     }
 
-    public T toolbarLogo(Drawable toolbarLogo) {
-        this.toolbarLogo = toolbarLogo;
+    public T toolbarNavIcon(Drawable toolbarLogo) {
+        this.toolbarNavIcon = toolbarLogo;
         return getThis();
     }
 
@@ -91,5 +94,13 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
 
     public boolean isIncludeTopNavBar() {
         return includeBottomNavBar;
+    }
+
+    public int getColor(Context context, @ColorRes final int resourceId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return ContextCompat.getColor(context, resourceId);
+        } else {
+            return context.getResources().getColor(resourceId);
+        }
     }
 }

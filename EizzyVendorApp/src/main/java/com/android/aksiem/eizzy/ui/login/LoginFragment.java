@@ -62,7 +62,8 @@ public class LoginFragment extends NavigationFragment {
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
                 .toolbarTitleRes(R.string.screen_login)
-                .toolbarSubtitleRes(R.string.screen_subtitle_login);
+                .toolbarSubtitleRes(R.string.screen_subtitle_login)
+                .toolbarNavIconRes(R.drawable.ic_back);
     }
 
     @Nullable

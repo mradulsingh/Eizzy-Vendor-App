@@ -24,7 +24,29 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorScreenTitle">@color/colorScreenTitle</item>
+    </style>
+
+    <style name="AndroidExpandedTitleTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textSize">0.1sp</item>
+    </style>
+
+    <style name="ExpandedTitleTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorScreenTitle</item>
+        <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
+        <item name="android:textSize">@dimen/font_24</item>
+    </style>
+
+    <style name="ExpandedSubTitleTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorScreenSubTitle</item>
+        <item name="fontPath">fonts/Montserrat-Regular.ttf</item>
+        <item name="android:textSize">@dimen/font_14</item>
+    </style>
+
+    <style name="CollapsedTitleTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorScreenTitle</item>
+        <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
+        <item name="android:textSize">@dimen/font_16</item>
     </style>
 
     <style name="FontMontserratBold">
