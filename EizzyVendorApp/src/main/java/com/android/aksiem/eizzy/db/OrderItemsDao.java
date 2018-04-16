@@ -11,22 +11,22 @@ import com.android.aksiem.eizzy.vo.OrderItem;
 import java.util.List;
 
 /**
- * Created by pdubey on 14/04/18.
+ * Created by pdubey on 15/04/18.
  */
 
 @Dao
-public abstract class OrderItemsDao {
+public abstract class OrderItemsDao implements TimestampedItemsDao<OrderItem> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insert(OrderItem... orderItems);
+    public abstract void insert(OrderItem... items);
 
     @Query("SELECT * FROM order_item")
-    public abstract LiveData<List<OrderItem>> getAllOrderItems();
+    public abstract LiveData<List<OrderItem>> getAllItems();
 
     @Query("SELECT * FROM order_item WHERE timestamp >= :timestamp")
-    public abstract LiveData<List<OrderItem>> getOrderItemsFrom(Float timestamp);
+    public abstract LiveData<List<OrderItem>> getItemsFrom(Float timestamp);
 
     @Query("SELECT * FROM order_item WHERE timestamp >= :start AND timestamp <= :end")
-    public abstract LiveData<List<OrderItem>> getOrderItemsFromTo(Float start, Float end);
+    public abstract LiveData<List<OrderItem>> getItemsFromTo(Float start, Float end);
 
 }

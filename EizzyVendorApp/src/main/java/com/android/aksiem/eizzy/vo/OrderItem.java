@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @Entity(primaryKeys = "orderId")
-public class OrderItem implements Serializable {
+public class OrderItem implements Serializable, Timestamped {
 
     @SerializedName("orderId")
     @NonNull
@@ -40,7 +40,7 @@ public class OrderItem implements Serializable {
 
     @SerializedName("timestamp")
     @NonNull
-    public final Float timestamp;
+    public final long timestamp;
 
     @SerializedName("stringTimestamp")
     @NonNull
@@ -63,7 +63,7 @@ public class OrderItem implements Serializable {
     private Actor deliveryAssociate;
 
     public OrderItem(@NonNull String orderId, @NonNull OrderDetails orderDetails,
-                     @NonNull Actor customer, @NonNull Price price, @NonNull Float timestamp,
+                     @NonNull Actor customer, @NonNull Price price, @NonNull long timestamp,
                      @NonNull String stringTimestamp, @NonNull OrderType orderType,
                      @NonNull OrderState currentOrderState) {
 
@@ -102,6 +102,12 @@ public class OrderItem implements Serializable {
 
     public void setDeliveryAssociate(@Nullable Actor deliveryAssociate) {
         this.deliveryAssociate = deliveryAssociate;
+    }
+
+    @Override
+    @NonNull
+    public long getTimestamp() {
+        return timestamp;
     }
 
     @Override

@@ -28,6 +28,13 @@
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
 
+    <!-- Timestamp strings -->
+    <string name="ts_today">TODAY</string>
+    <string name="ts_yesterday">YESTERDAY</string>
+    <string name="ts_thisweek">THIS WEEK</string>
+    <string name="ts_lastweek">LAST WEEK</string>
+    <!-- end -->
+
     <string name="menu.bottom.order">Order</string>
     <string name="menu.bottom.settlement">Settlements</string>
 

@@ -1,20 +1,21 @@
 package com.android.aksiem.eizzy.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
 import com.android.aksiem.eizzy.app.AppExecutors;
+import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderItemsDao;
-import com.android.aksiem.eizzy.util.RateLimiter;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -22,58 +23,54 @@ import javax.inject.Inject;
  * Created by pdubey on 14/04/18.
  */
 
-public class OrderItemsRepository {
+public class OrderItemsRepository extends TimestampedItemsRepository<OrderItem> {
 
-    private final AppDb appDb;
-
-    private final OrderItemsDao orderItemsDao;
-
-    private final AppService appService;
-
-    private final AppExecutors appExecutors;
-
-    private RateLimiter<String> orderItemsRateLimiter = new RateLimiter<>(120, TimeUnit.SECONDS);
 
     @Inject
-    public OrderItemsRepository(AppDb appDb, OrderItemsDao orderItemsDao, AppService appService,
-                                AppExecutors appExecutors) {
+    public OrderItemsRepository(AppDb appDb, OrderItemsDao timestampedItemsDao,
+                                AppService appService, AppExecutors appExecutors,
+                                AppResourceManager appResourceManager) {
 
-        this.appDb = appDb;
-        this.orderItemsDao = orderItemsDao;
-        this.appService = appService;
-        this.appExecutors = appExecutors;
+        super(appDb, timestampedItemsDao, appService, appExecutors, appResourceManager);
+
     }
 
-    public LiveData<Resource<List<OrderItem>>> loadOrders() {
-        return new DbNetworkBoundResource<List<OrderItem>, List<OrderItem>>(appExecutors) {
+    @Override
+    public LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> loadItems() {
+        return new DbNetworkBoundResource<List<TimestampedItemWrapper<OrderItem>>,
+                List<TimestampedItemWrapper<OrderItem>>>(appExecutors){
 
             @Override
-            protected void saveCallResult(@NonNull List<OrderItem> items) {
-                for (OrderItem item : items) {
-                    appDb.beginTransaction();
-                    try {
-                        orderItemsDao.insert(item);
-                        appDb.setTransactionSuccessful();
-                    } finally {
-                        appDb.endTransaction();
+            protected void saveCallResult(@NonNull List<TimestampedItemWrapper<OrderItem>> items) {
+                for (TimestampedItemWrapper item : items) {
+                    if (item.isItem()) {
+                        appDb.beginTransaction();
+                        try {
+                            timestampedItemsDao.insert(item.item);
+                            appDb.setTransactionSuccessful();
+                        } finally {
+                            appDb.endTransaction();
+                        }
                     }
                 }
+
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable List<OrderItem> data) {
-                return data == null;
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<List<OrderItem>> loadFromDb() {
-                return orderItemsDao.getAllOrderItems();
+            protected boolean shouldFetch(@Nullable List<TimestampedItemWrapper<OrderItem>> data) {
+                return false;
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<List<OrderItem>>> createCall() {
+            protected LiveData<List<TimestampedItemWrapper<OrderItem>>> loadFromDb() {
+                LiveData<List<OrderItem>> orderItemsLD = timestampedItemsDao.getAllItems();
+                return addTimestampToList(orderItemsLD);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<TimestampedItemWrapper<OrderItem>>>> createCall() {
                 // TODO integrate with backend API
                 return null;
             }
