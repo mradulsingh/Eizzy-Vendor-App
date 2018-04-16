@@ -17,13 +17,20 @@
 <resources>
     <string name="app.name">Eizzy B2B</string>
 
+    <string name="text.msg.clickhere">CLICK HERE!</string>
+
+    <!-- Login -->
     <string name="screen.title.login">Login</string>
-    <string name="screen.title.orders">Orders</string>
-
     <string name="screen.subtitle.login">Enter your username or mobile number along with your password to proceed</string>
-
     <string name="edittext.hint.userid">USERNAME</string>
     <string name="edittext.hint.password">PASSWORD</string>
+    <string name="button.action.login">LOG IN</string>
+    <string name="text.msg.forgetpassword">DID YOU FORGET PASSWORD?</string>
+    <!-- Login -->
+
+    <!-- Orders -->
+    <string name="screen.title.orders">Orders</string>
+    <!-- Orders -->
 
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>

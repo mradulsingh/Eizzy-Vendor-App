@@ -29,6 +29,7 @@
     <color name="ghostWhite">#f9fafb</color>
     <color name="pastelGray">#c8cfce</color>
     <color name="red">#f80002</color>
+    <color name="skobeloff">#19647e</color>
 
 
     <color name="colorPrimary">@color/white</color>
@@ -45,6 +46,8 @@
     <color name="colorEtText">@color/black</color>
     <color name="colorEtHintText">@color/khaki</color>
     <color name="colorTopBar">@color/white</color>
+    <color name="colorTextActionButton">@color/white</color>
+    <color name="colorTextMessagePrimary">@color/skobeloff</color>
 
     <!-- delivery states -->
     <color name="orderUndelivered">@color/red</color>
