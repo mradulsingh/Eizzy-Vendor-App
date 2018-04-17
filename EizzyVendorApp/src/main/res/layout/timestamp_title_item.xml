@@ -7,10 +7,6 @@
             name="timestamp"
             type="String" />
 
-        <variable
-            name="item"
-            type="Object" />
-
     </data>
 
     <TextView

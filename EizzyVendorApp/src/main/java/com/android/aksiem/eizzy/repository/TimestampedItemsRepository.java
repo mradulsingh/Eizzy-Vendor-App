@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
 /**
  * Created by pdubey on 15/04/18.
  */
@@ -39,7 +37,6 @@ public abstract class TimestampedItemsRepository<T extends Timestamped> {
     protected RateLimiter<String> orderItemsRateLimiter = new RateLimiter<>(120,
             TimeUnit.SECONDS);
 
-    @Inject
     public TimestampedItemsRepository(AppDb appDb, TimestampedItemsDao timestampedItemsDao,
                                       AppService appService, AppExecutors appExecutors,
                                       AppResourceManager appResourceManager) {
