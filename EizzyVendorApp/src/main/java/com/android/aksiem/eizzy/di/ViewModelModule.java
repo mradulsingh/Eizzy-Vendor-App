@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.android.aksiem.eizzy.ui.login.CreateUserAccountViewModel;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordViewModel;
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
+import com.android.aksiem.eizzy.ui.login.ValidateOTPViewModel;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
@@ -29,6 +30,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ForgotPasswordViewModel.class)
     abstract ViewModel bindForgotPasswordViewModel(ForgotPasswordViewModel forgotPasswordViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ValidateOTPViewModel.class)
+    abstract ViewModel bindValidateOTPViewModel(ValidateOTPViewModel validateOTPViewModel);
+
 
     @Binds
     @IntoMap

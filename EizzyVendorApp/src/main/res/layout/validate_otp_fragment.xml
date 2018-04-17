@@ -45,19 +45,19 @@
                 style="@style/AppEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/edittext.hint.userid"
+                android:hint="@string/edittext.hint.otp"
                 android:imeOptions="actionDone"
-                android:inputType="textNoSuggestions"
-                tools:text="@string/edittext.hint.userid" />
+                android:inputType="textNoSuggestions|textPassword"
+                tools:text="@string/edittext.hint.otp" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/actionGetOTP"
+            android:id="@+id/actionValidateOTP"
             style="@style/AppActionButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/atom_10"
-            android:text="@string/button.action.get.otp"
+            android:text="@string/button.action.validate.otp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUserId" />

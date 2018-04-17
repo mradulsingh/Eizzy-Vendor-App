@@ -49,6 +49,13 @@
     <string name="button.action.get.otp">GET OTP</string>
     <!-- Forgot Password -->
 
+    <!-- Validate OTP -->
+    <string name="screen.title.validate.otp">Enter OTP </string>
+    <string name="screen.subtitle.validate.otp">Enter 5 digit PIN that you got on your registered device, in the text area below</string>
+    <string name="edittext.hint.otp">OTP</string>
+    <string name="button.action.validate.otp">VALIDATE</string>
+    <!-- Validate OTP -->
+
     <!-- Orders -->
     <string name="screen.title.orders">Orders</string>
     <!-- Orders -->

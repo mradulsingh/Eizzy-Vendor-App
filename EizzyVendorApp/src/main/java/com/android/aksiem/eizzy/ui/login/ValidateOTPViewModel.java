@@ -27,28 +27,28 @@ import javax.inject.Inject;
  * Created by napendersingh on 31/03/18.
  */
 
-public class ForgotPasswordViewModel extends ViewModel {
+public class ValidateOTPViewModel extends ViewModel {
 
-    private String mUserId;
+    private String otp;
 
     private UserRepository userRepository;
 
     @Inject
-    public ForgotPasswordViewModel(UserRepository userRepository) {
+    public ValidateOTPViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public void setUserId(String userId) {
-        this.mUserId = userId;
+    public void setOTP(String otp) {
+        this.otp = otp;
     }
 
     @VisibleForTesting
-    void onForgotPassword() {
-        userRepository.onForgotPassword(mUserId);
+    void onValidateOTP() {
+        userRepository.validateOTP(otp);
     }
 
     @VisibleForTesting
     public void retry() {
-        onForgotPassword();
+        onValidateOTP();
     }
 }

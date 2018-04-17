@@ -23,6 +23,7 @@ import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.ui.login.CreateUserAccountFragment;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
+import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
 
 import javax.inject.Inject;
@@ -62,6 +63,15 @@ public class NavigationController {
     public void navigateToForgotPasswordFragment() {
         ForgotPasswordFragment fragment = new ForgotPasswordFragment();
         String tag = ForgotPasswordFragment.class.getSimpleName();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToValidateOTPFragment() {
+        ValidateOTPFragment fragment = new ValidateOTPFragment();
+        String tag = ValidateOTPFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)

@@ -31,7 +31,7 @@ import android.view.inputmethod.EditorInfo;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
-import com.android.aksiem.eizzy.databinding.ForgotPasswordFragmentBinding;
+import com.android.aksiem.eizzy.databinding.ValidateOtpFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
@@ -44,7 +44,7 @@ import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.main
  * Created by napendersingh on 31/03/18.
  */
 
-public class ForgotPasswordFragment extends NavigationFragment {
+public class ValidateOTPFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -52,17 +52,17 @@ public class ForgotPasswordFragment extends NavigationFragment {
     @Inject
     NavigationController navigationController;
 
-    AutoClearedValue<ForgotPasswordFragmentBinding> binding;
+    AutoClearedValue<ValidateOtpFragmentBinding> binding;
 
-    private ForgotPasswordViewModel forgotPasswordViewModel;
+    private ValidateOTPViewModel validateOTPViewModel;
 
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
 
     @Override
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
-                .toolbarTitleRes(R.string.screen_title_forgot_password)
-                .toolbarSubtitleRes(R.string.screen_subtitle_forgot_password)
+                .toolbarTitleRes(R.string.screen_title_validate_otp)
+                .toolbarSubtitleRes(R.string.screen_subtitle_validate_otp)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed());
     }
@@ -71,8 +71,8 @@ public class ForgotPasswordFragment extends NavigationFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        ForgotPasswordFragmentBinding dataBinding = DataBindingUtil
-                .inflate(inflater, R.layout.forgot_password_fragment, container, false,
+        ValidateOtpFragmentBinding dataBinding = DataBindingUtil
+                .inflate(inflater, R.layout.validate_otp_fragment, container, false,
                         dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
@@ -81,16 +81,16 @@ public class ForgotPasswordFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        forgotPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(ForgotPasswordViewModel.class);
+        validateOTPViewModel = ViewModelProviders.of(this, viewModelFactory).get(ValidateOTPViewModel.class);
         initInputListener();
-        binding.get().actionGetOTP.setOnClickListener(v -> navigationController.navigateToValidateOTPFragment());
-        binding.get().setCallback(() -> forgotPasswordViewModel.onForgotPassword());
+        binding.get().actionValidateOTP.setOnClickListener(v -> onValidateOTP(v));
+        binding.get().setCallback(() -> validateOTPViewModel.onValidateOTP());
     }
 
     private void initInputListener() {
         binding.get().userid.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                onForgotPassword(v);
+                onValidateOTP(v);
                 return true;
             }
             return false;
@@ -98,19 +98,19 @@ public class ForgotPasswordFragment extends NavigationFragment {
         binding.get().userid.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN)
                     && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                onForgotPassword(v);
+                onValidateOTP(v);
                 return true;
             }
             return false;
         });
     }
 
-    private void onForgotPassword(View v) {
-        String userId = binding.get().userid.getText().toString();
+    private void onValidateOTP(View v) {
+        String otp = binding.get().userid.getText().toString();
 
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        forgotPasswordViewModel.setUserId(userId);
-        forgotPasswordViewModel.onForgotPassword();
+        validateOTPViewModel.setOTP(otp);
+        validateOTPViewModel.onValidateOTP();
     }
 }

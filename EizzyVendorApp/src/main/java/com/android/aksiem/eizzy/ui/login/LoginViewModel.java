@@ -33,11 +33,11 @@ public class LoginViewModel extends ViewModel {
 
     private String mPassword;
 
-    private UserRepository loginRepository;
+    private UserRepository userRepository;
 
     @Inject
-    public LoginViewModel(UserRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    public LoginViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void setUserId(String userId) {
@@ -50,7 +50,7 @@ public class LoginViewModel extends ViewModel {
 
     @VisibleForTesting
     void doUserLogin() {
-        loginRepository.doUserLogin(mUserId, mPassword);
+        userRepository.doUserLogin(mUserId, mPassword);
     }
 
     @VisibleForTesting
