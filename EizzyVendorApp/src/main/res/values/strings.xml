@@ -43,6 +43,12 @@
     <string name="button.action.create.account">CREATE ACCOUNT</string>
     <!-- Create Account -->
 
+    <!-- Forgot Password -->
+    <string name="screen.title.forgot.password">Forgot Password </string>
+    <string name="screen.subtitle.forgot.password">In case of Forgot Password, Enter your username to receive otp</string>
+    <string name="button.action.get.otp">GET OTP</string>
+    <!-- Forgot Password -->
+
     <!-- Orders -->
     <string name="screen.title.orders">Orders</string>
     <!-- Orders -->

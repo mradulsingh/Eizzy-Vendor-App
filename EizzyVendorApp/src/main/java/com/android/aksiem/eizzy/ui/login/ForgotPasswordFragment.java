@@ -31,7 +31,7 @@ import android.view.inputmethod.EditorInfo;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
-import com.android.aksiem.eizzy.databinding.LoginFragmentBinding;
+import com.android.aksiem.eizzy.databinding.ForgotPasswordFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
@@ -44,7 +44,7 @@ import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.main
  * Created by napendersingh on 31/03/18.
  */
 
-public class LoginFragment extends NavigationFragment {
+public class ForgotPasswordFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -52,17 +52,17 @@ public class LoginFragment extends NavigationFragment {
     @Inject
     NavigationController navigationController;
 
-    AutoClearedValue<LoginFragmentBinding> binding;
+    AutoClearedValue<ForgotPasswordFragmentBinding> binding;
 
-    private LoginViewModel loginViewModel;
+    private ForgotPasswordViewModel forgotPasswordViewModel;
 
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
 
     @Override
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
-                .toolbarTitleRes(R.string.screen_title_login)
-                .toolbarSubtitleRes(R.string.screen_subtitle_login)
+                .toolbarTitleRes(R.string.screen_title_forgot_password)
+                .toolbarSubtitleRes(R.string.screen_subtitle_forgot_password)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed());
     }
@@ -71,8 +71,8 @@ public class LoginFragment extends NavigationFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        LoginFragmentBinding dataBinding = DataBindingUtil
-                .inflate(inflater, R.layout.login_fragment, container, false,
+        ForgotPasswordFragmentBinding dataBinding = DataBindingUtil
+                .inflate(inflater, R.layout.forgot_password_fragment, container, false,
                         dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
@@ -81,37 +81,35 @@ public class LoginFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loginViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel.class);
+        forgotPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(ForgotPasswordViewModel.class);
         initInputListener();
-        binding.get().tvActionForgetPassword.setOnClickListener(v -> navigationController.navigateToForgotPasswordFragment());
-        binding.get().setCallback(() -> loginViewModel.doUserLogin());
+        binding.get().setCallback(() -> forgotPasswordViewModel.onForgotPassword());
     }
 
     private void initInputListener() {
-        binding.get().password.setOnEditorActionListener((v, actionId, event) -> {
+        binding.get().userid.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                doUserLogin(v);
+                onForgotPassword(v);
                 return true;
             }
             return false;
         });
-        binding.get().password.setOnKeyListener((v, keyCode, event) -> {
+        binding.get().userid.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN)
                     && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                doUserLogin(v);
+                onForgotPassword(v);
                 return true;
             }
             return false;
         });
     }
 
-    private void doUserLogin(View v) {
+    private void onForgotPassword(View v) {
         String userId = binding.get().userid.getText().toString();
-        String password = binding.get().password.getText().toString();
+
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        loginViewModel.setUserId(userId);
-        loginViewModel.setPassword(password);
-        loginViewModel.doUserLogin();
+        forgotPasswordViewModel.setUserId(userId);
+        forgotPasswordViewModel.onForgotPassword();
     }
 }

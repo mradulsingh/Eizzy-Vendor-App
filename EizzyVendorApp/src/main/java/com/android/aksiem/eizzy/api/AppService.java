@@ -37,4 +37,6 @@ public interface AppService {
                                                   @Field("contactMobile") String contactMobile,
                                                   @Field("contactEmail") String contactEmail);
 
+    @POST("user/forgotpassword")
+    LiveData<ApiResponse<User>> onForgotPassword(@Field("userId") String userId);
 }

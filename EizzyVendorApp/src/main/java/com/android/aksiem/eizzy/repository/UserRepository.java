@@ -79,4 +79,22 @@ public class UserRepository {
             }
         }.asLiveData();
     }
+
+    public LiveData<Resource<User>> onForgotPassword(String userId) {
+        return new NoCacheNetworkBoundResource<User, User>(appExecutors) {
+            @Override
+            protected LiveData<User> getCallResult(@NonNull User user) {
+                MutableLiveData<User> repoList = new MutableLiveData();
+                repoList.setValue(user);
+                return repoList;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<User>> createCall() {
+                return appService.onForgotPassword(userId);
+            }
+        }.asLiveData();
+    }
+
 }

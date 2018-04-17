@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.ui.login.CreateUserAccountFragment;
+import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
 
@@ -52,6 +53,15 @@ public class NavigationController {
     public void navigateToCreateUserAccount() {
         CreateUserAccountFragment fragment = new CreateUserAccountFragment();
         String tag = CreateUserAccountFragment.class.getSimpleName();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToForgotPasswordFragment() {
+        ForgotPasswordFragment fragment = new ForgotPasswordFragment();
+        String tag = ForgotPasswordFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)

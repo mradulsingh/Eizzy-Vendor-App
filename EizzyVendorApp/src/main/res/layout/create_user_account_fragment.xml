@@ -114,7 +114,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/atom_10"
-            android:background="@color/deepSkyBlue"
             android:text="@string/button.action.create.account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
