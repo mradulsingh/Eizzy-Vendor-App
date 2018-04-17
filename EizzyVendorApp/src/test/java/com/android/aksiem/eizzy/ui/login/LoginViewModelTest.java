@@ -18,7 +18,7 @@ package com.android.aksiem.eizzy.ui.login;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 
-import com.android.aksiem.eizzy.repository.LoginRepository;
+import com.android.aksiem.eizzy.repository.UserRepository;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,11 +35,11 @@ public class LoginViewModelTest {
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
     private LoginViewModel loginViewModel;
-    private LoginRepository loginRepository;
+    private UserRepository loginRepository;
 
     @Before
     public void setup() {
-        loginRepository = mock(LoginRepository.class);
+        loginRepository = mock(UserRepository.class);
         loginViewModel = new LoginViewModel();
     }
 

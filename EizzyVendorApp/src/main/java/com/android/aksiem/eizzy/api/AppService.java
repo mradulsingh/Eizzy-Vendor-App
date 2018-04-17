@@ -31,4 +31,10 @@ public interface AppService {
     @POST("user/login")
     LiveData<ApiResponse<User>> doUserLogin(@Field("userId") String userId, @Field("password") String password);
 
+    @POST("user/create")
+    LiveData<ApiResponse<User>> createUserAccount(@Field("businessName") String businessName,
+                                                  @Field("contactPerson") String contactPerson,
+                                                  @Field("contactMobile") String contactMobile,
+                                                  @Field("contactEmail") String contactEmail);
+
 }

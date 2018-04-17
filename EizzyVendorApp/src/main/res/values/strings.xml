@@ -19,6 +19,11 @@
 
     <string name="text.msg.clickhere">CLICK HERE!</string>
 
+    <string name="button.action.getstarted">GET STARTED</string>
+
+    <string name="screen.title.onboarding">@string/app.name</string>
+    <string name="screen.subtitle.onboarding">Eizzy Delivery is Uber for Courier services. We deliver products all around Metro cities.</string>
+
     <!-- Login -->
     <string name="screen.title.login">Login</string>
     <string name="screen.subtitle.login">Enter your username or mobile number along with your password to proceed</string>
@@ -27,6 +32,16 @@
     <string name="button.action.login">LOG IN</string>
     <string name="text.msg.forgetpassword">DID YOU FORGET PASSWORD?</string>
     <!-- Login -->
+
+    <!-- Create Account -->
+    <string name="screen.title.create.account">Create Account</string>
+    <string name="screen.subtitle.create.account">To create a new account enter below details so that we can contact you</string>
+    <string name="edittext.hint.business.name">BUSINESS NAME</string>
+    <string name="edittext.hint.business.contact.name">CONTACT PERSON</string>
+    <string name="edittext.hint.business.contact.mobile">CONTACT PERSON MOBILE</string>
+    <string name="edittext.hint.business.contact.email">CONTACT PERSON EMAIL</string>
+    <string name="button.action.create.account">CREATE ACCOUNT</string>
+    <!-- Create Account -->
 
     <!-- Orders -->
     <string name="screen.title.orders">Orders</string>

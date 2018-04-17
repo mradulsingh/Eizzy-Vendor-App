@@ -33,12 +33,12 @@ import javax.inject.Inject;
  * Repository that handles User Login.
  */
 @AppScope
-public class LoginRepository {
+public class UserRepository {
     private final AppService appService;
     private final AppExecutors appExecutors;
 
     @Inject
-    LoginRepository(AppExecutors appExecutors, AppService appService) {
+    UserRepository(AppExecutors appExecutors, AppService appService) {
         this.appService = appService;
         this.appExecutors = appExecutors;
     }
@@ -56,6 +56,26 @@ public class LoginRepository {
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
                 return appService.doUserLogin(userId, password);
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<User>> createUserAccount(String businessName,
+                                                      String contactPerson,
+                                                      String contactMobile,
+                                                      String contactEmail) {
+        return new NoCacheNetworkBoundResource<User, User>(appExecutors) {
+            @Override
+            protected LiveData<User> getCallResult(@NonNull User user) {
+                MutableLiveData<User> repoList = new MutableLiveData();
+                repoList.setValue(user);
+                return repoList;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<User>> createCall() {
+                return appService.createUserAccount(businessName, contactPerson, contactMobile, contactEmail);
             }
         }.asLiveData();
     }

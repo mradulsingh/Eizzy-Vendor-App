@@ -3,6 +3,7 @@ package com.android.aksiem.eizzy.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.android.aksiem.eizzy.ui.login.CreateUserAccountViewModel;
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
@@ -17,6 +18,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoginViewModel.class)
     abstract ViewModel bindLoginViewModel(LoginViewModel loginViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateUserAccountViewModel.class)
+    abstract ViewModel bindCreateUserAccountViewModel(CreateUserAccountViewModel CreateUserAccountViewModel);
 
     @Binds
     @IntoMap

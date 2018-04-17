@@ -27,34 +27,49 @@ import javax.inject.Inject;
  * Created by napendersingh on 31/03/18.
  */
 
-public class LoginViewModel extends ViewModel {
+public class CreateUserAccountViewModel extends ViewModel {
 
-    private String mUserId;
+    private String businessName;
 
-    private String mPassword;
+    private String contactPerson;
 
-    private UserRepository loginRepository;
+    private String contactMobile;
+
+    private String contactEmail;
+
+    private UserRepository userRepository;
 
     @Inject
-    public LoginViewModel(UserRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    public CreateUserAccountViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public void setUserId(String userId) {
-        this.mUserId = userId;
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
     }
 
-    public void setPassword(String password) {
-        this.mPassword = password;
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 
     @VisibleForTesting
-    void doUserLogin() {
-        loginRepository.doUserLogin(mUserId, mPassword);
+    void createUserAccount() {
+        userRepository.createUserAccount(businessName,
+                contactPerson,
+                contactMobile,
+                contactEmail);
     }
 
     @VisibleForTesting
     public void retry() {
-        doUserLogin();
+        createUserAccount();
     }
 }

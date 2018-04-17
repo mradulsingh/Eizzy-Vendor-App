@@ -68,6 +68,7 @@ public class VendorOnboardingFragment extends NavigationFragment {
             binding.get().existingAccountAction.setOnClickListener(v -> {
                 navigationController.navigateToLogin();
             });
+            binding.get().primaryAction.setOnClickListener(v -> navigationController.navigateToCreateUserAccount());
         });
     }
 
