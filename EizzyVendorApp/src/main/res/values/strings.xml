@@ -16,13 +16,20 @@
 
 <resources>
     <string name="app.name">Eizzy B2B</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="text.msg.clickhere">CLICK HERE!</string>
-
     <string name="button.action.getstarted">GET STARTED</string>
 
     <string name="screen.title.onboarding">@string/app.name</string>
     <string name="screen.subtitle.onboarding">Eizzy Delivery is Uber for Courier services. We deliver products all around Metro cities.</string>
+
+    <!-- Nav Drawer -->
+    <string name="nav.item.termsconditon">TERMS &amp; CONDITIONS</string>
+    <string name="nav.item.support">SUPPORT</string>
+    <string name="nav.item.aboutus">ABOUT US</string>
+    <!-- Nav Drawer -->
 
     <!-- Login -->
     <string name="screen.title.login">Login</string>
@@ -72,6 +79,5 @@
 
     <string name="menu.bottom.order">Order</string>
     <string name="menu.bottom.settlement">Settlements</string>
-
     <string name="menu.checkout">Checkout</string>
 </resources>

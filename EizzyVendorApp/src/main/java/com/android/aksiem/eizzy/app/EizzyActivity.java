@@ -24,12 +24,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.aksiem.eizzy.R;
@@ -39,18 +44,21 @@ import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
 
-public class EizzyActivity extends BaseActivity {
+public class EizzyActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     NavigationController navigationController;
 
     BottomNavigationView mBottomNavigationView;
 
+    DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eizzy_activity);
         setupBottomNavigation();
+        setupNavDrawer();
         if (savedInstanceState == null) {
             navigationController.navigateToVendorOnboardingFragment();
         }
@@ -136,6 +144,12 @@ public class EizzyActivity extends BaseActivity {
         return dispatchingAndroidInjector;
     }
 
+    private void setupNavDrawer() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView.setNavigationItemSelectedListener(this);
+    }
+
     public void setBottomNavigationViewVisibility(boolean visible) {
         if (visible) {
             mBottomNavigationView.setVisibility(View.VISIBLE);
@@ -166,5 +180,24 @@ public class EizzyActivity extends BaseActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_tnc) {
+
+        } else if (id == R.id.nav_support) {
+
+        } else if (id == R.id.nav_about_us) {
+
+        }
+
+        return true;
     }
 }
