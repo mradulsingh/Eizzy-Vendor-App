@@ -36,6 +36,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
@@ -146,8 +147,16 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
 
     private void setupNavDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.setNavigationItemSelectedListener(this);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void setDrawerLockMode(boolean unlocked) {
+        if (unlocked) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 
     public void setBottomNavigationViewVisibility(boolean visible) {
@@ -191,11 +200,11 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         int id = item.getItemId();
 
         if (id == R.id.nav_tnc) {
-
+            Toast.makeText(this, "show tnc", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_support) {
-
+            Toast.makeText(this, "show support info", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_about_us) {
-
+            Toast.makeText(this, "show about us", Toast.LENGTH_LONG).show();
         }
 
         return true;

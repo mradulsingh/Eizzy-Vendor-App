@@ -46,6 +46,13 @@ public abstract class BaseInjectableFragment extends Fragment implements Injecta
         }
     }
 
+    protected void setNavDrawerMode(boolean unLocked) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof EizzyActivity) {
+            ((EizzyActivity) activity).setDrawerLockMode(unLocked);
+        }
+    }
+
     protected void onBackPressed() {
         FragmentActivity activity = getActivity();
         if (activity instanceof EizzyActivity) {

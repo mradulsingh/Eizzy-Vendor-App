@@ -60,6 +60,7 @@ public class OrderItemsFragment extends NavigationFragment {
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
                 .includeBottomNavBar(true)
+                .includeDrawerNav(true)
                 .toolbarTitleRes(R.string.screen_title_orders)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())

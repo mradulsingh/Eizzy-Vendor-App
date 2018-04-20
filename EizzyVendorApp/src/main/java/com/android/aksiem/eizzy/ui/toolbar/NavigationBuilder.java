@@ -31,6 +31,7 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
     View.OnClickListener toolbarNavClickListener = null;
     private NavigationDefaults navigationDefaults;
     boolean includeBottomNavBar;
+    boolean includeDrawerNav;
     boolean includeTopNavBar;
 
     List<Integer> menuRes = new ArrayList<>();
@@ -39,8 +40,9 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
     public NavigationBuilder(LayoutFactory layoutFactory, NavigationDefaults navigationDefaults) {
         this.layoutFactory = layoutFactory;
         this.navigationDefaults = navigationDefaults;
-        includeBottomNavBar = navigationDefaults.includeBottomNavBar;
-        includeTopNavBar = navigationDefaults.includeTopNavBar;
+        this.includeBottomNavBar = navigationDefaults.includeBottomNavBar;
+        this.includeDrawerNav = navigationDefaults.includeDrawerNav;
+        this.includeTopNavBar = navigationDefaults.includeTopNavBar;
     }
 
     protected abstract T getThis();
@@ -111,8 +113,19 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
         return includeBottomNavBar;
     }
 
+
     public T includeTopNavBar(boolean includeTopNavBar) {
         this.includeBottomNavBar = includeTopNavBar;
+        return getThis();
+    }
+
+    public boolean isIncludeDrawerNav() {
+        return includeDrawerNav;
+    }
+
+
+    public T includeDrawerNav(boolean includeDrawerNav) {
+        this.includeDrawerNav = includeDrawerNav;
         return getThis();
     }
 
