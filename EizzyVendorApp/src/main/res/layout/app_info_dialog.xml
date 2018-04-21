@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="dialogTitle"
+            type="String" />
+
+        <variable
+            name="infoMessage"
+            type="String" />
+
+        <variable
+            name="positiveBtnText"
+            type="String" />
+
+        <variable
+            name="negativeBtnText"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:padding="@dimen/atom_6">
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                style="@style/AppDialogTitleTextAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="@{dialogTitle}" />
+
+            <View
+                android:id="@+id/viewTitleUnderline"
+                android:layout_width="@dimen/atom_8"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/atom_2"
+                android:background="@color/sandstorm" />
+
+            <TextView
+                android:id="@+id/tvInfoMessage"
+                style="@style/AppDialogMessageTextAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/atom_8"
+                android:text="@{infoMessage}" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vg_action_button"
+            visibleGone="@{positiveBtnText != null || negativeBtnText != null}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/actionNegative"
+                style="@style/AppActionButton"
+                visibleGone="@{negativeBtnText != null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:text="@{negativeBtnText}" />
+
+            <Button
+                android:id="@+id/actionPositive"
+                style="@style/AppActionButton"
+                visibleGone="@{positiveBtnText != null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:text="@{positiveBtnText}" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

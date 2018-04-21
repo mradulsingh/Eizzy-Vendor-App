@@ -38,6 +38,8 @@
     <string name="edittext.hint.password">PASSWORD</string>
     <string name="button.action.login">LOG IN</string>
     <string name="text.msg.forgetpassword">DID YOU FORGET PASSWORD?</string>
+    <string name="edittext.error.login.invalid.password">Please enter correct password</string>
+    <string name="edittext.error.login.invalid.userid">Please enter valid username</string>
     <!-- Login -->
 
     <!-- Create Account -->
