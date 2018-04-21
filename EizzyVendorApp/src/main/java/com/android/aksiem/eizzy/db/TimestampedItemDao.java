@@ -11,7 +11,7 @@ import java.util.List;
  * Created by pdubey on 14/04/18.
  */
 
-public interface TimestampedItemsDao<T extends Timestamped> {
+public interface TimestampedItemDao<T extends Timestamped> {
 
     void insert(T... items);
     LiveData<List<T>> getAllItems();

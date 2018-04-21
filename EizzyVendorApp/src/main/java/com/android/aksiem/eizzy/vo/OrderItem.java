@@ -19,7 +19,7 @@ import java.util.List;
  * Created by pdubey on 09/04/18.
  */
 
-@Entity(primaryKeys = "orderId")
+@Entity(primaryKeys = "orderId", tableName = "order_item")
 public class OrderItem implements Serializable, Timestamped {
 
     @SerializedName("orderId")
@@ -55,7 +55,6 @@ public class OrderItem implements Serializable, Timestamped {
     private OrderState orderState;
 
     @SerializedName("orderTracking")
-    @NonNull
     private List<OrderStateTransition> orderTracking;
 
     @SerializedName("deliveryAssociate")
@@ -65,7 +64,7 @@ public class OrderItem implements Serializable, Timestamped {
     public OrderItem(@NonNull String orderId, @NonNull OrderDetails orderDetails,
                      @NonNull Actor customer, @NonNull Price price, @NonNull long timestamp,
                      @NonNull String stringTimestamp, @NonNull OrderType orderType,
-                     @NonNull OrderState currentOrderState) {
+                     @NonNull OrderState orderState) {
 
         this.orderId = orderId;
         this.orderDetails = orderDetails;
@@ -74,7 +73,7 @@ public class OrderItem implements Serializable, Timestamped {
         this.timestamp = timestamp;
         this.stringTimestamp = stringTimestamp;
         this.orderType = orderType;
-        this.orderState = currentOrderState;
+        this.orderState = orderState;
     }
 
     @NonNull

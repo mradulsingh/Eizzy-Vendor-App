@@ -19,13 +19,17 @@ package com.android.aksiem.eizzy.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 
-import com.android.aksiem.eizzy.vo.User;
+import com.android.aksiem.eizzy.vo.OrderItem;
 
 /**
  * Main database description.
  */
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {OrderItem.class}, version = 1)
+@TypeConverters({AppTypeConverters.class})
 public abstract class AppDb extends RoomDatabase {
+
+    public abstract OrderItemDao orderItemDao();
 
 }

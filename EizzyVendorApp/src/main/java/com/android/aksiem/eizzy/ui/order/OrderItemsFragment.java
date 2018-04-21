@@ -1,6 +1,8 @@
 package com.android.aksiem.eizzy.ui.order;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
@@ -22,8 +24,12 @@ import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
+import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -64,12 +70,14 @@ public class OrderItemsFragment extends NavigationFragment {
                 .toolbarTitleRes(R.string.screen_title_orders)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
-                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment), buildMenuActions());
+                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
+                        buildMenuActions());
     }
 
     private MenuActions buildMenuActions() {
         return new MenuActions.Builder()
-                .action(R.id.nav_checkout, new MenuToastAction(applicationContext, "Do Checkout"))
+                .action(R.id.nav_checkout, new MenuToastAction(applicationContext,
+                        "Do Checkout"))
                 .build();
     }
 
@@ -86,7 +94,8 @@ public class OrderItemsFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //      orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(OrderItemsViewModel.class);
+        orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+                OrderItemsViewModel.class);
 
         OrderItemsAdapter adapter = new OrderItemsAdapter(dataBindingComponent,
                 orderItem -> {
@@ -94,11 +103,13 @@ public class OrderItemsFragment extends NavigationFragment {
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         binding.get().orderList.setAdapter(adapter);
-        //initOrdersList(orderItemsViewModel);
+        initOrdersList(orderItemsViewModel);
     }
 
     private void initOrdersList(OrderItemsViewModel viewModel) {
-        viewModel.getOrderItems().observe(this, listResource -> {
+        LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> items = viewModel
+                .getOrderItems();
+        items.observe(this, listResource -> {
             if (listResource != null && listResource.data != null) {
                 adapter.get().replace(listResource.data);
             } else {

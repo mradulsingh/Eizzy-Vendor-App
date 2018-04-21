@@ -27,6 +27,11 @@ android {
         testInstrumentationRunner "com.android.aksiem.eizzy.util.TestRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     productFlavors {
         dev {

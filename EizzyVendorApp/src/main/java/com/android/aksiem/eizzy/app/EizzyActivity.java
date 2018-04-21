@@ -61,7 +61,8 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         setupBottomNavigation();
         setupNavDrawer();
         if (savedInstanceState == null) {
-            navigationController.navigateToVendorOnboardingFragment();
+            //navigationController.navigateToVendorOnboardingFragment();
+            navigationController.navigateToOrderItemsFragment();
         }
     }
 

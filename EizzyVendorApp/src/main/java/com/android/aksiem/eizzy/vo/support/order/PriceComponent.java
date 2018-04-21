@@ -2,6 +2,7 @@ package com.android.aksiem.eizzy.vo.support.order;
 
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.vo.support.Price;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -18,20 +19,14 @@ public class PriceComponent implements Serializable {
 
     @SerializedName("price")
     @NonNull
-    public final double amount;
+    public final Price price;
 
-    @SerializedName("currency")
-    @NonNull
-    public final String currency;
-
-    public PriceComponent(@NonNull String componentName, @NonNull double amount,
-                          @NonNull String currency) {
+    public PriceComponent(@NonNull String componentName, @NonNull Price price) {
         this.componentName = componentName;
-        this.amount = amount;
-        this.currency = currency;
+        this.price = price;
     }
 
     public String getAmount() {
-        return String.format("%s %.2f", currency, amount);
+        return price.toString();
     }
 }
