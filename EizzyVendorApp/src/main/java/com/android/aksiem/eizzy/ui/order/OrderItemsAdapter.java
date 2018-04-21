@@ -81,7 +81,7 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
         if (isItem(viewType)) {
             ((OrderItemBinding) binding).setOrderItem(item.item);
         } else {
-            ((TimestampTitleItemBinding) binding).setTimestamp(item.timestamp);
+            ((TimestampTitleItemBinding) binding).setTimestamp(Long.toString(item.timestamp));
         }
     }
 

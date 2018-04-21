@@ -21,6 +21,8 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.android.aksiem.eizzy.db.AppDb;
+import com.android.aksiem.eizzy.db.OrderItemDao;
+import com.android.aksiem.eizzy.util.Logger;
 
 import dagger.Module;
 import dagger.Provides;
@@ -29,18 +31,26 @@ import dagger.Provides;
         ViewModelModule.class,
         UtilsModule.class})
 class AppModule {
-    private static final String APP_DB_NAME = "app.db";
+    private static final String APP_DB_NAME = "eizzy_vendor_app.db";
 
     @AppScope
     @Provides
     AppDb provideDb(Application app) {
-        return Room.databaseBuilder(app, AppDb.class, APP_DB_NAME).build();
+        AppDb db = Room.databaseBuilder(app, AppDb.class, APP_DB_NAME).build();
+        Logger.tag("APPMODULE_APPDB::").d(app.getDatabasePath(APP_DB_NAME).getAbsolutePath());
+        return db;
     }
 
     @ApplicationContext
     @Provides
     Context provideAppContext(Application app) {
         return app.getApplicationContext();
+    }
+
+    @AppScope
+    @Provides
+    OrderItemDao provideOrderItemDao(AppDb db) {
+        return db.orderItemDao();
     }
 
 }

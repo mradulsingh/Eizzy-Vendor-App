@@ -15,17 +15,21 @@ import java.util.List;
  */
 
 @Dao
-public abstract class OrderItemsDao implements TimestampedItemsDao<OrderItem> {
+public abstract class OrderItemDao implements TimestampedItemDao<OrderItem> {
 
+    @Override
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(OrderItem... items);
 
+    @Override
     @Query("SELECT * FROM order_item")
     public abstract LiveData<List<OrderItem>> getAllItems();
 
+    @Override
     @Query("SELECT * FROM order_item WHERE timestamp >= :timestamp")
     public abstract LiveData<List<OrderItem>> getItemsFrom(Float timestamp);
 
+    @Override
     @Query("SELECT * FROM order_item WHERE timestamp >= :start AND timestamp <= :end")
     public abstract LiveData<List<OrderItem>> getItemsFromTo(Float start, Float end);
 

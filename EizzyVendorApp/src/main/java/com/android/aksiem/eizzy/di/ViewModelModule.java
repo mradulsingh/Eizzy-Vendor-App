@@ -8,6 +8,7 @@ import com.android.aksiem.eizzy.ui.login.CreateUserAccountViewModel;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordViewModel;
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPViewModel;
+import com.android.aksiem.eizzy.ui.order.OrderItemsViewModel;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
@@ -17,6 +18,12 @@ import dagger.multibindings.IntoMap;
 
 @Module
 abstract class ViewModelModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OrderItemsViewModel.class)
+    abstract ViewModel bindOrderItemsViewModel(OrderItemsViewModel orderItemsViewModel);
+
     @Binds
     @IntoMap
     @ViewModelKey(LoginViewModel.class)
