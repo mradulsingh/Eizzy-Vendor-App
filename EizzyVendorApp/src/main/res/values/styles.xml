@@ -91,6 +91,11 @@
         <item name="android:longClickable">false</item>
     </style>
 
+    <style name="ErrorMsgText" parent="FontMontserratRegular">
+        <item name="android:textColor">@color/colorEtErrorText</item>
+        <item name="android:textSize">@dimen/font_10</item>
+    </style>
+
     <style name="HintText">
         <item name="colorAccent">@color/colorEtHintText</item>
         <item name="colorControlNormal">@color/colorEtHintText</item>

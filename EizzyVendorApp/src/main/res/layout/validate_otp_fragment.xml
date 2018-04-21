@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/atom_10"
             android:theme="@style/HintText"
+            app:errorTextAppearance="@style/ErrorMsgText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">

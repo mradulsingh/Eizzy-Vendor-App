@@ -63,6 +63,16 @@
     <string name="button.action.validate.otp">VALIDATE</string>
     <!-- Validate OTP -->
 
+    <!-- Create Password -->
+    <string name="screen.title.create.password">Create Password</string>
+    <string name="screen.subtitle.create.password">Please confirm your new password to access Eizzy Account</string>
+    <string name="edittext.hint.create.password">PASSWORD</string>
+    <string name="edittext.hint.confirm.password">CONFIRM PASSWORD</string>
+    <string name="edittext.error.password.invalid">Enter valid password (atleast 6 characters)</string>
+    <string name="edittext.error.password.notconfirmed">The specified passwords do not match</string>
+    <string name="button.action.reset.password">RESET PASSWORD</string>
+    <!--  Create Password -->
+
     <!-- Orders -->
     <string name="screen.title.orders">Orders</string>
     <!-- Orders -->

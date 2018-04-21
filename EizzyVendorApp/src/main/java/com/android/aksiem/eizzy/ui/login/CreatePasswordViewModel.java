@@ -16,49 +16,39 @@
 
 package com.android.aksiem.eizzy.ui.login;
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule;
+import android.arch.lifecycle.ViewModel;
+import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.UserRepository;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import javax.inject.Inject;
 
-import static org.mockito.Mockito.mock;
+/**
+ * Created by napendersingh on 31/03/18.
+ */
 
-@SuppressWarnings("unchecked")
-@RunWith(JUnit4.class)
-public class LoginViewModelTest {
-    @Rule
-    public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
+public class CreatePasswordViewModel extends ViewModel {
 
-    private LoginViewModel loginViewModel;
+    private String mPassword;
+
     private UserRepository userRepository;
 
-    @Before
-    public void setup() {
-        userRepository = mock(UserRepository.class);
-        loginViewModel = new LoginViewModel(userRepository);
+    @Inject
+    public CreatePasswordViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    @Test
-    public void testNull() {
+    public void setPassword(String password) {
+        this.mPassword = password;
     }
 
-    @Test
-    public void userLogin() {
+    @VisibleForTesting
+    void resetPassword() {
+        userRepository.resetPassword(mPassword);
     }
 
-    @Test
+    @VisibleForTesting
     public void retry() {
-
+        resetPassword();
     }
-
-    @Test
-    public void nullUser() {
-
-    }
-
 }
