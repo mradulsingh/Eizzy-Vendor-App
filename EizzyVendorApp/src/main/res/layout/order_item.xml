@@ -75,7 +75,7 @@
                 android:textSize="@dimen/font_12"
                 tools:layout_editor_absoluteX="0dp" />
 
-            <com.android.aksiem.eizzy.view.AksiemTextView
+            <com.android.aksiem.eizzy.view.AppTextView
                 android:id="@+id/customerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:textSize="@dimen/font_14"
                 app:drawableLeftCompat="@drawable/ic_user" />
 
-            <com.android.aksiem.eizzy.view.AksiemTextView
+            <com.android.aksiem.eizzy.view.AppTextView
                 android:id="@+id/customerPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:textSize="@dimen/font_14"
                 app:drawableLeftCompat="@drawable/ic_phone" />
 
-            <com.android.aksiem.eizzy.view.AksiemTextView
+            <com.android.aksiem.eizzy.view.AppTextView
                 android:id="@+id/orderType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:textSize="@dimen/font_14"
                 app:drawableLeftCompat="@drawable/ic_order_type" />
 
-            <com.android.aksiem.eizzy.view.AksiemTextView
+            <com.android.aksiem.eizzy.view.AppTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

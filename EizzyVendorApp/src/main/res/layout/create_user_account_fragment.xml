@@ -30,18 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.TextInputLayout
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
             android:id="@+id/textInputLayoutBusinessName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/atom_10"
-            app:errorTextAppearance="@style/ErrorMsgText"
-            android:theme="@style/HintText"
+            style="@style/AppTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
+            <com.android.aksiem.eizzy.view.AppEditText
                 android:id="@+id/businessName"
                 style="@style/AppEditText"
                 android:layout_width="match_parent"
@@ -49,19 +47,17 @@
                 android:hint="@string/edittext.hint.business.name"
                 android:inputType="textNoSuggestions"
                 tools:text="@string/edittext.hint.business.name" />
-        </android.support.design.widget.TextInputLayout>
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
             android:id="@+id/textInputLayoutContactPerson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/atom_10"
-            android:theme="@style/HintText"
-            app:errorTextAppearance="@style/ErrorMsgText"
+            style="@style/AppTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBusinessName">
 
-            <EditText
+            <com.android.aksiem.eizzy.view.AppEditText
                 android:id="@+id/contactPerson"
                 style="@style/AppEditText"
                 android:layout_width="match_parent"
@@ -69,19 +65,17 @@
                 android:hint="@string/edittext.hint.business.contact.name"
                 android:inputType="textNoSuggestions"
                 tools:text="@string/edittext.hint.business.contact.name" />
-        </android.support.design.widget.TextInputLayout>
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
             android:id="@+id/textInputLayoutContactMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/atom_10"
-            android:theme="@style/HintText"
-            app:errorTextAppearance="@style/ErrorMsgText"
+            style="@style/AppTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContactPerson">
 
-            <EditText
+            <com.android.aksiem.eizzy.view.AppEditText
                 android:id="@+id/contactMobile"
                 style="@style/AppEditText"
                 android:layout_width="match_parent"
@@ -89,19 +83,17 @@
                 android:hint="@string/edittext.hint.business.contact.mobile"
                 android:inputType="textNoSuggestions"
                 tools:text="@string/edittext.hint.business.contact.mobile" />
-        </android.support.design.widget.TextInputLayout>
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
             android:id="@+id/textInputLayoutContactEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/atom_10"
-            android:theme="@style/HintText"
-            app:errorTextAppearance="@style/ErrorMsgText"
+            style="@style/AppTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContactMobile">
 
-            <EditText
+            <com.android.aksiem.eizzy.view.AppEditText
                 android:id="@+id/contactEmail"
                 style="@style/AppEditText"
                 android:layout_width="match_parent"
@@ -110,7 +102,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="textNoSuggestions"
                 tools:text="@string/edittext.hint.business.contact.email" />
-        </android.support.design.widget.TextInputLayout>
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
 
         <Button

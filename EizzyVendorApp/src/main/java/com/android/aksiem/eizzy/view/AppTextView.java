@@ -2,10 +2,6 @@ package com.android.aksiem.eizzy.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.content.res.AppCompatResources;
@@ -18,18 +14,18 @@ import com.android.aksiem.eizzy.R;
  * Created by pdubey on 10/04/18.
  */
 
-public class AksiemTextView extends AppCompatTextView {
+public class AppTextView extends AppCompatTextView {
 
-    public AksiemTextView(Context context) {
+    public AppTextView(Context context) {
         super(context);
     }
 
-    public AksiemTextView(Context context, AttributeSet attrs) {
+    public AppTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(context, attrs);
     }
 
-    public AksiemTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AppTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs);
     }
@@ -39,7 +35,7 @@ public class AksiemTextView extends AppCompatTextView {
         if (attrs != null) {
             TypedArray attributeArray = context.obtainStyledAttributes(
                     attrs,
-                    R.styleable.AksiemTextView);
+                    R.styleable.AppTextView);
 
             Drawable drawableLeft = null;
             Drawable drawableRight = null;
@@ -49,24 +45,24 @@ public class AksiemTextView extends AppCompatTextView {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 drawableLeft = attributeArray.getDrawable(
-                        R.styleable.AksiemTextView_drawableLeftCompat);
+                        R.styleable.AppTextView_drawableLeftCompat);
                 drawableRight = attributeArray.getDrawable(
-                        R.styleable.AksiemTextView_drawableRightCompat);
+                        R.styleable.AppTextView_drawableRightCompat);
                 drawableBottom = attributeArray.getDrawable(
-                        R.styleable.AksiemTextView_drawableBottomCompat);
+                        R.styleable.AppTextView_drawableBottomCompat);
                 drawableTop = attributeArray.getDrawable(
-                        R.styleable.AksiemTextView_drawableTopCompat);
+                        R.styleable.AppTextView_drawableTopCompat);
 
             } else {
 
                 final int drawableLeftId = attributeArray.getResourceId(
-                        R.styleable.AksiemTextView_drawableLeftCompat, -1);
+                        R.styleable.AppTextView_drawableLeftCompat, -1);
                 final int drawableRightId = attributeArray.getResourceId(
-                        R.styleable.AksiemTextView_drawableRightCompat, -1);
+                        R.styleable.AppTextView_drawableRightCompat, -1);
                 final int drawableBottomId = attributeArray.getResourceId(
-                        R.styleable.AksiemTextView_drawableBottomCompat, -1);
+                        R.styleable.AppTextView_drawableBottomCompat, -1);
                 final int drawableTopId = attributeArray.getResourceId(
-                        R.styleable.AksiemTextView_drawableTopCompat, -1);
+                        R.styleable.AppTextView_drawableTopCompat, -1);
 
                 if (drawableLeftId != -1)
                     drawableLeft = AppCompatResources.getDrawable(context, drawableLeftId);
