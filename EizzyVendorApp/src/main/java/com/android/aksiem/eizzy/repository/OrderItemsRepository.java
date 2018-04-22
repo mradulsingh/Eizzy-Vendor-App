@@ -12,7 +12,6 @@ import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderItemDao;
 import com.android.aksiem.eizzy.di.AppScope;
-import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.util.RateLimiter;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.Resource;
@@ -76,7 +75,6 @@ public class OrderItemsRepository {
             @Override
             protected void saveCallResult(@NonNull List<OrderItem> items) {
                 orderItemDao.insertOrderItems(items);
-                Logger.tag("napender").e("saveCallResult " + orderItemDao.getOrderItemCount());
             }
 
             @Override
@@ -87,9 +85,7 @@ public class OrderItemsRepository {
             @NonNull
             @Override
             protected LiveData<List<OrderItem>> loadFromDb() {
-                LiveData<List<OrderItem>> orderItemsLD = orderItemDao.getAllItems();
-                Logger.tag("napender").e("loadFromDb :: " + orderItemsLD.getValue());
-                return orderItemsLD;
+                return orderItemDao.getAllItems();
             }
 
             @NonNull
