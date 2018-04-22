@@ -1,21 +1,23 @@
-package com.android.aksiem.eizzy.repository;
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+package com.android.aksiem.eizzy.util;
 
-import com.android.aksiem.eizzy.api.ApiResponse;
-import com.android.aksiem.eizzy.api.AppService;
-import com.android.aksiem.eizzy.app.AppExecutors;
-import com.android.aksiem.eizzy.app.AppResourceManager;
-import com.android.aksiem.eizzy.db.AppDb;
-import com.android.aksiem.eizzy.db.OrderItemDao;
-import com.android.aksiem.eizzy.di.AppScope;
-import com.android.aksiem.eizzy.util.Logger;
-import com.android.aksiem.eizzy.util.RateLimiter;
 import com.android.aksiem.eizzy.vo.OrderItem;
-import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
 import com.android.aksiem.eizzy.vo.support.Price;
@@ -30,94 +32,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
+public class OrderItemsUtil {
 
-import retrofit2.Response;
-
-/**
- * Created by pdubey on 14/04/18.
- */
-
-@AppScope
-public class OrderItemsRepository {
-
-    protected final AppDb appDb;
-
-    protected final OrderItemDao orderItemDao;
-
-    protected final AppService appService;
-
-    protected final AppExecutors appExecutors;
-
-    protected final AppResourceManager appResourceManager;
-
-    protected RateLimiter<String> orderItemsRateLimiter = new RateLimiter<>(120,
-            TimeUnit.SECONDS);
-
-    @Inject
-    public OrderItemsRepository(AppDb appDb, OrderItemDao orderItemDao,
-                                AppService appService, AppExecutors appExecutors,
-                                AppResourceManager appResourceManager) {
-
-        this.appDb = appDb;
-        this.orderItemDao = orderItemDao;
-        this.appService = appService;
-        this.appExecutors = appExecutors;
-        this.appResourceManager = appResourceManager;
-
-    }
-
-    public LiveData<Resource<List<OrderItem>>> loadItems() {
-        return new DbNetworkBoundResource<List<OrderItem>,
-                List<OrderItem>>(appExecutors) {
-
-            @Override
-            protected void saveCallResult(@NonNull List<OrderItem> items) {
-                orderItemDao.insertOrderItems(items);
-                Logger.tag("napender").e("saveCallResult " + orderItemDao.getOrderItemCount());
-            }
-
-            @Override
-            protected boolean shouldFetch(@Nullable List<OrderItem> data) {
-                return data == null || data.isEmpty();
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<List<OrderItem>> loadFromDb() {
-                LiveData<List<OrderItem>> orderItemsLD = orderItemDao.getAllItems();
-                Logger.tag("napender").e("loadFromDb :: " + orderItemsLD.getValue());
-                return orderItemsLD;
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<List<OrderItem>>> createCall() {
-                // TODO integrate with backend API
-                Response<List<OrderItem>> response =
-                        Response.success(mockData(30));
-                ApiResponse<List<OrderItem>> apiItems =
-                        new ApiResponse<>(response);
-                MutableLiveData<ApiResponse<List<OrderItem>>> mld =
-                        new MutableLiveData<>();
-                mld.setValue(apiItems);
-                return mld;
-            }
-        }.asLiveData();
-    }
-
-    private List<OrderItem> mockData(int pageSize) {
+    public static List<OrderItem> createOrderItem(int pageSize) {
         List<OrderItem> items = new ArrayList<>();
         for (int i = 0; i < pageSize; i++) {
-            items.add(generateSingleRandomOrder());
+            items.add(generateSingleRandomOrder().item);
         }
         return items;
     }
 
-    private OrderItem generateSingleRandomOrder() {
-
+    private static TimestampedItemWrapper<OrderItem> generateSingleRandomOrder() {
         Random random = new Random();
         String orderId = generateOrderItemId(16);
         Actor customer = generateActor(ActorRole.CUSTOMER);
@@ -131,17 +57,17 @@ public class OrderItemsRepository {
         OrderState orderState = OrderState.values()[random.nextInt(size)];
         OrderItem orderItem = new OrderItem(orderId, details, customer, price, timestamp,
                 stringTimestamp, orderType, orderState);
-        return orderItem;
+        return new TimestampedItemWrapper<>(null, orderItem);
     }
 
-    private Actor generateActor(ActorRole role) {
+    private static Actor generateActor(ActorRole role) {
         Random random = new Random();
         List<String> actorNames = getActorNames();
         return new Actor(random.nextInt(), actorNames.get(random.nextInt(actorNames.size())),
                 generatePhoneNumber(), role);
     }
 
-    private OrderDetails generateSingleOrderItemDetails() {
+    private static OrderDetails generateSingleOrderItemDetails() {
         List<OrderedItem> orderedItems = generateListOfOrderedItems();
         List<PriceComponent> priceComponents = generateAdditionalPriceComponents(orderedItems);
         PriceComponent total = generateTotal(orderedItems, priceComponents);
@@ -150,7 +76,7 @@ public class OrderItemsRepository {
         return orderDetails;
     }
 
-    private List<OrderedItem> generateListOfOrderedItems() {
+    private static List<OrderedItem> generateListOfOrderedItems() {
         List<OrderedItem> toReturn = new ArrayList<>();
         List<String> orderableItems = getOrderableItems();
         Random random = new Random();
@@ -167,7 +93,7 @@ public class OrderItemsRepository {
         return toReturn;
     }
 
-    private List<PriceComponent> generateAdditionalPriceComponents(List<OrderedItem> items) {
+    private static List<PriceComponent> generateAdditionalPriceComponents(List<OrderedItem> items) {
         float rawTotal = getOrderedItemsTotal(items);
         PriceComponent cgst = new PriceComponent("cgst @2.5%",
                 new Price(rawTotal * 1.025f, "Rs."));
@@ -185,7 +111,7 @@ public class OrderItemsRepository {
         return additionalCharges;
     }
 
-    private float getOrderedItemsTotal(List<OrderedItem> items) {
+    private static float getOrderedItemsTotal(List<OrderedItem> items) {
         float total = 0.0f;
         for (OrderedItem item : items) {
             total += item.totalPrice;
@@ -193,8 +119,8 @@ public class OrderItemsRepository {
         return total;
     }
 
-    private PriceComponent generateTotal(List<OrderedItem> items,
-                                         List<PriceComponent> additionalCharges) {
+    private static PriceComponent generateTotal(List<OrderedItem> items,
+                                                List<PriceComponent> additionalCharges) {
         String componentName = "Total";
         String currency = "Rs.";
         float total = getOrderedItemsTotal(items);
@@ -204,7 +130,7 @@ public class OrderItemsRepository {
         return new PriceComponent(componentName, new Price(total, currency));
     }
 
-    private String generatePhoneNumber() {
+    private static String generatePhoneNumber() {
         String validChars = "0123456789";
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder(10);
@@ -218,7 +144,7 @@ public class OrderItemsRepository {
         return stringBuilder.toString();
     }
 
-    private String generateOrderItemId(int length) {
+    private static String generateOrderItemId(int length) {
         String validChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$_-&";
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder(length);
@@ -228,7 +154,7 @@ public class OrderItemsRepository {
         return stringBuilder.toString();
     }
 
-    private List<String> getOrderableItems() {
+    private static List<String> getOrderableItems() {
         List<String> orderableItems = new ArrayList<>();
         orderableItems.add("Chicken Malai Tikka");
         orderableItems.add("Tandoori Chicken");
@@ -267,7 +193,7 @@ public class OrderItemsRepository {
         return orderableItems;
     }
 
-    private List<String> getActorNames() {
+    private static List<String> getActorNames() {
         List<String> names = new ArrayList<>();
         names.add("Sandeep");
         names.add("Napender");
@@ -277,5 +203,6 @@ public class OrderItemsRepository {
         names.add("Harish");
         return names;
     }
+
 
 }

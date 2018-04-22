@@ -1,6 +1,5 @@
 package com.android.aksiem.eizzy.ui.order;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -24,12 +23,8 @@ import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
-import com.android.aksiem.eizzy.vo.OrderItem;
-import com.android.aksiem.eizzy.vo.Resource;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
 import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -96,20 +91,17 @@ public class OrderItemsFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 OrderItemsViewModel.class);
-
+        initOrdersList();
         OrderItemsAdapter adapter = new OrderItemsAdapter(dataBindingComponent,
                 orderItem -> {
                     //TODO
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         binding.get().orderList.setAdapter(adapter);
-        initOrdersList(orderItemsViewModel);
     }
 
-    private void initOrdersList(OrderItemsViewModel viewModel) {
-        LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> items = viewModel
-                .getOrderItems();
-        items.observe(this, listResource -> {
+    private void initOrdersList() {
+        orderItemsViewModel.getOrderItems().observe(this, listResource -> {
             if (listResource != null && listResource.data != null) {
                 adapter.get().replace(listResource.data);
             } else {

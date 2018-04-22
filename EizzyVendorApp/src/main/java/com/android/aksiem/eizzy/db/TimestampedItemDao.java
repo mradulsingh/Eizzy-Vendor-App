@@ -14,8 +14,15 @@ import java.util.List;
 public interface TimestampedItemDao<T extends Timestamped> {
 
     void insert(T... items);
+
+    int getOrderItemCount();
+
+    List<OrderItem> getOrderItems();
+
     LiveData<List<T>> getAllItems();
+
     LiveData<List<T>> getItemsFrom(Float timestamp);
+
     LiveData<List<OrderItem>> getItemsFromTo(Float start, Float end);
 
 }

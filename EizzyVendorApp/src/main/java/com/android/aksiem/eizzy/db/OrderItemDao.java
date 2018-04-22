@@ -21,9 +21,20 @@ public abstract class OrderItemDao implements TimestampedItemDao<OrderItem> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(OrderItem... items);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertOrderItems(List<OrderItem> OrderItems);
+
+    @Override
+    @Query("SELECT * FROM order_item")
+    public abstract List<OrderItem> getOrderItems();
+
     @Override
     @Query("SELECT * FROM order_item")
     public abstract LiveData<List<OrderItem>> getAllItems();
+
+    @Override
+    @Query("SELECT COUNT(*) FROM order_item")
+    public abstract int getOrderItemCount();
 
     @Override
     @Query("SELECT * FROM order_item WHERE timestamp >= :timestamp")

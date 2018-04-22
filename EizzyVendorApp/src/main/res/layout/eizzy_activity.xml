@@ -41,6 +41,8 @@
                 android:layout_height="@dimen/bottom_nav_height"
                 android:layout_gravity="bottom"
                 android:background="@color/white"
+                app:itemTextColor="@xml/bottom_nav_item_selector"
+                app:itemIconTint="@xml/bottom_nav_item_selector"
                 android:elevation="@dimen/atom_2"
                 app:menu="@menu/bottom_navigation" />
         </FrameLayout>
