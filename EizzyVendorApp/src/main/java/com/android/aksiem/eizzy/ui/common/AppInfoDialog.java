@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.view;
+package com.android.aksiem.eizzy.ui.common;
 
 import android.app.Dialog;
 import android.content.Context;
