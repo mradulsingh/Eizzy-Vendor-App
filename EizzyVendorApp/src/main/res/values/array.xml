@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="orders_sort_items">
+        <item>Relevance</item>
+        <item>Delivered</item>
+        <item>Disputed</item>
+        <item>Undelivered</item>
+    </string-array>
+
+    <string-array name="orders_filter_items">
+        <item>Today</item>
+        <item>Current Month</item>
+        <item>Last Month</item>
+        <item>This Year</item>
+    </string-array>
+</resources>

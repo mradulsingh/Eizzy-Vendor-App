@@ -16,6 +16,7 @@
 
 package com.android.aksiem.eizzy.di;
 
+import com.android.aksiem.eizzy.ui.common.SortFilterDialogFragment;
 import com.android.aksiem.eizzy.ui.login.CreatePasswordFragment;
 import com.android.aksiem.eizzy.ui.login.CreateUserAccountFragment;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
@@ -50,5 +51,8 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract OrderItemsFragment contributeOrderItemsFragment();
+
+    @ContributesAndroidInjector
+    abstract SortFilterDialogFragment contributeSortFilterDialogFragment();
 
 }

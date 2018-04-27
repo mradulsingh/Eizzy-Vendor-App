@@ -104,4 +104,9 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
+    public void openOrderSortFilterDialogFragment() {
+        SortFilterDialogFragment fragment = new SortFilterDialogFragment();
+        fragment.show(fragmentManager, "OrderSortFilterDialog");
+    }
+
 }

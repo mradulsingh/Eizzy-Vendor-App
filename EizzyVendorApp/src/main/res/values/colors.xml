@@ -31,6 +31,7 @@
     <color name="red">#f80002</color>
     <color name="fireEngineRed">#d92727</color>
     <color name="skobeloff">#19647e</color>
+    <color name="jungleGreen">#2c3135</color>
 
 
     <color name="colorPrimary">@color/white</color>
@@ -50,6 +51,7 @@
     <color name="colorTextActionButton">@color/white</color>
     <color name="colorTextMessagePrimary">@color/skobeloff</color>
     <color name="colorEtErrorText">@color/fireEngineRed</color>
+    <color name="colorSortItemText">@color/jungleGreen</color>
 
     <!-- delivery states -->
     <color name="orderUndelivered">@color/red</color>

@@ -25,6 +25,11 @@
     <string name="screen.title.onboarding">@string/app.name</string>
     <string name="screen.subtitle.onboarding">Eizzy Delivery is Uber for Courier services. We deliver products all around Metro cities.</string>
 
+    <string name="title.dialog.sortnfilter">Sort &amp; Filter</string>
+    <string name="title.sortby">Sort by</string>
+    <string name="title.filterby">Filter by</string>
+    <string name="button.action.apply">APPLY</string>
+
     <!-- Nav Drawer -->
     <string name="nav.item.termsconditon">TERMS &amp; CONDITIONS</string>
     <string name="nav.item.support">SUPPORT</string>

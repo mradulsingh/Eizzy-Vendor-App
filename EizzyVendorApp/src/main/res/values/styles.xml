@@ -149,6 +149,18 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="title.section" parent="FontMontserratBold">
+        <item name="android:textSize">@dimen/font_16</item>
+        <item name="android:textColor">@color/colorScreenTitle</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="item.sort" parent="FontMontserratRegular">
+        <item name="android:textSize">@dimen/font_12</item>
+        <item name="android:textColor">@color/colorSortItemText</item>
+        <item name="android:layout_margin">@dimen/atom_2</item>
+    </style>
+
     <style name="RoundedView">
         <item name="bgRoundedViewRadius">@dimen/primary_btn_radius</item>
     </style>

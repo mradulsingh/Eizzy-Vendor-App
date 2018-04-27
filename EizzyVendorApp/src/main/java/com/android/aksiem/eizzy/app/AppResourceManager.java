@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
@@ -30,6 +31,11 @@ public class AppResourceManager implements ResourceManager {
     @Override
     public String getString(@StringRes final int resourceId) {
         return mContext.getString(resourceId);
+    }
+
+    @Override
+    public String[] getStringArray(@ArrayRes final int resourceId) {
+        return mContext.getResources().getStringArray(resourceId);
     }
 
     @Override
