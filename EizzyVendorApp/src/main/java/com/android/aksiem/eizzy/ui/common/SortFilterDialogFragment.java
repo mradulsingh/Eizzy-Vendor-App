@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
@@ -49,6 +50,7 @@ public class SortFilterDialogFragment extends BaseSortFilterDialogFragment {
             RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.sort_item_radio_button, null);
             radioButton.setText(sortItem.getItem());
             radioButton.setSelected(sortItem.isSelected());
+            radioButton.setLayoutParams(new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, 1f));
             binding.get().sortItemsRadioGroup.addView(radioButton);
         }
 
