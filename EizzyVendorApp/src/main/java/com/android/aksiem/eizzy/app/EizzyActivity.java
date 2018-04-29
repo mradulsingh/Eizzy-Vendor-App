@@ -62,7 +62,8 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         setupBottomNavigation();
         setupNavDrawer();
         if (savedInstanceState == null) {
-            navigationController.navigateToVendorOnboardingFragment();
+            //navigationController.navigateToVendorOnboardingFragment();
+            navigationController.navigateToOrderItemsFragment();
         }
     }
 
@@ -171,9 +172,11 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
             switch (item.getItemId()) {
                 case R.id.nav_orders:
                     // TODO: Navigate to orders fragment
+                    navigationController.navigateToOrderItemsFragment();
                     return true;
                 case R.id.nav_settlements:
                     // TODO: Navigate to settlements fragment
+                    navigationController.navigateToSettlementFragment();
                     return true;
             }
             return false;

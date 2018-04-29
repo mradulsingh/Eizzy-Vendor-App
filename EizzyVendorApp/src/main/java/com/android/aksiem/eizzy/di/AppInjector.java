@@ -43,8 +43,8 @@ public class AppInjector {
                 .networkModule(new NetworkModule(AppGlobal.APP_ENV.getBaseURL()))
                 .build().inject(app);
 
-        app
-                .registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+
+        app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                     @Override
                     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                         handleActivity(activity);

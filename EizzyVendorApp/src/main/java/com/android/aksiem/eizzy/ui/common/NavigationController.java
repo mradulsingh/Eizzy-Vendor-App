@@ -26,6 +26,7 @@ import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
+import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
 
 import javax.inject.Inject;
@@ -47,6 +48,15 @@ public class NavigationController {
     public void navigateToOrderItemsFragment() {
         OrderItemsFragment fragment = OrderItemsFragment.create();
         String tag = OrderItemsFragment.class.getSimpleName();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToSettlementFragment() {
+        SettlementFragment fragment = SettlementFragment.create();
+        String tag = SettlementFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)
@@ -108,5 +118,6 @@ public class NavigationController {
         SortFilterDialogFragment fragment = new SortFilterDialogFragment();
         fragment.show(fragmentManager, "OrderSortFilterDialog");
     }
+
 
 }

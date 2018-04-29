@@ -65,6 +65,9 @@ public class VendorOnboardingFragment extends NavigationFragment {
                 .get(VendorOnboardingViewModel.class);
         vendorOnboardingViewModel.getVendorOnboarding().observe(this, vendorOnboardingResource -> {
             binding.get().setVendorOnboarding(vendorOnboardingResource == null ? null : vendorOnboardingResource.data);
+            binding.get().primaryAction.setOnClickListener(v -> {
+                //TODO
+            });
             binding.get().existingAccountAction.setOnClickListener(v -> {
                 navigationController.navigateToLogin();
             });

@@ -21,12 +21,9 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
-
 import com.android.aksiem.eizzy.di.AppInjector;
 import com.android.aksiem.eizzy.util.Logger;
-
 import javax.inject.Inject;
-
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
