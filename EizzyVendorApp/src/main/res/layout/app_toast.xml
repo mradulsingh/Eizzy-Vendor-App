@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.android.aksiem.eizzy.ui.toast.ToastViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/toast_layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_round_corners_toast"
+        android:backgroundTint="@{viewModel.bgToast}"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/atom_4">
+
+        <ImageView
+            android:id="@+id/tvIcon"
+            imageRes="@{viewModel.icResId}"
+            visibleGone="@{viewModel.icResId > 0}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/atom_3" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            style="@style/FontMontserratRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.message}"
+            android:textColor="@{viewModel.textColor}"
+            android:textSize="@{viewModel.textSize}" />
+
+    </LinearLayout>
+</layout>

@@ -8,8 +8,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +17,8 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.SettlementDurationFragmentBinding;
-import com.android.aksiem.eizzy.databinding.SettlementFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
-import com.android.aksiem.eizzy.ui.order.OrderItemsViewModel;
 import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
@@ -111,7 +107,7 @@ public class SettlementDurationFragment extends NavigationFragment {
     private void initSettlementItemList() {
         settlementViewModel.getOrderItems().observe(this, listResource -> {
             if (listResource != null && listResource.data != null) {
-                adapter.get().replace(listResource.data);
+                //adapter.get().replace(listResource.data);
             } else {
                 adapter.get().replace(Collections.emptyList());
             }

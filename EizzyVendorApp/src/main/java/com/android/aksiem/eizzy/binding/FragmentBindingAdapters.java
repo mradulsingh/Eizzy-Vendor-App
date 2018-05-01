@@ -45,6 +45,11 @@ public class FragmentBindingAdapters {
         Glide.with(fragment).load(url).into(imageView);
     }
 
+    @BindingAdapter("imageRes")
+    public static void setImageResource(ImageView imageView, int resource) {
+        imageView.setImageResource(resource);
+    }
+
     @BindingAdapter("etHintFont")
     public void bindEtHintFont(EditText editText, int fontType) {
         Context context = editText.getContext();

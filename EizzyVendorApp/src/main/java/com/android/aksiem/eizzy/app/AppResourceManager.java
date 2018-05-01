@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -54,6 +55,11 @@ public class AppResourceManager implements ResourceManager {
         } else {
             return mContext.getResources().getDrawable(resourceId);
         }
+    }
+
+    @Override
+    public float getDimension(@DimenRes int resourceId) {
+        return mContext.getResources().getDimension(resourceId);
     }
 
     @Override

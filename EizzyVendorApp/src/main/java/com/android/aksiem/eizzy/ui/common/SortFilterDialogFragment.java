@@ -33,6 +33,8 @@ public class SortFilterDialogFragment extends BaseSortFilterDialogFragment {
                 R.layout.sort_filter_dialog_fragment, null, false);
         binding = new AutoClearedValue<>(this, dataBinding);
         final Dialog dialog = createDialog(binding.get().getRoot());
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
         return dialog;
     }
