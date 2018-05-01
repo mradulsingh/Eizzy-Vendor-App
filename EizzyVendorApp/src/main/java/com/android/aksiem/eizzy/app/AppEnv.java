@@ -14,6 +14,11 @@ public enum AppEnv {
         }
 
         @Override
+        public String getMqttServerUri() {
+            return "tcp://iot.eclipse.org:1883";
+        }
+
+        @Override
         public int getLogLevel() {
             return Logger.VERB;
         }
@@ -32,6 +37,11 @@ public enum AppEnv {
         }
 
         @Override
+        public String getMqttServerUri() {
+            return "";
+        }
+
+        @Override
         public int getLogLevel() {
             return Logger.NONE;
         }
@@ -44,6 +54,8 @@ public enum AppEnv {
     };
 
     public abstract String getBaseURL();
+
+    public abstract String getMqttServerUri();
 
     public abstract int getLogLevel();
 

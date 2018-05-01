@@ -50,6 +50,8 @@ versions.kotlin = "1.2.20"
 versions.paging = "1.0.0-alpha7"
 versions.secure_pref="0.1.4"
 versions.calligraphy="2.3.0"
+versions.eclipse_paho_mqttv3="1.1.0"
+versions.eclipse_paho_android_service="1.1.1"
 def deps = [:]
 
 def support = [:]
@@ -137,6 +139,11 @@ libs.secure_pref = "com.scottyab:secure-preferences-lib:$versions.secure_pref"
 libs.calligraphy = "uk.co.chrisjenx:calligraphy:$versions.calligraphy"
 deps.libs = libs
 
+def eclipse_paho = [:]
+eclipse_paho.mqtt_client = "org.eclipse.paho:org.eclipse.paho.client.mqttv3:$versions.eclipse_paho_mqttv3"
+eclipse_paho.android_service = "org.eclipse.paho:org.eclipse.paho.android.service:$versions.eclipse_paho_android_service"
+deps.eclipse_paho = eclipse_paho
+
 def build_versions = [:]
 build_versions.min_sdk = 16
 build_versions.target_sdk = 26
@@ -151,5 +158,6 @@ def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    handler.maven { url 'https://repo.eclipse.org/content/repositories/paho-snapshots/' }
 }
 ext.addRepos = this.&addRepos

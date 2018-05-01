@@ -41,45 +41,46 @@ public class AppInjector {
         DaggerAppComponent.builder()
                 .application(app)
                 .networkModule(new NetworkModule(AppGlobal.APP_ENV.getBaseURL()))
+                .mqttClientModule(new MqttClientModule(AppGlobal.APP_ENV.getMqttServerUri(), ""))
                 .build().inject(app);
 
 
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-                    @Override
-                    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                        handleActivity(activity);
-                    }
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                handleActivity(activity);
+            }
 
-                    @Override
-                    public void onActivityStarted(Activity activity) {
+            @Override
+            public void onActivityStarted(Activity activity) {
 
-                    }
+            }
 
-                    @Override
-                    public void onActivityResumed(Activity activity) {
+            @Override
+            public void onActivityResumed(Activity activity) {
 
-                    }
+            }
 
-                    @Override
-                    public void onActivityPaused(Activity activity) {
+            @Override
+            public void onActivityPaused(Activity activity) {
 
-                    }
+            }
 
-                    @Override
-                    public void onActivityStopped(Activity activity) {
+            @Override
+            public void onActivityStopped(Activity activity) {
 
-                    }
+            }
 
-                    @Override
-                    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
 
-                    }
+            }
 
-                    @Override
-                    public void onActivityDestroyed(Activity activity) {
+            @Override
+            public void onActivityDestroyed(Activity activity) {
 
-                    }
-                });
+            }
+        });
     }
 
     private static void handleActivity(Activity activity) {

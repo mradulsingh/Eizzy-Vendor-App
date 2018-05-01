@@ -29,14 +29,19 @@ import dagger.android.AndroidInjectionModule;
         AndroidInjectionModule.class,
         AppModule.class,
         NetworkModule.class,
+        MqttClientModule.class,
         EizzyActivityModule.class
 })
 public interface AppComponent {
     @Component.Builder
     interface Builder {
-        @BindsInstance Builder application(Application application);
+        @BindsInstance
+        Builder application(Application application);
 
         Builder networkModule(NetworkModule networkModule);
+
+        Builder mqttClientModule(MqttClientModule mqttClientModule);
+
         AppComponent build();
     }
 
