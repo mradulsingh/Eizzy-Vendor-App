@@ -35,6 +35,7 @@ public class MqttClientService {
                 } else {
                     Logger.d("Connected to: " + serverURI);
                 }
+                subscribeToChannel("testChannel");
             }
 
             @Override
@@ -104,8 +105,7 @@ public class MqttClientService {
                 }
             });
         } catch (MqttException ex) {
-            System.err.println("Exception whilst subscribing");
-            ex.printStackTrace();
+            Logger.e(ex, "Exception whilst subscribing");
         }
     }
 

@@ -15,7 +15,7 @@ public enum AppEnv {
 
         @Override
         public String getMqttServerUri() {
-            return "tcp://iot.eclipse.org:1883";
+            return "tcp://192.168.0.4:1883";
         }
 
         @Override

@@ -41,7 +41,7 @@ public class AppInjector {
         DaggerAppComponent.builder()
                 .application(app)
                 .networkModule(new NetworkModule(AppGlobal.APP_ENV.getBaseURL()))
-                .mqttClientModule(new MqttClientModule(AppGlobal.APP_ENV.getMqttServerUri(), ""))
+                .mqttClientModule(new MqttClientModule(AppGlobal.APP_ENV.getMqttServerUri(), "ClientId1"))
                 .build().inject(app);
 
 

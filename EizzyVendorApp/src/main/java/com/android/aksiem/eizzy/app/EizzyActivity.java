@@ -40,6 +40,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.api.MqttClientService;
 import com.android.aksiem.eizzy.databinding.EizzyActivityBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 
@@ -54,6 +55,9 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
 
     private EizzyActivityBinding binding;
 
+    @Inject
+    MqttClientService mqttClientService;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,10 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         setContentView(binding.getRoot());
         setupBottomNavigation();
         setupNavDrawer();
+
+        //init mqttClientService
+        mqttClientService.initService();
+
         if (savedInstanceState == null) {
             //navigationController.navigateToVendorOnboardingFragment();
             navigationController.navigateToOrderItemsFragment();

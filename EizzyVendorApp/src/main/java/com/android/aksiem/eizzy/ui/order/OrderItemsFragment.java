@@ -18,9 +18,10 @@ import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.OrderItemsFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
-import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
+import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
+import com.android.aksiem.eizzy.ui.toolbar.menu.MenuAction;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
@@ -43,6 +44,9 @@ public class OrderItemsFragment extends NavigationFragment {
 
     @Inject
     NavigationController navigationController;
+
+    @Inject
+    ToastController toastController;
 
     DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     AutoClearedValue<OrderItemsFragmentBinding> binding;
@@ -71,8 +75,13 @@ public class OrderItemsFragment extends NavigationFragment {
 
     private MenuActions buildMenuActions() {
         return new MenuActions.Builder()
-                .action(R.id.nav_checkout, new MenuToastAction(applicationContext,
-                        "Do Checkout"))
+                .action(R.id.nav_checkout, new MenuAction() {
+                    @Override
+                    public void execute() {
+                        toastController.showSuccessToast("test message");
+                        //navigationController.openOrderSortFilterDialogFragment();
+                    }
+                })
                 .build();
     }
 
