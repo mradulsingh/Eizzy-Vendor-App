@@ -68,7 +68,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
                 .toolbarSubtitleRes(R.string.screen_subtitle_create_account)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
-                .setBotootmActionTitleRes(R.string.button_action_create_account)
+                .setBottomActionTitleRes(R.string.button_action_create_account)
                 .setBottomActionClickHandler(v -> onBottomActionClicked(v));
     }
 

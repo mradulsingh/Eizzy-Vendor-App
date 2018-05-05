@@ -7,7 +7,10 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -138,6 +141,55 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
             return ContextCompat.getColor(context, resourceId);
         } else {
             return context.getResources().getColor(resourceId);
+        }
+    }
+
+    protected String getToolbarTitle(Context context) {
+        String title = null;
+        if (toolbarTitleRes != 0) {
+            title = context.getString(toolbarTitleRes);
+        } else if (toolbarTitle != null) {
+            title = toolbarTitle.toString();
+        }
+        return title;
+    }
+
+    protected String getToolbarSubTitle(Context context) {
+        String subTitle = null;
+        if (toolbarSubtitleRes != 0) {
+            subTitle = context.getString(toolbarSubtitleRes);
+        } else if (toolbarSubtitle != null) {
+            subTitle = toolbarSubtitle.toString();
+        }
+        return subTitle;
+    }
+
+    @Nullable
+    protected Drawable getToolbarNavIcon(Context context) {
+        if (toolbarNavIconRes != 0) {
+            return ContextCompat.getDrawable(context, toolbarNavIconRes);
+        } else if (toolbarNavIcon != null) {
+            return toolbarNavIcon;
+        }
+        return null;
+    }
+
+    protected void setupMenu(Toolbar toolbar) {
+        Menu menu = toolbar.getMenu();
+        if (menu != null) {
+            menu.clear();
+        }
+        if (!menuRes.isEmpty()) {
+            final MenuActions actions = menuActions.build();
+            for (Integer menuRes : menuRes) {
+                toolbar.inflateMenu(menuRes);
+            }
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return actions.onMenuItemClick(item);
+                }
+            });
         }
     }
 }

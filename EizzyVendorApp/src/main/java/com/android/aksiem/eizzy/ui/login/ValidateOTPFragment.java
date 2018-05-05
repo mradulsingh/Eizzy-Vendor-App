@@ -64,7 +64,7 @@ public class ValidateOTPFragment extends NavigationFragment {
                 .toolbarSubtitleRes(R.string.screen_subtitle_validate_otp)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
-                .setBotootmActionTitleRes(R.string.button_action_validate_otp)
+                .setBottomActionTitleRes(R.string.button_action_validate_otp)
                 .setBottomActionClickHandler(v -> onBottomActionClicked(v));
     }
 

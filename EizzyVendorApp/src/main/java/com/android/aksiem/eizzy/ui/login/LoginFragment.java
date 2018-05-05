@@ -68,7 +68,7 @@ public class LoginFragment extends NavigationFragment {
                 .toolbarSubtitleRes(R.string.screen_subtitle_login)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
-                .setBotootmActionTitleRes(R.string.button_action_login)
+                .setBottomActionTitleRes(R.string.button_action_login)
                 .setBottomActionClickHandler(v -> onBottomActionClicked(v));
     }
 
