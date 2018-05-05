@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.databinding.CollapsableToolbarBinding;
 import com.android.aksiem.eizzy.databinding.CollapsableToolbarBottomActionBarBinding;
+import com.android.aksiem.eizzy.ui.common.ClickActionHandler;
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.IdLayoutFactory;
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.LayoutFactory;
 
