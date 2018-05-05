@@ -33,12 +33,11 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.ForgotPasswordFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
-
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -60,11 +59,17 @@ public class ForgotPasswordFragment extends NavigationFragment {
 
     @Override
     public NavigationBuilder buildNavigation() {
-        return mainCollapsableToolbar()
+        return CollapsableToolbarBuilder.mainCollapsableToolbarWithBottomAction()
                 .toolbarTitleRes(R.string.screen_title_forgot_password)
                 .toolbarSubtitleRes(R.string.screen_subtitle_forgot_password)
                 .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed());
+                .setToolbarNavClickListener(v -> onBackPressed())
+                .setBotootmActionTitleRes(R.string.button_action_get_otp)
+                .setBottomActionClickHandler(v -> onBottomActionClicked());
+    }
+
+    private void onBottomActionClicked() {
+        navigationController.navigateToValidateOTPFragment();
     }
 
     @Nullable
@@ -83,8 +88,6 @@ public class ForgotPasswordFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         forgotPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(ForgotPasswordViewModel.class);
         initInputListener();
-        binding.get().actionGetOTP.setOnClickListener(v -> navigationController.navigateToValidateOTPFragment());
-        binding.get().setCallback(() -> forgotPasswordViewModel.onForgotPassword());
     }
 
     private void initInputListener() {

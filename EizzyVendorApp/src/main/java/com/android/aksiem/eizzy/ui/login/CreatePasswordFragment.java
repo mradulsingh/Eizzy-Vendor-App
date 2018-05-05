@@ -34,12 +34,12 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.CreatePasswordFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
-
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -56,6 +56,9 @@ public class CreatePasswordFragment extends NavigationFragment {
     @Inject
     AppResourceManager appResourceManager;
 
+    @Inject
+    ToastController toastController;
+
     AutoClearedValue<CreatePasswordFragmentBinding> binding;
 
     private CreatePasswordViewModel createPasswordViewModel;
@@ -64,11 +67,17 @@ public class CreatePasswordFragment extends NavigationFragment {
 
     @Override
     public NavigationBuilder buildNavigation() {
-        return mainCollapsableToolbar()
+        return CollapsableToolbarBuilder.mainCollapsableToolbarWithBottomAction()
                 .toolbarTitleRes(R.string.screen_title_create_password)
                 .toolbarSubtitleRes(R.string.screen_subtitle_create_password)
                 .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed());
+                .setToolbarNavClickListener(v -> onBackPressed())
+                .setBotootmActionTitleRes(R.string.button_action_reset_password)
+                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+    }
+
+    private void onBottomActionClicked(View view) {
+        onResetPassword(view);
     }
 
     @Nullable
@@ -87,8 +96,6 @@ public class CreatePasswordFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         createPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(CreatePasswordViewModel.class);
         initInputListener();
-        binding.get().actionResetPassword.setOnClickListener(v -> onResetPassword(v));
-        binding.get().setCallback(() -> createPasswordViewModel.resetPassword());
     }
 
     private void initInputListener() {

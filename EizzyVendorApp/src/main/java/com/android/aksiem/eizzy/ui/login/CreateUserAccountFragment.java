@@ -33,12 +33,12 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.CreateUserAccountFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
-
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
  * Created by napendersingh on 16/04/18.
@@ -52,6 +52,9 @@ public class CreateUserAccountFragment extends NavigationFragment {
     @Inject
     NavigationController navigationController;
 
+    @Inject
+    ToastController toastController;
+
     AutoClearedValue<CreateUserAccountFragmentBinding> binding;
 
     private CreateUserAccountViewModel createUserAccountViewModel;
@@ -60,11 +63,18 @@ public class CreateUserAccountFragment extends NavigationFragment {
 
     @Override
     public NavigationBuilder buildNavigation() {
-        return mainCollapsableToolbar()
+        return CollapsableToolbarBuilder.mainCollapsableToolbarWithBottomAction()
                 .toolbarTitleRes(R.string.screen_title_create_account)
                 .toolbarSubtitleRes(R.string.screen_subtitle_create_account)
                 .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed());
+                .setToolbarNavClickListener(v -> onBackPressed())
+                .setBotootmActionTitleRes(R.string.button_action_create_account)
+                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+    }
+
+    private void onBottomActionClicked(View view) {
+        //doUserLogin(view);
+        toastController.showErrorToast("Account Creation Failed");
     }
 
     @Nullable
@@ -83,7 +93,6 @@ public class CreateUserAccountFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         createUserAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(CreateUserAccountViewModel.class);
         initInputListener();
-        binding.get().setCallback(() -> createUserAccountViewModel.createUserAccount());
     }
 
     private void initInputListener() {

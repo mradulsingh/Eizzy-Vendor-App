@@ -33,12 +33,12 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.LoginFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
-
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -56,15 +56,25 @@ public class LoginFragment extends NavigationFragment {
 
     private LoginViewModel loginViewModel;
 
+    @Inject
+    ToastController toastController;
+
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
 
     @Override
     public NavigationBuilder buildNavigation() {
-        return mainCollapsableToolbar()
+        return CollapsableToolbarBuilder.mainCollapsableToolbarWithBottomAction()
                 .toolbarTitleRes(R.string.screen_title_login)
                 .toolbarSubtitleRes(R.string.screen_subtitle_login)
                 .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed());
+                .setToolbarNavClickListener(v -> onBackPressed())
+                .setBotootmActionTitleRes(R.string.button_action_login)
+                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+    }
+
+    private void onBottomActionClicked(View view) {
+        //doUserLogin(view);
+        toastController.showErrorToast("Login Failed");
     }
 
     @Nullable
@@ -84,7 +94,6 @@ public class LoginFragment extends NavigationFragment {
         loginViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel.class);
         initInputListener();
         binding.get().tvActionForgetPassword.setOnClickListener(v -> navigationController.navigateToForgotPasswordFragment());
-        binding.get().setCallback(() -> loginViewModel.doUserLogin());
     }
 
     private void initInputListener() {

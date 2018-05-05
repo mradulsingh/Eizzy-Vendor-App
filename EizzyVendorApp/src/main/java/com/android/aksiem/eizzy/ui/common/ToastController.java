@@ -25,7 +25,7 @@ public class ToastController {
         this.mActivity = activity;
     }
 
-    public void showUnSuccessToast(String message) {
+    public void showErrorToast(String message) {
         ToastViewModel viewModel = getToastViewModel();
         viewModel.setBgToastResId(R.color.fireEngineRed);
         viewModel.setMessage(message);

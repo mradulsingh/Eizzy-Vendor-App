@@ -4,14 +4,13 @@
 
     <data>
 
-        <variable
-            name="isLoading"
-            type="boolean" />
+        <import type="com.android.aksiem.eizzy.vo.Resource" />
+
+        <import type="com.android.aksiem.eizzy.vo.Status" />
 
         <variable
-            name="loadingText"
-            type="String" />
-
+            name="resource"
+            type="com.android.aksiem.eizzy.vo.Resource" />
     </data>
 
     <RelativeLayout
@@ -19,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#55000000"
-        app:visibleGone="@{isLoading}">
+        app:visibleGone="@{resource != null &amp;&amp; resource.status == Status.LOADING}">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -35,10 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/atom_1"
-            android:text="@{loadingText}"
+            android:text="@{resource.message}"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:visibleGone="@{loadingText != null}" />
+            app:visibleGone="@{resource.status == Status.LOADING &amp;&amp; resource.message != null}" />
 
     </RelativeLayout>
 </layout>

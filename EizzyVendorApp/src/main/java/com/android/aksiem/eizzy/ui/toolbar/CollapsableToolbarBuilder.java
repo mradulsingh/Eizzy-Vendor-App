@@ -13,11 +13,20 @@ import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.databinding.CollapsableToolbarBinding;
+import com.android.aksiem.eizzy.databinding.CollapsableToolbarBottomActionBarBinding;
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.IdLayoutFactory;
 import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.LayoutFactory;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 
 public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableToolbarBuilder> {
+
+    private final LayoutFactory bottomActionBarLayoutFactory;
+
+    private ClickActionHandler bottomActionClickHandler;
+
+    private String bottomActionTitle;
+
+    private int botootmActionTitleRes;
 
     @Override
     protected CollapsableToolbarBuilder getThis() {
@@ -29,8 +38,25 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
         View toolbarView = layoutFactory().produceLayout(inflater, container);
         CollapsableToolbarBinding dataBinding = DataBindingUtil.bind(toolbarView);
         dataBinding.fragmentContainer.addView(viewAttachedFragment);
+        setupBottomActionBar(inflater, dataBinding);
         prepareToolbar(dataBinding);
         return dataBinding.getRoot();
+    }
+
+    private void setupBottomActionBar(LayoutInflater inflater, CollapsableToolbarBinding dataBinding) {
+        if (bottomActionBarLayoutFactory != null) {
+            Context context = dataBinding.getRoot().getContext();
+            dataBinding.fragmentBottomLayoutContainer.setVisibility(View.VISIBLE);
+            View bottomActionBarLayout = bottomActionBarLayoutFactory.produceLayout(inflater, null);
+            CollapsableToolbarBottomActionBarBinding actionBarDataBinding = DataBindingUtil.bind(bottomActionBarLayout);
+            if (botootmActionTitleRes != 0) {
+                actionBarDataBinding.setActionTitle(context.getString(botootmActionTitleRes));
+            } else if (bottomActionTitle != null) {
+                actionBarDataBinding.setActionTitle(bottomActionTitle.toString());
+            }
+            actionBarDataBinding.setOnClickHandler(bottomActionClickHandler);
+            dataBinding.fragmentBottomLayoutContainer.addView(actionBarDataBinding.getRoot());
+        }
     }
 
     private void prepareToolbar(CollapsableToolbarBinding dataBinding) {
@@ -92,7 +118,36 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
                         R.layout.collapsable_toolbar));
     }
 
-    public CollapsableToolbarBuilder(LayoutFactory layoutFactory) {
-        super(layoutFactory, NavigationDefaults.getInstance());
+    public static CollapsableToolbarBuilder mainCollapsableToolbarWithBottomAction() {
+        return new CollapsableToolbarBuilder
+                (new IdLayoutFactory(
+                        R.layout.collapsable_toolbar), new IdLayoutFactory(
+                        R.layout.collapsable_toolbar_bottom_action_bar));
     }
+
+    public CollapsableToolbarBuilder setBottomActionClickHandler(ClickActionHandler bottomActionClickHandler) {
+        this.bottomActionClickHandler = bottomActionClickHandler;
+        return getThis();
+    }
+
+    public CollapsableToolbarBuilder setBottomActionTitle(String bottomActionTitle) {
+        this.bottomActionTitle = bottomActionTitle;
+        return getThis();
+    }
+
+    public CollapsableToolbarBuilder setBotootmActionTitleRes(int botootmActionTitleRes) {
+        this.botootmActionTitleRes = botootmActionTitleRes;
+        return getThis();
+    }
+
+    public CollapsableToolbarBuilder(LayoutFactory mainLayoutFactory) {
+        super(mainLayoutFactory, NavigationDefaults.getInstance());
+        this.bottomActionBarLayoutFactory = null;
+    }
+
+    public CollapsableToolbarBuilder(LayoutFactory mainLayoutFactory, LayoutFactory bottomActionBarLayoutFactory) {
+        super(mainLayoutFactory, NavigationDefaults.getInstance());
+        this.bottomActionBarLayoutFactory = bottomActionBarLayoutFactory;
+    }
+
 }

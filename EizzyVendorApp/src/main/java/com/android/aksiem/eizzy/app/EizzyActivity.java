@@ -70,8 +70,7 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         mqttClientService.initService();
 
         if (savedInstanceState == null) {
-            //navigationController.navigateToVendorOnboardingFragment();
-            navigationController.navigateToOrderItemsFragment();
+            navigationController.navigateToVendorOnboardingFragment();
         }
     }
 

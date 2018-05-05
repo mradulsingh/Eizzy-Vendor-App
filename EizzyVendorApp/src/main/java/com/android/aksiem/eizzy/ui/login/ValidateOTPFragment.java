@@ -33,12 +33,11 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.ValidateOtpFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
-
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -60,11 +59,18 @@ public class ValidateOTPFragment extends NavigationFragment {
 
     @Override
     public NavigationBuilder buildNavigation() {
-        return mainCollapsableToolbar()
+        return CollapsableToolbarBuilder.mainCollapsableToolbarWithBottomAction()
                 .toolbarTitleRes(R.string.screen_title_validate_otp)
                 .toolbarSubtitleRes(R.string.screen_subtitle_validate_otp)
                 .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed());
+                .setToolbarNavClickListener(v -> onBackPressed())
+                .setBotootmActionTitleRes(R.string.button_action_validate_otp)
+                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+    }
+
+    private void onBottomActionClicked(View view) {
+        //onValidateOTP(view);
+        navigationController.navigateToCreatePasswordFragment();
     }
 
     @Nullable
@@ -83,9 +89,6 @@ public class ValidateOTPFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         validateOTPViewModel = ViewModelProviders.of(this, viewModelFactory).get(ValidateOTPViewModel.class);
         initInputListener();
-        //binding.get().actionValidateOTP.setOnClickListener(v -> onValidateOTP(v));
-        binding.get().actionValidateOTP.setOnClickListener(v -> navigationController.navigateToCreatePasswordFragment());
-        binding.get().setCallback(() -> validateOTPViewModel.onValidateOTP());
     }
 
     private void initInputListener() {
