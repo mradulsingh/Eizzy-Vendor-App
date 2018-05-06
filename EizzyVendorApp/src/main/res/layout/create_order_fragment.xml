@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="resource"
+            type="com.android.aksiem.eizzy.vo.Resource" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutBillAmount"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/billAmount"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.bill.amount"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.bill.amount" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutBillNumber"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBillAmount">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/billNumber"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.bill.number"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.bill.number" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <TextView
+            android:id="@+id/tvHeaderOrderDetails"
+            style="@style/ExpandedTitleTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingBottom="0dp"
+            android:paddingLeft="@dimen/atom_10"
+            android:paddingRight="@dimen/atom_10"
+            android:paddingTop="@dimen/atom_12"
+            android:text="@string/header.order.details"
+            android:textSize="@dimen/font_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBillNumber" />
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutOrderWeight"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHeaderOrderDetails">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/orderWeight"
+                style="@style/AppUnderLineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.order.weight"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.order.weight" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutItemsCount"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutOrderWeight">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/itemsCount"
+                style="@style/AppUnderLineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.order.items"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.order.items" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutItemDetails"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutItemsCount">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/itemDetails"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.order.item.detail"
+                android:inputType="textNoSuggestions"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                tools:text="@string/edittext.hint.order.item.detail" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <include
+            layout="@layout/progressbar_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:resource="@{resource}" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

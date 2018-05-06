@@ -8,6 +8,7 @@ import com.android.aksiem.eizzy.ui.login.CreateUserAccountViewModel;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordViewModel;
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPViewModel;
+import com.android.aksiem.eizzy.ui.order.CreateOrderViewModel;
 import com.android.aksiem.eizzy.ui.order.OrderItemsViewModel;
 import com.android.aksiem.eizzy.ui.settlement.SettlementViewModel;
 import com.android.aksiem.eizzy.ui.user.UserDetailViewModel;
@@ -25,6 +26,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(OrderItemsViewModel.class)
     abstract ViewModel bindOrderItemsViewModel(OrderItemsViewModel orderItemsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateOrderViewModel.class)
+    abstract ViewModel bindCreateOrderViewModel(CreateOrderViewModel createOrderViewModel);
 
     @Binds
     @IntoMap
