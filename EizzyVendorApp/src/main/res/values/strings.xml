@@ -90,6 +90,19 @@
     <string name="screen.title.orders">Orders</string>
     <!-- Orders -->
 
+    <!-- Create Order -->
+    <string name="screen.title.create.order">Define Listing</string>
+    <string name="edittext.hint.bill.amount">BILL AMOUNT</string>
+    <string name="edittext.hint.bill.number">BILL NUMBER</string>
+    <string name="edittext.hint.order.weight">ORDER WEIGHT</string>
+    <string name="edittext.hint.order.items">NO. OF ITEMS</string>
+    <string name="edittext.hint.order.item.detail">ITEM DETAILS</string>
+    <string name="header.order.details">Order Details</string>
+    <string name="button.action.create.order">DONE</string>
+    <string name="edittext.error.login.invalid.bill.amount">Please enter correct Bill Amount</string>
+    <string name="edittext.error.login.invalid.bill.number">Please enter valid Bill Number</string>
+    <!-- Create Order -->
+
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
 

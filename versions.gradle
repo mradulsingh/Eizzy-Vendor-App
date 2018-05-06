@@ -157,6 +157,7 @@ ext.app_property = app_property
 def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+    handler.maven { url 'https://maven.google.com' }
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url 'https://repo.eclipse.org/content/repositories/paho-snapshots/' }
 }

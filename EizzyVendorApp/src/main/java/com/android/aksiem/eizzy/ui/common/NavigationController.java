@@ -25,6 +25,7 @@ import com.android.aksiem.eizzy.ui.login.CreateUserAccountFragment;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
+import com.android.aksiem.eizzy.ui.order.CreateOrderFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
@@ -118,6 +119,15 @@ public class NavigationController {
     public void navigateToUserDetailFragment() {
         UserDetailFragment fragment = new UserDetailFragment();
         String tag = UserDetailFragment.class.getSimpleName();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToCreateOrderFragment() {
+        CreateOrderFragment fragment = new CreateOrderFragment();
+        String tag = CreateOrderFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)
