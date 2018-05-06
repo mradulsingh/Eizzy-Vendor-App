@@ -26,14 +26,33 @@ public class User {
     @SerializedName("userId")
     @NonNull
     public final String userId;
+
     @SerializedName("profile_url")
     public final String profileUrl;
-    @SerializedName("name")
-    public final String name;
 
-    public User(String userId, String profileUrl, String name) {
+    @SerializedName("name")
+    public final String contactPerson;
+
+    @SerializedName("business_name")
+    public final String businessName;
+
+    @SerializedName("mobile")
+    public final String mobile;
+
+    @SerializedName("email")
+    public final String email;
+
+    @SerializedName("aadhaar")
+    public final String aadhaar;
+
+    public User(@NonNull String userId, String profileUrl, String contactPerson, String businessName, String mobile, String email, String aadhaar) {
         this.userId = userId;
         this.profileUrl = profileUrl;
-        this.name = name;
+        this.contactPerson = contactPerson;
+        this.businessName = businessName;
+        this.mobile = mobile;
+        this.email = email;
+        this.aadhaar = aadhaar;
     }
+
 }

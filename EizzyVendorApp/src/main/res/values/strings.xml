@@ -54,6 +54,7 @@
     <string name="edittext.hint.business.contact.name">CONTACT PERSON</string>
     <string name="edittext.hint.business.contact.mobile">CONTACT PERSON MOBILE</string>
     <string name="edittext.hint.business.contact.email">CONTACT PERSON EMAIL</string>
+    <string name="edittext.hint.business.contact.aadhaar">AADHAAR NUMBER</string>
     <string name="button.action.create.account">CREATE ACCOUNT</string>
     <!-- Create Account -->
 
@@ -79,6 +80,11 @@
     <string name="edittext.error.password.notconfirmed">The specified passwords do not match</string>
     <string name="button.action.reset.password">RESET PASSWORD</string>
     <!--  Create Password -->
+
+    <!-- User profile -->
+    <string name="screen.title.profile.detail">Account Details</string>
+    <string name="screen.subtitle.profile.detail">To modify details, please contact Admin of Eizzy. It will take at least 15 mins.</string>
+    <!-- User profile  -->
 
     <!-- Orders -->
     <string name="screen.title.orders">Orders</string>

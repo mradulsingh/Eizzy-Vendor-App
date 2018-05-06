@@ -124,6 +124,26 @@
         <item name="android:animateLayoutChanges">true</item>
     </style>
 
+    <style name="AppLabelledTextView">
+        <item name="android:layout_margin">@dimen/atom_10</item>
+        <item name="textAppearanceText">@style/TextAppearance.AppLabelledTextViewText</item>
+        <item name="textAppearanceLabel">@style/TextAppearance.AppLabelledTextViewLabel</item>
+    </style>
+
+    <style name="TextAppearance.AppLabelledTextViewLabel" parent="FontMontserratMedium">
+        <item name="android:textColor">@color/colorEtHintText</item>
+        <item name="android:textSize">@dimen/font_12</item>
+    </style>
+
+    <style name="TextAppearance.AppLabelledTextViewText" parent="FontMontserratRegular">
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:textColor">@color/colorScreenSubTitle</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:longClickable">false</item>
+    </style>
+
     <style name="AppActionButton" parent="FontMontserratBold">
         <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
         <item name="android:textSize">@dimen/font_12</item>

@@ -27,6 +27,7 @@ import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
+import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
 
 import javax.inject.Inject;
@@ -111,6 +112,15 @@ public class NavigationController {
         VendorOnboardingFragment fragment = VendorOnboardingFragment.create();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToUserDetailFragment() {
+        UserDetailFragment fragment = new UserDetailFragment();
+        String tag = UserDetailFragment.class.getSimpleName();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 

@@ -8,6 +8,17 @@
         <attr name="drawableBottomCompat" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="AppLabelledTextView" parent="AppTextView">
+        <attr name="drawableLabelLeftCompat" format="reference" />
+        <attr name="drawableLabelRightCompat" format="reference" />
+        <attr name="drawableLabelTopCompat" format="reference" />
+        <attr name="drawableLabelBottomCompat" format="reference" />
+        <attr name="text" format="string|reference" localization="suggested" />
+        <attr name="labelText" format="string|reference" localization="suggested" />
+        <attr name="textAppearanceText" format="reference" />
+        <attr name="textAppearanceLabel" format="reference" />
+    </declare-styleable>
+
     <attr name="toolbarColor" format="color|reference" />
     <attr name="tallToolbarHeight" format="dimension|reference" />
 

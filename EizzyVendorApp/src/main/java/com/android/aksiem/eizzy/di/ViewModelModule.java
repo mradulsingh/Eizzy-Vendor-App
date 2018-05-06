@@ -10,6 +10,7 @@ import com.android.aksiem.eizzy.ui.login.LoginViewModel;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPViewModel;
 import com.android.aksiem.eizzy.ui.order.OrderItemsViewModel;
 import com.android.aksiem.eizzy.ui.settlement.SettlementViewModel;
+import com.android.aksiem.eizzy.ui.user.UserDetailViewModel;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
@@ -54,6 +55,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CreatePasswordViewModel.class)
     abstract ViewModel bindCreatePasswordViewModel(CreatePasswordViewModel createPasswordViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserDetailViewModel.class)
+    abstract ViewModel bindUserDetailViewModel(UserDetailViewModel userDetailViewModel);
 
     @Binds
     @IntoMap
