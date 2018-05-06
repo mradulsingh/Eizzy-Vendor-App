@@ -53,7 +53,8 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.eizzy_activity, null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.eizzy_activity,
+                null, false);
         setContentView(binding.getRoot());
         setupBottomNavigation();
         setupNavDrawer();
@@ -62,7 +63,8 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         mqttClientService.initService();
 
         if (savedInstanceState == null) {
-            navigationController.navigateToVendorOnboardingFragment();
+            //navigationController.navigateToVendorOnboardingFragment();
+            navigationController.navigateToOrderItemsFragment();
         }
     }
 

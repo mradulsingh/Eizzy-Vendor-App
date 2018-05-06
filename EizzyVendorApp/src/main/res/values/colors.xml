@@ -60,4 +60,5 @@
     <color name="orderAssigned">@color/deepSkyBlue</color>
     <color name="orderPicked">@color/pastelGray</color>
     <color name="orderDelivered">@color/indianYellow</color>
+    <color name="darkPink">#e75a7c</color>
 </resources>

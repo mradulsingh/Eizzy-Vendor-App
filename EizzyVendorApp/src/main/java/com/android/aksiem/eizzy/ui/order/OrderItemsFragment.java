@@ -103,7 +103,7 @@ public class OrderItemsFragment extends NavigationFragment {
         initOrdersList();
         OrderItemsAdapter adapter = new OrderItemsAdapter(dataBindingComponent,
                 orderItem -> {
-                    //TODO
+                    navigationController.navigateToOrderDetailsFragment(orderItem.orderId);
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         binding.get().orderList.setAdapter(adapter);
@@ -117,6 +117,7 @@ public class OrderItemsFragment extends NavigationFragment {
                 adapter.get().replace(Collections.emptyList());
             }
         });
+        orderItemsViewModel.setOrderIds(null);
     }
 
 

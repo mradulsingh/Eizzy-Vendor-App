@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="GlobalAttrDeclare">
+        <attr name="progressState" format="enum">
+            <enum name="pending" value="0" />
+            <enum name="inProgress" value="1" />
+            <enum name="complete" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressStates">
+        <attr name="pending" format="boolean" />
+        <attr name="inProgress" format="boolean" />
+        <attr name="complete" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="AppTimelinePointView">
+        <attr name="progressState" />
+        <attr name="location" format="string" />
+        <attr name="message" format="string" />
+        <attr name="isLast" format="boolean" />
+        <attr name="verbose" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="AppSteppedProgress">
+        <attr name="progressState" />
+    </declare-styleable>
+
     <declare-styleable name="AppTextView">
         <attr name="drawableLeftCompat" format="reference" />
         <attr name="drawableRightCompat" format="reference" />

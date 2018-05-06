@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dateContainer"
+            style="@style/FontMontserratBold"
+            android:layout_width="@dimen/timeline_rtvWidth"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/atom_1"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/darkPink"
+            android:textSize="@dimen/font_10" />
+
+        <TextView
+            android:id="@+id/timeContainer"
+            android:layout_width="@dimen/timeline_rtvWidth"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dateContainer"
+            android:layout_marginTop="@dimen/atom_1"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/khaki"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:id="@+id/locationContainer"
+            android:layout_width="@dimen/timeline_rtvWidth"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeContainer"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/khaki"
+            android:textSize="@dimen/font_12" />
+
+        <RelativeLayout
+            android:id="@+id/progressVisualization"
+            android:layout_width="@dimen/timeline_cvWidth"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/dateContainer"
+            android:gravity="center_horizontal">
+
+            <com.android.aksiem.eizzy.view.AppSteppedProgressView
+                android:id="@+id/milestoneIndicator"
+                android:layout_width="@dimen/timeline_milestone_wh"
+                android:layout_height="@dimen/timeline_milestone_wh"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_timeline_indicator_selector" />
+
+            <com.android.aksiem.eizzy.view.AppSteppedProgressView
+                android:id="@+id/milestoneProgressLine"
+                android:layout_width="@dimen/timeline_milestone_line_width"
+                android:layout_height="@dimen/timeline_milestone_line_height"
+                android:layout_below="@id/milestoneIndicator"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/atom_1"
+                android:layout_marginTop="@dimen/atom_1"
+                android:background="@drawable/bg_timeline_progress_selector" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/FontMontserratRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/progressVisualization"
+            android:maxLines="3"
+            android:textColor="@color/seaBlue"
+            android:textSize="@dimen/font_14" />
+
+    </RelativeLayout>
+</layout>

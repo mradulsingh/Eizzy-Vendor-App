@@ -12,7 +12,9 @@ import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderItemDao;
 import com.android.aksiem.eizzy.di.AppScope;
+import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
+import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.support.Actor;
@@ -20,6 +22,7 @@ import com.android.aksiem.eizzy.vo.support.ActorRole;
 import com.android.aksiem.eizzy.vo.support.Price;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
+import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
 import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
 import com.android.aksiem.eizzy.vo.support.order.PriceComponent;
@@ -68,7 +71,7 @@ public class OrderItemsRepository {
 
     }
 
-    public LiveData<Resource<List<OrderItem>>> loadItems() {
+    public LiveData<Resource<List<OrderItem>>> loadItems(List<String> orderIds) {
         return new DbNetworkBoundResource<List<OrderItem>,
                 List<OrderItem>>(appExecutors) {
 
@@ -85,7 +88,12 @@ public class OrderItemsRepository {
             @NonNull
             @Override
             protected LiveData<List<OrderItem>> loadFromDb() {
-                return orderItemDao.getAllItems();
+                LiveData<List<OrderItem>> orderItems;
+                if (orderIds == null)
+                    orderItems = orderItemDao.getAllItems();
+                else
+                    orderItems = orderItemDao.getItemsByIds(orderIds);
+                return orderItems.getValue() == null ? AbsentLiveData.create() : orderItems;
             }
 
             @NonNull
@@ -93,7 +101,7 @@ public class OrderItemsRepository {
             protected LiveData<ApiResponse<List<OrderItem>>> createCall() {
                 // TODO integrate with backend API
                 Response<List<OrderItem>> response =
-                        Response.success(mockData(30));
+                        Response.success(mockData(orderIds, 30));
                 ApiResponse<List<OrderItem>> apiItems =
                         new ApiResponse<>(response);
                 MutableLiveData<ApiResponse<List<OrderItem>>> mld =
@@ -104,18 +112,29 @@ public class OrderItemsRepository {
         }.asLiveData();
     }
 
-    private List<OrderItem> mockData(int pageSize) {
+    private List<OrderItem> mockData(List<String> orderIds, int pageSize) {
         List<OrderItem> items = new ArrayList<>();
-        for (int i = 0; i < pageSize; i++) {
-            items.add(generateSingleRandomOrder());
+        if (orderIds == null) {
+            for (int i = 0; i < pageSize; i++) {
+                items.add(generateSingleRandomOrder(null, i + 1));
+            }
+        } else if (orderIds.size() < pageSize) {
+            for (String orderId : orderIds) {
+                items.add(generateSingleRandomOrder(orderId, null));
+            }
         }
         return items;
     }
 
-    private OrderItem generateSingleRandomOrder() {
+    private OrderItem generateSingleRandomOrder(String stringOrderId, Integer id) {
 
         Random random = new Random();
-        String orderId = generateOrderItemId(16);
+        String orderId;
+        if (stringOrderId != null && stringOrderId.length() > 0) {
+            orderId = stringOrderId;
+        } else {
+            orderId = (id == null || id <= 0) ? generateOrderItemId(16) : id.toString();
+        }
         Actor customer = generateActor(ActorRole.CUSTOMER);
         OrderDetails details = generateSingleOrderItemDetails();
         Price price = details.total.price;
@@ -127,7 +146,63 @@ public class OrderItemsRepository {
         OrderState orderState = OrderState.values()[random.nextInt(size)];
         OrderItem orderItem = new OrderItem(orderId, details, customer, price, timestamp,
                 stringTimestamp, orderType, orderState);
+        orderItem.setOrderTracking(generateOrderStateTransitions());
         return orderItem;
+    }
+
+    private List<OrderStateTransition> generateOrderStateTransitions() {
+        Long t0 = System.currentTimeMillis();
+        OrderState o0 = OrderState.PLACED;
+        String l0 = "Bengaluru";
+        String m0 = "Order Placed by User";
+        AppTimelinePointView.TimelinePointState s0 = AppTimelinePointView.TimelinePointState.COMPLETE;
+        OrderStateTransition ost0 = new OrderStateTransition(o0, t0, l0)
+                .setIndex(0)
+                .setMessage(m0)
+                .setState(s0);
+        Long t1 = System.currentTimeMillis();
+        OrderState o1 = OrderState.CONFIRMED;
+        String l1 = "Bengaluru";
+        String m1 = "Order Confirmed by Shanmukha Restaurant";
+        AppTimelinePointView.TimelinePointState s1 = AppTimelinePointView.TimelinePointState.COMPLETE;
+        OrderStateTransition ost1 = new OrderStateTransition(o1, t1, l1)
+                .setIndex(1)
+                .setMessage(m1)
+                .setState(s1);
+        Long t2 = System.currentTimeMillis();
+        OrderState o2 = OrderState.ASSIGNED;
+        String l2 = "Bengaluru";
+        String m2 = "Order Assigned To Rajesh Kumar";
+        AppTimelinePointView.TimelinePointState s2 = AppTimelinePointView.TimelinePointState.COMPLETE;
+        OrderStateTransition ost2 = new OrderStateTransition(o2, t2, l2)
+                .setIndex(2)
+                .setMessage(m2)
+                .setState(s2);
+        Long t3 = System.currentTimeMillis();
+        OrderState o3 = OrderState.PICKED;
+        String l3 = "Bengaluru";
+        String m3 = "Order Picked for More Mega Store";
+        AppTimelinePointView.TimelinePointState s3 = AppTimelinePointView.TimelinePointState.IN_PROGRESS;
+        OrderStateTransition ost3 = new OrderStateTransition(o3, t3, l3)
+                .setIndex(3)
+                .setMessage(m3)
+                .setState(s3);
+        Long t4 = System.currentTimeMillis();
+        OrderState o4 = OrderState.DELIVERED;
+        String l4 = "Bengaluru";
+        String m4 = "Order Delivered To User";
+        AppTimelinePointView.TimelinePointState s4 = AppTimelinePointView.TimelinePointState.PENDING;
+        OrderStateTransition ost4 = new OrderStateTransition(o4, t4, l4)
+                .setIndex(4)
+                .setMessage(m4)
+                .setState(s4);
+        List<OrderStateTransition> ostList = new ArrayList<>();
+        ostList.add(ost0);
+        ostList.add(ost1);
+        ostList.add(ost2);
+        ostList.add(ost3);
+        ostList.add(ost4);
+        return ostList;
     }
 
     private Actor generateActor(ActorRole role) {

@@ -22,10 +22,15 @@ import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.aksiem.eizzy.util.AppFontManager;
+import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.view.CustomHint;
 import com.bumptech.glide.Glide;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -57,4 +62,5 @@ public class FragmentBindingAdapters {
         CustomHint customHint = new CustomHint(hintTypeface, editText.getHint(), editText.getTextSize());
         editText.setHint(customHint);
     }
+
 }

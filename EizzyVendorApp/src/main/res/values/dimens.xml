@@ -49,6 +49,15 @@
     <dimen name="bottom_nav_height">@dimen/atom_14</dimen>
     <dimen name="tall_toolbar_height">208dp</dimen>
 
+    <!-- timeline view -->
+
+    <dimen name="timeline_rtvWidth">@dimen/atom_16</dimen>
+    <dimen name="timeline_cvWidth">@dimen/atom_11</dimen>
+    <dimen name="timeline_milestone_wh">@dimen/atom_5</dimen>
+    <dimen name="timeline_milestone_indicator_stroke">2dp</dimen>
+    <dimen name="timeline_milestone_line_width">2dp</dimen>
+    <dimen name="timeline_milestone_line_height">@dimen/atom_15</dimen>
+
     <!-- fonts -->
     <dimen name="font_8">8sp</dimen>
     <dimen name="font_10">10sp</dimen>

@@ -107,4 +107,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="screen_title_settlements">Settlements</string>
+    <string name="timeline_section_title">Order Tracking</string>
+    <string name="order_breakdown_section_title">Order Details</string>
+    <string name="payment_section_title">Payment</string>
 </resources>

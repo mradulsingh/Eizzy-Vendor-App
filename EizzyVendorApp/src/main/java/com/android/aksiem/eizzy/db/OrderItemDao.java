@@ -32,6 +32,9 @@ public abstract class OrderItemDao implements TimestampedItemDao<OrderItem> {
     @Query("SELECT * FROM order_item")
     public abstract LiveData<List<OrderItem>> getAllItems();
 
+    @Query("SELECT * FROM order_item WHERE orderId IN (:orderIds)")
+    public abstract LiveData<List<OrderItem>> getItemsByIds(List<String> orderIds);
+
     @Override
     @Query("SELECT COUNT(*) FROM order_item")
     public abstract int getOrderItemCount();

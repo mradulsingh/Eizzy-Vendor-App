@@ -18,7 +18,8 @@ import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
  * Created by pdubey on 14/04/18.
  */
 
-public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapper<OrderItem>, ViewDataBinding> {
+public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapper<OrderItem>,
+        ViewDataBinding> {
 
     private final DataBindingComponent dataBindingComponent;
     private final ItemClickCallback itemClickCallback;

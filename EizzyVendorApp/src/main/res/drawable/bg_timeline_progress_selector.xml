@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item app:complete="false" app:inProgress="true" app:pending="false">
+        <shape android:shape="rectangle">
+            <size android:width="@dimen/timeline_milestone_line_width" android:height="@dimen/timeline_milestone_line_height" />
+            <gradient android:angle="270" android:endColor="@color/gainsboro" android:startColor="@color/deepSkyBlue" />
+        </shape>
+    </item>
+    <item app:complete="false" app:inProgress="false" app:pending="true">
+        <shape android:shape="rectangle">
+            <size android:width="@dimen/timeline_milestone_line_width" android:height="@dimen/timeline_milestone_line_height" />
+            <solid android:color="@color/gainsboro" />
+        </shape>
+    </item>
+    <item app:complete="true" app:inProgress="false" app:pending="false">
+        <shape android:shape="rectangle">
+            <size android:width="@dimen/timeline_milestone_line_width" android:height="@dimen/timeline_milestone_line_height" />
+            <solid android:color="@color/deepSkyBlue" />
+        </shape>
+    </item>
+</selector>

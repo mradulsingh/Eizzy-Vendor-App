@@ -28,7 +28,8 @@ public class SettlementViewModel extends ViewModel {
 
     @Inject
     public SettlementViewModel(OrderItemsRepository orderItemsRepository) {
-        timeStampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItems(), (items) -> addTimestampToList(items));
+        timeStampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItems(null),
+                (items) -> addTimestampToList(items));
     }
 
     public LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> getOrderItems() {

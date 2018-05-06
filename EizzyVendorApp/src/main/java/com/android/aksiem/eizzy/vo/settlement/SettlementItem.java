@@ -3,6 +3,7 @@ package com.android.aksiem.eizzy.vo.settlement;
 import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.vo.Timestamped;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 @Entity(primaryKeys = "transactionId", tableName = "settlement_item")
-public class SettlementItem implements Serializable {
+public class SettlementItem implements Serializable, Timestamped {
 
     @SerializedName("transactionId")
     @NonNull

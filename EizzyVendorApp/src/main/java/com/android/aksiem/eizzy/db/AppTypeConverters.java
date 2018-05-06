@@ -174,4 +174,5 @@ public class AppTypeConverters {
     public static String orderDetailsToString(OrderDetails orderDetails) {
         return new Gson().toJson(orderDetails, OrderDetails.class);
     }
+
 }

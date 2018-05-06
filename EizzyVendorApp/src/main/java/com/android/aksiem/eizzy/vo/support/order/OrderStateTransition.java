@@ -1,5 +1,9 @@
 package com.android.aksiem.eizzy.vo.support.order;
 
+import android.arch.persistence.room.Ignore;
+
+import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
+import com.android.aksiem.eizzy.view.timeline.TimelinePoint;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -8,49 +12,83 @@ import java.io.Serializable;
  * Created by pdubey on 09/04/18.
  */
 
-public class OrderStateTransition implements Serializable {
+public class OrderStateTransition extends TimelinePoint implements Serializable {
+
+    @Ignore
+    private int index;
+
+    @Ignore
+    private AppTimelinePointView.TimelinePointState state;
 
     @SerializedName("orderState")
     public final OrderState orderState;
 
-    @SerializedName("stringDate")
-    public final String stringDate;
-
-    @SerializedName("stringTime")
-    public final String stringTime;
+    @SerializedName("timestamp")
+    public final Long timestamp;
 
     @SerializedName("stringLocation")
-    public final String stringLocation;
+    private String stringLocation;
 
-    @SerializedName("detail")
-    private String detail;
+    @SerializedName("message")
+    private String message;
 
-    @SerializedName("completed")
-    private boolean completed;
-
-    public OrderStateTransition(OrderState orderState, String stringDate, String stringTime,
-                                String stringLocation) {
+    public OrderStateTransition(OrderState orderState, Long timestamp, String stringLocation) {
 
         this.orderState = orderState;
-        this.stringDate = stringDate;
-        this.stringTime = stringTime;
+        this.timestamp = timestamp;
         this.stringLocation = stringLocation;
-        this.completed = false;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    @Override
+    public int getIndex() {
+        return index;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public OrderStateTransition setIndex(int index) {
+        this.index = index;
+        return this;
     }
 
-    public String getDetail() {
-        return detail;
+    @Override
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    @Override
+    public OrderStateTransition setTimestamp(long timestamp) {
+        return null;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public OrderStateTransition setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    @Override
+    public String getStringLocation() {
+        return stringLocation;
+    }
+
+    @Override
+    public OrderStateTransition setStringLocation(String stringLocation) {
+        this.stringLocation = stringLocation;
+        return this;
+    }
+
+    @Override
+    public AppTimelinePointView.TimelinePointState getState() {
+        return state;
+    }
+
+    @Override
+    public OrderStateTransition setState(AppTimelinePointView.TimelinePointState state) {
+        this.state = state;
+        return this;
     }
 }

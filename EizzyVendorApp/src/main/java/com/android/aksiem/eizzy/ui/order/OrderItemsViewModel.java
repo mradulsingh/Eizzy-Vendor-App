@@ -25,38 +25,54 @@ public class OrderItemsViewModel extends ViewModel {
 
     private LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> timeStampedOrderItems;
 
+    private MutableLiveData<List<String>> orderIds = new MutableLiveData<>();
 
     @Inject
     AppResourceManager appResourceManager;
 
     @Inject
     public OrderItemsViewModel(OrderItemsRepository orderItemsRepository) {
-        timeStampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItems(), (items) -> addTimestampToList(items));
+        timeStampedOrderItems = Transformations.switchMap(
+                orderItemsRepository.loadItems(orderIds.getValue()),
+                (items) -> {
+                    if (items == null)
+                        return AbsentLiveData.create();
+                    else
+                        return addTimestampToList(items);
+                });
     }
+
 
     public LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> getOrderItems() {
         return timeStampedOrderItems;
     }
 
-    private LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> addTimestampToList(Resource<List<OrderItem>> liveDataItems) {
+    public void setOrderIds(List<String> listOrderIds) {
+        this.orderIds.setValue(listOrderIds);
+    }
+
+    private LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> addTimestampToList(
+            Resource<List<OrderItem>> liveDataItems) {
+
         List<OrderItem> items = liveDataItems.data;
         List<TimestampedItemWrapper<OrderItem>> timestampedItemWrappers = new ArrayList<>();
-        //String initialTS = null;
+
         if (items != null) {
+
             for (OrderItem item : items) {
-                /*String currTS = StringUtils.getTimestamp(item.getTimestamp(),
-                        appResourceManager);
-                if (initialTS == null || !initialTS.equals(currTS)) {
-                    timestampedItemWrappers.add(new TimestampedItemWrapper<OrderItem>(Long.decode(currTS), null));
-                    initialTS = currTS;
-                }*/
-                timestampedItemWrappers.add(new TimestampedItemWrapper<OrderItem>(null, item));
+                timestampedItemWrappers.add(new TimestampedItemWrapper<OrderItem>(
+                        null, item));
             }
-            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> orderItemWrappersMLD = new MutableLiveData<>();
-            orderItemWrappersMLD.setValue(Resource.success(timestampedItemWrappers));
-            return orderItemWrappersMLD;
+
+            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> orderItemWMLD =
+                    new MutableLiveData<>();
+            orderItemWMLD.setValue(Resource.success(timestampedItemWrappers));
+            return orderItemWMLD;
+
         } else {
+
             return AbsentLiveData.create();
+
         }
     }
 

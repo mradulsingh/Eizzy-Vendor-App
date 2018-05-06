@@ -18,7 +18,7 @@ import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 import java.util.List;
 
 
-public class SettlementItemAdapter extends DataBoundListAdapter<List<SettlementItem>, ViewDataBinding> {
+public class SettlementItemAdapter extends DataBoundListAdapter<TimestampedItemWrapper<SettlementItem>, ViewDataBinding> {
 
     private final DataBindingComponent dataBindingComponent;
     private final ItemClickCallback itemClickCallback;
@@ -81,7 +81,7 @@ public class SettlementItemAdapter extends DataBoundListAdapter<List<SettlementI
     }
 
     @Override
-    protected void bind(ViewDataBinding binding, int viewType, List<SettlementItem> item) {
+    protected void bind(ViewDataBinding binding, int viewType, TimestampedItemWrapper<SettlementItem> item) {
         if (isItem(viewType)) {
             //((OrderItemBinding) binding).setOrderItem(item.item);
         } else {
@@ -90,12 +90,12 @@ public class SettlementItemAdapter extends DataBoundListAdapter<List<SettlementI
     }
 
     @Override
-    protected boolean areItemsTheSame(List<SettlementItem> oldItem, List<SettlementItem> newItem) {
+    protected boolean areItemsTheSame(TimestampedItemWrapper<SettlementItem> oldItem, TimestampedItemWrapper<SettlementItem> newItem) {
         return false;
     }
 
     @Override
-    protected boolean areContentsTheSame(List<SettlementItem> oldItem, List<SettlementItem> newItem) {
+    protected boolean areContentsTheSame(TimestampedItemWrapper<SettlementItem> oldItem, TimestampedItemWrapper<SettlementItem> newItem) {
         return false;
     }
 
