@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBillAmount">
 
             <com.android.aksiem.eizzy.view.AppEditText
@@ -72,14 +73,15 @@
             style="@style/ExpandedTitleTextAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
             android:ellipsize="end"
             android:paddingBottom="0dp"
-            android:paddingLeft="@dimen/atom_10"
-            android:paddingRight="@dimen/atom_10"
             android:paddingTop="@dimen/atom_12"
             android:text="@string/header.order.details"
             android:textSize="@dimen/font_16"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBillNumber" />
 
         <com.android.aksiem.eizzy.view.AppTextInputLayout
@@ -139,14 +141,154 @@
                 tools:text="@string/edittext.hint.order.item.detail" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
+        <RelativeLayout
+            android:id="@+id/switchContainerCustomerSignature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutItemDetails">
+
+            <TextView
+                style="@style/ExpandedTitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:text="@string/header.customer.signature"
+                android:textSize="@dimen/font_14" />
+
+            <LinearLayout
+                android:id="@+id/llSwitchCustomerSignature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView.Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+                <Switch
+                    android:id="@+id/switchCustomerSignature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/atom_1"
+                    android:layout_marginRight="@dimen/atom_1" />
+
+                <TextView
+                    style="@style/TextView.Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/switchContainerScheduleDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchContainerCustomerSignature">
+
+            <TextView
+                style="@style/ExpandedTitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:text="@string/header.schedule.details"
+                android:textSize="@dimen/font_14" />
+
+            <LinearLayout
+                android:id="@+id/llSwitchScheduleDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView.Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+                <Switch
+                    android:id="@+id/switchScheduleDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/atom_1"
+                    android:layout_marginRight="@dimen/atom_1" />
+
+                <TextView
+                    style="@style/TextView.Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutOrderDate"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchContainerScheduleDetails">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/orderDate"
+                style="@style/AppUnderLineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.order.date"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.order.date" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutOrderTime"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutOrderDate">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/orderTime"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.order.time"
+                android:inputType="textNoSuggestions"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                tools:text="@string/edittext.hint.order.time" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
         <include
             layout="@layout/progressbar_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:resource="@{resource}" />
 
     </android.support.constraint.ConstraintLayout>

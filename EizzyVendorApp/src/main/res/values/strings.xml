@@ -92,17 +92,23 @@
 
     <!-- Create Order -->
     <string name="screen.title.create.order">Define Listing</string>
-    <string name="edittext.hint.bill.amount">BILL AMOUNT</string>
-    <string name="edittext.hint.bill.number">BILL NUMBER</string>
-    <string name="edittext.hint.order.weight">ORDER WEIGHT</string>
-    <string name="edittext.hint.order.items">NO. OF ITEMS</string>
+    <string name="edittext.hint.bill.amount">BILL AMOUNT<sup><small>*</small></sup></string>
+    <string name="edittext.hint.bill.number">BILL NUMBER<sup><small>*</small></sup></string>
+    <string name="edittext.hint.order.weight">ORDER WEIGHT<sup><small>*</small></sup></string>
+    <string name="edittext.hint.order.items">NO. OF ITEMS<sup><small>*</small></sup></string>
     <string name="edittext.hint.order.item.detail">ITEM DETAILS</string>
+    <string name="edittext.hint.order.date">DATE<sup><small>*</small></sup></string>
+    <string name="edittext.hint.order.time">TIME<sup><small>*</small></sup></string>
     <string name="header.order.details">Order Details</string>
+    <string name="header.customer.signature">Customer Signature</string>
+    <string name="header.schedule.details">Schedule Details</string>
     <string name="button.action.create.order">DONE</string>
     <string name="edittext.error.login.invalid.bill.amount">Please enter correct Bill Amount</string>
     <string name="edittext.error.login.invalid.bill.number">Please enter valid Bill Number</string>
     <!-- Create Order -->
 
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
 

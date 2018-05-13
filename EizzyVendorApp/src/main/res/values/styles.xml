@@ -134,9 +134,10 @@
         <item name="android:animateLayoutChanges">true</item>
     </style>
 
-    <style name="AppTextInputLayout.CreateOrder" parent="AppTextInputLayout">
+    <style name="AppTextInputLayout.CreateOrder">
         <item name="android:theme">@style/HintText</item>
         <item name="android:animateLayoutChanges">true</item>
+        <item name="android:layout_margin">@dimen/atom_10</item>
     </style>
 
     <style name="AppLabelledTextView">
@@ -181,6 +182,12 @@
     <style name="TextView.ClickableMessage" parent="FontMontserratBold">
         <item name="android:textSize">@dimen/font_12</item>
         <item name="android:textColor">@color/colorTextMessagePrimary</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextView.Switch" parent="FontMontserratMedium">
+        <item name="android:textSize">@dimen/font_12</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:gravity">center</item>
     </style>
 
