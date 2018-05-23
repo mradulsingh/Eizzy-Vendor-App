@@ -25,4 +25,11 @@ public enum OrderType implements Serializable {
     public String getOrderType() {
         return orderType;
     }
+
+    @Override
+    public String toString() {
+        return "OrderType{" +
+                "orderType='" + orderType + '\'' +
+                '}';
+    }
 }

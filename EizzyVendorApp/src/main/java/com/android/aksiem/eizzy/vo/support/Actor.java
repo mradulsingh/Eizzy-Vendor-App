@@ -54,4 +54,14 @@ public class Actor implements Serializable {
         result = 31 * result + role.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

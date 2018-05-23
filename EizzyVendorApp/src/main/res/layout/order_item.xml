@@ -1,135 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="orderItem"
+            name="item"
             type="com.android.aksiem.eizzy.vo.OrderItem" />
 
         <variable
-            name="timestamp"
-            type="String" />
+            name="resourceManager"
+            type="com.android.aksiem.eizzy.app.AppResourceManager" />
 
     </data>
 
-    <android.support.v7.widget.CardView
+    <com.android.aksiem.eizzy.view.AppThemedCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/app_themed_card_view_height"
         android:layout_marginLeft="@dimen/atom_4"
         android:layout_marginRight="@dimen/atom_4"
         android:layout_marginTop="@dimen/atom_4"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/atom_2">
+        app:additionalInfo="@{item.stringTimestamp}"
+        app:atcvSubtitle="@{item.price.toString()}"
+        app:atcvTitle="@{item.orderId}"
+        app:btnText="@{item.orderState.getState()}"
+        app:infoItem1DrawableLeftCompat="@drawable/ic_user"
+        app:infoItem1Text="@{item.customer.name}"
+        app:infoItem2DrawableLeftCompat="@drawable/ic_phone"
+        app:infoItem2Text="@{item.customer.phone}"
+        app:infoItem3DrawableLeftCompat="@drawable/ic_phone"
+        app:infoItem3Text="@{item.orderType.getOrderType()}"
+        app:themeColor="@{item.orderState.getTheme(resourceManager)}" />
 
-        <View
-            android:id="@+id/orderStateIndicator"
-            android:layout_width="@dimen/atom_1"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="@dimen/atom_4"
-            android:background="@color/indianYellow" />
-
-        <RelativeLayout
-            android:id="@+id/orderInfoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/atom_4">
-
-            <TextView
-                android:id="@+id/orderId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="left|center_vertical"
-                android:lineSpacingExtra="@dimen/font_20"
-                android:text="@{orderItem.orderId}"
-                android:textColor="@color/darkMidnightBlue"
-                android:textSize="@dimen/font_16"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/orderId"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:lineSpacingExtra="@dimen/font_20"
-                android:text="@{orderItem.price.toString()}"
-                android:textColor="@color/darkMidnightBlue"
-                android:textSize="@dimen/font_14"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/orderId"
-                android:layout_marginTop="@dimen/atom_1"
-                android:lineSpacingExtra="@dimen/font_14"
-                android:text="@{orderItem.stringTimestamp}"
-                android:textColor="@color/khaki"
-                android:textSize="@dimen/font_12"
-                tools:layout_editor_absoluteX="0dp" />
-
-            <com.android.aksiem.eizzy.view.AppTextView
-                android:id="@+id/customerName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/timestamp"
-                android:layout_marginBottom="@dimen/atom_2"
-                android:layout_marginTop="@dimen/atom_4"
-                android:drawablePadding="@dimen/atom_2"
-                android:lineSpacingExtra="@dimen/font_20"
-                android:paddingTop="@dimen/atom_1"
-                android:text="@{orderItem.customer.name}"
-                android:textColor="@color/seaBlue"
-                android:textSize="@dimen/font_14"
-                app:drawableLeftCompat="@drawable/ic_user" />
-
-            <com.android.aksiem.eizzy.view.AppTextView
-                android:id="@+id/customerPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/customerName"
-                android:layout_marginBottom="@dimen/atom_2"
-                android:drawablePadding="@dimen/atom_2"
-                android:lineSpacingExtra="@dimen/font_20"
-                android:paddingTop="@dimen/atom_1"
-                android:text="@{orderItem.customer.phone}"
-                android:textColor="@color/seaBlue"
-                android:textSize="@dimen/font_14"
-                app:drawableLeftCompat="@drawable/ic_phone" />
-
-            <com.android.aksiem.eizzy.view.AppTextView
-                android:id="@+id/orderType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/customerPhone"
-                android:layout_marginBottom="@dimen/atom_2"
-                android:drawablePadding="@dimen/atom_2"
-                android:lineSpacingExtra="@dimen/font_20"
-                android:paddingTop="@dimen/atom_1"
-                android:text="@{orderItem.orderType.getOrderType()}"
-                android:textColor="@color/seaBlue"
-                android:textSize="@dimen/font_14"
-                app:drawableLeftCompat="@drawable/ic_order_type" />
-
-            <com.android.aksiem.eizzy.view.AppTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:drawablePadding="@dimen/atom_2"
-                android:padding="@dimen/atom_1"
-                android:text="@{orderItem.getOrderState().getState()}"
-                app:drawableLeftCompat="@drawable/ic_order_state" />
-
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
 </layout>

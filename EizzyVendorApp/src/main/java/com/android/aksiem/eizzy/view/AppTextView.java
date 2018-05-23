@@ -16,6 +16,12 @@ import com.android.aksiem.eizzy.R;
 
 public class AppTextView extends AppCompatTextView {
 
+    private Drawable drawableLeft;
+    private Drawable drawableRight;
+    private Drawable drawableBottom;
+    private Drawable drawableTop;
+
+
     public AppTextView(Context context) {
         super(context);
     }
@@ -30,6 +36,33 @@ public class AppTextView extends AppCompatTextView {
         initAttrs(context, attrs);
     }
 
+    public void setDrawableLeft(Drawable drawableLeft, boolean setDrawableNow) {
+        this.drawableLeft = drawableLeft;
+        if (setDrawableNow)
+            setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop,
+                    drawableRight, drawableBottom);
+    }
+
+    public void setDrawableRight(Drawable drawableRight, boolean setDrawableNow) {
+        this.drawableRight = drawableRight;
+        if (setDrawableNow)
+            setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop,
+                    drawableRight, drawableBottom);
+    }
+
+    public void setDrawableBottom(Drawable drawableBottom, boolean setDrawableNow) {
+        this.drawableBottom = drawableBottom;
+        if (setDrawableNow)
+            setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop,
+                    drawableRight, drawableBottom);
+    }
+
+    public void setDrawableTop(Drawable drawableTop, boolean setDrawableNow) {
+        this.drawableTop = drawableTop;
+        if (setDrawableNow)
+            setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop,
+                    drawableRight, drawableBottom);
+    }
 
     private void initAttrs(Context context, AttributeSet attrs) {
         if (attrs != null) {
@@ -37,21 +70,21 @@ public class AppTextView extends AppCompatTextView {
                     attrs,
                     R.styleable.AppTextView);
 
-            Drawable drawableLeft = null;
-            Drawable drawableRight = null;
-            Drawable drawableBottom = null;
-            Drawable drawableTop = null;
+            drawableLeft = null;
+            drawableRight = null;
+            drawableBottom = null;
+            drawableTop = null;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                drawableLeft = attributeArray.getDrawable(
-                        R.styleable.AppTextView_drawableLeftCompat);
-                drawableRight = attributeArray.getDrawable(
-                        R.styleable.AppTextView_drawableRightCompat);
-                drawableBottom = attributeArray.getDrawable(
-                        R.styleable.AppTextView_drawableBottomCompat);
-                drawableTop = attributeArray.getDrawable(
-                        R.styleable.AppTextView_drawableTopCompat);
+                setDrawableLeft(attributeArray.getDrawable(
+                        R.styleable.AppTextView_drawableLeftCompat), false);
+                setDrawableRight(attributeArray.getDrawable(
+                        R.styleable.AppTextView_drawableRightCompat), false);
+                setDrawableBottom(attributeArray.getDrawable(
+                        R.styleable.AppTextView_drawableBottomCompat), false);
+                setDrawableTop(attributeArray.getDrawable(
+                        R.styleable.AppTextView_drawableTopCompat), false);
 
             } else {
 
@@ -65,13 +98,17 @@ public class AppTextView extends AppCompatTextView {
                         R.styleable.AppTextView_drawableTopCompat, -1);
 
                 if (drawableLeftId != -1)
-                    drawableLeft = AppCompatResources.getDrawable(context, drawableLeftId);
+                    setDrawableLeft(AppCompatResources.getDrawable(context, drawableLeftId),
+                            false);
                 if (drawableRightId != -1)
-                    drawableRight = AppCompatResources.getDrawable(context, drawableRightId);
+                    setDrawableRight(AppCompatResources.getDrawable(context, drawableRightId),
+                            false);
                 if (drawableBottomId != -1)
-                    drawableBottom = AppCompatResources.getDrawable(context, drawableBottomId);
+                    setDrawableBottom(AppCompatResources.getDrawable(context, drawableBottomId),
+                            false);
                 if (drawableTopId != -1)
-                    drawableTop = AppCompatResources.getDrawable(context, drawableTopId);
+                    setDrawableTop(AppCompatResources.getDrawable(context, drawableTopId),
+                            false);
             }
 
             setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop,

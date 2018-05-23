@@ -3,12 +3,14 @@ package com.android.aksiem.eizzy.app;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.TypedValue;
 
 import com.android.aksiem.eizzy.di.AppScope;
@@ -45,7 +47,10 @@ public class AppResourceManager implements ResourceManager {
 
     @Override
     public Drawable getDrawable(@DrawableRes int resourceId) {
-        return ContextCompat.getDrawable(mContext, resourceId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            return ContextCompat.getDrawable(mContext, resourceId);
+        else
+            return AppCompatResources.getDrawable(mContext, resourceId);
     }
 
     @Override

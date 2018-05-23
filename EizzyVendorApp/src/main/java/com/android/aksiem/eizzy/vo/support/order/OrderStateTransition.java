@@ -91,4 +91,16 @@ public class OrderStateTransition extends TimelinePoint implements Serializable 
         this.state = state;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "OrderStateTransition{" +
+                "index=" + index +
+                ", state=" + state +
+                ", orderState=" + orderState +
+                ", timestamp=" + timestamp +
+                ", stringLocation='" + stringLocation + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

@@ -93,7 +93,7 @@ public class OrderItemsRepository {
                     orderItems = orderItemDao.getAllItems();
                 else
                     orderItems = orderItemDao.getItemsByIds(orderIds);
-                return orderItems.getValue() == null ? AbsentLiveData.create() : orderItems;
+                return orderItems;
             }
 
             @NonNull
@@ -102,6 +102,44 @@ public class OrderItemsRepository {
                 // TODO integrate with backend API
                 Response<List<OrderItem>> response =
                         Response.success(mockData(orderIds, 30));
+                ApiResponse<List<OrderItem>> apiItems =
+                        new ApiResponse<>(response);
+                MutableLiveData<ApiResponse<List<OrderItem>>> mld =
+                        new MutableLiveData<>();
+                mld.setValue(apiItems);
+                return mld;
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<List<OrderItem>>> loadItems() {
+        return new DbNetworkBoundResource<List<OrderItem>,
+                List<OrderItem>>(appExecutors) {
+
+            @Override
+            protected void saveCallResult(@NonNull List<OrderItem> items) {
+                orderItemDao.insertOrderItems(items);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<OrderItem> data) {
+                return data == null || data.isEmpty();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<OrderItem>> loadFromDb() {
+                LiveData<List<OrderItem>> orderItems;
+                orderItems = orderItemDao.getAllItems();
+                return orderItems;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<OrderItem>>> createCall() {
+                // TODO integrate with backend API
+                Response<List<OrderItem>> response =
+                        Response.success(mockData(null, 30));
                 ApiResponse<List<OrderItem>> apiItems =
                         new ApiResponse<>(response);
                 MutableLiveData<ApiResponse<List<OrderItem>>> mld =

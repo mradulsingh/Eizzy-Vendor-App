@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.OrderDetailsFragmentBinding;
@@ -20,13 +19,11 @@ import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.view.timeline.TimelineConfigBuilder;
-import com.android.aksiem.eizzy.view.timeline.TimelinePoint;
 import com.android.aksiem.eizzy.view.timeline.TimelinePointListAdapter;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,10 +34,7 @@ import javax.inject.Inject;
 
 public class OrderDetailsFragment extends NavigationFragment {
 
-    private static final String BUNDLE_ORDER_ID_KEY = "order_id_key";
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
+    private static final String BUNDLE_ORDER_ITEM = "order_key";
 
     private OrderItem orderItem;
 
@@ -50,11 +44,9 @@ public class OrderDetailsFragment extends NavigationFragment {
 
     AutoClearedValue<TimelinePointListAdapter> ostAdapter;
 
-    OrderItemsViewModel viewModel;
-
-    public static OrderDetailsFragment create(String orderId) {
+    public static OrderDetailsFragment create(OrderItem order) {
         Bundle args = new Bundle();
-        args.putString(BUNDLE_ORDER_ID_KEY, orderId);
+        args.putSerializable(BUNDLE_ORDER_ITEM, order);
         OrderDetailsFragment fragment = new OrderDetailsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -76,53 +68,34 @@ public class OrderDetailsFragment extends NavigationFragment {
                 R.layout.order_details_fragment, container,
                 false, dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
+        orderItem = getOrderItem(savedInstanceState);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(OrderItemsViewModel.class);
-        populateData(savedInstanceState);
+        populateData();
     }
 
-    private void populateData(@Nullable Bundle args) {
-        TimelineConfigBuilder builder = new TimelineConfigBuilder()
-                .setVerbose(true)
-                .setVertical(true);
-        TimelinePointListAdapter<OrderStateTransition> ostAdapter = new TimelinePointListAdapter<>(builder);
-        this.ostAdapter = new AutoClearedValue<>(this, ostAdapter);
-        getOrderItem(args);
-        binding.get().timelineDetailsContainer.setAdapter(ostAdapter);
-    }
+    private void populateData() {
+        if (orderItem != null
+                && orderItem.getOrderTracking() != null
+                && !orderItem.getOrderTracking().isEmpty()) {
 
-    private void getOrderItem(@Nullable Bundle args) {
-        Bundle bundle = args == null ? getArguments() : args;
-        String orderId = bundle.getString(BUNDLE_ORDER_ID_KEY);
-        if (orderId != null) {
-            ArrayList<String> orderIds = new ArrayList<>();
-            orderIds.add(orderId);
-            viewModel.setOrderIds(orderIds);
-            viewModel.getOrderItems().observe(this, listResource -> {
-                if (listResource != null
-                        && listResource.data != null
-                        && listResource.data.get(0) != null
-                        && listResource.data.get(0).item != null
-                        && listResource.data.get(0).item.getOrderTracking() != null) {
-
-
-                    List<OrderStateTransition> orderTracking = listResource.data
-                            .get(0).item.getOrderTracking();
-
-                    if (orderTracking != null) {
-                        ostAdapter.get().replace(orderTracking);
-                    } else {
-                        ostAdapter.get().replace(Collections.emptyList());
-                    }
-
-                }
-            });
+            TimelineConfigBuilder builder = new TimelineConfigBuilder()
+                    .setVerbose(true)
+                    .setVertical(true);
+            TimelinePointListAdapter<OrderStateTransition> ostAdapter =
+                    new TimelinePointListAdapter<>(getContext(), R.layout.timeline_row,
+                            orderItem.getOrderTracking(), builder);
+            this.ostAdapter = new AutoClearedValue<>(this, ostAdapter);
+            binding.get().timelineDetailsContainer.setAdapter(ostAdapter);
         }
+    }
+
+    private OrderItem getOrderItem(@Nullable Bundle args) {
+        Bundle bundle = args == null ? getArguments() : args;
+        return ((OrderItem) bundle.getSerializable(BUNDLE_ORDER_ITEM));
     }
 }

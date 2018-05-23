@@ -38,6 +38,13 @@ public class AppTimelinePointView extends RelativeLayout {
             }
             throw new IllegalArgumentException("Only id in range [0, 2] are valid");
         }
+
+        @Override
+        public String toString() {
+            return "TimelinePointState{" +
+                    "id=" + id +
+                    '}';
+        }
     };
 
     private int stateId;
@@ -87,7 +94,7 @@ public class AppTimelinePointView extends RelativeLayout {
 
     private void initView(Context context) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context),
-                R.layout.timeline_point_vertical, null, false);
+                R.layout.timeline_point_vertical, this, true);
         setVerbose(verbose);
         setState(state);
         setLast(isLast);

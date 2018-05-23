@@ -123,4 +123,20 @@ public class OrderItem implements Serializable, Timestamped {
     public int hashCode() {
         return orderId.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderId='" + orderId + '\'' +
+                ", orderDetails=" + orderDetails +
+                ", customer=" + customer +
+                ", price=" + price +
+                ", timestamp=" + timestamp +
+                ", stringTimestamp='" + stringTimestamp + '\'' +
+                ", orderType=" + orderType +
+                ", orderState=" + orderState +
+                ", orderTracking=" + orderTracking +
+                ", deliveryAssociate=" + deliveryAssociate +
+                '}';
+    }
 }

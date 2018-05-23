@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.OrderItemsFragmentBinding;
@@ -24,6 +25,7 @@ import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuAction;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
+import com.android.aksiem.eizzy.util.Logger;
 
 import java.util.Collections;
 
@@ -47,6 +49,9 @@ public class OrderItemsFragment extends NavigationFragment {
 
     @Inject
     ToastController toastController;
+
+    @Inject
+    AppResourceManager appResourceManager;
 
     DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     AutoClearedValue<OrderItemsFragmentBinding> binding;
@@ -101,9 +106,13 @@ public class OrderItemsFragment extends NavigationFragment {
         orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 OrderItemsViewModel.class);
         initOrdersList();
-        OrderItemsAdapter adapter = new OrderItemsAdapter(dataBindingComponent,
+        OrderItemsAdapter adapter = new OrderItemsAdapter(appResourceManager, dataBindingComponent,
                 orderItem -> {
-                    navigationController.navigateToOrderDetailsFragment(orderItem.orderId);
+                    Logger.tag(OrderItemsFragment.class.getSimpleName())
+                            .d("orderId = " + orderItem.orderId);
+                    Logger.tag(OrderItemsFragment.class.getSimpleName())
+                            .d("order_item::::" + orderItem.toString());
+                    navigationController.navigateToOrderDetailsFragment(orderItem);
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         binding.get().orderList.setAdapter(adapter);
@@ -114,7 +123,7 @@ public class OrderItemsFragment extends NavigationFragment {
             if (listResource != null && listResource.data != null) {
                 adapter.get().replace(listResource.data);
             } else {
-                adapter.get().replace(Collections.emptyList());
+                adapter.get().replace(null);
             }
         });
         orderItemsViewModel.setOrderIds(null);

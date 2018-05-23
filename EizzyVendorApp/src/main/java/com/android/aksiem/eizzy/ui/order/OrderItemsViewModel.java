@@ -33,13 +33,8 @@ public class OrderItemsViewModel extends ViewModel {
     @Inject
     public OrderItemsViewModel(OrderItemsRepository orderItemsRepository) {
         timeStampedOrderItems = Transformations.switchMap(
-                orderItemsRepository.loadItems(orderIds.getValue()),
-                (items) -> {
-                    if (items == null)
-                        return AbsentLiveData.create();
-                    else
-                        return addTimestampToList(items);
-                });
+                orderItemsRepository.loadItems(),
+                (items) -> addTimestampToList(items));
     }
 
 

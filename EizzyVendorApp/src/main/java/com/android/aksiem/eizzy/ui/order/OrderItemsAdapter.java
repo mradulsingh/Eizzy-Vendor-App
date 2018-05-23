@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.databinding.OrderItemBinding;
 import com.android.aksiem.eizzy.databinding.TimestampTitleItemBinding;
 import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
 import com.android.aksiem.eizzy.util.Objects;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+
+import javax.inject.Inject;
 
 /**
  * Created by pdubey on 14/04/18.
@@ -21,12 +24,15 @@ import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapper<OrderItem>,
         ViewDataBinding> {
 
+    private final AppResourceManager appResourceManager;
     private final DataBindingComponent dataBindingComponent;
     private final ItemClickCallback itemClickCallback;
 
-    public OrderItemsAdapter(DataBindingComponent dataBindingComponent,
+    public OrderItemsAdapter(AppResourceManager appResourceManager,
+                             DataBindingComponent dataBindingComponent,
                              ItemClickCallback itemClickCallback) {
 
+        this.appResourceManager = appResourceManager;
         this.dataBindingComponent = dataBindingComponent;
         this.itemClickCallback = itemClickCallback;
     }
@@ -53,7 +59,7 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
         OrderItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.order_item, parent, false, dataBindingComponent);
         binding.getRoot().setOnClickListener(v -> {
-            OrderItem item = binding.getOrderItem();
+            OrderItem item = binding.getItem();
             if (item != null && itemClickCallback != null) {
                 itemClickCallback.onClick(item);
             }
@@ -80,7 +86,9 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
     @Override
     protected void bind(ViewDataBinding binding, int viewType, TimestampedItemWrapper<OrderItem> item) {
         if (isItem(viewType)) {
-            ((OrderItemBinding) binding).setOrderItem(item.item);
+            OrderItemBinding orderItemBinding = ((OrderItemBinding) binding);
+            orderItemBinding.setItem(item.item);
+            orderItemBinding.setResourceManager(appResourceManager);
         } else {
             ((TimestampTitleItemBinding) binding).setTimestamp(Long.toString(item.timestamp));
         }

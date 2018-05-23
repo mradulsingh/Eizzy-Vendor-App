@@ -2,11 +2,13 @@
 <resources>
 
     <declare-styleable name="GlobalAttrDeclare">
+
         <attr name="progressState" format="enum">
             <enum name="pending" value="0" />
             <enum name="inProgress" value="1" />
             <enum name="complete" value="2" />
         </attr>
+
     </declare-styleable>
 
     <declare-styleable name="ProgressStates">
@@ -25,6 +27,20 @@
 
     <declare-styleable name="AppSteppedProgress">
         <attr name="progressState" />
+    </declare-styleable>
+
+    <declare-styleable name="AppThemedCardView">
+        <attr name="themeColor" format="color|reference" />
+        <attr name="atcvTitle" format="string|reference" localization="suggested" />
+        <attr name="atcvSubtitle" format="string|reference" localization="suggested" />
+        <attr name="additionalInfo" format="string|reference" localization="suggested" />
+        <attr name="infoItem1Text" format="string|reference" localization="suggested" />
+        <attr name="infoItem1DrawableLeftCompat" format="reference" />
+        <attr name="infoItem2Text" format="string|reference" localization="suggested" />
+        <attr name="infoItem2DrawableLeftCompat" format="reference" />
+        <attr name="infoItem3Text" format="string|reference" localization="suggested" />
+        <attr name="infoItem3DrawableLeftCompat" format="reference" />
+        <attr name="btnText" format="string|reference" localization="suggested" />
     </declare-styleable>
 
     <declare-styleable name="AppTextView">

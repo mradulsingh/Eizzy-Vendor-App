@@ -29,4 +29,12 @@ public class PriceComponent implements Serializable {
     public String getAmount() {
         return price.toString();
     }
+
+    @Override
+    public String toString() {
+        return "PriceComponent{" +
+                "componentName='" + componentName + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

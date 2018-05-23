@@ -1,5 +1,7 @@
 package com.android.aksiem.eizzy.vo.support.order;
 
+import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -11,22 +13,58 @@ import java.io.Serializable;
 public enum OrderState implements Serializable {
 
     @SerializedName("placed")
-    PLACED("placed"),
+    PLACED("placed") {
+
+        @Override
+        public int getTheme(AppResourceManager resourceManager) {
+            return resourceManager.getColor(R.color.orderPlaced);
+        }
+    },
 
     @SerializedName("confirmed")
-    CONFIRMED("confirmed"),
+    CONFIRMED("confirmed") {
+
+        @Override
+        public int getTheme(AppResourceManager resourceManager) {
+            return resourceManager.getColor(R.color.orderConfirmed);
+        }
+    },
 
     @SerializedName("assigned")
-    ASSIGNED("assigned"),
+    ASSIGNED("assigned") {
+
+        @Override
+        public int getTheme(AppResourceManager resourceManager) {
+            return R.color.orderAssigned;
+        }
+    },
 
     @SerializedName("picked")
-    PICKED("picked"),
+    PICKED("picked") {
+
+        @Override
+        public int getTheme(AppResourceManager resourceManager) {
+            return R.color.orderPicked;
+        }
+    },
 
     @SerializedName("delivered")
-    DELIVERED("delivered"),
+    DELIVERED("delivered") {
+
+        @Override
+        public int getTheme(AppResourceManager resourceManager) {
+            return R.color.orderDelivered;
+        }
+    },
 
     @SerializedName("undelivered")
-    UNDELIVERED("undelivered");
+    UNDELIVERED("undelivered") {
+
+        @Override
+        public int getTheme(AppResourceManager resourceManager) {
+            return R.color.orderUndelivered;
+        }
+    };
 
     private String state;
 
@@ -36,5 +74,14 @@ public enum OrderState implements Serializable {
 
     public String getState() {
         return state;
+    }
+
+    public abstract int getTheme(AppResourceManager resourceManager);
+
+    @Override
+    public String toString() {
+        return "OrderState{" +
+                "state='" + state + '\'' +
+                '}';
     }
 }

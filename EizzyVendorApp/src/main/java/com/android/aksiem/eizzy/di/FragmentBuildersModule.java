@@ -23,6 +23,7 @@ import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
 import com.android.aksiem.eizzy.ui.order.CreateOrderFragment;
+import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementDurationFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
@@ -58,6 +59,9 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract OrderItemsFragment contributeOrderItemsFragment();
+
+    @ContributesAndroidInjector
+    abstract OrderDetailsFragment contributeOrderDetailsFragment();
 
     @ContributesAndroidInjector
     abstract CreateOrderFragment contributeCreateOrderFragment();

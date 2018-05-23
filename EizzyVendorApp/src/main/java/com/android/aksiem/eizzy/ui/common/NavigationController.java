@@ -31,6 +31,7 @@ import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.vo.OrderItem;
 
 import javax.inject.Inject;
 
@@ -57,8 +58,8 @@ public class NavigationController {
                 .commit();
     }
 
-    public void navigateToOrderDetailsFragment(String orderId) {
-        OrderDetailsFragment fragment = OrderDetailsFragment.create(orderId);
+    public void navigateToOrderDetailsFragment(OrderItem orderItem) {
+        OrderDetailsFragment fragment = OrderDetailsFragment.create(orderItem);
         String tag = OrderDetailsFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)

@@ -56,4 +56,17 @@ public class OrderedItem implements Serializable {
     public String getTotalPrice() {
         return String.format("%s %.2f", currency, totalPrice);
     }
+
+    @Override
+    public String toString() {
+        return "OrderedItem{" +
+                "item='" + item + '\'' +
+                ", quantity=" + quantity +
+                ", unit='" + unit + '\'' +
+                ", unitQuantity=" + unitQuantity +
+                ", unitPrice=" + unitPrice +
+                ", totalPrice=" + totalPrice +
+                ", currency='" + currency + '\'' +
+                '}';
+    }
 }

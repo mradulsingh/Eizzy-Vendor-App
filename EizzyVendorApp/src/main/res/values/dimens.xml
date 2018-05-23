@@ -48,6 +48,7 @@
     <dimen name="primary_btn_ht">@dimen/atom_14</dimen>
     <dimen name="bottom_nav_height">@dimen/atom_14</dimen>
     <dimen name="tall_toolbar_height">208dp</dimen>
+    <dimen name="app_themed_card_view_height">180dp</dimen>
 
     <!-- timeline view -->
 

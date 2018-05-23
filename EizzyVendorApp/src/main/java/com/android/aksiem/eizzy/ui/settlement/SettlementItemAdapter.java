@@ -1,21 +1,13 @@
 package com.android.aksiem.eizzy.ui.settlement;
 
 import android.databinding.DataBindingComponent;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.databinding.OrderItemBinding;
-import com.android.aksiem.eizzy.databinding.TimestampTitleItemBinding;
 import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
-import com.android.aksiem.eizzy.util.Objects;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
-
-import java.util.List;
 
 
 public class SettlementItemAdapter extends DataBoundListAdapter<TimestampedItemWrapper<SettlementItem>, ViewDataBinding> {
@@ -33,43 +25,45 @@ public class SettlementItemAdapter extends DataBoundListAdapter<TimestampedItemW
     @Override
     protected ViewDataBinding createBinding(ViewGroup parent, int viewType) {
 
-        ViewDataBinding binding;
+        ViewDataBinding binding = null;
 
         if (isItem(viewType)) {
 
-            binding = createOldSettlementItemBinding(parent);
+            //binding = createOldSettlementItemBinding(parent);
 
         } else {
 
-            binding = createSettlementOverviewBinding(parent);
+            //binding = createSettlementOverviewBinding(parent);
 
         }
 
         return binding;
     }
 
-    private OrderItemBinding createOldSettlementItemBinding(ViewGroup parent) {
-        OrderItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.old_settlement_element, parent, false, dataBindingComponent);
-        binding.getRoot().setOnClickListener(v -> {
-            OrderItem item = binding.getOrderItem();
-            if (item != null && itemClickCallback != null) {
-                itemClickCallback.onClick(item);
-            }
-        });
-        return binding;
-    }
+//    private OrderItemBinding createOldSettlementItemBinding(ViewGroup parent) {
+//        OrderItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+//                R.layout.old_settlement_element, parent, false, dataBindingComponent);
+//        binding.getRoot().setOnClickListener(v -> {
+//            OrderItem item = binding.getOrderItem();
+//            if (item != null && itemClickCallback != null) {
+//                itemClickCallback.onClick(item);
+//            }
+//        });
+//        return binding;
+//        return null;
+//    }
 
-    private TimestampTitleItemBinding createSettlementOverviewBinding(ViewGroup parent) {
-        TimestampTitleItemBinding binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
-                R.layout.settlement_overview_element, parent, false,
-                dataBindingComponent);
-        binding.getRoot().setOnClickListener(v -> {
-            // TODO: Does anything happen on the click of timestamp?
-        });
-        return binding;
-    }
+//    private TimestampTitleItemBinding createSettlementOverviewBinding(ViewGroup parent) {
+//        TimestampTitleItemBinding binding = DataBindingUtil.inflate(
+//                LayoutInflater.from(parent.getContext()),
+//                R.layout.settlement_overview_element, parent, false,
+//                dataBindingComponent);
+//        binding.getRoot().setOnClickListener(v -> {
+//            // TODO: Does anything happen on the click of timestamp?
+//        });
+//        return binding;
+//        return null;
+//    }
 
     @Override
     public int getItemViewType(int position) {

@@ -38,4 +38,14 @@ public class OrderDetails implements Serializable {
         this.total = total;
         this.paymentMethod = paymentMethod;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "items=" + items +
+                ", priceComponents=" + priceComponents +
+                ", total=" + total +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                '}';
+    }
 }
