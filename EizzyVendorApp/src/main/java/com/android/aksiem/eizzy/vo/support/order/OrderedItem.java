@@ -2,6 +2,7 @@ package com.android.aksiem.eizzy.vo.support.order;
 
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.vo.support.TitledAndSubtitled;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.io.Serializable;
  * Created by pdubey on 09/04/18.
  */
 
-public class OrderedItem implements Serializable {
+public class OrderedItem implements Serializable, TitledAndSubtitled {
 
     @SerializedName("item")
     @NonNull
@@ -55,6 +56,17 @@ public class OrderedItem implements Serializable {
 
     public String getTotalPrice() {
         return String.format("%s %.2f", currency, totalPrice);
+    }
+
+    @Override
+    public String getTitle() {
+        return String.format("%s x %s%s @(%s%s @ %s %.2f)", item, quantity, unit, unitQuantity,
+                unit, currency, unitPrice);
+    }
+
+    @Override
+    public String getSubtitle() {
+        return getTotalPrice();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.android.aksiem.eizzy.vo.support.order;
 
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.vo.support.TitlizedList;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -15,11 +16,11 @@ public class OrderDetails implements Serializable {
 
     @SerializedName("items")
     @NonNull
-    public final List<OrderedItem> items;
+    public final TitlizedList<OrderedItem> items;
 
     @SerializedName("priceComponents")
     @NonNull
-    public final List<PriceComponent> priceComponents;
+    public final TitlizedList<PriceComponent> priceComponents;
 
     @SerializedName("total")
     @NonNull
@@ -29,8 +30,8 @@ public class OrderDetails implements Serializable {
     @NonNull
     public final String paymentMethod;
 
-    public OrderDetails(@NonNull List<OrderedItem> items,
-                        @NonNull List<PriceComponent> priceComponents,
+    public OrderDetails(@NonNull TitlizedList<OrderedItem> items,
+                        @NonNull TitlizedList<PriceComponent> priceComponents,
                         @NonNull PriceComponent total, @NonNull String paymentMethod) {
 
         this.items = items;

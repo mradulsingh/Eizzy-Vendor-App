@@ -2,27 +2,36 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="row"
+            type="com.android.aksiem.eizzy.vo.support.TitledAndSubtitled" />
+    </data>
+
     <RelativeLayout
-        android:id="@+id/orderedItem"
+        android:id="@+id/horizontalRow"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/orderedItemName"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:text="@{row.title}"
             android:textColor="@color/seaBlue"
             android:textSize="@dimen/font_14"
             tools:text="Dark Chocolate x1 (200ml)" />
 
         <TextView
-            android:id="@+id/orderedItemPrice"
+            android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:text="@{row.subtitle}"
             android:textColor="@color/seaBlue"
             android:textSize="@dimen/font_14"
             tools:text="Rs. 20" />

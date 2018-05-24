@@ -3,6 +3,7 @@ package com.android.aksiem.eizzy.vo.support.order;
 import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.vo.support.Price;
+import com.android.aksiem.eizzy.vo.support.TitledAndSubtitled;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * Created by pdubey on 09/04/18.
  */
 
-public class PriceComponent implements Serializable {
+public class PriceComponent implements Serializable, TitledAndSubtitled {
 
     @SerializedName("componentName")
     @NonNull
@@ -31,10 +32,21 @@ public class PriceComponent implements Serializable {
     }
 
     @Override
+    public String getTitle() {
+        return componentName;
+    }
+
+    @Override
+    public String getSubtitle() {
+        return price.toString();
+    }
+
+    @Override
     public String toString() {
         return "PriceComponent{" +
                 "componentName='" + componentName + '\'' +
                 ", price=" + price +
                 '}';
     }
+
 }

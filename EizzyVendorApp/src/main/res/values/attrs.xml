@@ -43,6 +43,20 @@
         <attr name="btnText" format="string|reference" localization="suggested" />
     </declare-styleable>
 
+    <declare-styleable name="AppTitlizedListView">
+        <attr name="lvTitle" format="string|reference" />
+        <attr name="lvTitleColor" format="color|reference" />
+        <attr name="lvTitleSize" format="dimension|reference" />
+        <attr name="lvTitleBold" format="boolean" />
+        <attr name="lvTitleItalics" format="boolean" />
+        <attr name="lvTitleUnderlined" format="boolean" />
+        <attr name="lvTitlePaddingBottom" format="boolean" />
+        <attr name="lvItemTitleSize" format="dimension|reference" />
+        <attr name="lvItemTitleColor" format="color|reference" />
+        <attr name="lvItemSubtitleSize" format="dimension|reference" />
+        <attr name="lvItemSubtitleColor" format="color|reference" />
+    </declare-styleable>
+
     <declare-styleable name="AppTextView">
         <attr name="drawableLeftCompat" format="reference" />
         <attr name="drawableRightCompat" format="reference" />

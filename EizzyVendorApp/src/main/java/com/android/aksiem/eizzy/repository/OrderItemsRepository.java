@@ -20,6 +20,7 @@ import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
 import com.android.aksiem.eizzy.vo.support.Price;
+import com.android.aksiem.eizzy.vo.support.TitlizedList;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
@@ -251,16 +252,17 @@ public class OrderItemsRepository {
     }
 
     private OrderDetails generateSingleOrderItemDetails() {
-        List<OrderedItem> orderedItems = generateListOfOrderedItems();
-        List<PriceComponent> priceComponents = generateAdditionalPriceComponents(orderedItems);
-        PriceComponent total = generateTotal(orderedItems, priceComponents);
+        TitlizedList<OrderedItem> orderedItems = generateListOfOrderedItems();
+        TitlizedList<PriceComponent> priceComponents = generateAdditionalPriceComponents(orderedItems.items);
+        PriceComponent total = generateTotal(orderedItems.items, priceComponents.items);
         OrderDetails orderDetails = new OrderDetails(orderedItems, priceComponents, total,
                 "Cash");
         return orderDetails;
     }
 
-    private List<OrderedItem> generateListOfOrderedItems() {
-        List<OrderedItem> toReturn = new ArrayList<>();
+    private TitlizedList<OrderedItem> generateListOfOrderedItems() {
+        List<OrderedItem> items = new ArrayList<>();
+
         List<String> orderableItems = getOrderableItems();
         Random random = new Random();
         int max = random.nextInt(10) + 1;
@@ -271,12 +273,13 @@ public class OrderItemsRepository {
             double totalPrice = quantity * unitPrice;
             OrderedItem item = new OrderedItem(itemName, quantity, "order", 1,
                     unitPrice, totalPrice, "Rs.");
-            toReturn.add(item);
+            items.add(item);
         }
-        return toReturn;
+        return new TitlizedList<>("Orders", items);
     }
 
-    private List<PriceComponent> generateAdditionalPriceComponents(List<OrderedItem> items) {
+    private TitlizedList<PriceComponent> generateAdditionalPriceComponents(
+            List<OrderedItem> items) {
         float rawTotal = getOrderedItemsTotal(items);
         PriceComponent cgst = new PriceComponent("cgst @2.5%",
                 new Price(rawTotal * 1.025f, "Rs."));
@@ -291,7 +294,7 @@ public class OrderItemsRepository {
         if (random.nextInt(10) < 5) {
             additionalCharges.add(serviceCharge);
         }
-        return additionalCharges;
+        return new TitlizedList<>("Surcharges", additionalCharges);
     }
 
     private float getOrderedItemsTotal(List<OrderedItem> items) {
