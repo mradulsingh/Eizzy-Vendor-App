@@ -43,6 +43,7 @@ public interface AppService {
     @POST("user/validateotp")
     LiveData<ApiResponse<User>> validateOTP(@Field("otp") String otp);
 
+
     @POST("user/resetPassword")
     LiveData<ApiResponse<User>> resetPassword(@Field("password") String password);
 }
