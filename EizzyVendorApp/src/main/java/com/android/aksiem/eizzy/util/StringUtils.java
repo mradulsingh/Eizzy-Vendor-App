@@ -5,15 +5,28 @@ import android.text.format.DateUtils;
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
 
+import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by pdubey on 15/04/18.
  */
 
 public class StringUtils {
-    
+
+    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    public static String randomString(int len) {
+        if (len < 1) return null;
+        SecureRandom rnd = new SecureRandom();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++)
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        return sb.toString();
+    }
+
     public static String getTimestamp(long timestamp, AppResourceManager resourceManager) {
         String toReturn = null;
         if (DateUtils.isToday(timestamp)) {
@@ -56,5 +69,6 @@ public class StringUtils {
         }
         return toReturn;
     }
+
 
 }

@@ -64,6 +64,7 @@ public class UserRepository {
                                                       String contactPerson,
                                                       String contactMobile,
                                                       String contactEmail) {
+
         return new NoCacheNetworkBoundResource<User, User>(appExecutors) {
             @Override
             protected LiveData<User> getCallResult(@NonNull User user) {
@@ -75,7 +76,8 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return appService.createUserAccount(businessName, contactPerson, contactMobile, contactEmail);
+                return null;
+                //return appService.createUserAccount(businessName, contactPerson, contactMobile, contactEmail);
             }
         }.asLiveData();
     }

@@ -1,9 +1,7 @@
 package com.android.aksiem.eizzy.permission;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -39,16 +37,10 @@ public class PermissionManager {
                     builder.setTitle(title);
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setMessage(message);
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @TargetApi(Build.VERSION_CODES.M)
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            activity.requestPermissions(
-                                    new String[]
-                                            {permission}
-                                    , permissionCode);
-                        }
-                    });
+                    builder.setOnDismissListener(dialog -> activity.requestPermissions(
+                            new String[]
+                                    {permission}
+                            , permissionCode));
                     builder.show();
                 } else {
                     ActivityCompat.requestPermissions(activity, new String[]{permission}, permissionCode);

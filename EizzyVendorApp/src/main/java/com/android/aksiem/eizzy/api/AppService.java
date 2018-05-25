@@ -18,9 +18,11 @@ package com.android.aksiem.eizzy.api;
 
 import android.arch.lifecycle.LiveData;
 
+import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.User;
 
 import retrofit2.http.Field;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -29,13 +31,19 @@ import retrofit2.http.POST;
 public interface AppService {
 
     @POST("user/login")
-    LiveData<ApiResponse<User>> doUserLogin(@Field("userId") String userId, @Field("password") String password);
+    LiveData<ApiResponse<User>> doUserLogin(@Field("userId") String userId,
+                                            @Field("password") String password);
 
     @POST("user/create")
-    LiveData<ApiResponse<User>> createUserAccount(@Field("businessName") String businessName,
-                                                  @Field("contactPerson") String contactPerson,
-                                                  @Field("contactMobile") String contactMobile,
-                                                  @Field("contactEmail") String contactEmail);
+    LiveData<ApiResponse<Store>> createUserAccount(@Header("language") String language,
+                                                   @Field("businessName") String businessName,
+                                                   @Field("contactPerson") String contactPerson,
+                                                   @Field("countryCode") String countryCode,
+                                                   @Field("contactMobile") String contactMobile,
+                                                   @Field("contactEmail") String contactEmail,
+                                                   @Field("password") String password,
+                                                   @Field("deviceId") String deviceId,
+                                                   @Field("deviceType") String deviceType);
 
     @POST("user/forgotpassword")
     LiveData<ApiResponse<User>> onForgotPassword(@Field("userId") String userId);
