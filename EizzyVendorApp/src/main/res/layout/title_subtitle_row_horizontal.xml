@@ -9,17 +9,17 @@
             type="com.android.aksiem.eizzy.vo.support.TitledAndSubtitled" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/horizontalRow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_weight="7"
             android:text="@{row.title}"
             android:textColor="@color/seaBlue"
             android:textSize="@dimen/font_14"
@@ -29,12 +29,12 @@
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_weight="3"
+            android:gravity="right"
             android:text="@{row.subtitle}"
             android:textColor="@color/seaBlue"
             android:textSize="@dimen/font_14"
             tools:text="Rs. 20" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

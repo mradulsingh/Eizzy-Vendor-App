@@ -129,4 +129,5 @@
     <string name="timeline_section_title">Order Tracking</string>
     <string name="order_breakdown_section_title">Order Details</string>
     <string name="payment_section_title">Payment</string>
+    <string name="order_detail_total_key">Total</string>
 </resources>
