@@ -65,7 +65,7 @@ public class ValidateOTPFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_validate_otp)
-                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked(v));
     }
 
     private void onBottomActionClicked(View view) {

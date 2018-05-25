@@ -65,7 +65,7 @@ public class ForgotPasswordFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_get_otp)
-                .setBottomActionClickHandler(v -> onBottomActionClicked());
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked());
     }
 
     private void onBottomActionClicked() {

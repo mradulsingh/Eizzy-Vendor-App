@@ -69,7 +69,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_create_account)
-                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked(v));
     }
 
     private void onBottomActionClicked(View view) {

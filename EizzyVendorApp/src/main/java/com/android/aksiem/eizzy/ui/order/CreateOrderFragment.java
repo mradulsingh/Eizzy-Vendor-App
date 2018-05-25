@@ -66,7 +66,7 @@ public class CreateOrderFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_create_order)
-                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked(v));
     }
 
     private void onBottomActionClicked(View view) {

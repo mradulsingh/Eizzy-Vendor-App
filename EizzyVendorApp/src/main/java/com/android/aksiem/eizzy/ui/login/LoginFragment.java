@@ -32,6 +32,7 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.LoginFragmentBinding;
+import com.android.aksiem.eizzy.ui.common.ClickActionHandler;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
@@ -69,7 +70,7 @@ public class LoginFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_login)
-                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked(v));
     }
 
     private void onBottomActionClicked(View view) {

@@ -73,7 +73,7 @@ public class CreatePasswordFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_reset_password)
-                .setBottomActionClickHandler(v -> onBottomActionClicked(v));
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked(v));
     }
 
     private void onBottomActionClicked(View view) {
