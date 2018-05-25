@@ -1,13 +1,11 @@
 package com.android.aksiem.eizzy.vo;
 
-import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-@Entity(primaryKeys = "storeId", tableName = "my_store_info")
 public class Store implements Serializable {
 
     @NonNull
