@@ -151,4 +151,12 @@ public class NavigationController {
     }
 
 
+    public void navigateToConfirmationFragment(Boolean backButtonExists, String title, String subTitle, String actionButtonText, ClickActionHandler listener) {
+        ConfirmationFragment fragment = ConfirmationFragment.newInstance(backButtonExists, title, subTitle, actionButtonText, listener);
+        String tag = ConfirmationFragment.class.getSimpleName();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
+                .commit();
+    }
 }
