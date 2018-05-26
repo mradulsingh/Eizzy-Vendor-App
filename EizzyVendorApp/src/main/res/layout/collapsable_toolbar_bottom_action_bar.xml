@@ -31,7 +31,7 @@
             type="com.android.aksiem.eizzy.ui.common.ClickActionHandler" />
     </data>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         style="@style/AppActionButton"
         visibleGone="@{actionTitle != null}"
         android:layout_width="match_parent"

@@ -163,8 +163,9 @@
     <style name="AppActionButton" parent="FontMontserratBold">
         <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
         <item name="android:textSize">@dimen/font_12</item>
+        <item name="android:theme">@style/BackgroundAppActionButton</item>
         <item name="android:textColor">@color/colorTextActionButton</item>
-        <item name="android:background">@color/orderAssigned</item>
+        <item name="android:background">@drawable/bg_rounded_action</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
