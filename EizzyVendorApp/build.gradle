@@ -135,6 +135,8 @@ dependencies {
     implementation deps.eclipse_paho.mqtt_client
     implementation deps.eclipse_paho.android_service
 
+    implementation 'com.airbnb.android:lottie:2.5.4'
+
     annotationProcessor deps.dagger.android_support_compiler
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.room.compiler
@@ -142,7 +144,7 @@ dependencies {
 
     testImplementation deps.junit
     testImplementation deps.mock_web_server
-    testImplementation (deps.arch_core.testing, {
+    testImplementation(deps.arch_core.testing, {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
