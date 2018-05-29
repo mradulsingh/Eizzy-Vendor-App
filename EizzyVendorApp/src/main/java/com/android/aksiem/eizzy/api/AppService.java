@@ -22,8 +22,11 @@ import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.User;
 
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * REST API access points
@@ -34,16 +37,16 @@ public interface AppService {
     LiveData<ApiResponse<User>> doUserLogin(@Field("userId") String userId,
                                             @Field("password") String password);
 
-    @POST("user/create")
+    @Multipart
+    @POST("dispatcher/store")
     LiveData<ApiResponse<Store>> createUserAccount(@Header("language") String language,
-                                                   @Field("businessName") String businessName,
-                                                   @Field("contactPerson") String contactPerson,
-                                                   @Field("countryCode") String countryCode,
-                                                   @Field("contactMobile") String contactMobile,
-                                                   @Field("contactEmail") String contactEmail,
-                                                   @Field("password") String password,
-                                                   @Field("deviceId") String deviceId,
-                                                   @Field("deviceType") String deviceType);
+                                                   @Part("businessName") String businessName,
+                                                   @Part("contactPerson") String contactPerson,
+                                                   @Part("countryCode") String countryCode,
+                                                   @Part("phone") String contactMobile,
+                                                   @Part("email") String contactEmail,
+                                                   @Part("deviceId") String deviceId,
+                                                   @Part("deviceType") int deviceType);
 
     @POST("user/forgotpassword")
     LiveData<ApiResponse<User>> onForgotPassword(@Field("userId") String userId);

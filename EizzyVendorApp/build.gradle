@@ -135,7 +135,8 @@ dependencies {
     implementation deps.eclipse_paho.mqtt_client
     implementation deps.eclipse_paho.android_service
 
-    implementation 'com.airbnb.android:lottie:2.5.4'
+    implementation deps.libs.lottie
+    implementation deps.libs.loading_button
 
     annotationProcessor deps.dagger.android_support_compiler
     annotationProcessor deps.dagger.compiler

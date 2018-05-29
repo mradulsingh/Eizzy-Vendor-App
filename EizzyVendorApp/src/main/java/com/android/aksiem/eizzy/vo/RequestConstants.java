@@ -7,7 +7,7 @@ public class RequestConstants {
     }
 
     public static class Platform {
-        public static final String android = "2";
+        public static final int android = 2;
     }
 
     public static class CountryCode {

@@ -50,7 +50,7 @@ public class StoreManagerRepository {
             protected LiveData<ApiResponse<Store>> createCall() {
                 return appService.createUserAccount(RequestConstants.Language.english, businessName,
                         contactPerson, RequestConstants.CountryCode.india, contactMobile,
-                        contactEmail, RequestConstants.defaultPassword, Settings.Secure.ANDROID_ID,
+                        contactEmail, Settings.Secure.ANDROID_ID,
                         RequestConstants.Platform.android);
             }
         }.asLiveData();

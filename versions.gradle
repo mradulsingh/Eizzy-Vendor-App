@@ -50,6 +50,8 @@ versions.kotlin = "1.2.20"
 versions.paging = "1.0.0-alpha7"
 versions.secure_pref="0.1.4"
 versions.calligraphy="2.3.0"
+versions.lottie="2.5.4"
+versions.loading_button="1.14.0"
 versions.eclipse_paho_mqttv3="1.2.0"
 versions.eclipse_paho_android_service="1.1.1"
 def deps = [:]
@@ -137,6 +139,8 @@ ext.deps = deps
 def libs = [:]
 libs.secure_pref = "com.scottyab:secure-preferences-lib:$versions.secure_pref"
 libs.calligraphy = "uk.co.chrisjenx:calligraphy:$versions.calligraphy"
+libs.lottie = "com.airbnb.android:lottie:$versions.lottie"
+libs.loading_button="br.com.simplepass:loading-button-android:$versions.loading_button"
 deps.libs = libs
 
 def eclipse_paho = [:]
@@ -145,7 +149,7 @@ eclipse_paho.android_service = "org.eclipse.paho:org.eclipse.paho.android.servic
 deps.eclipse_paho = eclipse_paho
 
 def build_versions = [:]
-build_versions.min_sdk = 16
+build_versions.min_sdk = 17
 build_versions.target_sdk = 26
 build_versions.build_tools = "27.0.3"
 ext.build_versions = build_versions

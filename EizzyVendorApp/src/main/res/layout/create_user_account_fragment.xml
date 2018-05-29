@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/edittext.hint.business.name"
                 android:inputType="textNoSuggestions"
+                android:nextFocusForward="@id/contactPerson"
                 tools:text="@string/edittext.hint.business.name" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
@@ -64,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/edittext.hint.business.contact.name"
                 android:inputType="textNoSuggestions"
+                android:nextFocusForward="@id/contactMobile"
                 tools:text="@string/edittext.hint.business.contact.name" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
@@ -81,7 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/edittext.hint.business.contact.mobile"
-                android:inputType="textNoSuggestions"
+                android:inputType="phone"
+                android:nextFocusForward="@id/contactEmail"
                 tools:text="@string/edittext.hint.business.contact.mobile" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
@@ -100,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/edittext.hint.business.contact.email"
                 android:imeOptions="actionDone"
-                android:inputType="textNoSuggestions"
+                android:inputType="textEmailAddress"
                 tools:text="@string/edittext.hint.business.contact.email" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
 

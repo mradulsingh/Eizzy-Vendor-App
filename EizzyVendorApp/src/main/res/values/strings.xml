@@ -130,4 +130,8 @@
     <string name="order_breakdown_section_title">Order Details</string>
     <string name="payment_section_title">Payment</string>
     <string name="order_detail_total_key">Total</string>
+    <string name="validation.business.name.message">Please Enter a Valid Business Name</string>
+    <string name="validation.user.name.message">Please Enter a Name containing letters and spaces only</string>
+    <string name="validation.phone.message">Please Enter a Valid Phone Number</string>
+    <string name="validation.email.message">Please Enter a Valid Email Address</string>
 </resources>

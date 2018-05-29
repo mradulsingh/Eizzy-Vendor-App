@@ -16,10 +16,13 @@
 
 package com.android.aksiem.eizzy.ui.login;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.StoreManagerRepository;
+import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.Store;
 
 import javax.inject.Inject;
 
@@ -61,8 +64,8 @@ public class CreateUserAccountViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    void createUserAccount() {
-        storeManagerRepository.createStoreAccount(businessName,
+    LiveData<Resource<Store>> createUserAccount() {
+        return storeManagerRepository.createStoreAccount(businessName,
                 contactPerson,
                 contactMobile,
                 contactEmail);

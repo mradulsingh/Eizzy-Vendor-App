@@ -10,7 +10,7 @@ public enum AppEnv {
     DEV {
         @Override
         public String getBaseURL() {
-            return "https://api.github.com/";
+            return "https://api.instacart-clone.com/";
         }
 
         @Override

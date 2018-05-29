@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -31,12 +32,16 @@
             type="com.android.aksiem.eizzy.ui.common.ClickActionHandler" />
     </data>
 
-    <android.support.v7.widget.AppCompatButton
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         style="@style/AppActionButton"
         visibleGone="@{actionTitle != null}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:onClick="@{(view) -> onClickHandler.onClick(view, bundle)}"
-        android:text="@{actionTitle}" />
+        android:text="@{actionTitle}"
+        app:spinning_bar_width="@dimen/atom_1"
+        app:spinning_bar_padding="@dimen/atom_2"
+        app:spinning_bar_color="@color/white" />
 
 </layout>

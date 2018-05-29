@@ -22,6 +22,8 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneNumberUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,12 @@ import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
  * Created by napendersingh on 16/04/18.
@@ -73,8 +80,11 @@ public class CreateUserAccountFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        //doUserLogin(view);
-        toastController.showErrorToast("Account Creation Failed");
+        //createUserAccount(view);
+        if (view instanceof CircularProgressButton) {
+            CircularProgressButton button = (CircularProgressButton) view;
+            button.startAnimation();
+        }
     }
 
     @Nullable
@@ -82,8 +92,8 @@ public class CreateUserAccountFragment extends NavigationFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         CreateUserAccountFragmentBinding dataBinding = DataBindingUtil
-                .inflate(inflater, R.layout.create_user_account_fragment, container, false,
-                        dataBindingComponent);
+                .inflate(inflater, R.layout.create_user_account_fragment, container,
+                        false, dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
@@ -91,7 +101,8 @@ public class CreateUserAccountFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        createUserAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(CreateUserAccountViewModel.class);
+        createUserAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+                CreateUserAccountViewModel.class);
         initInputListener();
     }
 
@@ -114,17 +125,84 @@ public class CreateUserAccountFragment extends NavigationFragment {
     }
 
     private void createUserAccount(View v) {
-        String businessName = binding.get().businessName.getText().toString();
-        String contactPerson = binding.get().contactPerson.getText().toString();
-        String contactMobile = binding.get().contactMobile.getText().toString();
-        String contactEmail = binding.get().contactEmail.getText().toString();
+        String businessName = getValidatedBusinessName();
+        String contactPerson = getValidatedContactPerson();
+        String contactMobile = getValidatedContactMobile();
+        String contactEmail = getValidatedContactEmail();
 
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        createUserAccountViewModel.setBusinessName(businessName);
-        createUserAccountViewModel.setContactPerson(contactPerson);
-        createUserAccountViewModel.setContactMobile(contactMobile);
-        createUserAccountViewModel.setContactEmail(contactEmail);
-        createUserAccountViewModel.createUserAccount();
+
+        if (businessName != null && contactPerson != null && contactMobile != null
+                && contactEmail != null) {
+            createUserAccountViewModel.setBusinessName(businessName);
+            createUserAccountViewModel.setContactPerson(contactPerson);
+            createUserAccountViewModel.setContactMobile(contactMobile);
+            createUserAccountViewModel.setContactEmail(contactEmail);
+            createUserAccountViewModel.createUserAccount().observe(this, storeResource -> {
+                switch (storeResource.status) {
+                    case LOADING:
+                        // TODO: Show loading status
+                        break;
+                    case SUCCESS:
+                        toastController.showSuccessToast("Account Created");
+                        break;
+                    case ERROR:
+                    default:
+                        toastController.showErrorToast("Something Went Wrong");
+                }
+            });
+        }
+
+    }
+
+    private String getValidatedBusinessName() {
+        String businessName = binding.get().businessName.getText().toString();
+        if (businessName != null && businessName.length() > 0) {
+            return businessName;
+        } else {
+            binding.get().textInputLayoutBusinessName.setError(getString(
+                    R.string.validation_business_name_message));
+            return null;
+        }
+    }
+
+    private String getValidatedContactPerson() {
+        String contactPerson = binding.get().contactPerson.getText().toString();
+        String regx = "^[\\p{L} .'-]+$";
+        Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
+        if (contactPerson != null && contactPerson.length() > 0
+                && pattern.matcher(contactPerson).matches()) {
+            return contactPerson;
+        } else {
+            binding.get().textInputLayoutContactPerson.setError(getString(
+                    R.string.validation_user_name_message));
+            return null;
+        }
+    }
+
+    private String getValidatedContactMobile() {
+        String contactMobile = binding.get().contactMobile.getText().toString();
+        if (contactMobile != null && contactMobile.length() > 0 &&
+                PhoneNumberUtils.isGlobalPhoneNumber(contactMobile)) {
+            return contactMobile;
+        } else {
+            binding.get().textInputLayoutContactMobile.setError(getString(
+                    R.string.validation_phone_message));
+            return null;
+        }
+    }
+
+    private String getValidatedContactEmail() {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        String contactEmail = binding.get().contactEmail.getText().toString();
+        if (contactEmail != null && contactEmail.length() > 0 &&
+                pattern.matcher(contactEmail).matches()) {
+            return contactEmail;
+        } else {
+            binding.get().textInputLayoutContactEmail.setError(getString(
+                    R.string.validation_email_message));
+            return null;
+        }
     }
 }
