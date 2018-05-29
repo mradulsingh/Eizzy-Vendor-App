@@ -19,8 +19,7 @@ package com.android.aksiem.eizzy.ui.login;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
-import com.android.aksiem.eizzy.repository.StoreRepository;
-import com.android.aksiem.eizzy.repository.UserRepository;
+import com.android.aksiem.eizzy.repository.StoreManagerRepository;
 
 import javax.inject.Inject;
 
@@ -38,11 +37,11 @@ public class CreateUserAccountViewModel extends ViewModel {
 
     private String contactEmail;
 
-    private StoreRepository storeRepository;
+    private StoreManagerRepository storeManagerRepository;
 
     @Inject
-    public CreateUserAccountViewModel(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
+    public CreateUserAccountViewModel(StoreManagerRepository storeManagerRepository) {
+        this.storeManagerRepository = storeManagerRepository;
     }
 
     public void setBusinessName(String businessName) {
@@ -63,7 +62,7 @@ public class CreateUserAccountViewModel extends ViewModel {
 
     @VisibleForTesting
     void createUserAccount() {
-        storeRepository.createStoreAccount(businessName,
+        storeManagerRepository.createStoreAccount(businessName,
                 contactPerson,
                 contactMobile,
                 contactEmail);

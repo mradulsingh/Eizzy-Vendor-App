@@ -18,14 +18,14 @@ import com.android.aksiem.eizzy.vo.Store;
 import javax.inject.Inject;
 
 @AppScope
-public class StoreRepository {
+public class StoreManagerRepository {
 
     private final AppService appService;
     private final AppExecutors appExecutors;
 
     @Inject
-    public StoreRepository(AppService appService,
-                           AppExecutors appExecutors) {
+    public StoreManagerRepository(AppService appService,
+                                  AppExecutors appExecutors) {
         this.appService = appService;
         this.appExecutors = appExecutors;
     }
@@ -50,7 +50,7 @@ public class StoreRepository {
             protected LiveData<ApiResponse<Store>> createCall() {
                 return appService.createUserAccount(RequestConstants.Language.english, businessName,
                         contactPerson, RequestConstants.CountryCode.india, contactMobile,
-                        contactEmail, StringUtils.randomString(8), Settings.Secure.ANDROID_ID,
+                        contactEmail, RequestConstants.defaultPassword, Settings.Secure.ANDROID_ID,
                         RequestConstants.Platform.android);
             }
         }.asLiveData();

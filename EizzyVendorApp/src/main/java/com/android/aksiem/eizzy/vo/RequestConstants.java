@@ -14,4 +14,6 @@ public class RequestConstants {
         public static final String india = "91";
     }
 
+    public static final String defaultPassword = "eizzypassword";
+
 }
