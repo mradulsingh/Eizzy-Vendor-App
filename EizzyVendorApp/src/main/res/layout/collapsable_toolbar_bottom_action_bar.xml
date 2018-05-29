@@ -37,7 +37,6 @@
         visibleGone="@{actionTitle != null}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:onClick="@{(view) -> onClickHandler.onClick(view, bundle)}"
         android:text="@{actionTitle}"
         app:spinning_bar_width="@dimen/atom_1"

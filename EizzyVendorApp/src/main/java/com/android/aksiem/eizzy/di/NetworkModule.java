@@ -1,6 +1,7 @@
 package com.android.aksiem.eizzy.di;
 
 import com.android.aksiem.eizzy.api.AppService;
+import com.android.aksiem.eizzy.api.DispatcherService;
 import com.android.aksiem.eizzy.app.AppGlobal;
 import com.android.aksiem.eizzy.util.LiveDataCallAdapterFactory;
 import com.android.aksiem.eizzy.util.Logger;
@@ -27,9 +28,11 @@ public class NetworkModule {
     private static final String TAG_API = "ApiLog";
 
     private String mBaseUrl;
+    private String mDispatcherServiceUrl;
 
-    NetworkModule(String baseUrl) {
+    NetworkModule(String baseUrl, String dispatcherServiceUrl) {
         this.mBaseUrl = baseUrl;
+        this.mDispatcherServiceUrl = dispatcherServiceUrl;
     }
 
     @AppScope
@@ -42,6 +45,18 @@ public class NetworkModule {
                 .client(okHttpClient)
                 .build()
                 .create(AppService.class);
+    }
+
+    @AppScope
+    @Provides
+    DispatcherService provideDispatcherService(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .baseUrl(mDispatcherServiceUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .client(okHttpClient)
+                .build()
+                .create(DispatcherService.class);
     }
 
     @Provides

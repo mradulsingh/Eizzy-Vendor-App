@@ -14,6 +14,11 @@ public enum AppEnv {
         }
 
         @Override
+        public String getDispatcherServiceURL() {
+            return "https://api.instacart-clone.com/";
+        }
+
+        @Override
         public String getMqttServerUri() {
             return "tcp://192.168.0.4:1883";
         }
@@ -37,6 +42,11 @@ public enum AppEnv {
         }
 
         @Override
+        public String getDispatcherServiceURL() {
+            return "";
+        }
+
+        @Override
         public String getMqttServerUri() {
             return "";
         }
@@ -54,6 +64,8 @@ public enum AppEnv {
     };
 
     public abstract String getBaseURL();
+
+    public abstract String getDispatcherServiceURL();
 
     public abstract String getMqttServerUri();
 
