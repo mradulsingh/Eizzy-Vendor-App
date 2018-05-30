@@ -15,7 +15,7 @@ public enum AppEnv {
 
         @Override
         public String getDispatcherServiceURL() {
-            return "https://api.instacart-clone.com/";
+            return "https://apidispatcher.instacart-clone.com/";
         }
 
         @Override

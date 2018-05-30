@@ -12,7 +12,7 @@ import com.android.aksiem.eizzy.ui.order.CreateOrderViewModel;
 import com.android.aksiem.eizzy.ui.order.OrderItemsViewModel;
 import com.android.aksiem.eizzy.ui.settlement.SettlementViewModel;
 import com.android.aksiem.eizzy.ui.user.UserDetailViewModel;
-import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingViewModel;
+import com.android.aksiem.eizzy.ui.login.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
 import dagger.Binds;

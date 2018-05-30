@@ -32,7 +32,7 @@ import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
-import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.OrderItem;
 
@@ -90,8 +90,8 @@ public class NavigationController {
         CreateUserAccountFragment fragment = new CreateUserAccountFragment();
         String tag = CreateUserAccountFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
+                .add(containerId, fragment, tag)
+                .addToBackStack(tag)
                 .commitAllowingStateLoss();
     }
 
@@ -152,13 +152,21 @@ public class NavigationController {
     }
 
 
-    public void navigateToConfirmationFragment(Boolean backButtonExists, String title, String subTitle, String actionButtonText, ClickActionHandler listener) {
-        ConfirmationFragment fragment = ConfirmationFragment.newInstance(backButtonExists, title, subTitle, actionButtonText, listener);
+    public void navigateToConfirmationFragment(Boolean backButtonExists, String title,
+                                               String subTitle, String actionButtonText,
+                                               ClickActionHandler listener, boolean replace,
+                                               boolean addToBackStack) {
+        ConfirmationFragment fragment = ConfirmationFragment.newInstance(backButtonExists, title,
+                subTitle, actionButtonText, listener);
         String tag = ConfirmationFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if (replace)
+            transaction.replace(containerId, fragment, tag);
+        else
+            transaction.add(containerId, fragment, tag);
+        if (addToBackStack)
+            transaction.addToBackStack(tag);
+        transaction.commit();
     }
 
     public void addFragment(Fragment fragment, boolean addStack) {

@@ -10,7 +10,7 @@ public class Store implements Serializable {
 
     @NonNull
     @SerializedName("_id")
-    public final String serverId;
+    public final String managerId;
 
     @NonNull
     @SerializedName("ownerName")
@@ -45,10 +45,6 @@ public class Store implements Serializable {
     public final String email;
 
     @NonNull
-    @SerializedName("password")
-    public final String password;
-
-    @NonNull
     @SerializedName("firstName")
     public final String firstName;
 
@@ -64,14 +60,13 @@ public class Store implements Serializable {
     @SerializedName("storeName")
     public final String storeName;
 
-    public Store(@NonNull String serverId, @NonNull String ownerName, @NonNull String countryCode,
+    public Store(@NonNull String managerId, @NonNull String ownerName, @NonNull String countryCode,
                  @NonNull String ownerPhone, @NonNull String ownerEmail,
                  @NonNull String businessCountryCode, @NonNull String businessNumber,
-                 @NonNull LatLng coordinates, @NonNull String email, @NonNull String password,
-                 @NonNull String firstName, @NonNull String phone, @NonNull String storeId,
-                 @NonNull String storeName) {
+                 @NonNull LatLng coordinates, @NonNull String email, @NonNull String firstName,
+                 @NonNull String phone, @NonNull String storeId, @NonNull String storeName) {
 
-        this.serverId = serverId;
+        this.managerId = managerId;
         this.ownerName = ownerName;
         this.countryCode = countryCode;
         this.ownerPhone = ownerPhone;
@@ -80,7 +75,6 @@ public class Store implements Serializable {
         this.businessNumber = businessNumber;
         this.coordinates = coordinates;
         this.email = email;
-        this.password = password;
         this.firstName = firstName;
         this.phone = phone;
         this.storeId = storeId;

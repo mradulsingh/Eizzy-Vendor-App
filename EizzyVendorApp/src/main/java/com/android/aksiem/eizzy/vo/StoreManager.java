@@ -4,9 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class StoreManager {
+public class StoreManager implements Serializable {
 
     @NonNull
     @SerializedName("token")

@@ -29,7 +29,7 @@ import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementDurationFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
-import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

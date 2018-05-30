@@ -134,4 +134,8 @@
     <string name="validation.user.name.message">Please Enter a Name containing letters and spaces only</string>
     <string name="validation.phone.message">Please Enter a Valid Phone Number</string>
     <string name="validation.email.message">Please Enter a Valid Email Address</string>
+    <string name="confirmation.account.creation.title">Thank You!</string>
+    <string name="confirmation.account.creation.subtitle">Our customer expert Admin will contact you soon on your registred number.</string>
+    <string name="confirmation.account.creation.action">Done</string>
+    <string name="error.account.already.exists">An account is already registered to this device</string>
 </resources>

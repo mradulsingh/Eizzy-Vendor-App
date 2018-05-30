@@ -116,11 +116,11 @@ public class LoginFragment extends NavigationFragment {
     }
 
     private void doUserLogin(View v) {
-        String userId = binding.get().userid.getText().toString();
+        String phone = binding.get().userid.getText().toString();
         String password = binding.get().password.getText().toString();
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        loginViewModel.setUserId(userId);
+        loginViewModel.setPhone(phone);
         loginViewModel.setPassword(password);
         loginViewModel.doUserLogin();
     }

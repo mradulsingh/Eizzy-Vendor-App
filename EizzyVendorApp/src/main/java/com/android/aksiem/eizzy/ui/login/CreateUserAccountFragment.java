@@ -31,9 +31,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppPrefManager;
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.CreateUserAccountFragmentBinding;
+import com.android.aksiem.eizzy.ui.common.ClickActionHandler;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
@@ -62,6 +65,9 @@ public class CreateUserAccountFragment extends NavigationFragment {
     @Inject
     ToastController toastController;
 
+    @Inject
+    AppPrefManager appPrefManager;
+
     AutoClearedValue<CreateUserAccountFragmentBinding> binding;
 
     private CreateUserAccountViewModel createUserAccountViewModel;
@@ -80,11 +86,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        //createUserAccount(view);
-        if (view instanceof CircularProgressButton) {
-            CircularProgressButton button = (CircularProgressButton) view;
-            button.startAnimation();
-        }
+        createUserAccount(view);
     }
 
     @Nullable
@@ -103,7 +105,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         createUserAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 CreateUserAccountViewModel.class);
-        initInputListener();
+        //initInputListener();
     }
 
     private void initInputListener() {
@@ -142,13 +144,34 @@ public class CreateUserAccountFragment extends NavigationFragment {
             createUserAccountViewModel.createUserAccount().observe(this, storeResource -> {
                 switch (storeResource.status) {
                     case LOADING:
-                        // TODO: Show loading status
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.startAnimation();
+                        }
                         break;
                     case SUCCESS:
-                        toastController.showSuccessToast("Account Created");
+                        EizzyAppState.AccountCreated.setAccountCreated(appPrefManager,
+                                true);
+                        EizzyAppState.AccountCreated.setBasicAccountDetails(appPrefManager,
+                                storeResource.data.data);
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        navigationController.navigateToConfirmationFragment(true,
+                                getString(R.string.confirmation_account_creation_title),
+                                getString(R.string.confirmation_account_creation_subtitle),
+                                getString(R.string.confirmation_account_creation_action),
+                                (v1, args) -> {
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }, true, false);
                         break;
                     case ERROR:
                     default:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
                         toastController.showErrorToast("Something Went Wrong");
                 }
             });

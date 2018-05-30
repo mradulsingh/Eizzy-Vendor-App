@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.ui.vendorOnboarding;
+package com.android.aksiem.eizzy.ui.login;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppPrefManager;
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.VendorOnboardingFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
@@ -35,6 +38,12 @@ public class VendorOnboardingFragment extends NavigationFragment {
 
     @Inject
     NavigationController navigationController;
+
+    @Inject
+    AppPrefManager appPrefManager;
+
+    @Inject
+    ToastController toastController;
 
     private DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     private VendorOnboardingViewModel vendorOnboardingViewModel;
@@ -63,15 +72,22 @@ public class VendorOnboardingFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         vendorOnboardingViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(VendorOnboardingViewModel.class);
-        vendorOnboardingViewModel.getVendorOnboarding().observe(this, vendorOnboardingResource -> {
-            binding.get().setVendorOnboarding(vendorOnboardingResource == null ? null : vendorOnboardingResource.data);
-            binding.get().primaryAction.setOnClickListener(v -> {
-                //TODO
-            });
+        vendorOnboardingViewModel.getVendorOnboarding().observe(this,
+                vendorOnboardingResource -> {
+                    binding.get().setVendorOnboarding(
+                            vendorOnboardingResource == null ? null : vendorOnboardingResource.data);
             binding.get().existingAccountAction.setOnClickListener(v -> {
                 navigationController.navigateToLogin();
             });
-            binding.get().primaryAction.setOnClickListener(v -> navigationController.navigateToCreateUserAccount());
+                    binding.get().primaryAction.setOnClickListener(
+                            v -> {
+                                if (EizzyAppState.AccountCreated.isAccountCreated(appPrefManager)) {
+                                    toastController.showErrorToast(
+                                            getString(R.string.error_account_already_exists));
+                                } else {
+                                    navigationController.navigateToCreateUserAccount();
+                                }
+                            });
         });
     }
 

@@ -20,7 +20,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
+import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.repository.StoreManagerRepository;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.Store;
 
@@ -64,11 +66,9 @@ public class CreateUserAccountViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    LiveData<Resource<Store>> createUserAccount() {
+    LiveData<Resource<EizzyApiRespone<Store>>> createUserAccount() {
         return storeManagerRepository.createStoreAccount(businessName,
-                contactPerson,
-                contactMobile,
-                contactEmail);
+                contactPerson, contactMobile, contactEmail);
     }
 
     @VisibleForTesting

@@ -19,6 +19,7 @@ package com.android.aksiem.eizzy.ui.login;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
+import com.android.aksiem.eizzy.repository.StoreManagerRepository;
 import com.android.aksiem.eizzy.repository.UserRepository;
 
 import javax.inject.Inject;
@@ -29,19 +30,19 @@ import javax.inject.Inject;
 
 public class LoginViewModel extends ViewModel {
 
-    private String mUserId;
+    private String mPhone;
 
     private String mPassword;
 
-    private UserRepository userRepository;
+    private StoreManagerRepository storeManagerRepository;
 
     @Inject
-    public LoginViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public LoginViewModel(StoreManagerRepository storeManagerRepository) {
+        this.storeManagerRepository = storeManagerRepository;
     }
 
-    public void setUserId(String userId) {
-        this.mUserId = userId;
+    public void setPhone(String phone) {
+        this.mPhone = phone;
     }
 
     public void setPassword(String password) {
@@ -50,7 +51,7 @@ public class LoginViewModel extends ViewModel {
 
     @VisibleForTesting
     void doUserLogin() {
-        userRepository.doUserLogin(mUserId, mPassword);
+        storeManagerRepository.doManagerLogin(mPhone, mPassword);
     }
 
     @VisibleForTesting

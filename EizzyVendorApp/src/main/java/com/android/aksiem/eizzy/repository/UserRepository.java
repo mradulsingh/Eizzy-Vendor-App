@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
+import com.android.aksiem.eizzy.api.DispatcherService;
 import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.vo.Resource;
@@ -34,11 +35,11 @@ import javax.inject.Inject;
  */
 @AppScope
 public class UserRepository {
-    private final AppService appService;
+    private final DispatcherService appService;
     private final AppExecutors appExecutors;
 
     @Inject
-    UserRepository(AppExecutors appExecutors, AppService appService) {
+    UserRepository(AppExecutors appExecutors, DispatcherService appService) {
         this.appService = appService;
         this.appExecutors = appExecutors;
     }
@@ -55,32 +56,12 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return appService.doUserLogin(userId, password);
-            }
-        }.asLiveData();
-    }
-
-    public LiveData<Resource<User>> createUserAccount(String businessName,
-                                                      String contactPerson,
-                                                      String contactMobile,
-                                                      String contactEmail) {
-
-        return new NoCacheNetworkBoundResource<User, User>(appExecutors) {
-            @Override
-            protected LiveData<User> getCallResult(@NonNull User user) {
-                MutableLiveData<User> repoList = new MutableLiveData();
-                repoList.setValue(user);
-                return repoList;
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<User>> createCall() {
+                //return appService.doUserLogin(userId, password);
                 return null;
-                //return appService.createUserAccount(businessName, contactPerson, contactMobile, contactEmail);
             }
         }.asLiveData();
     }
+
 
     public LiveData<Resource<User>> onForgotPassword(String userId) {
         return new NoCacheNetworkBoundResource<User, User>(appExecutors) {
@@ -94,7 +75,8 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return appService.onForgotPassword(userId);
+                //return appService.onForgotPassword(userId);
+                return null;
             }
         }.asLiveData();
     }
@@ -111,7 +93,8 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return appService.validateOTP(otp);
+                //return appService.validateOTP(otp);
+                return null;
             }
         }.asLiveData();
     }
@@ -128,7 +111,8 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return appService.resetPassword(password);
+                //return appService.resetPassword(password);
+                return null;
             }
         }.asLiveData();
     }

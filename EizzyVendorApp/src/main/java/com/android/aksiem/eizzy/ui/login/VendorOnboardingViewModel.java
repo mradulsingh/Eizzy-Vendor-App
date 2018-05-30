@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.ui.vendorOnboarding;
+package com.android.aksiem.eizzy.ui.login;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;

@@ -11,7 +11,7 @@ public class RequestConstants {
     }
 
     public static class CountryCode {
-        public static final String india = "91";
+        public static final String india = "+91";
     }
 
     public static final String defaultPassword = "eizzypassword";
