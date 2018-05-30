@@ -22,6 +22,7 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneNumberUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,17 +30,23 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppPrefManager;
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.LoginFragmentBinding;
-import com.android.aksiem.eizzy.ui.common.ClickActionHandler;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -52,6 +59,9 @@ public class LoginFragment extends NavigationFragment {
 
     @Inject
     NavigationController navigationController;
+
+    @Inject
+    AppPrefManager appPrefManager;
 
     AutoClearedValue<LoginFragmentBinding> binding;
 
@@ -74,7 +84,7 @@ public class LoginFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        //doUserLogin(view);
+        //doManagerLogin(view);
         toastController.showErrorToast("Login Failed");
     }
 
@@ -92,15 +102,17 @@ public class LoginFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loginViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel.class);
-        initInputListener();
-        binding.get().tvActionForgetPassword.setOnClickListener(v -> navigationController.navigateToForgotPasswordFragment());
+        loginViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+                LoginViewModel.class);
+        //initInputListener();
+        binding.get().tvActionForgetPassword.setOnClickListener(v ->
+                navigationController.navigateToForgotPasswordFragment());
     }
 
     private void initInputListener() {
         binding.get().password.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                doUserLogin(v);
+                doManagerLogin(v);
                 return true;
             }
             return false;
@@ -108,20 +120,72 @@ public class LoginFragment extends NavigationFragment {
         binding.get().password.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN)
                     && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                doUserLogin(v);
+                doManagerLogin(v);
                 return true;
             }
             return false;
         });
     }
 
-    private void doUserLogin(View v) {
-        String phone = binding.get().userid.getText().toString();
-        String password = binding.get().password.getText().toString();
+    private void doManagerLogin(View v) {
+        String phone = getValidatedPhone();
+        String password = getValidatedPassword();
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        loginViewModel.setPhone(phone);
-        loginViewModel.setPassword(password);
-        loginViewModel.doUserLogin();
+
+        if (phone != null && password != null) {
+            loginViewModel.doManagerLogin(phone, password).observe(this, managerResource -> {
+                switch (managerResource.status) {
+                    case LOADING:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.startAnimation();
+                        }
+                        break;
+                    case SUCCESS:
+                        EizzyAppState.ManagerLoggedIn.setManagerLoggedIn(appPrefManager,
+                                true);
+                        EizzyAppState.ManagerLoggedIn.setManagerDetails(appPrefManager,
+                                managerResource.data.data);
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        //TODO: remove everything from the backstack
+                        navigationController.navigateToOrderItemsFragment();
+                        break;
+                    case ERROR:
+                    default:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        toastController.showErrorToast(managerResource.message);
+                        break;
+                }
+            });
+        }
+    }
+
+    private String getValidatedPhone() {
+        String phone = binding.get().userid.getText().toString();
+        if (phone != null && phone.length() > 0 && PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
+            return phone;
+        }
+        binding.get().textInputLayoutUserId.setError(getString(R.string.validation_phone_message));
+        return null;
+    }
+
+    private String getValidatedPassword() {
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+
+        String password = binding.get().password.getText().toString();
+        if (password != null && pattern.matcher(password).matches()) {
+            return password;
+        }
+        binding.get().textInputLayoutPassword.setError(
+                getString(R.string.validation_password_message));
+        return null;
     }
 }

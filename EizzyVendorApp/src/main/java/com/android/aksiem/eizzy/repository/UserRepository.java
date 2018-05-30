@@ -56,7 +56,7 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                //return appService.doUserLogin(userId, password);
+                //return appService.doManagerLogin(userId, password);
                 return null;
             }
         }.asLiveData();

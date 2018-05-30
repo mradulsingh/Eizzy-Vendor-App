@@ -50,6 +50,9 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
     @Inject
     MqttClientService mqttClientService;
 
+    @Inject
+    AppPrefManager appPrefManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +66,12 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         mqttClientService.initService();
 
         if (savedInstanceState == null) {
-            navigationController.navigateToVendorOnboardingFragment();
-            //navigationController.navigateToOrderItemsFragment();
+
+            if (EizzyAppState.ManagerLoggedIn.isManagerLoggedIn(appPrefManager)) {
+                navigationController.navigateToOrderItemsFragment();
+            } else {
+                navigationController.navigateToVendorOnboardingFragment();
+            }
         }
     }
 

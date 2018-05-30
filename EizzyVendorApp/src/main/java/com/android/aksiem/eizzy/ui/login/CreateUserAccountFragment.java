@@ -86,14 +86,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-
-        navigationController.navigateToConfirmationFragment(true,
-                getString(R.string.confirmation_account_creation_title),
-                getString(R.string.confirmation_account_creation_subtitle),
-                getString(R.string.confirmation_account_creation_action),
-                (v1, args) -> {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }, true, false);
+        createUserAccount(view);
     }
 
 
@@ -171,7 +164,8 @@ public class CreateUserAccountFragment extends NavigationFragment {
                                 getString(R.string.confirmation_account_creation_subtitle),
                                 getString(R.string.confirmation_account_creation_action),
                                 (v1, args) -> {
-                                    getActivity().getSupportFragmentManager().popBackStack();
+                                    // TODO: find a fix for this
+                                    //getActivity().getSupportFragmentManager().popBackStack();
                                 }, true, false);
                         break;
                     case ERROR:
@@ -180,7 +174,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
                             CircularProgressButton button = (CircularProgressButton) v;
                             button.revertAnimation();
                         }
-                        toastController.showErrorToast("Something Went Wrong");
+                        toastController.showErrorToast(storeResource.message);
                 }
             });
         }

@@ -16,11 +16,14 @@
 
 package com.android.aksiem.eizzy.ui.login;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.StoreManagerRepository;
-import com.android.aksiem.eizzy.repository.UserRepository;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.StoreManager;
 
 import javax.inject.Inject;
 
@@ -50,12 +53,15 @@ public class LoginViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    void doUserLogin() {
-        storeManagerRepository.doManagerLogin(mPhone, mPassword);
+    public LiveData<Resource<EizzyApiRespone<StoreManager>>> doManagerLogin(String phone,
+                                                                            String password) {
+        setPhone(phone);
+        setPassword(password);
+        return storeManagerRepository.doManagerLogin(mPhone, mPassword);
     }
 
     @VisibleForTesting
     public void retry() {
-        doUserLogin();
+        doManagerLogin(mPhone, mPassword);
     }
 }

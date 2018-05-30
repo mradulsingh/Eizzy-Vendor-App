@@ -138,4 +138,5 @@
     <string name="confirmation.account.creation.subtitle">Our customer expert Admin will contact you soon on your registred number.</string>
     <string name="confirmation.account.creation.action">Done</string>
     <string name="error.account.already.exists">An account is already registered to this device</string>
+    <string name="validation.password.message">Enter a Valid Password</string>
 </resources>
