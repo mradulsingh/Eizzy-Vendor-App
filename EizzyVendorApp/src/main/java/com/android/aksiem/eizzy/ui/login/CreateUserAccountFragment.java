@@ -86,8 +86,16 @@ public class CreateUserAccountFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        createUserAccount(view);
+
+        navigationController.navigateToConfirmationFragment(true,
+                getString(R.string.confirmation_account_creation_title),
+                getString(R.string.confirmation_account_creation_subtitle),
+                getString(R.string.confirmation_account_creation_action),
+                (v1, args) -> {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }, true, false);
     }
+
 
     @Nullable
     @Override

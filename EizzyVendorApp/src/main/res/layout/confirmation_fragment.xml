@@ -11,9 +11,12 @@
             android:id="@+id/animation_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
             app:lottie_autoPlay="true"
-            app:lottie_loop="false"
-            app:lottie_rawRes="@raw/tick" />
+            app:lottie_fileName="tick.json"
+            app:lottie_scale="0.25"
+            android:scaleType="centerCrop"
+            app:lottie_loop="false" />
     </RelativeLayout>
 </layout>
