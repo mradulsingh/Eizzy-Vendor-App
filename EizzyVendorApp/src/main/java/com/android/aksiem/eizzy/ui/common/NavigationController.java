@@ -16,7 +16,9 @@
 
 package com.android.aksiem.eizzy.ui.common;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.EizzyActivity;
@@ -25,12 +27,13 @@ import com.android.aksiem.eizzy.ui.login.CreateUserAccountFragment;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
-import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.CreateOrderFragment;
+import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
 import com.android.aksiem.eizzy.ui.vendorOnboarding.VendorOnboardingFragment;
+import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.OrderItem;
 
 import javax.inject.Inject;
@@ -42,20 +45,18 @@ public class NavigationController {
 
     private final int containerId;
     private final FragmentManager fragmentManager;
+    private final EizzyActivity mActivity;
 
     @Inject
     public NavigationController(EizzyActivity activity) {
         this.containerId = R.id.container;
         this.fragmentManager = activity.getSupportFragmentManager();
+        this.mActivity = activity;
     }
 
     public void navigateToOrderItemsFragment() {
         OrderItemsFragment fragment = OrderItemsFragment.create();
-        String tag = OrderItemsFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(tag)
-                .commit();
+        addFragment(fragment, true, false);
     }
 
     public void navigateToOrderDetailsFragment(OrderItem orderItem) {
@@ -158,5 +159,67 @@ public class NavigationController {
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public void addFragment(Fragment fragment, boolean addStack) {
+        addFragment(containerId, fragment, addStack, false, 0, 0);
+    }
+
+    public void addFragment(Fragment fragment, boolean addStack,
+                            int inAnimation, int outAnimation) {
+        addFragment(containerId, fragment, addStack, false, inAnimation, outAnimation);
+    }
+
+    public void addFragment(Fragment fragment, boolean addStack, boolean isReplace) {
+        addFragment(containerId, fragment, addStack, isReplace, 0, 0);
+    }
+
+    public void addFragment(Fragment fragment, boolean addStack, boolean isReplace,
+                            int inAnimation, int outAnimation) {
+        addFragment(containerId, fragment, addStack, isReplace, inAnimation, outAnimation);
+    }
+
+    public void addFragment(int containerViewId, Fragment fragment,
+                            boolean addToBackStack, boolean isReplace,
+                            int inAnimation, int outAnimation) {
+        if (mActivity.isFinishing()) {
+            Logger.e("addFragment :: Fragment is null.");
+            return;
+        }
+
+        String tag = fragment.getClass().toString();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (isReplace) {
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+                fragmentManager.popBackStack();
+            }
+            fragmentManager.executePendingTransactions();
+        }
+
+        if (inAnimation > 0 && outAnimation <= 0) {
+            fragmentTransaction.setCustomAnimations(inAnimation, outAnimation);
+        } else if (inAnimation > 0 && outAnimation > 0) {
+            fragmentTransaction.setCustomAnimations(inAnimation, inAnimation, outAnimation, outAnimation);
+        }
+
+        if (fragment.isAdded()) {
+            fragmentTransaction.show(fragment);
+        } else {
+            if (!isReplace) {
+                fragmentTransaction.add(containerViewId, fragment, tag);
+            } else {
+                fragmentTransaction.replace(containerViewId, fragment, tag);
+            }
+        }
+
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(tag);
+        } else {
+            fragmentManager.popBackStack(tag,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
+        fragmentTransaction.commitAllowingStateLoss();
+        fragmentManager.executePendingTransactions();
     }
 }
