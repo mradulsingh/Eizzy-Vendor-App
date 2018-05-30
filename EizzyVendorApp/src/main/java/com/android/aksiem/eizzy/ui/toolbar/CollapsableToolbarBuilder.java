@@ -19,6 +19,8 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
 
     private final LayoutFactory bottomActionBarLayoutFactory;
 
+    private CollapsableToolbarBottomActionBarBinding actionBarDataBinding;
+
     private ClickActionHandler bottomActionClickHandler;
 
     private String bottomActionTitle;
@@ -45,7 +47,7 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
             Context context = dataBinding.getRoot().getContext();
             dataBinding.fragmentBottomLayoutContainer.setVisibility(View.VISIBLE);
             View bottomActionBarLayout = bottomActionBarLayoutFactory.produceLayout(inflater, null);
-            CollapsableToolbarBottomActionBarBinding actionBarDataBinding = DataBindingUtil.bind(bottomActionBarLayout);
+            actionBarDataBinding = DataBindingUtil.bind(bottomActionBarLayout);
             if (bottomActionTitleRes != 0) {
                 actionBarDataBinding.setActionTitle(context.getString(bottomActionTitleRes));
             } else if (bottomActionTitle != null) {
@@ -76,6 +78,15 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
         });
 
         setupMenu(dataBinding.toolbar);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (actionBarDataBinding != null) {
+            actionBarDataBinding.progressButton.dispose();
+            actionBarDataBinding = null;
+        }
     }
 
     public static CollapsableToolbarBuilder mainCollapsableToolbar() {

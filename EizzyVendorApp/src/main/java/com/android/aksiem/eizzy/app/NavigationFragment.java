@@ -26,5 +26,13 @@ public abstract class NavigationFragment extends BaseInjectableFragment {
         setBottomNavigationViewVisibility(navigationBuilder.isIncludeBottomNavBar());
         setNavDrawerMode(navigationBuilder.isIncludeDrawerNav());
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (navigationBuilder != null) {
+            navigationBuilder.onDestroy();
+        }
+    }
 }
 

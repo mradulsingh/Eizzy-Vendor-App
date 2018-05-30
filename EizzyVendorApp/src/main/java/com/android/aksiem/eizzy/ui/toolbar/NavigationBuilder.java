@@ -192,4 +192,7 @@ public abstract class NavigationBuilder<T extends NavigationBuilder<T>> {
             });
         }
     }
+
+    public void onDestroy() {
+    }
 }

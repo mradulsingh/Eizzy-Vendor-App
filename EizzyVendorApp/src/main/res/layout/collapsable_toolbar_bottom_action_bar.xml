@@ -33,6 +33,7 @@
     </data>
 
     <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        android:id="@+id/progressButton"
         style="@style/AppActionButton"
         visibleGone="@{actionTitle != null}"
         android:layout_width="match_parent"
