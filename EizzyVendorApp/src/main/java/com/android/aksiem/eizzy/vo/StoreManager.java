@@ -102,4 +102,27 @@ public class StoreManager implements Serializable {
         this.serviceZones = serviceZones;
 
     }
+
+    @Override
+    public String toString() {
+        return "StoreManager{" +
+                "token='" + token + '\'' +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", phone='" + phone + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", email='" + email + '\'' +
+                ", storeId='" + storeId + '\'' +
+                ", storeName='" + storeName + '\'' +
+                ", fcmManagerTopic='" + fcmManagerTopic + '\'' +
+                ", fcmStoreTopic='" + fcmStoreTopic + '\'' +
+                ", fcmTopic='" + fcmTopic + '\'' +
+                ", mqttTopic='" + mqttTopic + '\'' +
+                ", mqttManagerTopic='" + mqttManagerTopic + '\'' +
+                ", mqttStoreTopic='" + mqttStoreTopic + '\'' +
+                ", cityId='" + cityId + '\'' +
+                ", serviceZones=" + serviceZones +
+                '}';
+    }
 }

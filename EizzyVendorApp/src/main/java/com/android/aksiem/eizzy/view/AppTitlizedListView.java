@@ -3,6 +3,7 @@ package com.android.aksiem.eizzy.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +26,7 @@ import java.util.List;
 public class AppTitlizedListView extends RelativeLayout {
 
     private static final boolean DEFAULT_BOOLEAN_VALUE = false;
-    private static final int DEFAULT_COLOR_VALUE = -1;
+    private static final int DEFAULT_COLOR_VALUE = Color.TRANSPARENT;
     private static final float DEFAULT_DIMENSION_VALUE = -1f;
 
     private RelativeLayout rootView;

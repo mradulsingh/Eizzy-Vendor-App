@@ -24,6 +24,8 @@ import com.android.aksiem.eizzy.R;
 
 public class AppThemedCardView extends CardView {
 
+    private static final int DEFAULT_COLOR_VALUE = Color.TRANSPARENT;
+
     private CardView rootView;
     private TextView atcvTitleView;
     private TextView atcvSubtitleView;
@@ -83,7 +85,7 @@ public class AppThemedCardView extends CardView {
             btnText = typedArray.getString(R.styleable.AppThemedCardView_btnText);
 
             this.themeColor = typedArray.getColor(R.styleable.AppThemedCardView_themeColor,
-                    Color.TRANSPARENT);
+                    DEFAULT_COLOR_VALUE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 infoItem1DrawableLeftCompat = typedArray.getDrawable(
@@ -137,7 +139,7 @@ public class AppThemedCardView extends CardView {
     }
 
     public void setTheme(int themeColor) {
-        this.themeColor = themeColor < 0 ? Color.TRANSPARENT : themeColor;
+        this.themeColor = themeColor;
         themeIndicatorView.setBackgroundColor(this.themeColor);
         btnTextView.setBackgroundColor(this.themeColor);
     }
@@ -235,7 +237,7 @@ public class AppThemedCardView extends CardView {
     }
 
     public void setThemeColor(int themeColor) {
-        this.themeColor = themeColor < 0 ? 0 : themeColor;
+        this.themeColor = themeColor;
         setTheme(this.themeColor);
     }
 

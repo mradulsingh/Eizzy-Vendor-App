@@ -35,6 +35,8 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.api.MqttClientService;
 import com.android.aksiem.eizzy.databinding.EizzyActivityBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.util.Logger;
+import com.android.aksiem.eizzy.vo.StoreManager;
 
 import javax.inject.Inject;
 
@@ -68,6 +70,8 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         if (savedInstanceState == null) {
 
             if (EizzyAppState.ManagerLoggedIn.isManagerLoggedIn(appPrefManager)) {
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
+                Logger.tag("prakhar").d(manager.toString());
                 navigationController.navigateToOrderItemsFragment();
             } else {
                 navigationController.navigateToVendorOnboardingFragment();
