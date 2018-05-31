@@ -12,9 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.databinding.AppThemedCardLayoutBinding;
@@ -192,7 +190,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setInfoItem1Text(String infoItem1Text) {
         this.infoItem1Text = infoItem1Text == null ? "" : infoItem1Text;
-        binding.infoItem1.setText(this.infoItem1Text);
+        setInfoItem1(infoItem1Text, infoItem1DrawableLeftCompat);
     }
 
     public String getInfoItem2Text() {
@@ -201,7 +199,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setInfoItem2Text(String infoItem2Text) {
         this.infoItem2Text = infoItem2Text == null ? "" : infoItem2Text;
-        binding.infoItem2.setText(this.infoItem2Text);
+        setInfoItem2(infoItem2Text, infoItem2DrawableLeftCompat);
     }
 
     public String getInfoItem3Text() {
@@ -210,7 +208,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setInfoItem3Text(String infoItem3Text) {
         this.infoItem3Text = infoItem3Text == null ? "" : infoItem3Text;
-        binding.infoItem3.setText(this.infoItem3Text);
+        setInfoItem3(infoItem3Text, infoItem3DrawableLeftCompat);
     }
 
     public String getBtnText() {
