@@ -14,7 +14,6 @@ public enum OrderState implements Serializable {
 
     @SerializedName("placed")
     PLACED("placed") {
-
         @Override
         public int getTheme(AppResourceManager resourceManager) {
             return resourceManager.getColor(R.color.orderPlaced);
@@ -23,7 +22,6 @@ public enum OrderState implements Serializable {
 
     @SerializedName("confirmed")
     CONFIRMED("confirmed") {
-
         @Override
         public int getTheme(AppResourceManager resourceManager) {
             return resourceManager.getColor(R.color.orderConfirmed);
@@ -32,37 +30,33 @@ public enum OrderState implements Serializable {
 
     @SerializedName("assigned")
     ASSIGNED("assigned") {
-
         @Override
         public int getTheme(AppResourceManager resourceManager) {
-            return R.color.orderAssigned;
+            return resourceManager.getColor(R.color.orderAssigned);
         }
     },
 
     @SerializedName("picked")
     PICKED("picked") {
-
         @Override
         public int getTheme(AppResourceManager resourceManager) {
-            return R.color.orderPicked;
+            return resourceManager.getColor(R.color.orderPicked);
         }
     },
 
     @SerializedName("delivered")
     DELIVERED("delivered") {
-
         @Override
         public int getTheme(AppResourceManager resourceManager) {
-            return R.color.orderDelivered;
+            return resourceManager.getColor(R.color.orderDelivered);
         }
     },
 
     @SerializedName("undelivered")
     UNDELIVERED("undelivered") {
-
         @Override
         public int getTheme(AppResourceManager resourceManager) {
-            return R.color.orderUndelivered;
+            return resourceManager.getColor(R.color.orderUndelivered);
         }
     };
 
