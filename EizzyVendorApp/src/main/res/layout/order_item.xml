@@ -14,22 +14,31 @@
 
     </data>
 
-    <com.android.aksiem.eizzy.view.AppThemedCardView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_themed_card_view_height"
         android:layout_marginLeft="@dimen/atom_4"
         android:layout_marginRight="@dimen/atom_4"
         android:layout_marginTop="@dimen/atom_4"
-        app:additionalInfo="@{item.stringTimestamp}"
-        app:atcvSubtitle="@{item.price.toString()}"
-        app:atcvTitle="@{item.orderId}"
-        app:btnText="@{item.orderState.getState()}"
-        app:infoItem1DrawableLeftCompat="@drawable/ic_user"
-        app:infoItem1Text="@{item.customer.name}"
-        app:infoItem2DrawableLeftCompat="@drawable/ic_phone"
-        app:infoItem2Text="@{item.customer.phone}"
-        app:infoItem3DrawableLeftCompat="@drawable/ic_phone"
-        app:infoItem3Text="@{item.orderType.getOrderType()}"
-        app:themeColor="@{item.orderState.getTheme(resourceManager)}" />
+        app:cardCornerRadius="@dimen/atom_2"
+        app:cardPreventCornerOverlap="false">
+
+        <com.android.aksiem.eizzy.view.AppThemedCardLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:additionalInfo="@{item.stringTimestamp}"
+            app:atcvSubtitle="@{item.price.toString()}"
+            app:atcvTitle="@{item.orderId}"
+            app:btnText="@{item.orderState.getState()}"
+            app:infoItem1DrawableLeftCompat="@drawable/ic_user"
+            app:infoItem1Text="@{item.customer.name}"
+            app:infoItem2DrawableLeftCompat="@drawable/ic_phone"
+            app:infoItem2Text="@{item.customer.phone}"
+            app:infoItem3DrawableLeftCompat="@drawable/ic_phone"
+            app:infoItem3Text="@{item.orderType.getOrderType()}"
+            app:themeColor="@{item.orderState.getTheme(resourceManager)}" />
+
+    </android.support.v7.widget.CardView>
+
 
 </layout>

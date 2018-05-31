@@ -29,7 +29,7 @@
         <attr name="progressState" />
     </declare-styleable>
 
-    <declare-styleable name="AppThemedCardView">
+    <declare-styleable name="AppThemedCardLayout">
         <attr name="themeColor" format="color|reference" />
         <attr name="atcvTitle" format="string|reference" localization="suggested" />
         <attr name="atcvSubtitle" format="string|reference" localization="suggested" />

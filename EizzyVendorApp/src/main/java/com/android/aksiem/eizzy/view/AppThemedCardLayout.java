@@ -9,11 +9,10 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.aksiem.eizzy.R;
@@ -22,11 +21,11 @@ import com.android.aksiem.eizzy.R;
  * Created by pdubey on 15/05/18.
  */
 
-public class AppThemedCardView extends CardView {
+public class AppThemedCardLayout extends RelativeLayout {
 
     private static final int DEFAULT_COLOR_VALUE = Color.TRANSPARENT;
 
-    private CardView rootView;
+    private RelativeLayout rootView;
     private TextView atcvTitleView;
     private TextView atcvSubtitleView;
     private TextView additionalInfoView;
@@ -50,13 +49,13 @@ public class AppThemedCardView extends CardView {
     private Drawable infoItem2DrawableLeftCompat;
     private Drawable infoItem3DrawableLeftCompat;
 
-    public AppThemedCardView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public AppThemedCardLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public AppThemedCardView(@NonNull Context context, @Nullable AttributeSet attrs,
-                             int defStyleAttr) {
+    public AppThemedCardLayout(@NonNull Context context, @Nullable AttributeSet attrs,
+                               int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -75,32 +74,32 @@ public class AppThemedCardView extends CardView {
 
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs,
-                    R.styleable.AppThemedCardView);
-            atcvTitle = typedArray.getString(R.styleable.AppThemedCardView_atcvTitle);
-            atcvSubtitle =  typedArray.getString(R.styleable.AppThemedCardView_atcvSubtitle);
-            additionalInfo = typedArray.getString(R.styleable.AppThemedCardView_additionalInfo);
-            infoItem1Text = typedArray.getString(R.styleable.AppThemedCardView_infoItem1Text);
-            infoItem2Text = typedArray.getString(R.styleable.AppThemedCardView_infoItem2Text);
-            infoItem3Text = typedArray.getString(R.styleable.AppThemedCardView_infoItem3Text);
-            btnText = typedArray.getString(R.styleable.AppThemedCardView_btnText);
+                    R.styleable.AppThemedCardLayout);
+            atcvTitle = typedArray.getString(R.styleable.AppThemedCardLayout_atcvTitle);
+            atcvSubtitle = typedArray.getString(R.styleable.AppThemedCardLayout_atcvSubtitle);
+            additionalInfo = typedArray.getString(R.styleable.AppThemedCardLayout_additionalInfo);
+            infoItem1Text = typedArray.getString(R.styleable.AppThemedCardLayout_infoItem1Text);
+            infoItem2Text = typedArray.getString(R.styleable.AppThemedCardLayout_infoItem2Text);
+            infoItem3Text = typedArray.getString(R.styleable.AppThemedCardLayout_infoItem3Text);
+            btnText = typedArray.getString(R.styleable.AppThemedCardLayout_btnText);
 
-            this.themeColor = typedArray.getColor(R.styleable.AppThemedCardView_themeColor,
+            this.themeColor = typedArray.getColor(R.styleable.AppThemedCardLayout_themeColor,
                     DEFAULT_COLOR_VALUE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 infoItem1DrawableLeftCompat = typedArray.getDrawable(
-                        R.styleable.AppThemedCardView_infoItem1DrawableLeftCompat);
+                        R.styleable.AppThemedCardLayout_infoItem1DrawableLeftCompat);
                 infoItem2DrawableLeftCompat = typedArray.getDrawable(
-                        R.styleable.AppThemedCardView_infoItem2DrawableLeftCompat);
+                        R.styleable.AppThemedCardLayout_infoItem2DrawableLeftCompat);
                 infoItem3DrawableLeftCompat = typedArray.getDrawable(
-                        R.styleable.AppThemedCardView_infoItem3DrawableLeftCompat);
+                        R.styleable.AppThemedCardLayout_infoItem3DrawableLeftCompat);
             } else {
                 final int infoItem1DrawableResId = typedArray.getResourceId(
-                        R.styleable.AppThemedCardView_infoItem1DrawableLeftCompat, -1);
+                        R.styleable.AppThemedCardLayout_infoItem1DrawableLeftCompat, -1);
                 final int infoItem2DrawableResId = typedArray.getResourceId(
-                        R.styleable.AppThemedCardView_infoItem2DrawableLeftCompat, -1);
+                        R.styleable.AppThemedCardLayout_infoItem2DrawableLeftCompat, -1);
                 final int infoItem3DrawableResId = typedArray.getResourceId(
-                        R.styleable.AppThemedCardView_infoItem3DrawableLeftCompat, -1);
+                        R.styleable.AppThemedCardLayout_infoItem3DrawableLeftCompat, -1);
 
                 if (infoItem1DrawableResId != -1)
                     infoItem1DrawableLeftCompat = AppCompatResources.getDrawable(
@@ -117,8 +116,8 @@ public class AppThemedCardView extends CardView {
     }
 
     private void initView(Context context) {
-        rootView = (CardView) LayoutInflater.from(context).inflate(
-                R.layout.app_themed_card_view, this, true);
+        rootView = (RelativeLayout) LayoutInflater.from(context).inflate(
+                R.layout.app_themed_card_layout, this, true);
         atcvTitleView = rootView.findViewById(R.id.title);
         atcvSubtitleView = rootView.findViewById(R.id.subtitle);
         additionalInfoView = rootView.findViewById(R.id.additionalInfo);
