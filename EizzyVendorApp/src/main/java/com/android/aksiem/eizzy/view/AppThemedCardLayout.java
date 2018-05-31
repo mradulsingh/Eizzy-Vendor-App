@@ -2,6 +2,7 @@ package com.android.aksiem.eizzy.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.databinding.AppThemedCardLayoutBinding;
 
 /**
  * Created by pdubey on 15/05/18.
@@ -24,16 +26,6 @@ import com.android.aksiem.eizzy.R;
 public class AppThemedCardLayout extends RelativeLayout {
 
     private static final int DEFAULT_COLOR_VALUE = Color.TRANSPARENT;
-
-    private RelativeLayout rootView;
-    private TextView atcvTitleView;
-    private TextView atcvSubtitleView;
-    private TextView additionalInfoView;
-    private AppTextView infoItemText1;
-    private AppTextView infoItemText2;
-    private AppTextView infoItemText3;
-    private AppTextView btnTextView;
-    private View themeIndicatorView;
 
     private String atcvTitle;
     private String atcvSubtitle;
@@ -48,6 +40,8 @@ public class AppThemedCardLayout extends RelativeLayout {
     private Drawable infoItem1DrawableLeftCompat;
     private Drawable infoItem2DrawableLeftCompat;
     private Drawable infoItem3DrawableLeftCompat;
+
+    private AppThemedCardLayoutBinding binding;
 
     public AppThemedCardLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -116,16 +110,9 @@ public class AppThemedCardLayout extends RelativeLayout {
     }
 
     private void initView(Context context) {
-        rootView = (RelativeLayout) LayoutInflater.from(context).inflate(
+
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context),
                 R.layout.app_themed_card_layout, this, true);
-        atcvTitleView = rootView.findViewById(R.id.title);
-        atcvSubtitleView = rootView.findViewById(R.id.subtitle);
-        additionalInfoView = rootView.findViewById(R.id.additionalInfo);
-        btnTextView = rootView.findViewById(R.id.btn);
-        infoItemText1 = rootView.findViewById(R.id.infoItem1);
-        infoItemText2 = rootView.findViewById(R.id.infoItem2);
-        infoItemText3 = rootView.findViewById(R.id.infoItem3);
-        themeIndicatorView = rootView.findViewById(R.id.themedIndicator);
 
         setAtcvTitle(atcvTitle);
         setAtcvSubtitle(atcvSubtitle);
@@ -135,12 +122,13 @@ public class AppThemedCardLayout extends RelativeLayout {
         setInfoItem2(infoItem2Text, infoItem2DrawableLeftCompat);
         setInfoItem3(infoItem3Text, infoItem3DrawableLeftCompat);
         setTheme(themeColor);
+
     }
 
     public void setTheme(int themeColor) {
         this.themeColor = themeColor;
-        themeIndicatorView.setBackgroundColor(this.themeColor);
-        btnTextView.setBackgroundColor(this.themeColor);
+        binding.themedIndicator.setBackgroundColor(this.themeColor);
+        binding.btn.setBackgroundColor(this.themeColor);
     }
 
     public String getAtcvTitle() {
@@ -149,7 +137,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setAtcvTitle(String title) {
         this.atcvTitle = title == null ? "" : title;
-        atcvTitleView.setText(this.atcvTitle);
+        binding.title.setText(this.atcvTitle);
     }
 
     public String getAtcvSubtitle() {
@@ -158,7 +146,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setAtcvSubtitle(String subtitle) {
         this.atcvSubtitle = subtitle == null ? "" : subtitle;
-        atcvSubtitleView.setText(this.atcvSubtitle);
+        binding.subtitle.setText(this.atcvSubtitle);
     }
 
     public String getAdditionalInfo() {
@@ -167,7 +155,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo == null ? "" : additionalInfo;
-        additionalInfoView.setText(this.additionalInfo);
+        binding.additionalInfo.setText(this.additionalInfo);
     }
 
     private void setInfoItem(String textValue, Drawable drawableLeftValue, AppTextView textView) {
@@ -183,19 +171,19 @@ public class AppThemedCardLayout extends RelativeLayout {
     public void setInfoItem1(String text, Drawable drawable) {
         this.infoItem1Text = text == null ? "" : text;
         this.infoItem1DrawableLeftCompat = drawable;
-        setInfoItem(this.infoItem1Text, this.infoItem1DrawableLeftCompat, infoItemText1);
+        setInfoItem(this.infoItem1Text, this.infoItem1DrawableLeftCompat, binding.infoItem1);
     }
 
     public void setInfoItem2(String text, Drawable drawable) {
         this.infoItem2Text = text == null ? "" : text;
         this.infoItem2DrawableLeftCompat = drawable;
-        setInfoItem(this.infoItem2Text, this.infoItem2DrawableLeftCompat, infoItemText2);
+        setInfoItem(this.infoItem2Text, this.infoItem2DrawableLeftCompat, binding.infoItem2);
     }
 
     public void setInfoItem3(String text, Drawable drawable) {
         this.infoItem3Text = text == null ? "" : text;
         this.infoItem3DrawableLeftCompat = drawable;
-        setInfoItem(this.infoItem3Text, this.infoItem2DrawableLeftCompat, infoItemText3);
+        setInfoItem(this.infoItem3Text, this.infoItem2DrawableLeftCompat, binding.infoItem3);
     }
 
     public String getInfoItem1Text() {
@@ -204,6 +192,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setInfoItem1Text(String infoItem1Text) {
         this.infoItem1Text = infoItem1Text == null ? "" : infoItem1Text;
+        binding.infoItem1.setText(this.infoItem1Text);
     }
 
     public String getInfoItem2Text() {
@@ -212,6 +201,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setInfoItem2Text(String infoItem2Text) {
         this.infoItem2Text = infoItem2Text == null ? "" : infoItem2Text;
+        binding.infoItem2.setText(this.infoItem2Text);
     }
 
     public String getInfoItem3Text() {
@@ -220,6 +210,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setInfoItem3Text(String infoItem3Text) {
         this.infoItem3Text = infoItem3Text == null ? "" : infoItem3Text;
+        binding.infoItem3.setText(this.infoItem3Text);
     }
 
     public String getBtnText() {
@@ -228,7 +219,7 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     public void setBtnText(String btnText) {
         this.btnText = btnText == null ? "" : btnText;
-        btnTextView.setText(this.btnText);
+        binding.btn.setText(this.btnText);
     }
 
     public int getThemeColor() {
@@ -244,13 +235,26 @@ public class AppThemedCardLayout extends RelativeLayout {
         return infoItem1DrawableLeftCompat;
     }
 
+    public void setInfoItem1DrawableLeftCompat(Drawable infoItem1DrawableLeftCompat) {
+        this.infoItem1DrawableLeftCompat = infoItem1DrawableLeftCompat;
+        binding.infoItem1.setDrawableLeft(this.infoItem1DrawableLeftCompat, true);
+    }
 
     public Drawable getInfoItem2DrawableLeftCompat() {
         return infoItem2DrawableLeftCompat;
+    }
+
+    public void setInfoItem2DrawableLeftCompat(Drawable infoItem2DrawableLeftCompat) {
+        this.infoItem2DrawableLeftCompat = infoItem2DrawableLeftCompat;
+        binding.infoItem2.setDrawableLeft(this.infoItem2DrawableLeftCompat, true);
     }
 
     public Drawable getInfoItem3DrawableLeftCompat() {
         return infoItem3DrawableLeftCompat;
     }
 
+    public void setInfoItem3DrawableLeftCompat(Drawable infoItem3DrawableLeftCompat) {
+        this.infoItem3DrawableLeftCompat = infoItem3DrawableLeftCompat;
+        binding.infoItem3.setDrawableLeft(this.infoItem3DrawableLeftCompat, true);
+    }
 }
