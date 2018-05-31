@@ -10,6 +10,9 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
 /**
  * Created by pdubey on 15/04/18.
  */
@@ -70,5 +73,8 @@ public class StringUtils {
         return toReturn;
     }
 
+    public static RequestBody getPlainTextRequestBody(String string) {
+        return RequestBody.create(MediaType.parse("text/plain"), string);
+    }
 
 }

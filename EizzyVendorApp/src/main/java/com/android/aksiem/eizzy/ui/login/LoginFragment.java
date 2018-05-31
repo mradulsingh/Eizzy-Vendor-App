@@ -84,8 +84,7 @@ public class LoginFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        //doManagerLogin(view);
-        toastController.showErrorToast("Login Failed");
+        doManagerLogin(view);
     }
 
     @Nullable
@@ -169,7 +168,7 @@ public class LoginFragment extends NavigationFragment {
 
     private String getValidatedPhone() {
         String phone = binding.get().userid.getText().toString();
-        if (phone != null && phone.length() > 0 && PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
+        if (phone != null && phone.length() > 0 /*&& PhoneNumberUtils.isGlobalPhoneNumber(phone)*/) {
             return phone;
         }
         binding.get().textInputLayoutUserId.setError(getString(R.string.validation_phone_message));
@@ -177,7 +176,8 @@ public class LoginFragment extends NavigationFragment {
     }
 
     private String getValidatedPassword() {
-        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        //final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{4,}$";
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
         String password = binding.get().password.getText().toString();

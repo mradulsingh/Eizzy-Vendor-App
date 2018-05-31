@@ -22,6 +22,7 @@ import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.User;
 
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
@@ -37,16 +38,19 @@ public interface AppService {
     @Multipart
     @POST("dispatcher/store")
     LiveData<ApiResponse<EizzyApiRespone<Store>>> createUserAccount(@Header("language") String language,
-                                                                    @Part("businessName") String businessName,
-                                                                    @Part("contactPerson") String contactPerson,
-                                                                    @Part("countryCode") String countryCode,
-                                                                    @Part("phone") String contactMobile,
-                                                                    @Part("email") String contactEmail,
-                                                                    @Part("deviceId") String deviceId,
+                                                                    @Part("businessName") RequestBody businessName,
+                                                                    @Part("contactPerson") RequestBody contactPerson,
+                                                                    @Part("countryCode") RequestBody countryCode,
+                                                                    @Part("phone") RequestBody contactMobile,
+                                                                    @Part("email") RequestBody contactEmail,
+                                                                    @Part("deviceId") RequestBody deviceId,
                                                                     @Part("deviceType") int deviceType);
 
-    @POST("user/forgotpassword")
-    LiveData<ApiResponse<User>> onForgotPassword(@Field("userId") String userId);
+    @Multipart
+    @POST("dispatcher/forgotPassword")
+    LiveData<ApiResponse<EizzyApiRespone<String>>> forgotPassword(@Header("language") String language,
+                                                                  @Part("emailOrMobile") String phone,
+                                                                  @Part("verifyType") int verifyType);
 
     @POST("user/validateotp")
     LiveData<ApiResponse<User>> validateOTP(@Field("otp") String otp);

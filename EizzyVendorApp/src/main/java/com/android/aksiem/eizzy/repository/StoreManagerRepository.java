@@ -10,6 +10,7 @@ import com.android.aksiem.eizzy.api.AppService;
 import com.android.aksiem.eizzy.api.DispatcherService;
 import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.di.AppScope;
+import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
@@ -52,9 +53,14 @@ public class StoreManagerRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<EizzyApiRespone<Store>>> createCall() {
-                return appService.createUserAccount(RequestConstants.Language.english, businessName,
-                        contactPerson, RequestConstants.CountryCode.india, contactMobile,
-                        contactEmail, Settings.Secure.ANDROID_ID,
+                return appService.createUserAccount(
+                        RequestConstants.Language.english,
+                        StringUtils.getPlainTextRequestBody(businessName),
+                        StringUtils.getPlainTextRequestBody(contactPerson),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india),
+                        StringUtils.getPlainTextRequestBody(contactMobile),
+                        StringUtils.getPlainTextRequestBody(contactEmail),
+                        StringUtils.getPlainTextRequestBody(Settings.Secure.ANDROID_ID),
                         RequestConstants.Platform.android);
             }
         }.asLiveData();
@@ -79,9 +85,14 @@ public class StoreManagerRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<EizzyApiRespone<StoreManager>>> createCall() {
-                return dispatcherService.doUserLogin(RequestConstants.Language.english, phone,
-                        RequestConstants.CountryCode.india, password, Settings.Secure.ANDROID_ID,
-                        RequestConstants.Platform.android, System.currentTimeMillis());
+                return dispatcherService.doUserLogin(
+                        RequestConstants.Language.english,
+                        StringUtils.getPlainTextRequestBody(phone),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india),
+                        StringUtils.getPlainTextRequestBody(password),
+                        StringUtils.getPlainTextRequestBody(Settings.Secure.ANDROID_ID),
+                        RequestConstants.Platform.android,
+                        System.currentTimeMillis());
             }
         }.asLiveData();
     }

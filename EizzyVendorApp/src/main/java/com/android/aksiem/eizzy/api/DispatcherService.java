@@ -21,6 +21,7 @@ import android.arch.lifecycle.LiveData;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.StoreManager;
 
+import okhttp3.RequestBody;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -34,10 +35,10 @@ public interface DispatcherService {
     @Multipart
     @POST("dispatcher/logIn")
     LiveData<ApiResponse<EizzyApiRespone<StoreManager>>> doUserLogin(@Header("language") String language,
-                                                                     @Part("phone") String phone,
-                                                                     @Part("countryCode") String countryCode,
-                                                                     @Part("password") String password,
-                                                                     @Part("deviceId") String deviceId,
+                                                                     @Part("phone") RequestBody phone,
+                                                                     @Part("countryCode") RequestBody countryCode,
+                                                                     @Part("password") RequestBody password,
+                                                                     @Part("deviceId") RequestBody deviceId,
                                                                      @Part("deviceType") int deviceType,
                                                                      @Part("deviceTime") long deviceTime);
 
