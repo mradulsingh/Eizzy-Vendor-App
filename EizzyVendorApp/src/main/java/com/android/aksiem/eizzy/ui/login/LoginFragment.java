@@ -72,6 +72,11 @@ public class LoginFragment extends NavigationFragment {
 
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
 
+    public static LoginFragment newInstance() {
+        LoginFragment fragment = new LoginFragment();
+        return fragment;
+    }
+
     @Override
     public NavigationBuilder buildNavigation() {
         return CollapsableToolbarBuilder.mainCollapsableToolbarWithBottomAction()
@@ -168,7 +173,7 @@ public class LoginFragment extends NavigationFragment {
 
     private String getValidatedPhone() {
         String phone = binding.get().userid.getText().toString();
-        if (phone != null && phone.length() > 0 /*&& PhoneNumberUtils.isGlobalPhoneNumber(phone)*/) {
+        if (phone != null && phone.length() > 0 && PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
             return phone;
         }
         binding.get().textInputLayoutUserId.setError(getString(R.string.validation_phone_message));

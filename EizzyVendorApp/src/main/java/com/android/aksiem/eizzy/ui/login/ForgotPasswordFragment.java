@@ -22,6 +22,7 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneNumberUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +34,14 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.ForgotPasswordFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -50,6 +54,9 @@ public class ForgotPasswordFragment extends NavigationFragment {
 
     @Inject
     NavigationController navigationController;
+
+    @Inject
+    ToastController toastController;
 
     AutoClearedValue<ForgotPasswordFragmentBinding> binding;
 
@@ -65,20 +72,20 @@ public class ForgotPasswordFragment extends NavigationFragment {
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .setBottomActionTitleRes(R.string.button_action_get_otp)
-                .setBottomActionClickHandler((v, args) -> onBottomActionClicked());
+                .setBottomActionClickHandler((v, args) -> onBottomActionClicked(v));
     }
 
-    private void onBottomActionClicked() {
-        navigationController.navigateToValidateOTPFragment();
+    private void onBottomActionClicked(View v) {
+        onForgotPassword(v);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        ForgotPasswordFragmentBinding dataBinding = DataBindingUtil
-                .inflate(inflater, R.layout.forgot_password_fragment, container, false,
-                        dataBindingComponent);
+        ForgotPasswordFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
+                R.layout.forgot_password_fragment, container, false,
+                dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
@@ -86,7 +93,8 @@ public class ForgotPasswordFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        forgotPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(ForgotPasswordViewModel.class);
+        forgotPasswordViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(ForgotPasswordViewModel.class);
         initInputListener();
     }
 
@@ -109,11 +117,46 @@ public class ForgotPasswordFragment extends NavigationFragment {
     }
 
     private void onForgotPassword(View v) {
-        String userId = binding.get().userid.getText().toString();
+        String phone = getValidatedPhone();
 
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        forgotPasswordViewModel.setUserId(userId);
-        forgotPasswordViewModel.onForgotPassword();
+
+        if (phone != null) {
+            forgotPasswordViewModel.setPhone(phone);
+            forgotPasswordViewModel.onForgotPassword().observe(this, respone -> {
+                switch (respone.status) {
+                    case LOADING:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.startAnimation();
+                        }
+                        break;
+                    case SUCCESS:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        navigationController.navigateToValidateOTPFragment(phone);
+                        break;
+                    case ERROR:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        toastController.showErrorToast(respone.message);
+                        break;
+                }
+            });
+        }
+    }
+
+    private String getValidatedPhone() {
+        String phone = binding.get().userid.getText().toString();
+        if (phone != null && phone.length() > 0 && PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
+            return phone;
+        }
+        binding.get().textInputLayoutUserId.setError(getString(R.string.validation_phone_message));
+        return null;
     }
 }

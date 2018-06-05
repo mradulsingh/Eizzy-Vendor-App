@@ -18,6 +18,8 @@ import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.StoreManager;
 
 
+import org.json.JSONObject;
+
 import javax.inject.Inject;
 
 @AppScope
@@ -40,12 +42,15 @@ public class StoreManagerRepository {
                                                                          String contactPerson,
                                                                          String contactMobile,
                                                                          String contactEmail) {
-        return new NoCacheNetworkBoundResource<EizzyApiRespone<Store>, EizzyApiRespone<Store>>(appExecutors) {
+        return new NoCacheNetworkBoundResource<EizzyApiRespone<Store>, EizzyApiRespone<Store>>(
+                appExecutors) {
 
             @NonNull
             @Override
-            protected LiveData<EizzyApiRespone<Store>> getCallResult(@NonNull EizzyApiRespone<Store> item) {
-                MutableLiveData<EizzyApiRespone<Store>> eizzyApiResponeMutableLiveData = new MutableLiveData<>();
+            protected LiveData<EizzyApiRespone<Store>> getCallResult(
+                    @NonNull EizzyApiRespone<Store> item) {
+                MutableLiveData<EizzyApiRespone<Store>> eizzyApiResponeMutableLiveData =
+                        new MutableLiveData<>();
                 eizzyApiResponeMutableLiveData.setValue(item);
                 return eizzyApiResponeMutableLiveData;
             }
@@ -93,6 +98,87 @@ public class StoreManagerRepository {
                         StringUtils.getPlainTextRequestBody(Settings.Secure.ANDROID_ID),
                         RequestConstants.Platform.android,
                         System.currentTimeMillis());
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<EizzyApiRespone<String>>> sendOtp(String phone) {
+
+        return new NoCacheNetworkBoundResource<EizzyApiRespone<String>, EizzyApiRespone<String>>(
+                appExecutors) {
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<String>> getCallResult(
+                    @NonNull EizzyApiRespone<String> item) {
+
+                MutableLiveData<EizzyApiRespone<String>> mutableLiveData = new MutableLiveData<>();
+                mutableLiveData.setValue(item);
+                return mutableLiveData;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<String>>> createCall() {
+                return appService.sendOtp(
+                        RequestConstants.Language.english,
+                        StringUtils.getPlainTextRequestBody(phone),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india));
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<EizzyApiRespone<String>>> validateOtp(String phone, String otp) {
+
+        return new NoCacheNetworkBoundResource<EizzyApiRespone<String>, EizzyApiRespone<String>>(
+                appExecutors) {
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<String>> getCallResult(
+                    @NonNull EizzyApiRespone<String> item) {
+                MutableLiveData<EizzyApiRespone<String>> mutableLiveData = new MutableLiveData<>();
+                mutableLiveData.setValue(item);
+                return mutableLiveData;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<String>>> createCall() {
+                return appService.validateOTP(
+                        RequestConstants.Language.english,
+                        StringUtils.getPlainTextRequestBody(phone),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india),
+                        StringUtils.getPlainTextRequestBody(otp));
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<EizzyApiRespone<String>>> resetPassword(String phone, String otp,
+                                                                     String password) {
+
+        return new NoCacheNetworkBoundResource<EizzyApiRespone<String>, EizzyApiRespone<String>>(
+                appExecutors) {
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<String>> getCallResult(
+                    @NonNull EizzyApiRespone<String> item) {
+
+                MutableLiveData<EizzyApiRespone<String>> mutableLiveData = new MutableLiveData<>();
+                mutableLiveData.setValue(item);
+                return mutableLiveData;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<String>>> createCall() {
+                return appService.resetPassword(
+                        RequestConstants.Language.english,
+                        StringUtils.getPlainTextRequestBody(phone),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india),
+                        StringUtils.getPlainTextRequestBody(otp),
+                        StringUtils.getPlainTextRequestBody(password));
             }
         }.asLiveData();
     }

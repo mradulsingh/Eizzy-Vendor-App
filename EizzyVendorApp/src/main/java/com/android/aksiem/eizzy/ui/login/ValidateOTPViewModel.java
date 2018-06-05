@@ -16,10 +16,13 @@
 
 package com.android.aksiem.eizzy.ui.login;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
-import com.android.aksiem.eizzy.repository.UserRepository;
+import com.android.aksiem.eizzy.repository.StoreManagerRepository;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.Resource;
 
 import javax.inject.Inject;
 
@@ -29,13 +32,23 @@ import javax.inject.Inject;
 
 public class ValidateOTPViewModel extends ViewModel {
 
+    private String phone;
+
     private String otp;
 
-    private UserRepository userRepository;
+    private StoreManagerRepository storeManagerRepository;
 
     @Inject
-    public ValidateOTPViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ValidateOTPViewModel(StoreManagerRepository storeManagerRepository) {
+        this.storeManagerRepository = storeManagerRepository;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setOTP(String otp) {
@@ -43,8 +56,8 @@ public class ValidateOTPViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    void onValidateOTP() {
-        userRepository.validateOTP(otp);
+    LiveData<Resource<EizzyApiRespone<String>>> onValidateOTP() {
+        return storeManagerRepository.validateOtp(phone, otp);
     }
 
     @VisibleForTesting

@@ -16,10 +16,14 @@
 
 package com.android.aksiem.eizzy.ui.login;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
+import com.android.aksiem.eizzy.repository.StoreManagerRepository;
 import com.android.aksiem.eizzy.repository.UserRepository;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.Resource;
 
 import javax.inject.Inject;
 
@@ -29,13 +33,33 @@ import javax.inject.Inject;
 
 public class CreatePasswordViewModel extends ViewModel {
 
+    private String mPhone;
+
+    private String mOtp;
+
     private String mPassword;
 
-    private UserRepository userRepository;
+    private StoreManagerRepository storeManagerRepository;
 
     @Inject
-    public CreatePasswordViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CreatePasswordViewModel(StoreManagerRepository storeManagerRepository) {
+        this.storeManagerRepository = storeManagerRepository;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String mPhone) {
+        this.mPhone = mPhone;
+    }
+
+    public String getOtp() {
+        return mOtp;
+    }
+
+    public void setOtp(String mOtp) {
+        this.mOtp = mOtp;
     }
 
     public void setPassword(String password) {
@@ -43,8 +67,8 @@ public class CreatePasswordViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    void resetPassword() {
-        userRepository.resetPassword(mPassword);
+    LiveData<Resource<EizzyApiRespone<String>>> resetPassword() {
+        return storeManagerRepository.resetPassword(mPhone, mOtp, mPassword);
     }
 
     @VisibleForTesting

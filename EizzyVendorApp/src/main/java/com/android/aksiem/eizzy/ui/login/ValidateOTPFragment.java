@@ -22,6 +22,7 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneNumberUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +34,14 @@ import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.ValidateOtpFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
 import javax.inject.Inject;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
  * Created by napendersingh on 31/03/18.
@@ -45,8 +49,13 @@ import javax.inject.Inject;
 
 public class ValidateOTPFragment extends NavigationFragment {
 
+    private static final String PHONE_BUNDLE_KEY = "phoneBundleKey";
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    ToastController toastController;
 
     @Inject
     NavigationController navigationController;
@@ -56,6 +65,15 @@ public class ValidateOTPFragment extends NavigationFragment {
     private ValidateOTPViewModel validateOTPViewModel;
 
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+
+
+    public static ValidateOTPFragment newInstance(String phone) {
+        Bundle args = new Bundle();
+        args.putString(PHONE_BUNDLE_KEY, phone);
+        ValidateOTPFragment fragment = new ValidateOTPFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public NavigationBuilder buildNavigation() {
@@ -69,8 +87,7 @@ public class ValidateOTPFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        //onValidateOTP(view);
-        navigationController.navigateToCreatePasswordFragment();
+        onValidateOTP(view);
     }
 
     @Nullable
@@ -87,8 +104,22 @@ public class ValidateOTPFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        validateOTPViewModel = ViewModelProviders.of(this, viewModelFactory).get(ValidateOTPViewModel.class);
+        validateOTPViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+                ValidateOTPViewModel.class);
+        init(savedInstanceState);
+    }
+
+    private void init(@Nullable Bundle savedInstanceState) {
+        initData(savedInstanceState);
         initInputListener();
+    }
+
+    private void initData(@Nullable Bundle savedInstanceState) {
+        Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
+        String phone = validatePhone(args.getString(PHONE_BUNDLE_KEY, null));
+        if (phone !=  null) {
+            validateOTPViewModel.setPhone(phone);
+        }
     }
 
     private void initInputListener() {
@@ -110,11 +141,61 @@ public class ValidateOTPFragment extends NavigationFragment {
     }
 
     private void onValidateOTP(View v) {
-        String otp = binding.get().userid.getText().toString();
+        String otp = getValidatedOtp();
+        String phone = getValidatedPhone();
 
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
-        validateOTPViewModel.setOTP(otp);
-        validateOTPViewModel.onValidateOTP();
+
+        if (phone != null && otp != null) {
+            validateOTPViewModel.setOTP(otp);
+            validateOTPViewModel.setPhone(phone);
+            validateOTPViewModel.onValidateOTP().observe(this, resource -> {
+                switch (resource.status) {
+                    case LOADING:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.startAnimation();
+                        }
+                        break;
+                    case SUCCESS:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        navigationController.navigateToCreatePasswordFragment();
+                        break;
+                    case ERROR:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        toastController.showErrorToast(resource.message);
+                        break;
+                }
+            });
+        }
+    }
+
+    private String getValidatedOtp() {
+        String otp = binding.get().userid.getText().toString();
+        if (otp != null && otp.length() > 0 && otp.length() < 7) {
+            return otp;
+        }
+        binding.get().textInputLayoutUserId.setError(getString(R.string.validation_otp_message));
+        return null;
+    }
+
+    private String getValidatedPhone() {
+        String phone = validateOTPViewModel.getPhone();
+        if (phone == null) {
+            toastController.showErrorToast(getString(R.string.validation_phone_otp_message));
+        }
+        return phone;
+    }
+
+    private String validatePhone(String phone) {
+        return  (phone != null && phone.length() > 0
+                && PhoneNumberUtils.isGlobalPhoneNumber(phone)) ? phone : null;
     }
 }

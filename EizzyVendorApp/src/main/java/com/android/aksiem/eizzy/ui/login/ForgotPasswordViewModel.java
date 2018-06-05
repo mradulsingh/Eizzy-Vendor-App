@@ -16,10 +16,15 @@
 
 package com.android.aksiem.eizzy.ui.login;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
+import com.android.aksiem.eizzy.api.ApiResponse;
+import com.android.aksiem.eizzy.repository.StoreManagerRepository;
 import com.android.aksiem.eizzy.repository.UserRepository;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.Resource;
 
 import javax.inject.Inject;
 
@@ -29,22 +34,22 @@ import javax.inject.Inject;
 
 public class ForgotPasswordViewModel extends ViewModel {
 
-    private String mUserId;
+    private String phone;
 
-    private UserRepository userRepository;
+    private StoreManagerRepository storeManagerRepository;
 
     @Inject
-    public ForgotPasswordViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ForgotPasswordViewModel(StoreManagerRepository storeManagerRepository) {
+        this.storeManagerRepository = storeManagerRepository;
     }
 
-    public void setUserId(String userId) {
-        this.mUserId = userId;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @VisibleForTesting
-    void onForgotPassword() {
-        userRepository.onForgotPassword(mUserId);
+    LiveData<Resource<EizzyApiRespone<String>>> onForgotPassword() {
+        return storeManagerRepository.sendOtp(phone);
     }
 
     @VisibleForTesting

@@ -22,11 +22,14 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.telephony.PhoneNumberUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
@@ -39,13 +42,20 @@ import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
  * Created by napendersingh on 31/03/18.
  */
 
 public class CreatePasswordFragment extends NavigationFragment {
+
+    private static final String BUNDLE_PHONE_KEY = "bundlePhoneKey";
+    private static final String BUNDLE_OTP_KEY = "bundleOTPKey";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -64,6 +74,16 @@ public class CreatePasswordFragment extends NavigationFragment {
     private CreatePasswordViewModel createPasswordViewModel;
 
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+
+    public static CreatePasswordFragment newInstance(String phone, String otp) {
+
+        Bundle args = new Bundle();
+        args.putString(BUNDLE_PHONE_KEY, phone);
+        args.putString(BUNDLE_OTP_KEY, otp);
+        CreatePasswordFragment fragment = new CreatePasswordFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public NavigationBuilder buildNavigation() {
@@ -94,8 +114,26 @@ public class CreatePasswordFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        createPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(CreatePasswordViewModel.class);
-        initInputListener();
+        createPasswordViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+                CreatePasswordViewModel.class);
+        init(savedInstanceState);
+    }
+
+    private void init(@Nullable Bundle savedInstanceState) {
+        initData(savedInstanceState);
+        //initInputListener();
+    }
+
+    private void initData(@Nullable Bundle savedInstanceState) {
+        Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
+        String phone = validatePhone(args.getString(BUNDLE_PHONE_KEY, null));
+        if (phone != null) {
+            createPasswordViewModel.setPhone(phone);
+        }
+        String otp = validateOtp(args.getString(BUNDLE_OTP_KEY, null));
+        if (otp != null) {
+            createPasswordViewModel.setOtp(otp);
+        }
     }
 
     private void initInputListener() {
@@ -117,32 +155,81 @@ public class CreatePasswordFragment extends NavigationFragment {
     }
 
     private void onResetPassword(View v) {
-        String password = binding.get().password.getText().toString();
+        String phone = createPasswordViewModel.getPhone();
+        String otp = createPasswordViewModel.getOtp();
+        String password = getVerifiedPassword();
 
-        // Dismiss keyboard
-        if (validatePassword()) {
-            dismissKeyboard(v.getWindowToken());
+        dismissKeyboard(v.getWindowToken());
+
+        if (phone != null && otp != null && password != null) {
             createPasswordViewModel.setPassword(password);
-            createPasswordViewModel.resetPassword();
+            createPasswordViewModel.resetPassword().observe(this, resource -> {
+                switch (resource.status) {
+                    case LOADING:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.startAnimation();
+                        }
+                        break;
+                    case SUCCESS:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        navigationController.navigateToLogin();
+                        break;
+                    case ERROR:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        toastController.showErrorToast(resource.message);
+                        break;
+                }
+            });
         }
     }
 
-    private boolean validatePassword() {
-        String password = binding.get().password.getText().toString();
-        String confirmPassword = binding.get().confirmPassword.getText().toString();
+    private String getVerifiedPassword() {
+        String password = getValidatedPassword(binding.get().password,
+                binding.get().textInputLayoutPassword);
+        String confirmPassword = getValidatedPassword(binding.get().confirmPassword,
+                binding.get().textInputLayoutConfirmPassword);
 
         binding.get().textInputLayoutPassword.setError(null);
         binding.get().textInputLayoutConfirmPassword.setError(null);
 
-        if (password.length() < 6) {
-            binding.get().textInputLayoutPassword.setError(appResourceManager.getString(R.string.edittext_error_password_invalid));
-            return false;
-        }
-
         if (!password.equals(confirmPassword)) {
-            binding.get().textInputLayoutConfirmPassword.setError(appResourceManager.getString(R.string.edittext_error_password_notconfirmed));
-            return false;
+            binding.get().textInputLayoutConfirmPassword.setError(
+                    getString(R.string.edittext_error_password_notconfirmed));
+            return null;
         }
-        return true;
+        return password;
+    }
+
+    private String validatePhone(String phone) {
+        return  (phone != null && phone.length() > 0
+                && PhoneNumberUtils.isGlobalPhoneNumber(phone)) ? phone : null;
+    }
+
+    private String validateOtp(String otp) {
+        return (otp != null && otp.length() > 0 && otp.length() < 7) ? otp : null;
+    }
+
+    private String getValidatedPassword(EditText passwordET, TextInputLayout passwordTIL) {
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+
+        String password = passwordET.getText().toString();
+        if (password != null && pattern.matcher(password).matches()) {
+            if (password.length() > 5) {
+                return password;
+            } else {
+                passwordTIL.setError(getString(R.string.edittext_error_password_invalid));
+            }
+        } else {
+            passwordTIL.setError(getString(R.string.validation_password_diversity_message));
+        }
+        return null;
     }
 }

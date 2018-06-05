@@ -69,7 +69,7 @@ public class NavigationController {
     }
 
     public void navigateToSettlementFragment() {
-        SettlementFragment fragment = SettlementFragment.create();
+        SettlementFragment fragment = SettlementFragment.newInstance();
         String tag = SettlementFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
@@ -78,7 +78,7 @@ public class NavigationController {
     }
 
     public void navigateToLogin() {
-        LoginFragment loginFragment = new LoginFragment();
+        LoginFragment loginFragment = LoginFragment.newInstance();
         String tag = LoginFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, loginFragment, tag)
@@ -104,8 +104,8 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToValidateOTPFragment() {
-        ValidateOTPFragment fragment = new ValidateOTPFragment();
+    public void navigateToValidateOTPFragment(String phone) {
+        ValidateOTPFragment fragment = ValidateOTPFragment.newInstance(phone);
         String tag = ValidateOTPFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
@@ -207,7 +207,8 @@ public class NavigationController {
         if (inAnimation > 0 && outAnimation <= 0) {
             fragmentTransaction.setCustomAnimations(inAnimation, outAnimation);
         } else if (inAnimation > 0 && outAnimation > 0) {
-            fragmentTransaction.setCustomAnimations(inAnimation, inAnimation, outAnimation, outAnimation);
+            fragmentTransaction.setCustomAnimations(inAnimation, inAnimation, outAnimation,
+                    outAnimation);
         }
 
         if (fragment.isAdded()) {

@@ -46,8 +46,9 @@ public class SettlementFragment extends NavigationFragment {
     AutoClearedValue<SettlementFragmentBinding> binding;
     AutoClearedValue<SettlementItemAdapter> adapter;
 
-    public static SettlementFragment create() {
-        return new SettlementFragment();
+    public static SettlementFragment newInstance() {
+        SettlementFragment fragment = new SettlementFragment();
+        return fragment;
     }
 
 

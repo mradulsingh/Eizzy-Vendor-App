@@ -66,7 +66,7 @@
 
     <!-- Validate OTP -->
     <string name="screen.title.validate.otp">Enter OTP </string>
-    <string name="screen.subtitle.validate.otp">Enter 5 digit PIN that you got on your registered device, in the text area below</string>
+    <string name="screen.subtitle.validate.otp">Enter 6 digit PIN that you got on your registered device, in the text area below</string>
     <string name="edittext.hint.otp">OTP</string>
     <string name="button.action.validate.otp">VALIDATE</string>
     <!-- Validate OTP -->
@@ -76,7 +76,7 @@
     <string name="screen.subtitle.create.password">Please confirm your new password to access Eizzy Account</string>
     <string name="edittext.hint.create.password">PASSWORD</string>
     <string name="edittext.hint.confirm.password">CONFIRM PASSWORD</string>
-    <string name="edittext.error.password.invalid">Enter valid password (atleast 6 characters)</string>
+    <string name="edittext.error.password.invalid">Enter valid password (at least 6 characters)</string>
     <string name="edittext.error.password.notconfirmed">The specified passwords do not match</string>
     <string name="button.action.reset.password">RESET PASSWORD</string>
     <!--  Create Password -->
@@ -139,4 +139,7 @@
     <string name="confirmation.account.creation.action">Done</string>
     <string name="error.account.already.exists">An account is already registered to this device</string>
     <string name="validation.password.message">Enter a Valid Password</string>
+    <string name="validation.otp.message">Please Enter a Valid 6-digit OTP</string>
+    <string name="validation.phone.otp.message">Phone Number is Invalid</string>
+    <string name="validation.password.diversity.message">Must contain at least 1 number, 1 special character, 1 capital</string>
 </resources>

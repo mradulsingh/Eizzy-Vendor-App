@@ -27,6 +27,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 
@@ -47,13 +48,31 @@ public interface AppService {
                                                                     @Part("deviceType") int deviceType);
 
     @Multipart
+    @POST("dispatcher/sendOtp")
+    LiveData<ApiResponse<EizzyApiRespone<String>>> sendOtp(@Header("language") String language,
+                                                           @Part("mobile") RequestBody phone,
+                                                           @Part("countryCode") RequestBody countryCode);
+
+    @Multipart
+    @POST("dispatcher/verifyOtp")
+    LiveData<ApiResponse<EizzyApiRespone<String>>> validateOTP(@Header("language") String language,
+                                                               @Part("mobile") RequestBody phone,
+                                                               @Part("countryCode") RequestBody countryCode,
+                                                               @Part("code") RequestBody otp);
+
+    @Multipart
+    @PATCH("dispatcher/password")
+    LiveData<ApiResponse<EizzyApiRespone<String>>> resetPassword(@Header("language") String language,
+                                                                 @Part("mobile") RequestBody phone,
+                                                                 @Part("countryCode") RequestBody countryCode,
+                                                                 @Part("code") RequestBody otp,
+                                                                 @Part("password") RequestBody password);
+
+    @Multipart
     @POST("dispatcher/forgotPassword")
     LiveData<ApiResponse<EizzyApiRespone<String>>> forgotPassword(@Header("language") String language,
                                                                   @Part("emailOrMobile") String phone,
                                                                   @Part("verifyType") int verifyType);
-
-    @POST("user/validateotp")
-    LiveData<ApiResponse<User>> validateOTP(@Field("otp") String otp);
 
 
     @POST("user/resetPassword")
