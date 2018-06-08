@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -15,11 +16,13 @@
             android:layout_alignParentTop="true"
             tools:text="Title" />
 
-        <com.android.aksiem.eizzy.view.AppNonScrollListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/atlvList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/atlvTitle" />
+            android:layout_below="@id/atlvTitle"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/title_subtitle_row_horizontal" />
 
     </RelativeLayout>
 </layout>

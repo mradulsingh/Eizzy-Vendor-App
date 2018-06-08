@@ -5,14 +5,11 @@ import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +20,7 @@ import com.android.aksiem.eizzy.vo.support.TitledAndSubtitled;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppTitlizedListView extends RelativeLayout {
+public class AppTitlizedListView<T extends TitledAndSubtitled> extends RelativeLayout {
 
     private static final boolean DEFAULT_BOOLEAN_VALUE = false;
     private static final int DEFAULT_COLOR_VALUE = Color.TRANSPARENT;
@@ -31,7 +28,7 @@ public class AppTitlizedListView extends RelativeLayout {
 
     private RelativeLayout rootView;
     private TextView titleTextView;
-    private ListView listView;
+    private RecyclerView recyclerView;
 
     private String lvTitle;
     private int lvTitleColor;
@@ -44,8 +41,8 @@ public class AppTitlizedListView extends RelativeLayout {
     private float lvItemSubtitleSize;
     private int lvItemSubtitleColor;
 
-    private List<? extends TitledAndSubtitled> items;
-    private ArrayAdapter<TitledAndSubtitled> adapter;
+    private List<T> items = new ArrayList<>();
+    private DefaultAdapter<T> adapter;
 
     public AppTitlizedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -96,10 +93,11 @@ public class AppTitlizedListView extends RelativeLayout {
         setLvTitleColor(lvTitleColor);
         setLvTitleSize(lvTitleSize);
         manageTitleTextStyling();
-        listView = rootView.findViewById(R.id.atlvList);
-        adapter = new DefaultAdapter(context, R.layout.title_subtitle_row_horizontal,
-                new ArrayList<>());
-        listView.setAdapter(adapter);
+        recyclerView = rootView.findViewById(R.id.atlvList);
+        recyclerView.setHasFixedSize(true);
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false);
+        adapter = new DefaultAdapter<T>(items);
+        recyclerView.setAdapter(adapter);
     }
 
     public String getLvTitle() {
@@ -200,32 +198,59 @@ public class AppTitlizedListView extends RelativeLayout {
         this.lvItemSubtitleColor = lvItemSubtitleColor;
     }
 
-    public List<? extends TitledAndSubtitled> getItems() {
+    public List<T> getItems() {
         return items;
     }
 
-    public void setItems(List<? extends TitledAndSubtitled> items) {
-        this.items = items;
-        adapter.clear();
-        adapter.addAll(this.items);
+    public void setItems(List<T> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        adapter.notifyDataSetChanged();
     }
 
-    protected class DefaultAdapter extends ArrayAdapter<TitledAndSubtitled> {
+    protected class DefaultAdapter<T extends TitledAndSubtitled> extends RecyclerView.Adapter<DefaultAdapter.TitleSubtitleViewHolder> {
 
-        public DefaultAdapter(@NonNull Context context, int resource,
-                              @NonNull List<TitledAndSubtitled> objects) {
-            super(context, resource, objects);
+        private List<T> titledAndSubtitledList;
+
+        public DefaultAdapter(List<T> titledAndSubtitledList) {
+            this.titledAndSubtitledList = titledAndSubtitledList;
         }
 
-        @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            TitleSubtitleRowHorizontalBinding binding = DataBindingUtil.inflate(
-                    LayoutInflater.from(getContext()), R.layout.title_subtitle_row_horizontal,
+        public TitleSubtitleViewHolder onCreateViewHolder(ViewGroup parent,
+                                                          int viewType) {
+            LayoutInflater layoutInflater =
+                    LayoutInflater.from(parent.getContext());
+            TitleSubtitleRowHorizontalBinding itemBinding = DataBindingUtil.inflate(
+                    layoutInflater, R.layout.title_subtitle_row_horizontal,
                     parent, false);
-            binding.setRow(getItem(position));
-            manageStyling(binding);
-            return binding.getRoot();
+            return new TitleSubtitleViewHolder(itemBinding);
+        }
+
+        @Override
+        public void onBindViewHolder(DefaultAdapter.TitleSubtitleViewHolder holder, int position) {
+            TitledAndSubtitled item = titledAndSubtitledList.get(position);
+            holder.bind(item);
+        }
+
+        @Override
+        public int getItemCount() {
+            return titledAndSubtitledList.size();
+        }
+
+        public class TitleSubtitleViewHolder extends RecyclerView.ViewHolder {
+            private final TitleSubtitleRowHorizontalBinding binding;
+
+            public TitleSubtitleViewHolder(TitleSubtitleRowHorizontalBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
+            }
+
+            public void bind(TitledAndSubtitled item) {
+                binding.setRow(item);
+                manageStyling(binding);
+                binding.executePendingBindings();
+            }
         }
 
         private void manageStyling(TitleSubtitleRowHorizontalBinding binding) {

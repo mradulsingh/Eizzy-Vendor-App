@@ -12,8 +12,10 @@
     <LinearLayout
         android:id="@+id/horizontalRow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/atom_1"
+        android:paddingTop="@dimen/atom_1">
 
         <TextView
             android:id="@+id/title"
