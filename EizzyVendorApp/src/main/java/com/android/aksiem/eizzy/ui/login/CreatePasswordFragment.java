@@ -196,10 +196,7 @@ public class CreatePasswordFragment extends NavigationFragment {
         String confirmPassword = getValidatedPassword(binding.get().confirmPassword,
                 binding.get().textInputLayoutConfirmPassword);
 
-        binding.get().textInputLayoutPassword.setError(null);
-        binding.get().textInputLayoutConfirmPassword.setError(null);
-
-        if (!password.equals(confirmPassword)) {
+        if (password != null && confirmPassword != null && !password.equals(confirmPassword)) {
             binding.get().textInputLayoutConfirmPassword.setError(
                     getString(R.string.edittext_error_password_notconfirmed));
             return null;

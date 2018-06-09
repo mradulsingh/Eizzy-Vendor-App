@@ -141,8 +141,9 @@ public class ValidateOTPFragment extends NavigationFragment {
     }
 
     private void onValidateOTP(View v) {
-        String otp = getValidatedOtp();
+
         String phone = getValidatedPhone();
+        String otp = getValidatedOtp();
 
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
@@ -163,7 +164,7 @@ public class ValidateOTPFragment extends NavigationFragment {
                             CircularProgressButton button = (CircularProgressButton) v;
                             button.revertAnimation();
                         }
-                        navigationController.navigateToCreatePasswordFragment();
+                        navigationController.navigateToCreatePasswordFragment(phone, otp);
                         break;
                     case ERROR:
                         if (v instanceof CircularProgressButton) {

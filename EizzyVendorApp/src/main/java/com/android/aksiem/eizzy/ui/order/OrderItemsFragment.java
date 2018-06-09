@@ -22,12 +22,9 @@ import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
-import com.android.aksiem.eizzy.ui.toolbar.menu.MenuAction;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.util.Logger;
-
-import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -80,12 +77,8 @@ public class OrderItemsFragment extends NavigationFragment {
 
     private MenuActions buildMenuActions() {
         return new MenuActions.Builder()
-                .action(R.id.nav_checkout, new MenuAction() {
-                    @Override
-                    public void execute() {
-                        toastController.showSuccessToast("test message");
-                        //navigationController.openOrderSortFilterDialogFragment();
-                    }
+                .action(R.id.nav_checkout, () -> {
+                    navigateToCreateOrder();
                 })
                 .build();
     }
@@ -129,5 +122,19 @@ public class OrderItemsFragment extends NavigationFragment {
         orderItemsViewModel.setOrderIds(null);
     }
 
+    private void navigateToCreateOrder() {
+        orderItemsViewModel.getEizzyZones().observe(this, resource -> {
+            binding.get().included.setResource(resource);
+            switch (resource.status) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    navigationController.navigateToCreateOrderFragment(resource.data.data);
+                    break;
+                case ERROR:
+                    break;
+            }
+        });
+    }
 
 }

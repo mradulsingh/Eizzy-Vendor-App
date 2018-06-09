@@ -13,7 +13,8 @@ public abstract class NavigationFragment extends BaseInjectableFragment {
     private NavigationBuilder navigationBuilder;
 
     @Nullable
-    public View wrapNavigationLayout(LayoutInflater inflater, @Nullable ViewGroup container, @NonNull View viewAttachedFragment) {
+    public View wrapNavigationLayout(LayoutInflater inflater, @Nullable ViewGroup container,
+                                     @NonNull View viewAttachedFragment) {
         navigationBuilder = buildNavigation();
         return navigationBuilder.createNavigationView(inflater, container, viewAttachedFragment);
     }

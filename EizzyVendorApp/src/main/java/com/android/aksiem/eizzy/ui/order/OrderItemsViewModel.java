@@ -5,11 +5,16 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import com.android.aksiem.eizzy.app.AppPrefManager;
 import com.android.aksiem.eizzy.app.AppResourceManager;
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
 import java.util.ArrayList;
@@ -27,19 +32,30 @@ public class OrderItemsViewModel extends ViewModel {
 
     private MutableLiveData<List<String>> orderIds = new MutableLiveData<>();
 
+    private OrderItemsRepository orderItemsRepository;
+
     @Inject
     AppResourceManager appResourceManager;
 
     @Inject
+    AppPrefManager appPrefManager;
+
+    @Inject
     public OrderItemsViewModel(OrderItemsRepository orderItemsRepository) {
+        this.orderItemsRepository = orderItemsRepository;
         timeStampedOrderItems = Transformations.switchMap(
-                orderItemsRepository.loadItems(),
+                this.orderItemsRepository.loadItems(),
                 (items) -> addTimestampToList(items));
     }
 
 
     public LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> getOrderItems() {
         return timeStampedOrderItems;
+    }
+
+    public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones() {
+        StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
+        return orderItemsRepository.getEizzyZones(manager.token, manager.cityId);
     }
 
     public void setOrderIds(List<String> listOrderIds) {

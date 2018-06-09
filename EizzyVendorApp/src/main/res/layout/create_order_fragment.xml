@@ -31,6 +31,203 @@
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/atom_10">
 
+        <TextView
+            android:id="@+id/tvHeaderCustomerDetails"
+            style="@style/ExpandedTitleTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
+            android:ellipsize="end"
+            android:paddingBottom="0dp"
+            android:paddingTop="@dimen/atom_12"
+            android:text="@string/header.customer.details"
+            android:textSize="@dimen/font_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutCustomerName"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHeaderCustomerDetails">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/customerName"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.customer.name"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.customer.name" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutCustomerMobile"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCustomerName">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/customerMobile"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.customer.mobile"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.customer.mobile" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/switchContainerCashOnDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCustomerMobile">
+
+            <TextView
+                style="@style/ExpandedTitleTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:text="@string/header.cash.on.delivery"
+                android:textSize="@dimen/font_14" />
+
+            <LinearLayout
+                android:id="@+id/llSwitchCashOnDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView.Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+                <Switch
+                    android:id="@+id/switchCashOnDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/atom_1"
+                    android:layout_marginRight="@dimen/atom_1" />
+
+                <TextView
+                    style="@style/TextView.Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvHeaderAddressDetails"
+            style="@style/ExpandedTitleTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
+            android:ellipsize="end"
+            android:paddingBottom="0dp"
+            android:paddingTop="@dimen/atom_12"
+            android:text="@string/header.address.details"
+            android:textSize="@dimen/font_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchContainerCashOnDelivery" />
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutLocality"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHeaderAddressDetails">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/locality"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.locality"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.locality" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutCustomerAddress"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutLocality">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/customerAddress"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext.hint.customer.address"
+                android:inputType="textNoSuggestions"
+                tools:text="@string/edittext.hint.customer.address" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <com.android.aksiem.eizzy.view.AppTextInputLayout
+            android:id="@+id/textInputLayoutEizzyZone"
+            style="@style/AppTextInputLayout.CreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutCustomerAddress">
+
+            <com.android.aksiem.eizzy.view.AppEditText
+                android:id="@+id/eizzyZone"
+                style="@style/AppEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/edittext.hint.eizzy.zone"
+                android:inputType="textNoSuggestions"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                tools:text="@string/edittext.hint.eizzy.zone" />
+        </com.android.aksiem.eizzy.view.AppTextInputLayout>
+
+        <TextView
+            android:id="@+id/tvHeaderBillingDetails"
+            style="@style/ExpandedTitleTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/atom_10"
+            android:layout_marginRight="@dimen/atom_10"
+            android:ellipsize="end"
+            android:paddingBottom="0dp"
+            android:paddingTop="@dimen/atom_12"
+            android:text="@string/header.billing.details"
+            android:textSize="@dimen/font_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutEizzyZone" />
+
         <com.android.aksiem.eizzy.view.AppTextInputLayout
             android:id="@+id/textInputLayoutBillAmount"
             style="@style/AppTextInputLayout.CreateOrder"
@@ -38,7 +235,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/tvHeaderBillingDetails">
 
             <com.android.aksiem.eizzy.view.AppEditText
                 android:id="@+id/billAmount"
@@ -255,6 +452,8 @@
                 style="@style/AppUnderLineEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="@string/edittext.hint.order.date"
                 android:inputType="textNoSuggestions"
                 tools:text="@string/edittext.hint.order.date" />
@@ -273,24 +472,14 @@
                 style="@style/AppEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="@string/edittext.hint.order.time"
                 android:inputType="textNoSuggestions"
                 android:maxLines="5"
                 android:scrollbars="vertical"
                 tools:text="@string/edittext.hint.order.time" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
-
-        <include
-            layout="@layout/progressbar_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:resource="@{resource}" />
 
     </android.support.constraint.ConstraintLayout>
 

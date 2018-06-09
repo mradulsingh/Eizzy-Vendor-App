@@ -142,4 +142,13 @@
     <string name="validation.otp.message">Please Enter a Valid 6-digit OTP</string>
     <string name="validation.phone.otp.message">Phone Number is Invalid</string>
     <string name="validation.password.diversity.message">Must contain at least 1 number, 1 special character, 1 capital</string>
+    <string name="header.billing.details">Billing Details</string>
+    <string name="header.customer.details">Customer Details</string>
+    <string name="edittext.hint.customer.name">CUSTOMER NAME*</string>
+    <string name="edittext.hint.customer.mobile">CUSTOMER MOBILE*</string>
+    <string name="header.cash.on.delivery">Cash on Delivery</string>
+    <string name="header.address.details">Address Details</string>
+    <string name="edittext.hint.locality">LOCALITY*</string>
+    <string name="edittext.hint.customer.address">CUSTOMER ADDRESS*</string>
+    <string name="edittext.hint.eizzy.zone">EIZZY ZONE*</string>
 </resources>

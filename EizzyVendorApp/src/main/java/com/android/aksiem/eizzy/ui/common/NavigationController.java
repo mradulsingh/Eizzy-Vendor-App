@@ -34,7 +34,10 @@ import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
 import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 import com.android.aksiem.eizzy.util.Logger;
+import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.OrderItem;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -113,8 +116,8 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToCreatePasswordFragment() {
-        CreatePasswordFragment fragment = new CreatePasswordFragment();
+    public void navigateToCreatePasswordFragment(String phone, String otp) {
+        CreatePasswordFragment fragment = CreatePasswordFragment.newInstance(phone, otp);
         String tag = CreatePasswordFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
@@ -122,7 +125,7 @@ public class NavigationController {
     }
 
     public void navigateToVendorOnboardingFragment() {
-        VendorOnboardingFragment fragment = VendorOnboardingFragment.create();
+        VendorOnboardingFragment fragment = VendorOnboardingFragment.newInstance();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment)
                 .commitAllowingStateLoss();
@@ -137,8 +140,8 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToCreateOrderFragment() {
-        CreateOrderFragment fragment = new CreateOrderFragment();
+    public void navigateToCreateOrderFragment(ArrayList<EizzyZone> eizzyZones) {
+        CreateOrderFragment fragment = CreateOrderFragment.newInstance(eizzyZones);
         String tag = CreateOrderFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)

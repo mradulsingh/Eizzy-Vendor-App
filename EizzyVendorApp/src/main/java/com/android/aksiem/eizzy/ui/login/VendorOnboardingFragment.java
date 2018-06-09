@@ -51,7 +51,7 @@ public class VendorOnboardingFragment extends NavigationFragment {
     @VisibleForTesting
     AutoClearedValue<VendorOnboardingFragmentBinding> binding;
 
-    public static VendorOnboardingFragment create() {
+    public static VendorOnboardingFragment newInstance() {
         VendorOnboardingFragment vendorValuePropFragment = new VendorOnboardingFragment();
         return vendorValuePropFragment;
     }

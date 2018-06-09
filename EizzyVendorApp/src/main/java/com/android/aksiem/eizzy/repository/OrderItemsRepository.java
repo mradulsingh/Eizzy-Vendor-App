@@ -14,8 +14,12 @@ import com.android.aksiem.eizzy.db.OrderItemDao;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
+import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
@@ -149,6 +153,35 @@ public class OrderItemsRepository {
                 return mld;
             }
         }.asLiveData();
+    }
+
+    public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones(
+            String authorizationToken, String cityId) {
+        return new NoCacheNetworkBoundResource<EizzyApiRespone<ArrayList<EizzyZone>>,
+                EizzyApiRespone<ArrayList<EizzyZone>>>(appExecutors) {
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<ArrayList<EizzyZone>>> getCallResult(
+                    @NonNull EizzyApiRespone<ArrayList<EizzyZone>> item) {
+                MutableLiveData<EizzyApiRespone<ArrayList<EizzyZone>>> m = new MutableLiveData<>();
+                m.setValue(item);
+                return m;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<ArrayList<EizzyZone>>>> createCall() {
+                return appService.getEizzyZones(
+                        RequestConstants.Language.english,
+                        authorizationToken,
+                        StringUtils.getPlainTextRequestBody(cityId));
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<EizzyApiRespone<String>>> createOrder() {
+        return null;
     }
 
     private List<OrderItem> mockData(List<String> orderIds, int pageSize) {
