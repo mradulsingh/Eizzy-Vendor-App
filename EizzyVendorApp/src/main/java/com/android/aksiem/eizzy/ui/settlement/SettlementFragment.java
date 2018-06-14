@@ -121,17 +121,17 @@ public class SettlementFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 SettlementViewModel.class);
-        initOrdersList();
-        SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
+        //initOrdersList();
+     /*   SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
                 orderItem -> {
                     //TODO
                 });
-        this.adapter = new AutoClearedValue<>(this, adapter);
+        this.adapter = new AutoClearedValue<>(this, adapter);*/
 
 
     }
 
-    private void initOrdersList() {
+  /*  private void initOrdersList() {
         settlementViewModel.getOrderItems().observe(this, listResource -> {
             if (listResource != null && listResource.data != null) {
                 //adapter.get().replace(listResource.data);
@@ -139,7 +139,7 @@ public class SettlementFragment extends NavigationFragment {
                 adapter.get().replace(Collections.emptyList());
             }
         });
-    }
+    }*/
 
 
 }

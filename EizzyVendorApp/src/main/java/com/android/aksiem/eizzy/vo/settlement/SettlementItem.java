@@ -14,7 +14,7 @@ import java.util.List;
 @Entity(primaryKeys = "transactionId", tableName = "settlement_item")
 public class SettlementItem implements Serializable, Timestamped {
 
-    @SerializedName("transactionId")
+    @SerializedName("settlementId")
     @NonNull
     public final String transactionId;
 
@@ -26,7 +26,7 @@ public class SettlementItem implements Serializable, Timestamped {
     @NonNull
     public final long timestamp;
 
-    @SerializedName("paymentId")
+    @SerializedName("transactionId")
     @NonNull
     public final String paymentId;
 
@@ -40,9 +40,9 @@ public class SettlementItem implements Serializable, Timestamped {
     private TransactionStatus transactionStatus;
 
 
-    public SettlementItem(@NonNull String transactionId, @NonNull List<OrderDetails> orderList,
-                          @NonNull long timestamp, @NonNull String paymentId,
-                          @NonNull String stringTimestamp, @NonNull TransactionStatus transactionStatus) {
+    public SettlementItem(@NonNull String transactionId,  List<OrderDetails> orderList,
+                           long timestamp,  String paymentId,
+                           String stringTimestamp,  TransactionStatus transactionStatus) {
         this.transactionId = transactionId;
         this.orderList = orderList;
         this.timestamp = timestamp;
@@ -57,7 +57,7 @@ public class SettlementItem implements Serializable, Timestamped {
     }
 
     @NonNull
-    public List<OrderDetails> getOrderList() {
+    public List<OrderDetails> getSettlementList() {
         return orderList;
     }
 

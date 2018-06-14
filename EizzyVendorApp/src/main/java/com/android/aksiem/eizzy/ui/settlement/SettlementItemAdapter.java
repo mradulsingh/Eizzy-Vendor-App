@@ -1,110 +1,95 @@
 package com.android.aksiem.eizzy.ui.settlement;
 
-import android.databinding.DataBindingComponent;
-import android.databinding.ViewDataBinding;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
-import com.android.aksiem.eizzy.vo.OrderItem;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
+import java.util.List;
 
-public class SettlementItemAdapter extends DataBoundListAdapter<TimestampedItemWrapper<SettlementItem>, ViewDataBinding> {
 
-    private final DataBindingComponent dataBindingComponent;
-    private final ItemClickCallback itemClickCallback;
+public class SettlementItemAdapter extends RecyclerView.Adapter<SettlementItemAdapter.PersonViewHolder> {
 
-    public SettlementItemAdapter(DataBindingComponent dataBindingComponent,
-                                 ItemClickCallback itemClickCallback) {
+    private static final int HEADER = 0;
+    private static final int NONHEADER = 1;
+    List<SettlementItem> settlementItems;
+    View view;
+    static String TAG = SettlementItemAdapter.class.getSimpleName();
 
-        this.dataBindingComponent = dataBindingComponent;
-        this.itemClickCallback = itemClickCallback;
-    }
+    public static class PersonViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    protected ViewDataBinding createBinding(ViewGroup parent, int viewType) {
+        TextView cus_tv_trans_id;
 
-        ViewDataBinding binding = null;
-
-        if (isItem(viewType)) {
-
-            //binding = createOldSettlementItemBinding(parent);
-
-        } else {
-
-            //binding = createSettlementOverviewBinding(parent);
-
+        PersonViewHolder(View itemView) {
+            super(itemView);
+            cus_tv_trans_id = (TextView) itemView.findViewById(R.id.cus_tv_trans_id);
         }
-
-        return binding;
     }
 
-//    private OrderItemBinding createOldSettlementItemBinding(ViewGroup parent) {
-//        OrderItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-//                R.layout.old_settlement_element, parent, false, dataBindingComponent);
-//        binding.getRoot().setOnClickListener(v -> {
-//            OrderItem item = binding.getOrderItem();
-//            if (item != null && itemClickCallback != null) {
-//                itemClickCallback.onClick(item);
-//            }
-//        });
-//        return binding;
-//        return null;
-//    }
 
-//    private TimestampTitleItemBinding createSettlementOverviewBinding(ViewGroup parent) {
-//        TimestampTitleItemBinding binding = DataBindingUtil.inflate(
-//                LayoutInflater.from(parent.getContext()),
-//                R.layout.settlement_overview_element, parent, false,
-//                dataBindingComponent);
-//        binding.getRoot().setOnClickListener(v -> {
-//            // TODO: Does anything happen on the click of timestamp?
-//        });
-//        return binding;
-//        return null;
-//    }
+    public SettlementItemAdapter(List<SettlementItem> settlementItems) {
+        this.settlementItems = settlementItems;
+        Log.e(TAG, " SettlementItemAdapter Constructor");
+
+    }
+
 
     @Override
-    public int getItemViewType(int position) {
-        if (position == 0)
-            return 1;
+    public SettlementItemAdapter.PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        PersonViewHolder pvh = null;
+        Log.e(TAG, " onCreateViewHolder");
+        if (viewType == HEADER)
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.old_settlement_header_element, parent, false);
         else {
-            return 2;
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.old_settlement_element, parent, false);
+        }
+        pvh = new PersonViewHolder(view);
+        return pvh;
+    }
+
+    @Override
+    public void onBindViewHolder(SettlementItemAdapter.PersonViewHolder personViewHolder, final int position) {
+        if (position != HEADER) {
+            Log.e(TAG, settlementItems.get(position - 1).transactionId + "<<");
+            personViewHolder.cus_tv_trans_id.setText(settlementItems.get(position - 1).transactionId);
+
         }
     }
 
-    @Override
-    protected void bind(ViewDataBinding binding, int viewType, TimestampedItemWrapper<SettlementItem> item) {
-        if (isItem(viewType)) {
-            //((OrderItemBinding) binding).setOrderItem(item.item);
-        } else {
-           // ((TimestampTitleItemBinding) binding).setTimestamp(Long.toString(item.timestamp));
-        }
-    }
-
-    @Override
-    protected boolean areItemsTheSame(TimestampedItemWrapper<SettlementItem> oldItem, TimestampedItemWrapper<SettlementItem> newItem) {
-        return false;
-    }
-
-    @Override
-    protected boolean areContentsTheSame(TimestampedItemWrapper<SettlementItem> oldItem, TimestampedItemWrapper<SettlementItem> newItem) {
-        return false;
-    }
 
     @Override
     public int getItemCount() {
-        return super.getItemCount() + 1;
+
+        return settlementItems.size() + 1;
+
     }
 
-    private boolean isItem(int viewType) {
-        //  return viewType == TimestampedItemWrapper.TimestampedItemWrapperType.ITEM.ordinal();
-        return true; // TODO check overview
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position == HEADER) {
+            return HEADER;
+        }
+        return NONHEADER;
+
+
     }
 
-    public interface ItemClickCallback {
-        void onClick(OrderItem item);
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
+
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
 
 }
