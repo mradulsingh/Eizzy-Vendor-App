@@ -284,6 +284,22 @@ public class OrderItemsRepository {
                 customerDetails, location, abbreviation, abbreviationText, currency,
                 currencySymbol, mileageMetric, paidBy, accounting, orderId);
         item.setActivityLogs(generateActivityLogs());
+        item.setCartTotal(250f);
+        item.setCartDiscount(0f);
+        item.setStoreCommission(0f);
+        item.setSubTotalAmountWithExcTax(250f);
+        item.setSubTotalAmount(250f);
+        item.setExcTax(0f);
+
+        ArrayList<String> exclusiveTaxes = new ArrayList<>();
+        item.setExclusiveTaxes(exclusiveTaxes);
+
+        item.setDiscount(0f);
+        item.setTotalAmount(250f);
+        item.setCustomerCoordinates(new LatLng(0d, 0d));
+        item.setStatus(1);
+        item.setStatusMessage("");
+
         return item;
     }
 
