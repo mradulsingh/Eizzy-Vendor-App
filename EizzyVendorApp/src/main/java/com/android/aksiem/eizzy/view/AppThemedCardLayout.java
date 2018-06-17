@@ -109,6 +109,8 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     private void initView(Context context) {
 
+
+
         binding = DataBindingUtil.inflate(LayoutInflater.from(context),
                 R.layout.app_themed_card_layout, this, true);
 
