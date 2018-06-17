@@ -19,11 +19,11 @@ package com.android.aksiem.eizzy.db;
 import android.arch.persistence.room.TypeConverter;
 
 import com.android.aksiem.eizzy.vo.Accounting;
+import com.android.aksiem.eizzy.vo.CoinPayTransaction;
 import com.android.aksiem.eizzy.vo.CustomerDetails;
 import com.android.aksiem.eizzy.vo.LatLng;
 import com.android.aksiem.eizzy.vo.Location;
 import com.android.aksiem.eizzy.vo.OrderActivityLog;
-import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.Price;
@@ -291,6 +291,16 @@ public class AppTypeConverters {
     @TypeConverter
     public static String orderActivityLogStateToString(OrderActivityLogState state) {
         return new Gson().toJson(state, OrderActivityLogState.class);
+    }
+
+    @TypeConverter
+    public static String coinPayTransactionToString(CoinPayTransaction state) {
+        return new Gson().toJson(state, CoinPayTransaction.class);
+    }
+
+    @TypeConverter
+    public static CoinPayTransaction stringToCoinPayTransaction(String state) {
+        return new Gson().fromJson(state, CoinPayTransaction.class);
     }
 
 }

@@ -1,11 +1,8 @@
 package com.android.aksiem.eizzy.ui.settlement;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingComponent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,28 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
-import com.android.aksiem.eizzy.databinding.SettlementDurationFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.repository.SettlementRepository;
-import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
-import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
-import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
-import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 
 public class SettlementDurationFragment extends Fragment {
