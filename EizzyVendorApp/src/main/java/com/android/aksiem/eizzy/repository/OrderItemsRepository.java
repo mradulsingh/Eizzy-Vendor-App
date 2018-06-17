@@ -31,6 +31,7 @@ import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
 import com.android.aksiem.eizzy.vo.support.Price;
 import com.android.aksiem.eizzy.vo.support.TitlizedList;
+import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
@@ -245,7 +246,7 @@ public class OrderItemsRepository {
         String orderTimestamp = Long.toString(timestamp);
         String cartId = generateOrderItemId(10);
         Float deliveryCharge = 25f;
-        Integer orderType = 3;
+        OrderType orderType = OrderType.FOOD;
         String orderTypeMsg = "Bulk Order";
         Integer paymentType = 1;
         String paymentTypeMessage = "card";
@@ -325,13 +326,10 @@ public class OrderItemsRepository {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
         dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         long t0 = System.currentTimeMillis();
-        OrderActivityLog a0 = new OrderActivityLog("Placed", "manager",
-                generateOrderItemId(10), t0, dateFormatter.format(new Date(t0)));
+        OrderActivityLog a0 = new OrderActivityLog(OrderActivityLogState.CREATED,
+                "manager", generateOrderItemId(10), t0,
+                dateFormatter.format(new Date(t0)));
         activityLogs.add(a0);
-        long t1 = System.currentTimeMillis();
-        OrderActivityLog a1 = new OrderActivityLog("Accepted", "manager",
-                generateOrderItemId(10), t1, dateFormatter.format(new Date(t1)));
-        activityLogs.add(a1);
         return activityLogs;
     }
 

@@ -124,21 +124,21 @@ public class AppTypeConverters {
     }
 
     @TypeConverter
-    public static List<OrderedItem> stringToListOfOrderedItem(String stringOI) {
+    public static ArrayList<OrderedItem> stringToArrayListOfOrderedItem(String stringOI) {
         if (stringOI == null)
             return null;
 
-        Type type = new TypeToken<List<OrderedItem>>() {
+        Type type = new TypeToken<ArrayList<OrderedItem>>() {
         }.getType();
         return new Gson().fromJson(stringOI, type);
     }
 
     @TypeConverter
-    public static String listOfOrderedItemToString(List<OrderedItem> listOI) {
+    public static String arrayListOfOrderedItemToString(ArrayList<OrderedItem> listOI) {
         if (listOI == null)
             return null;
 
-        Type type = new TypeToken<List<OrderedItem>>() {
+        Type type = new TypeToken<ArrayList<OrderedItem>>() {
         }.getType();
         return new Gson().toJson(listOI, type);
     }
