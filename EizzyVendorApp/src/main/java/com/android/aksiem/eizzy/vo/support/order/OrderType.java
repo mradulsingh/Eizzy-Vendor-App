@@ -10,20 +10,26 @@ import java.io.Serializable;
 
 public enum OrderType implements Serializable {
 
-    @SerializedName("grocery")
-    GROCERY("Grocery"),
+    @SerializedName("2")
+    GROCERY(2),
 
-    @SerializedName("food")
-    FOOD("Food");
+    @SerializedName("1")
+    FOOD(1);
 
-    private String orderType;
+    private Integer orderType;
 
-    OrderType(String orderType) {
+    OrderType(int orderType) {
         this.orderType = orderType;
     }
 
     public String getOrderType() {
-        return orderType;
+        switch (orderType) {
+            case 1:
+                return "Food";
+            case 2:
+                return "Grocery";
+        }
+        return "";
     }
 
     @Override

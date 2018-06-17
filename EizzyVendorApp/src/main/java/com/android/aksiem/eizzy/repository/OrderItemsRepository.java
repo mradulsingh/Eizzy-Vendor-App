@@ -16,9 +16,15 @@ import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
 import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
+import com.android.aksiem.eizzy.vo.Accounting;
+import com.android.aksiem.eizzy.vo.CustomerDetails;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.LatLng;
+import com.android.aksiem.eizzy.vo.Location;
+import com.android.aksiem.eizzy.vo.OrderActivityLog;
 import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.support.Actor;
@@ -37,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -180,7 +187,33 @@ public class OrderItemsRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<EizzyApiRespone<String>>> createOrder() {
+    public LiveData<Resource<EizzyApiRespone<String>>> createOrder(
+            String name, String mobile, Boolean cashOnDelivery, String locality,
+            String customerAddress, String eizzyZoneId, String billAmount, String billNumber,
+            String orderWeight, String totalItems, String orderDetails, Boolean customerSignature,
+            Boolean orderLater, Long scheduleTime) {
+
+//        @Header("language") String language,
+//        @Header("authorization") String token,
+//        @Part("name") RequestBody customerName,
+//        @Part("countryCode") RequestBody customerCountryCode,
+//        @Part("mobile") RequestBody customerMobile,
+//        @Part("cashOnDelivery") RequestBody cashOnDelivery,
+//        @Part("address2") RequestBody locality,
+//        @Part("address1") RequestBody customerAddress,
+//        @Part("eizzyZone") RequestBody eizzyZoneId,
+//        @Part("unitPrice") RequestBody billAmount,
+//        @Part("billNumber") RequestBody billNumber,
+//        @Part("orderWeight") RequestBody orderWeight,
+//        @Part("totalItems") RequestBody totalItems,
+//        @Part("orderDetails") RequestBody orderDetails,
+//        @Part("customerSignature") RequestBody customerSignature,
+//        @Part("bookingType") RequestBody bookingType,
+//        @Part("bookingDate") RequestBody bookingDate,
+//        @Part("dueDatetime") RequestBody dueDatetime,
+//        @Part("deviceType") RequestBody deviceType,
+//        @Part("paymentType") RequestBody paymentType,
+//        @Part("requestType") RequestBody requestType
         return null;
     }
 
@@ -200,26 +233,106 @@ public class OrderItemsRepository {
 
     private OrderItem generateSingleRandomOrder(String stringOrderId, Integer id) {
 
-        Random random = new Random();
+        String storeId = generateOrderItemId(10);
+        LatLng storeCoordinates = new LatLng(0d, 0d);
+        String storeName = "Cafe Coffee Day";
+        Integer forcedAccept = 1;
+        Integer storeCommissionType = 1;
+        String storeCommissionTypeMessage = "";
+        Integer driverType = 1;
+        String storeAddress = "Marathalli";
+        Long timestamp = System.currentTimeMillis();
+        String orderTimestamp = Long.toString(timestamp);
+        String cartId = generateOrderItemId(10);
+        Float deliveryCharge = 25f;
+        Integer orderType = 3;
+        String orderTypeMsg = "Bulk Order";
+        Integer paymentType = 1;
+        String paymentTypeMessage = "card";
+
+        Date datetime = new Date(timestamp);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/mm/yyyy");
+        String bookingDate = dateFormatter.format(datetime);
+        String dueDate = bookingDate;
+
+        Integer serviceType = 1;
+        Integer bookingType = 1;
+        Integer pricingModel = 0;
+        String zoneType = null;
+        String extraNote = null;
+        CustomerDetails customerDetails = generateCustomerDetails();
+        Location location = generateLocation();
+        String abbreviation = null;
+        String abbreviationText = null;
+        String currency = "INR";
+        String currencySymbol = "₹";
+        String mileageMetric = null;
+        PaymentBreakupByMode paidBy = new PaymentBreakupByMode(250f, 0f, 0f);
+        Accounting accounting = generateAccounting();
         String orderId;
         if (stringOrderId != null && stringOrderId.length() > 0) {
             orderId = stringOrderId;
         } else {
             orderId = (id == null || id <= 0) ? generateOrderItemId(16) : id.toString();
         }
-        Actor customer = generateActor(ActorRole.CUSTOMER);
-        OrderDetails details = generateSingleOrderItemDetails();
-        Price price = details.total.price;
-        long timestamp = System.currentTimeMillis();
-        SimpleDateFormat format = new SimpleDateFormat("h:mm a '|' MMM d',' yyyy");
-        String stringTimestamp = format.format(new Date(timestamp));
-        OrderType orderType = OrderType.FOOD;
-        int size = OrderState.values().length;
-        OrderState orderState = OrderState.values()[random.nextInt(size)];
-        OrderItem orderItem = new OrderItem(orderId, details, customer, price, timestamp,
-                stringTimestamp, orderType, orderState);
-        orderItem.setOrderTracking(generateOrderStateTransitions());
-        return orderItem;
+        OrderItem item = new OrderItem(storeId, storeCoordinates, storeName, forcedAccept,
+                storeCommissionType, storeCommissionTypeMessage, driverType, storeAddress,
+                orderTimestamp, cartId, deliveryCharge, orderType, orderTypeMsg,
+                paymentType, paymentTypeMessage, bookingDate, timestamp, dueDate,
+                timestamp, serviceType, bookingType, pricingModel, zoneType, extraNote,
+                customerDetails, location, abbreviation, abbreviationText, currency,
+                currencySymbol, mileageMetric, paidBy, accounting, orderId);
+        item.setActivityLogs(generateActivityLogs());
+        return item;
+    }
+
+    private CustomerDetails generateCustomerDetails() {
+        Random random = new Random();
+        List<String> actorNames = getActorNames();
+        return new CustomerDetails(generateOrderItemId(5),
+                actorNames.get(random.nextInt(actorNames.size())),
+                "a@b.c", generatePhoneNumber(), "+91", "",
+                generateOrderItemId(24), 1, generateOrderItemId(24),
+                "", "");
+    }
+
+    private Location generateLocation() {
+        Location location = new Location();
+        location.address = "";
+        location.area = "";
+        location.city = "";
+        location.country = "";
+        location.latLng = new LatLng(0d, 0d);
+        location.locality = "";
+        location.pickUpZone = 0;
+        location.placeId = "";
+        location.placeName = "";
+        location.postalCode = "";
+        location.state = "";
+        return location;
+    }
+
+    private Accounting generateAccounting() {
+        return new Accounting(0, "", 0f,
+                0f, 0, "", 0f,
+                0f, 0f, 0f,
+                0f, 0f, 0f, "stripe",
+                0f, 0f , 0f, 0f, 0f);
+    }
+
+    private ArrayList<OrderActivityLog> generateActivityLogs() {
+        ArrayList<OrderActivityLog> activityLogs = new ArrayList<>();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+        dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long t0 = System.currentTimeMillis();
+        OrderActivityLog a0 = new OrderActivityLog("Placed", "manager",
+                generateOrderItemId(10), t0, dateFormatter.format(new Date(t0)));
+        activityLogs.add(a0);
+        long t1 = System.currentTimeMillis();
+        OrderActivityLog a1 = new OrderActivityLog("Accepted", "manager",
+                generateOrderItemId(10), t1, dateFormatter.format(new Date(t1)));
+        activityLogs.add(a1);
+        return activityLogs;
     }
 
     private List<OrderStateTransition> generateOrderStateTransitions() {
@@ -304,9 +417,7 @@ public class OrderItemsRepository {
             double quantity = random.nextInt(5) + 1;
             double unitPrice = random.nextInt(500) + 100;
             double totalPrice = quantity * unitPrice;
-            OrderedItem item = new OrderedItem(itemName, quantity, "order", 1,
-                    unitPrice, totalPrice, "Rs.");
-            items.add(item);
+            items.add(null);
         }
         return new TitlizedList<>("Orders", items);
     }
@@ -333,7 +444,7 @@ public class OrderItemsRepository {
     private float getOrderedItemsTotal(List<OrderedItem> items) {
         float total = 0.0f;
         for (OrderedItem item : items) {
-            total += item.totalPrice;
+            //total += item.totalPrice;
         }
         return total;
     }

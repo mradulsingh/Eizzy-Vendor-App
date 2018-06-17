@@ -109,13 +109,7 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
             return false;
         } else {
             if (oldItem.type == TimestampedItemWrapper.TimestampedItemWrapperType.ITEM) {
-                return Objects.equals(oldItem.item, newItem.item) &&
-                        Objects.equals(oldItem.item.customer, newItem.item.customer) &&
-                        Objects.equals(oldItem.item.price, newItem.item.price) &&
-                        Objects.equals(oldItem.item.orderDetails, newItem.item.orderDetails) &&
-                        Objects.equals(oldItem.item.getOrderState(), newItem.item.getOrderState()) &&
-                        Objects.equals(oldItem.item.getDeliveryAssociate(),
-                                newItem.item.getDeliveryAssociate());
+                return Objects.equals(oldItem.item, newItem.item);
             } else {
                 return oldItem.timestamp.equals(newItem.timestamp);
             }

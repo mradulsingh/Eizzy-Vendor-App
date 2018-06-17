@@ -34,12 +34,13 @@ public interface DispatcherService {
 
     @Multipart
     @POST("dispatcher/logIn")
-    LiveData<ApiResponse<EizzyApiRespone<StoreManager>>> doUserLogin(@Header("language") String language,
-                                                                     @Part("phone") RequestBody phone,
-                                                                     @Part("countryCode") RequestBody countryCode,
-                                                                     @Part("password") RequestBody password,
-                                                                     @Part("deviceId") RequestBody deviceId,
-                                                                     @Part("deviceType") int deviceType,
-                                                                     @Part("deviceTime") long deviceTime);
+    LiveData<ApiResponse<EizzyApiRespone<StoreManager>>> doUserLogin(
+            @Header("language") String language,
+            @Part("phone") RequestBody phone,
+            @Part("countryCode") RequestBody countryCode,
+            @Part("password") RequestBody password,
+            @Part("deviceId") RequestBody deviceId,
+            @Part("deviceType") int deviceType,
+            @Part("deviceTime") long deviceTime);
 
 }

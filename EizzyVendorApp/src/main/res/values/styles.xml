@@ -35,6 +35,7 @@
         <item name="android:textColor">@color/colorScreenTitle</item>
         <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
         <item name="android:textSize">@dimen/font_24</item>
+        <item name="android:paddingTop">@dimen/atom_9</item>
     </style>
 
     <style name="ExpandedSubTitleTextAppearance" parent="@android:style/TextAppearance">
@@ -134,10 +135,19 @@
         <item name="android:animateLayoutChanges">true</item>
     </style>
 
+    <style name="AppTextInputLayoutForm">
+        <item name="android:theme">@style/HintText</item>
+        <item name="android:layout_margin">@dimen/atom_10</item>
+        <item name="android:animateLayoutChanges">true</item>
+    </style>
+
     <style name="AppTextInputLayout.CreateOrder">
         <item name="android:theme">@style/HintText</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:layout_margin">@dimen/atom_10</item>
+        <item name="android:layout_marginLeft">@dimen/atom_10</item>
+        <item name="android:layout_marginRight">@dimen/atom_10</item>
+        <item name="android:layout_marginTop">@dimen/atom_5</item>
+        <item name="android:layout_marginBottom">@dimen/atom_5</item>
     </style>
 
     <style name="AppLabelledTextView">

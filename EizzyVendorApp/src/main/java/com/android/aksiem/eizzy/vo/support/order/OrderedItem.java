@@ -11,74 +11,75 @@ import java.io.Serializable;
  * Created by pdubey on 09/04/18.
  */
 
-public class OrderedItem implements Serializable, TitledAndSubtitled {
+public class OrderedItem implements Serializable {
 
-    @SerializedName("item")
     @NonNull
+    @SerializedName("itemName")
     public final String item;
 
-    @SerializedName("quantity")
     @NonNull
+    @SerializedName("quantity")
     public final double quantity;
 
-    @SerializedName("unit")
     @NonNull
-    public final String unit;
+    @SerializedName("unitName")
+    public final String unitName;
 
-    @SerializedName("unitQuantity")
     @NonNull
-    public final double unitQuantity;
-
     @SerializedName("unitPrice")
-    @NonNull
-    public final double unitPrice;
+    public final Float unitPrice;
 
-    @SerializedName("totalPrice")
     @NonNull
-    public final double totalPrice;
+    @SerializedName("finalPrice")
+    public final Float finalPrice;
 
-    @SerializedName("currency")
     @NonNull
-    public final String currency;
+    @SerializedName("appliedDiscount")
+    public final Float appliedDiscount;
 
-    public OrderedItem(@NonNull String item, @NonNull double quantity, @NonNull String unit,
-                       @NonNull double unitQuantity, @NonNull double unitPrice,
-                       @NonNull double totalPrice, @NonNull String currency) {
+    @NonNull
+    @SerializedName("itemImageURL")
+    public final String itemImageURL;
+
+    @NonNull
+    @SerializedName("parentProductId")
+    public final String parentProductId;
+
+    @NonNull
+    @SerializedName("offerId")
+    public final String offerId;
+
+    @NonNull
+    @SerializedName("childProductId")
+    public final String childProductId;
+
+    @NonNull
+    @SerializedName("taxes")
+    public final String taxes;
+
+    @NonNull
+    @SerializedName("productName")
+    public final String productName;
+
+    public OrderedItem(@NonNull String item, @NonNull double quantity, @NonNull String unitName,
+                       @NonNull Float unitPrice, @NonNull Float finalPrice,
+                       @NonNull Float appliedDiscount, @NonNull String itemImageURL,
+                       @NonNull String parentProductId, @NonNull String offerId,
+                       @NonNull String childProductId, @NonNull String taxes,
+                       @NonNull String productName) {
 
         this.item = item;
         this.quantity = quantity;
-        this.unit = unit;
-        this.unitQuantity = unitQuantity;
+        this.unitName = unitName;
         this.unitPrice = unitPrice;
-        this.totalPrice = totalPrice;
-        this.currency = currency;
+        this.finalPrice = finalPrice;
+        this.appliedDiscount = appliedDiscount;
+        this.itemImageURL = itemImageURL;
+        this.parentProductId = parentProductId;
+        this.offerId = offerId;
+        this.childProductId = childProductId;
+        this.taxes = taxes;
+        this.productName = productName;
     }
 
-    public String getTotalPrice() {
-        return String.format("%s %.2f", currency, totalPrice);
-    }
-
-    @Override
-    public String getTitle() {
-        return String.format("%s x %s%s @(%s%s @ %s %.2f)", item, quantity, unit, unitQuantity,
-                unit, currency, unitPrice);
-    }
-
-    @Override
-    public String getSubtitle() {
-        return getTotalPrice();
-    }
-
-    @Override
-    public String toString() {
-        return "OrderedItem{" +
-                "item='" + item + '\'' +
-                ", quantity=" + quantity +
-                ", unit='" + unit + '\'' +
-                ", unitQuantity=" + unitQuantity +
-                ", unitPrice=" + unitPrice +
-                ", totalPrice=" + totalPrice +
-                ", currency='" + currency + '\'' +
-                '}';
-    }
 }

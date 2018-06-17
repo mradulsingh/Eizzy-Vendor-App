@@ -58,7 +58,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:lineSpacingExtra="@dimen/font_20"
-                android:text="@{orderItem.price.toString()}"
+                android:text="@{orderItem.getStringTotal()}"
                 android:textColor="@color/darkMidnightBlue"
                 android:textSize="@dimen/font_14"
                 android:textStyle="bold" />
@@ -70,7 +70,7 @@
                 android:layout_below="@id/orderId"
                 android:layout_marginTop="@dimen/atom_1"
                 android:lineSpacingExtra="@dimen/font_14"
-                android:text="@{orderItem.stringTimestamp}"
+                android:text="@{orderItem.getStringTimestamp()}"
                 android:textColor="@color/khaki"
                 android:textSize="@dimen/font_12"
                 tools:layout_editor_absoluteX="0dp" />
@@ -85,7 +85,7 @@
                 android:drawablePadding="@dimen/atom_2"
                 android:lineSpacingExtra="@dimen/font_20"
                 android:paddingTop="@dimen/atom_1"
-                android:text="@{orderItem.customer.name}"
+                android:text="@{orderItem.customerDetails.name}"
                 android:textColor="@color/seaBlue"
                 android:textSize="@dimen/font_14"
                 app:drawableLeftCompat="@drawable/ic_user" />
@@ -99,7 +99,7 @@
                 android:drawablePadding="@dimen/atom_2"
                 android:lineSpacingExtra="@dimen/font_20"
                 android:paddingTop="@dimen/atom_1"
-                android:text="@{orderItem.customer.phone}"
+                android:text="@{orderItem.customerDetails.mobile}"
                 android:textColor="@color/seaBlue"
                 android:textSize="@dimen/font_14"
                 app:drawableLeftCompat="@drawable/ic_phone" />

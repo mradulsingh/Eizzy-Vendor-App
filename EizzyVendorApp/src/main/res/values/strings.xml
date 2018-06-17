@@ -151,4 +151,7 @@
     <string name="edittext.hint.locality">LOCALITY*</string>
     <string name="edittext.hint.customer.address">CUSTOMER ADDRESS*</string>
     <string name="edittext.hint.eizzy.zone">EIZZY ZONE*</string>
+    <string name="validation.field.required.message">%s is a required field</string>
+    <string name="validation.integer.field.message">%s is an integer field. Please enter an integer</string>
+    <string name="validation.currency.field.message">Please enter a valid number/amount for %s</string>
 </resources>

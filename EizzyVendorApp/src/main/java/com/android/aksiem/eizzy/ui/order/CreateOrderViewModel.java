@@ -31,6 +31,21 @@ public class CreateOrderViewModel extends ViewModel {
 
     private OrderItemsRepository orderItemsRepository;
 
+    private String customerName;
+    private String customerMobile;
+    private Boolean cashOnDelivery;
+    private String locality;
+    private String customerAddress;
+    private String eizzyZoneId;
+    private Float amount;
+    private String billNumber;
+    private Integer orderWeight;
+    private Integer itemCount;
+    private String orderDetails;
+    private Boolean customerSignature;
+    private Boolean scheduleDetails;
+    private Long scheduleTimeStart;
+
     @Inject
     public CreateOrderViewModel(OrderItemsRepository orderItemsRepository) {
         this.orderItemsRepository = orderItemsRepository;
@@ -44,5 +59,61 @@ public class CreateOrderViewModel extends ViewModel {
     @VisibleForTesting
     public void retry() {
         createOrderListing();
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setCustomerMobile(String customerMobile) {
+        this.customerMobile = customerMobile;
+    }
+
+    public void setCashOnDelivery(Boolean cashOnDelivery) {
+        this.cashOnDelivery = cashOnDelivery;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    public void setEizzyZoneId(String eizzyZoneId) {
+        this.eizzyZoneId = eizzyZoneId;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
+    }
+
+    public void setBillNumber(String billNumber) {
+        this.billNumber = billNumber;
+    }
+
+    public void setOrderWeight(Integer orderWeight) {
+        this.orderWeight = orderWeight;
+    }
+
+    public void setItemCount(Integer itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public void setOrderDetails(String orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public void setCustomerSignature(Boolean customerSignature) {
+        this.customerSignature = customerSignature;
+    }
+
+    public void setScheduleDetails(Boolean scheduleDetails) {
+        this.scheduleDetails = scheduleDetails;
+    }
+
+    public void setScheduleTimeStart(Long scheduleTimeStart) {
+        this.scheduleTimeStart = scheduleTimeStart;
     }
 }

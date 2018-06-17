@@ -18,9 +18,16 @@ package com.android.aksiem.eizzy.db;
 
 import android.arch.persistence.room.TypeConverter;
 
+import com.android.aksiem.eizzy.vo.Accounting;
+import com.android.aksiem.eizzy.vo.CustomerDetails;
+import com.android.aksiem.eizzy.vo.LatLng;
+import com.android.aksiem.eizzy.vo.Location;
+import com.android.aksiem.eizzy.vo.OrderActivityLog;
 import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.Price;
+import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
@@ -31,6 +38,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppTypeConverters {
@@ -173,6 +181,116 @@ public class AppTypeConverters {
     @TypeConverter
     public static String orderDetailsToString(OrderDetails orderDetails) {
         return new Gson().toJson(orderDetails, OrderDetails.class);
+    }
+
+    @TypeConverter
+    public static ArrayList<String> stringToArrayListOfString(String stringALS) {
+        if (stringALS == null)
+            return null;
+
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        return new Gson().fromJson(stringALS, type);
+    }
+
+    @TypeConverter
+    public static String arrayListOfStringToString(ArrayList<String> list) {
+        if (list == null)
+            return null;
+
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        return new Gson().toJson(list, type);
+    }
+
+    @TypeConverter
+    public static LatLng stringToLatLng(String latLng) {
+        return new Gson().fromJson(latLng, LatLng.class);
+    }
+
+    @TypeConverter
+    public static String latLngToString(LatLng latLng) {
+        return new Gson().toJson(latLng, LatLng.class);
+    }
+
+    @TypeConverter
+    public static Location stringToLocation(String location) {
+        return new Gson().fromJson(location, Location.class);
+    }
+
+    @TypeConverter
+    public static String locationToString(Location location) {
+        return new Gson().toJson(location, Location.class);
+    }
+
+    @TypeConverter
+    public static PaymentBreakupByMode stringToPaymentBreakupByMode(String mode) {
+        return new Gson().fromJson(mode, PaymentBreakupByMode.class);
+    }
+
+    @TypeConverter
+    public static String paymentBreakupByModeToString(PaymentBreakupByMode mode) {
+        return new Gson().toJson(mode, PaymentBreakupByMode.class);
+    }
+
+    @TypeConverter
+    public static OrderActivityLog stringToOrderActivityLog(String log) {
+        return new Gson().fromJson(log, OrderActivityLog.class);
+    }
+
+    @TypeConverter
+    public static String orderActivityLogToString(OrderActivityLog log) {
+        return new Gson().toJson(log, OrderActivityLog.class);
+    }
+
+    @TypeConverter
+    public static ArrayList<OrderActivityLog> stringToArrayListOfOrderActivityLog(String string) {
+        if (string == null)
+            return null;
+
+        Type type = new TypeToken<ArrayList<OrderActivityLog>>() {
+        }.getType();
+        return new Gson().fromJson(string, type);
+    }
+
+    @TypeConverter
+    public static String arrayListOfOrderActivityLogToString(ArrayList<OrderActivityLog> list) {
+        if (list == null)
+            return null;
+
+        Type type = new TypeToken<ArrayList<OrderActivityLog>>() {
+        }.getType();
+        return new Gson().toJson(list, type);
+    }
+
+    @TypeConverter
+    public static CustomerDetails stringToCustomerDetails(String customerDetails) {
+        return new Gson().fromJson(customerDetails, CustomerDetails.class);
+    }
+
+    @TypeConverter
+    public static String customerDetailsToString(CustomerDetails customerDetails) {
+        return new Gson().toJson(customerDetails, CustomerDetails.class);
+    }
+
+    @TypeConverter
+    public static Accounting stringToAccounting(String accounting) {
+        return new Gson().fromJson(accounting, Accounting.class);
+    }
+
+    @TypeConverter
+    public static String accountingToString(Accounting accounting) {
+        return new Gson().toJson(accounting, Accounting.class);
+    }
+
+    @TypeConverter
+    public static OrderActivityLogState stringToOrderActivityLogState(String state) {
+        return new Gson().fromJson(state, OrderActivityLogState.class);
+    }
+
+    @TypeConverter
+    public static String orderActivityLogStateToString(OrderActivityLogState state) {
+        return new Gson().toJson(state, OrderActivityLogState.class);
     }
 
 }

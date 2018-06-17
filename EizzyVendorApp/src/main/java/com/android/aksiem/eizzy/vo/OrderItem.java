@@ -1,6 +1,8 @@
 package com.android.aksiem.eizzy.vo;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,10 +12,15 @@ import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
+import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by pdubey on 09/04/18.
@@ -22,121 +29,490 @@ import java.util.List;
 @Entity(primaryKeys = "orderId", tableName = "order_item")
 public class OrderItem implements Serializable, Timestamped {
 
+    @SerializedName("estimatedId")
+    private String estimatedId;
+
+    @NonNull
+    @SerializedName("storeId")
+    public final String storeId;
+
+    @NonNull
+    @SerializedName("storeCoordinates")
+    public final LatLng storeCoordinates;
+
+    @NonNull
+    @SerializedName("cartTotal")
+    private float cartTotal;
+
+    @NonNull
+    @SerializedName("cartDiscount")
+    private float cartDiscount;
+
+    @NonNull
+    @SerializedName("storeName")
+    public final String storeName;
+
+    @NonNull
+    @SerializedName("forcedAccept")
+    public final Integer forcedAccept;
+
+    @NonNull
+    @SerializedName("storeCommission")
+    private float storeCommission;
+
+    @NonNull
+    @SerializedName("storeCommissionType")
+    public final Integer storeCommisionType;
+
+    @SerializedName("storeCommisionTypeMsg")
+    public final String storeCommissionTypeMessage;
+
+    @NonNull
+    @SerializedName("driverType")
+    public final Integer driverType;
+
+    @NonNull
+    @SerializedName("storeAddress")
+    public final String storeAddress;
+
+    @NonNull
+    @SerializedName("subTotalAmountWithExcTax")
+    private Float subTotalAmountWithExcTax;
+
+    @NonNull
     @SerializedName("orderId")
-    @NonNull
-    public final String orderId;
+    public final String orderTimestamp;
 
-    @SerializedName("orderDetails")
     @NonNull
-    public final OrderDetails orderDetails;
+    @SerializedName("cartId")
+    public final String cartId;
 
-    @SerializedName("customer")
     @NonNull
-    public final Actor customer;
+    @SerializedName("deliveryCharge")
+    public final Float deiliveryCharge;
 
-    @SerializedName("price")
     @NonNull
-    public final Price price;
+    @SerializedName("subTotalAmount")
+    private Float subTotalAmount;
 
-    @SerializedName("timestamp")
     @NonNull
-    public final long timestamp;
+    @SerializedName("excTax")
+    private Float excTax;
 
-    @SerializedName("stringTimestamp")
+    @SerializedName("exclusiveTaxes")
+    private ArrayList<String> exclusiveTaxes;
+
     @NonNull
-    public final String stringTimestamp;
-
     @SerializedName("orderType")
-    @NonNull
     public final OrderType orderType;
 
-    @SerializedName("currentOrderState")
     @NonNull
+    @SerializedName("orderTypeMsg")
+    public final String orderTypeMsg;
+
+    @NonNull
+    @SerializedName("discount")
+    private Float discount;
+
+    @NonNull
+    @SerializedName("totalAmount")
+    private Float totalAmount;
+
+    @SerializedName("Items")
+    private ArrayList<OrderedItem> items;
+
+    @SerializedName("couponCode")
+    private String couponCode;
+
+    @NonNull
+    @SerializedName("paymentType")
+    public final Integer paymentType;
+
+    @NonNull
+    @SerializedName("paymentTypeMsg")
+    public final String paymentTypeMessage;
+
+    @NonNull
+    @SerializedName("coinpayTransaction")
+    private CoinPayTransaction coinPayTransaction;
+
+    @SerializedName("customerCoordinates")
+    private LatLng customerCoordinates;
+
+    @NonNull
+    @SerializedName("bookingDate")
+    public final String bookingDate;
+
+    @NonNull
+    @SerializedName("bookingDateTimestamp")
+    public final Long timestamp;
+
+    @NonNull
+    @SerializedName("dueDate")
+    public final String dueDate;
+
+    @NonNull
+    @SerializedName("dueDateTimestamp")
+    public final Long dueDateTimestamp;
+
+    @SerializedName("city")
+    private String city;
+
+    @SerializedName("cityId")
+    private String cityId;
+
+    @NonNull
+    @SerializedName("status")
+    private Integer status;
+
+    @NonNull
+    @SerializedName("statusMsg")
+    private String statusMessage;
+
+    @NonNull
+    @SerializedName("serviceType")
+    public final Integer serviceType;
+
+    @NonNull
+    @SerializedName("bookingType")
+    public final Integer bookingType;
+
+    @NonNull
+    @SerializedName("pricingModel")
+    public final Integer pricingModel;
+
+    @SerializedName("zoneType")
+    public final String zoneType;
+
+    @SerializedName("extraNote")
+    public final String extraNote;
+
+    @NonNull
+    @SerializedName("customerDetails")
+    public final CustomerDetails customerDetails;
+
+    @NonNull
+    @SerializedName("pickup")
+    public final Location pickupLocation;
+
+    @NonNull
+    @SerializedName("activtyLogs")
+    private ArrayList<OrderActivityLog> activityLogs;
+
+    @SerializedName("abbreviation")
+    public final String abbreviation;
+
+    @SerializedName("abbreviationText")
+    public final String abbreviationText;
+
+    @NonNull
+    @SerializedName("currency")
+    public final String currency;
+
+    @NonNull
+    @SerializedName("currencySymbol")
+    public final String currencySymbol;
+
+    @SerializedName("mileageMetric")
+    public final String mileageMetric;
+
+    @NonNull
+    @SerializedName("paidBy")
+    public final PaymentBreakupByMode paidBy;
+
+    @NonNull
+    @SerializedName("accounting")
+    public final Accounting accounting;
+
+    @NonNull
+    @SerializedName("_id")
+    public final String orderId;
+
+    @Ignore
+    private OrderActivityLog currentState;
+
+    @Ignore
     private OrderState orderState;
 
-    @SerializedName("orderTracking")
-    private List<OrderStateTransition> orderTracking;
+    @Ignore
+    private String stringTimestamp;
 
-    @SerializedName("deliveryAssociate")
-    @Nullable
-    private Actor deliveryAssociate;
+    public OrderItem(
+            @NonNull String storeId, @NonNull LatLng storeCoordinates, @NonNull String storeName,
+            @NonNull Integer forcedAccept, @NonNull int storeCommisionType,
+            String storeCommissionTypeMessage, @NonNull Integer driverType,
+            @NonNull String storeAddress, @NonNull String orderTimestamp, @NonNull String cartId,
+            @NonNull Float deiliveryCharge, @NonNull OrderType orderType,
+            @NonNull String orderTypeMsg, @NonNull Integer paymentType,
+            @NonNull String paymentTypeMessage, @NonNull String bookingDate,
+            @NonNull Long timestamp, @NonNull String dueDate, @NonNull Long dueDateTimestamp,
+            @NonNull Integer serviceType, @NonNull Integer bookingType,
+            @NonNull Integer pricingModel, String zoneType, String extraNote,
+            @NonNull CustomerDetails customerDetails, @NonNull Location pickupLocation,
+            String abbreviation, String abbreviationText, @NonNull String currency,
+            @NonNull String currencySymbol, String mileageMetric,
+            @NonNull PaymentBreakupByMode paidBy, @NonNull Accounting accounting,
+            @NonNull String orderId) {
 
-    public OrderItem(@NonNull String orderId, @NonNull OrderDetails orderDetails,
-                     @NonNull Actor customer, @NonNull Price price, @NonNull long timestamp,
-                     @NonNull String stringTimestamp, @NonNull OrderType orderType,
-                     @NonNull OrderState orderState) {
-
-        this.orderId = orderId;
-        this.orderDetails = orderDetails;
-        this.customer = customer;
-        this.price = price;
-        this.timestamp = timestamp;
-        this.stringTimestamp = stringTimestamp;
+        this.storeId = storeId;
+        this.storeCoordinates = storeCoordinates;
+        this.storeName = storeName;
+        this.forcedAccept = forcedAccept;
+        this.storeCommisionType = storeCommisionType;
+        this.storeCommissionTypeMessage = storeCommissionTypeMessage;
+        this.driverType = driverType;
+        this.storeAddress = storeAddress;
+        this.orderTimestamp = orderTimestamp;
+        this.cartId = cartId;
+        this.deiliveryCharge = deiliveryCharge;
         this.orderType = orderType;
-        this.orderState = orderState;
-    }
-
-    @NonNull
-    public OrderState getOrderState() {
-        return orderState;
-    }
-
-    public void setOrderState(@NonNull OrderState currentOrderState) {
-        this.orderState = currentOrderState;
-    }
-
-    @NonNull
-    public List<OrderStateTransition> getOrderTracking() {
-        return orderTracking;
-    }
-
-    public void setOrderTracking(@NonNull List<OrderStateTransition> orderTracking) {
-        this.orderTracking = orderTracking;
-    }
-
-    @Nullable
-    public Actor getDeliveryAssociate() {
-        return deliveryAssociate;
-    }
-
-    public void setDeliveryAssociate(@Nullable Actor deliveryAssociate) {
-        this.deliveryAssociate = deliveryAssociate;
+        this.orderTypeMsg = orderTypeMsg;
+        this.paymentType = paymentType;
+        this.paymentTypeMessage = paymentTypeMessage;
+        this.bookingDate = bookingDate;
+        this.timestamp = timestamp;
+        this.dueDate = dueDate;
+        this.dueDateTimestamp = dueDateTimestamp;
+        this.serviceType = serviceType;
+        this.bookingType = bookingType;
+        this.pricingModel = pricingModel;
+        this.zoneType = zoneType;
+        this.extraNote = extraNote;
+        this.customerDetails = customerDetails;
+        this.pickupLocation = pickupLocation;
+        this.abbreviation = abbreviation;
+        this.abbreviationText = abbreviationText;
+        this.currency = currency;
+        this.currencySymbol = currencySymbol;
+        this.mileageMetric = mileageMetric;
+        this.paidBy = paidBy;
+        this.accounting = accounting;
+        this.orderId = orderId;
     }
 
     @Override
-    @NonNull
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getEstimatedId() {
+        return estimatedId;
+    }
+
+    public void setEstimatedId(String estimatedId) {
+        this.estimatedId = estimatedId;
+    }
+
+    @NonNull
+    public float getCartTotal() {
+        return cartTotal;
+    }
+
+    public void setCartTotal(@NonNull float cartTotal) {
+        this.cartTotal = cartTotal;
+    }
+
+    @NonNull
+    public float getCartDiscount() {
+        return cartDiscount;
+    }
+
+    public void setCartDiscount(@NonNull float cartDiscount) {
+        this.cartDiscount = cartDiscount;
+    }
+
+    @NonNull
+    public float getStoreCommission() {
+        return storeCommission;
+    }
+
+    public void setStoreCommission(@NonNull float storeCommission) {
+        this.storeCommission = storeCommission;
+    }
+
+    @NonNull
+    public Float getSubTotalAmountWithExcTax() {
+        return subTotalAmountWithExcTax;
+    }
+
+    public void setSubTotalAmountWithExcTax(@NonNull Float subTotalAmountWithExcTax) {
+        this.subTotalAmountWithExcTax = subTotalAmountWithExcTax;
+    }
+
+    @NonNull
+    public Float getSubTotalAmount() {
+        return subTotalAmount;
+    }
+
+    public void setSubTotalAmount(@NonNull Float subTotalAmount) {
+        this.subTotalAmount = subTotalAmount;
+    }
+
+    @NonNull
+    public Float getExcTax() {
+        return excTax;
+    }
+
+    public void setExcTax(@NonNull Float excTax) {
+        this.excTax = excTax;
+    }
+
+    public ArrayList<String> getExclusiveTaxes() {
+        return exclusiveTaxes;
+    }
+
+    public void setExclusiveTaxes(ArrayList<String> exclusiveTaxes) {
+        this.exclusiveTaxes = exclusiveTaxes;
+    }
+
+    @NonNull
+    public Float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(@NonNull Float discount) {
+        this.discount = discount;
+    }
+
+    @NonNull
+    public Float getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(@NonNull Float totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public ArrayList<OrderedItem> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<OrderedItem> items) {
+        this.items = items;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
+    @NonNull
+    public CoinPayTransaction getCoinPayTransaction() {
+        return coinPayTransaction;
+    }
+
+    public void setCoinPayTransaction(@NonNull CoinPayTransaction coinPayTransaction) {
+        this.coinPayTransaction = coinPayTransaction;
+    }
+
+    public LatLng getCustomerCoordinates() {
+        return customerCoordinates;
+    }
+
+    public void setCustomerCoordinates(LatLng customerCoordinates) {
+        this.customerCoordinates = customerCoordinates;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId;
+    }
+
+    @NonNull
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(@NonNull Integer status) {
+        this.status = status;
+    }
+
+    @NonNull
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(@NonNull String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    @NonNull
+    public ArrayList<OrderActivityLog> getActivityLogs() {
+        return activityLogs;
+    }
+
+    public void setActivityLogs(@NonNull ArrayList<OrderActivityLog> activityLogs) {
+        this.activityLogs = activityLogs;
+    }
+
+    public OrderActivityLog getCurrentState() {
+        if (currentState == null) {
+            if (activityLogs != null && !activityLogs.isEmpty()) {
+                for (OrderActivityLog log : activityLogs) {
+                    if (currentState == null || currentState.timestamp <= log.timestamp)
+                        currentState = log;
+                }
+            }
+        }
+        return currentState;
+    }
+
+    public OrderState getOrderState() {
+        if (orderState == null) {
+            orderState = getCurrentState().state.getOrderState();
+        }
+        return orderState;
+    }
+
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
+    }
+
+    public String getStringTotal() {
+        return String.format("%s %.2f", currencySymbol, totalAmount);
+    }
+
+    public String getStringTimestamp() {
+        if (stringTimestamp == null) {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+            stringTimestamp = dateFormatter.format(new Date(timestamp));
+        }
+        return stringTimestamp;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         OrderItem orderItem = (OrderItem) o;
-
-        return orderId.equals(orderItem.orderId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Objects.equals(orderId, orderItem.orderId);
+        } else {
+            return orderItem.orderId.equals(orderId);
+        }
     }
 
     @Override
     public int hashCode() {
-        return orderId.hashCode();
-    }
 
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "orderId='" + orderId + '\'' +
-                ", orderDetails=" + orderDetails +
-                ", customer=" + customer +
-                ", price=" + price +
-                ", timestamp=" + timestamp +
-                ", stringTimestamp='" + stringTimestamp + '\'' +
-                ", orderType=" + orderType +
-                ", orderState=" + orderState +
-                ", orderTracking=" + orderTracking +
-                ", deliveryAssociate=" + deliveryAssociate +
-                '}';
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Objects.hash(orderId);
+        } else {
+            return orderId.hashCode();
+        }
     }
 }

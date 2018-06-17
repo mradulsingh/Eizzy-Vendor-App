@@ -89,6 +89,32 @@ public interface AppService {
             @Header("authorization") String token,
             @Part("cityId") RequestBody cityId);
 
+    @Multipart
+    @POST("dispatcher/order")
+    LiveData<ApiResponse<EizzyApiRespone<String>>> createOrder(
+            @Header("language") String language,
+            @Header("authorization") String token,
+            @Part("name") RequestBody customerName,
+            @Part("countryCode") RequestBody customerCountryCode,
+            @Part("mobile") RequestBody customerMobile,
+            @Part("cashOnDelivery") RequestBody cashOnDelivery,
+            @Part("address2") RequestBody locality,
+            @Part("address1") RequestBody customerAddress,
+            @Part("eizzyZone") RequestBody eizzyZoneId,
+            @Part("unitPrice") RequestBody billAmount,
+            @Part("billNumber") RequestBody billNumber,
+            @Part("orderWeight") RequestBody orderWeight,
+            @Part("totalItems") RequestBody totalItems,
+            @Part("orderDetails") RequestBody orderDetails,
+            @Part("customerSignature") RequestBody customerSignature,
+            @Part("bookingType") RequestBody bookingType,
+            @Part("bookingDate") RequestBody bookingDate,
+            @Part("dueDatetime") RequestBody dueDatetime,
+            @Part("deviceType") RequestBody deviceType,
+            @Part("paymentType") RequestBody paymentType,
+            @Part("requestType") RequestBody requestType
+    );
+
 
     @POST("user/resetPassword")
     LiveData<ApiResponse<User>> resetPassword(@Field("password") String password);

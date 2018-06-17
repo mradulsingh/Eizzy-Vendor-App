@@ -137,7 +137,8 @@
     <style name="AppTextInputLayout.CreateOrder">
         <item name="android:theme">@style/HintText</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:layout_margin">@dimen/atom_10</item>
+        <item name="android:layout_marginLeft">@dimen/atom_10</item>
+        <item name="android:layout_marginRight">@dimen/atom_10</item>
     </style>
 
     <style name="AppLabelledTextView">

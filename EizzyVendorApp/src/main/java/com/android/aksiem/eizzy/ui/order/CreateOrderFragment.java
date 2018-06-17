@@ -24,12 +24,13 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.NavigationFragment;
@@ -41,8 +42,10 @@ import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.AppToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
+import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.vo.EizzyZone;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,6 +74,8 @@ public class CreateOrderFragment extends NavigationFragment {
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private AlertDialog eizzyZoneDialog;
+
+    private EizzyZone pickedEizzyZone = null;
 
     @Inject
     ToastController toastController;
@@ -154,6 +159,7 @@ public class CreateOrderFragment extends NavigationFragment {
                     eizzyZoneListBinding.eizzyZoneList.setOnItemClickListener((parent, view,
                                                                                position, id) -> {
                         binding.get().eizzyZone.setText(adapter.getItem(position).name);
+                        pickedEizzyZone = adapter.getItem(position);
                         if (eizzyZoneDialog != null && eizzyZoneDialog.isShowing()) {
                             eizzyZoneDialog.dismiss();
                             v.clearFocus();
@@ -228,5 +234,186 @@ public class CreateOrderFragment extends NavigationFragment {
     private void createOrderListing(View v) {
         // Dismiss keyboard
         dismissKeyboard(v.getWindowToken());
+
+        if (formValid()) {
+            createOrderViewModel.createOrderListing();
+        }
+    }
+
+    private boolean formValid() {
+
+        // Validate presence of mandatory fields
+        if (madatoryFieldsPresent()) {
+
+            // Perform field specific validations
+            String customerMobile = getValidatedPhone();
+            Float amount = isValidCurrency(
+                    binding.get().billAmount,
+                    binding.get().textInputLayoutBillAmount,
+                    StringUtils.titleize(binding.get().billAmount.getHint().toString()));
+            Integer orderWeight = isValidInteger(
+                    binding.get().orderWeight,
+                    binding.get().textInputLayoutOrderWeight,
+                    StringUtils.titleize(binding.get().orderWeight.getHint().toString()));
+            Integer itemsCount = isValidInteger(
+                    binding.get().itemsCount,
+                    binding.get().textInputLayoutItemsCount,
+                    StringUtils.titleize(binding.get().itemsCount.getHint().toString()));
+
+            Boolean scheduleRequired = binding.get().switchScheduleDetails.isChecked();
+
+            if (customerMobile != null && amount != null && orderWeight != null
+                    && itemsCount != null && scheduleRequired) {
+
+                createOrderViewModel.setCustomerName(binding.get().customerName.getText().toString());
+                createOrderViewModel.setCustomerMobile(customerMobile);
+                createOrderViewModel.setCashOnDelivery(binding.get().switchCashOnDelivery.isChecked());
+                createOrderViewModel.setLocality(binding.get().locality.getText().toString());
+                createOrderViewModel.setCustomerAddress(binding.get().customerAddress.getText().toString());
+                createOrderViewModel.setEizzyZoneId(pickedEizzyZone.zoneId);
+                createOrderViewModel.setAmount(amount);
+                createOrderViewModel.setBillNumber(binding.get().billNumber.getText().toString());
+                createOrderViewModel.setOrderWeight(orderWeight);
+                createOrderViewModel.setItemCount(itemsCount);
+                createOrderViewModel.setOrderDetails(binding.get().itemDetails.getText().toString());
+                createOrderViewModel.setCustomerSignature(binding.get().switchCustomerSignature.isChecked());
+                createOrderViewModel.setScheduleDetails(scheduleRequired);
+                if (scheduleRequired) {
+                    createOrderViewModel.setScheduleTimeStart(getValidatedSchedule());
+                }
+
+                return true;
+
+            }
+        }
+
+        return false;
+    }
+
+    private boolean madatoryFieldsPresent() {
+        boolean customerNamePresent = isRequiredFieldPresent(
+                binding.get().customerName,
+                binding.get().textInputLayoutCustomerName,
+                StringUtils.titleize(binding.get().customerName.getHint().toString()));
+        boolean customerMobielPresent = isRequiredFieldPresent(
+                binding.get().customerMobile,
+                binding.get().textInputLayoutCustomerMobile,
+                StringUtils.titleize(binding.get().customerMobile.getHint().toString()));
+        boolean localityPresent = isRequiredFieldPresent(
+                binding.get().locality,
+                binding.get().textInputLayoutLocality,
+                StringUtils.titleize(binding.get().locality.getHint().toString()));
+        boolean customerAddressPresent = isRequiredFieldPresent(
+                binding.get().customerAddress,
+                binding.get().textInputLayoutCustomerAddress,
+                StringUtils.titleize(binding.get().customerAddress.getHint().toString()));
+        boolean eizzyZonePicked = isEizzyZonePicked();
+        boolean billAmountPresent = isRequiredFieldPresent(
+                binding.get().billAmount,
+                binding.get().textInputLayoutBillAmount,
+                StringUtils.titleize(binding.get().billAmount.getHint().toString()));
+        boolean billNumberPresent = isRequiredFieldPresent(binding.get().billNumber,
+                binding.get().textInputLayoutBillNumber,
+                StringUtils.titleize(binding.get().billNumber.getHint().toString()));
+        boolean orderWeightPresent = isRequiredFieldPresent(
+                binding.get().orderWeight,
+                binding.get().textInputLayoutOrderWeight,
+                StringUtils.titleize(binding.get().orderWeight.getHint().toString()));
+        boolean itemsCountPresent = isRequiredFieldPresent(
+                binding.get().itemsCount,
+                binding.get().textInputLayoutItemsCount,
+                StringUtils.titleize(binding.get().itemsCount.getHint().toString()));
+        return customerNamePresent && customerMobielPresent && localityPresent &&
+                customerAddressPresent && eizzyZonePicked && billAmountPresent &&
+                billNumberPresent && orderWeightPresent && itemsCountPresent;
+    }
+
+    private Boolean isRequiredFieldPresent(EditText editText, TextInputLayout layout,
+                                           String elementName) {
+
+        String value = editText.getText().toString();
+        if (value != null && !value.isEmpty()) {
+            layout.setError(String.format(getString(R.string.validation_field_required_message),
+                    elementName));
+            return false;
+        }
+        return true;
+    }
+
+    private Boolean isEizzyZonePicked() {
+        if (pickedEizzyZone == null) {
+            binding.get().textInputLayoutEizzyZone.setError(
+                    String.format(getString(R.string.validation_field_required_message),
+                            binding.get().eizzyZone.getHint().toString()));
+            return false;
+        }
+        return true;
+    }
+
+    private Integer isValidInteger(EditText editText, TextInputLayout layout, String elementName) {
+        Integer toReturn = null;
+        String value = editText.getText().toString();
+        try {
+            toReturn = Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            layout.setError(String.format(getString(R.string.validation_integer_field_message),
+                    elementName));
+            e.printStackTrace();
+        } finally {
+            return toReturn;
+        }
+    }
+
+    private Float isValidCurrency(EditText editText, TextInputLayout layout, String elementName) {
+        Float toReturn = null;
+        String value = editText.getText().toString();
+        if (value.indexOf(".") > 0) {
+            String[] split = value.split("\\.");
+            if (split.length > 2) {
+                layout.setError(String.format(getString(R.string.validation_currency_field_message),
+                        elementName));
+            } else {
+                try {
+                    toReturn = Float.parseFloat(value);
+                } catch (NumberFormatException e) {
+                    toReturn = null;
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            try {
+                toReturn = Float.valueOf(Integer.parseInt(value));
+            } catch (NumberFormatException e) {
+                toReturn = null;
+                e.printStackTrace();
+            }
+        }
+        return toReturn;
+    }
+
+    private String getValidatedPhone() {
+        String phone = binding.get().customerMobile.getText().toString();
+        if (phone != null && phone.length() > 0 && PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
+            return phone;
+        }
+        binding.get().textInputLayoutCustomerMobile.setError(
+                getString(R.string.validation_phone_message));
+        return null;
+    }
+
+    private Long getValidatedSchedule() {
+        Long toReturn = null;
+        if (binding.get().switchScheduleDetails.isChecked()) {
+            try {
+                Date dateOffset = new SimpleDateFormat("dd/MM/yyyy").parse(
+                        binding.get().orderDate.toString());
+                Date timeOffset = new SimpleDateFormat("HH:mm").parse(
+                        binding.get().orderTime.toString());
+                toReturn = dateOffset.getTime() + timeOffset.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return toReturn;
     }
 }

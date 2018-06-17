@@ -80,41 +80,41 @@ public class OrderDetailsFragment extends NavigationFragment {
     }
 
     private void populateData() {
-        if (orderItem != null) {
-
-            // Set order tracking view
-            if (orderItem.getOrderTracking() != null
-                    && !orderItem.getOrderTracking().isEmpty()) {
-
-                TimelineConfigBuilder builder = new TimelineConfigBuilder()
-                        .setVerbose(true)
-                        .setVertical(true);
-                TimelinePointListAdapter<OrderStateTransition> ostAdapter =
-                        new TimelinePointListAdapter<>(getContext(), R.layout.timeline_row,
-                                orderItem.getOrderTracking(), builder);
-                this.ostAdapter = new AutoClearedValue<>(this, ostAdapter);
-                binding.get().timelineDetailsContainer.setAdapter(ostAdapter);
-            }
-
-            // Set order breakdown and price breakdown
-            if (orderItem.orderDetails != null) {
-
-                if (orderItem.orderDetails.items != null
-                        && orderItem.orderDetails.items.items != null
-                        && !orderItem.orderDetails.items.items.isEmpty()) {
-
-                    binding.get().orderItemsBreakdown.setItems(orderItem.orderDetails.items.items);
-                }
-
-                if (orderItem.orderDetails.priceComponents != null
-                        && orderItem.orderDetails.priceComponents.items != null
-                        && !orderItem.orderDetails.priceComponents.items.isEmpty()) {
-
-                    binding.get().surchargesBreakdown.setItems(orderItem.orderDetails
-                            .priceComponents.items);
-                }
-            }
-        }
+//        if (orderItem != null) {
+//
+//            // Set order tracking view
+//            if (orderItem.getOrderTracking() != null
+//                    && !orderItem.getOrderTracking().isEmpty()) {
+//
+//                TimelineConfigBuilder builder = new TimelineConfigBuilder()
+//                        .setVerbose(true)
+//                        .setVertical(true);
+//                TimelinePointListAdapter<OrderStateTransition> ostAdapter =
+//                        new TimelinePointListAdapter<>(getContext(), R.layout.timeline_row,
+//                                orderItem.getOrderTracking(), builder);
+//                this.ostAdapter = new AutoClearedValue<>(this, ostAdapter);
+//                binding.get().timelineDetailsContainer.setAdapter(ostAdapter);
+//            }
+//
+//            // Set order breakdown and price breakdown
+//            if (orderItem.orderDetails != null) {
+//
+//                if (orderItem.orderDetails.items != null
+//                        && orderItem.orderDetails.items.items != null
+//                        && !orderItem.orderDetails.items.items.isEmpty()) {
+//
+//                    binding.get().orderItemsBreakdown.setItems(orderItem.orderDetails.items.items);
+//                }
+//
+//                if (orderItem.orderDetails.priceComponents != null
+//                        && orderItem.orderDetails.priceComponents.items != null
+//                        && !orderItem.orderDetails.priceComponents.items.isEmpty()) {
+//
+//                    binding.get().surchargesBreakdown.setItems(orderItem.orderDetails
+//                            .priceComponents.items);
+//                }
+//            }
+//        }
     }
 
     private OrderItem getOrderItem(@Nullable Bundle args) {
