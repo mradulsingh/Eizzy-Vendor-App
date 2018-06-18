@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
 import com.android.aksiem.eizzy.app.AppExecutors;
+import com.android.aksiem.eizzy.app.AppPrefManager;
 import com.android.aksiem.eizzy.app.AppResourceManager;
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderItemDao;
 import com.android.aksiem.eizzy.di.AppScope;
@@ -27,12 +29,14 @@ import com.android.aksiem.eizzy.vo.OrderItem;
 import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
 import com.android.aksiem.eizzy.vo.support.Price;
 import com.android.aksiem.eizzy.vo.support.TitlizedList;
 import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
+import com.android.aksiem.eizzy.vo.support.order.OrderItemsList;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
@@ -68,19 +72,79 @@ public class OrderItemsRepository {
 
     protected final AppResourceManager appResourceManager;
 
+    protected final AppPrefManager appPrefManager;
+
     protected RateLimiter<String> orderItemsRateLimiter = new RateLimiter<>(120,
             TimeUnit.SECONDS);
 
     @Inject
     public OrderItemsRepository(AppDb appDb, OrderItemDao orderItemDao,
                                 AppService appService, AppExecutors appExecutors,
-                                AppResourceManager appResourceManager) {
+                                AppResourceManager appResourceManager,
+                                AppPrefManager appPrefManager) {
 
         this.appDb = appDb;
         this.orderItemDao = orderItemDao;
         this.appService = appService;
         this.appExecutors = appExecutors;
         this.appResourceManager = appResourceManager;
+        this.appPrefManager = appPrefManager;
+
+    }
+
+    public LiveData<Resource<EizzyApiRespone<OrderItemsList>>> loadItems(
+            long pageIndex, long status, long startDate, long endDate) {
+
+        return new DbNetworkBoundResource<EizzyApiRespone<OrderItemsList>,
+                EizzyApiRespone<OrderItemsList>>(appExecutors) {
+
+            @Override
+            protected void saveCallResult(@NonNull EizzyApiRespone<OrderItemsList> item) {
+                if (item != null && item.data != null && item.data.items != null
+                        && item.data.items.isEmpty()) {
+                    orderItemDao.insertOrderItems(item.data.items);
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderItemsList> data) {
+                return data == null || data.data == null || data.data.items == null
+                        || data.data.items.isEmpty();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<OrderItemsList>> loadFromDb() {
+                LiveData<List<OrderItem>> orderItems = orderItemDao.getAllItems();
+                ArrayList<OrderItem> arrayList = new ArrayList<>();
+                if (orderItems.getValue() != null) {
+                    arrayList.addAll(orderItems.getValue());
+                    OrderItemsList list = new OrderItemsList(arrayList);
+                    EizzyApiRespone<OrderItemsList> eizzyApiRespone =
+                            new EizzyApiRespone<>("", list);
+                    MutableLiveData<EizzyApiRespone<OrderItemsList>> mutableLiveData =
+                            new MutableLiveData<>();
+                    mutableLiveData.setValue(eizzyApiRespone);
+                    return mutableLiveData;
+                }
+                return AbsentLiveData.create();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<OrderItemsList>>> createCall() {
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                        appPrefManager);
+                return appService.getAllOrders(
+                        RequestConstants.Language.english,
+                        manager.token,
+                        manager.storeId,
+                        0,
+                        RequestConstants.OrderItemsList.all,
+                        0,
+                        0);
+            }
+        }.asLiveData();
 
     }
 
@@ -277,12 +341,11 @@ public class OrderItemsRepository {
             orderId = (id == null || id <= 0) ? generateOrderItemId(16) : id.toString();
         }
         OrderItem item = new OrderItem(storeId, storeCoordinates, storeName, forcedAccept,
-                storeCommissionType, storeCommissionTypeMessage, driverType, storeAddress,
-                orderTimestamp, cartId, deliveryCharge, orderType, orderTypeMsg,
-                paymentType, paymentTypeMessage, bookingDate, timestamp, dueDate,
-                timestamp, serviceType, bookingType, pricingModel, zoneType, extraNote,
-                customerDetails, location, abbreviation, abbreviationText, currency,
-                currencySymbol, mileageMetric, paidBy, accounting, orderId);
+                storeCommissionType, storeCommissionTypeMessage, driverType, storeAddress, cartId,
+                deliveryCharge, orderType, orderTypeMsg, paymentType, paymentTypeMessage,
+                bookingDate, timestamp, dueDate, timestamp, serviceType, bookingType, pricingModel,
+                zoneType, extraNote, customerDetails, location, abbreviation, abbreviationText,
+                currency, currencySymbol, mileageMetric, paidBy, accounting, orderId);
         item.setActivityLogs(generateActivityLogs());
         item.setCartTotal(250f);
         item.setCartDiscount(0f);

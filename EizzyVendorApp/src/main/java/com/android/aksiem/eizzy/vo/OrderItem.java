@@ -15,6 +15,9 @@ import com.android.aksiem.eizzy.vo.support.order.OrderType;
 import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,16 +83,12 @@ public class OrderItem implements Serializable, Timestamped {
     private Float subTotalAmountWithExcTax;
 
     @NonNull
-    @SerializedName("orderId")
-    public final String orderTimestamp;
-
-    @NonNull
     @SerializedName("cartId")
     public final String cartId;
 
     @NonNull
     @SerializedName("deliveryCharge")
-    public final Float deiliveryCharge;
+    public final Float deliveryCharge;
 
     @NonNull
     @SerializedName("subTotalAmount")
@@ -225,7 +224,7 @@ public class OrderItem implements Serializable, Timestamped {
     public final Accounting accounting;
 
     @NonNull
-    @SerializedName("_id")
+    @SerializedName("orderId")
     public final String orderId;
 
     @Ignore
@@ -241,16 +240,15 @@ public class OrderItem implements Serializable, Timestamped {
             @NonNull String storeId, @NonNull LatLng storeCoordinates, @NonNull String storeName,
             @NonNull Integer forcedAccept, @NonNull int storeCommisionType,
             String storeCommissionTypeMessage, @NonNull Integer driverType,
-            @NonNull String storeAddress, @NonNull String orderTimestamp, @NonNull String cartId,
-            @NonNull Float deiliveryCharge, @NonNull OrderType orderType,
-            @NonNull String orderTypeMsg, @NonNull Integer paymentType,
-            @NonNull String paymentTypeMessage, @NonNull String bookingDate,
-            @NonNull Long timestamp, @NonNull String dueDate, @NonNull Long dueDateTimestamp,
-            @NonNull Integer serviceType, @NonNull Integer bookingType,
-            @NonNull Integer pricingModel, String zoneType, String extraNote,
-            @NonNull CustomerDetails customerDetails, @NonNull Location pickupLocation,
-            String abbreviation, String abbreviationText, @NonNull String currency,
-            @NonNull String currencySymbol, String mileageMetric,
+            @NonNull String storeAddress, @NonNull String cartId, @NonNull Float deliveryCharge,
+            @NonNull OrderType orderType, @NonNull String orderTypeMsg,
+            @NonNull Integer paymentType, @NonNull String paymentTypeMessage,
+            @NonNull String bookingDate, @NonNull Long timestamp, @NonNull String dueDate,
+            @NonNull Long dueDateTimestamp, @NonNull Integer serviceType,
+            @NonNull Integer bookingType, @NonNull Integer pricingModel, String zoneType,
+            String extraNote, @NonNull CustomerDetails customerDetails,
+            @NonNull Location pickupLocation, String abbreviation, String abbreviationText,
+            @NonNull String currency, @NonNull String currencySymbol, String mileageMetric,
             @NonNull PaymentBreakupByMode paidBy, @NonNull Accounting accounting,
             @NonNull String orderId) {
 
@@ -262,9 +260,8 @@ public class OrderItem implements Serializable, Timestamped {
         this.storeCommissionTypeMessage = storeCommissionTypeMessage;
         this.driverType = driverType;
         this.storeAddress = storeAddress;
-        this.orderTimestamp = orderTimestamp;
         this.cartId = cartId;
-        this.deiliveryCharge = deiliveryCharge;
+        this.deliveryCharge = deliveryCharge;
         this.orderType = orderType;
         this.orderTypeMsg = orderTypeMsg;
         this.paymentType = paymentType;

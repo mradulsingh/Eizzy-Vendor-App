@@ -27,6 +27,11 @@ import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.util.Logger;
+import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,6 +42,8 @@ import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.main
  */
 
 public class OrderItemsFragment extends NavigationFragment {
+
+    private final boolean runningInDummyMode = false;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -116,14 +123,31 @@ public class OrderItemsFragment extends NavigationFragment {
     }
 
     private void initOrdersList() {
-        orderItemsViewModel.getOrderItems().observe(this, listResource -> {
-            if (listResource != null && listResource.data != null) {
-                adapter.get().replace(listResource.data);
-            } else {
-                adapter.get().replace(null);
-            }
-        });
-        orderItemsViewModel.setOrderIds(null);
+        if (runningInDummyMode) {
+            orderItemsViewModel.getDummyOrderItems().observe(this, resource -> {
+                updateAdapter(resource);
+            });
+        } else {
+            orderItemsViewModel.getAllOrderItems().observe(this, resource -> {
+                switch (resource.status) {
+                    case LOADING:
+                        break;
+                    case SUCCESS:
+                        updateAdapter(resource);
+                        break;
+                    case ERROR:
+                        break;
+                }
+            });
+        }
+    }
+
+    private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderItem>>> resource) {
+        if (resource != null && resource.data != null) {
+            adapter.get().replace(resource.data);
+        } else {
+            adapter.get().replace(null);
+        }
     }
 
     private void navigateToCreateOrder() {

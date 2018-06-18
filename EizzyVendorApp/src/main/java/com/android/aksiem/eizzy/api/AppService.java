@@ -22,17 +22,20 @@ import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.User;
+import com.android.aksiem.eizzy.vo.support.order.OrderItemsList;
 
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 /**
  * REST API access points
@@ -114,6 +117,16 @@ public interface AppService {
             @Part("paymentType") RequestBody paymentType,
             @Part("requestType") RequestBody requestType
     );
+
+    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{startDate}/{endDate}")
+    LiveData<ApiResponse<EizzyApiRespone<OrderItemsList>>> getAllOrders(
+            @Header("language") String language,
+            @Header("authorization") String token,
+            @Path("storeId") String storeId,
+            @Path("pageIndex") long pageIndex,
+            @Path("status") long status,
+            @Path("startDate") long startDate,
+            @Path("endDate") long endDate);
 
 
     @POST("user/resetPassword")

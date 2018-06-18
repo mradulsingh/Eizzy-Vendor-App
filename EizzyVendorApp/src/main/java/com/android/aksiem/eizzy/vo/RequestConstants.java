@@ -14,6 +14,12 @@ public class RequestConstants {
         public static final String india = "+91";
     }
 
+    public static class OrderItemsList {
+        public static final long past = 1;
+        public static final long onGoing = 2;
+        public static final long all = 3;
+    }
+
     public static final String defaultPassword = "eizzypassword";
 
 }
