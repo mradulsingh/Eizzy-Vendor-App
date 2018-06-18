@@ -103,7 +103,7 @@ public class SettlementRepository {
                 return appService.getAllSettlements(
                         RequestConstants.Language.english,
                         manager.token,
-                        "5ac35cc8e360ea4c1e3afc2f",
+                        manager.storeId,
                         0,
                         0,
                         0);
