@@ -23,12 +23,12 @@ import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.User;
 import com.android.aksiem.eizzy.vo.support.order.OrderItemsList;
+import com.android.aksiem.eizzy.vo.support.settlement.SettlementItemsList;
 
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -128,6 +128,14 @@ public interface AppService {
             @Path("startDate") long startDate,
             @Path("endDate") long endDate);
 
+    @GET("/accounting/store/wallet/{storeId}/{pageIndex}/{startDate}/{endDate}")
+    LiveData<ApiResponse<EizzyApiRespone<SettlementItemsList>>> getAllSettlements(
+            @Header("language") String language,
+            @Header("authorization") String token,
+            @Path("storeId") String storeId,
+            @Path("pageIndex") long pageIndex,
+            @Path("startDate") long startDate,
+            @Path("endDate") long endDate);
 
     @POST("user/resetPassword")
     LiveData<ApiResponse<User>> resetPassword(@Field("password") String password);

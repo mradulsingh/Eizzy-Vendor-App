@@ -1,48 +1,53 @@
 package com.android.aksiem.eizzy.ui.settlement;
 
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingComponent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
+import com.android.aksiem.eizzy.databinding.SettlementDurationFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
-import com.android.aksiem.eizzy.repository.SettlementRepository;
+import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
+import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
+import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
+import com.android.aksiem.eizzy.util.AutoClearedValue;
+import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
-public class SettlementDurationFragment extends Fragment {
+
+public class SettlementDurationFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     static String TAG = SettlementDurationFragment.class.getSimpleName();
     private SettlementViewModel settlementViewModel;
-    SettlementItemAdapter settlementItemAdapter;
-    List<SettlementItem> settlementItems;
-    View v;
-    //@Inject
-    // NavigationController navigationController;
-    DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
-    //AutoClearedValue<SettlementDurationFragmentBinding> binding;
-    //AutoClearedValue<SettlementItemAdapter> adapter;
 
-    RecyclerView rvSettlement;
+    @Inject
+    NavigationController navigationController;
+
+    DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+    AutoClearedValue<SettlementDurationFragmentBinding> binding;
+    AutoClearedValue<SettlementItemAdapter> adapter;
 
     public static SettlementDurationFragment create() {
         return new SettlementDurationFragment();
@@ -52,7 +57,7 @@ public class SettlementDurationFragment extends Fragment {
     @ApplicationContext
     Context applicationContext;
 
-  /*  @Override
+    @Override
     public NavigationBuilder buildNavigation() {
         return mainCollapsableToolbar()
                 .includeBottomNavBar(true)
@@ -62,7 +67,7 @@ public class SettlementDurationFragment extends Fragment {
                 .setToolbarNavClickListener(v -> onBackPressed())
                 .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
                         buildMenuActions());
-    }*/
+    }
 
     private MenuActions buildMenuActions() {
         return new MenuActions.Builder()
@@ -75,43 +80,48 @@ public class SettlementDurationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-       /* SettlementDurationFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
+        SettlementDurationFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
                 R.layout.settlement_duration_fragment, container, false);
         binding = new AutoClearedValue<>(this, dataBinding);
-        Log.e("TESTO","FragmentDuration");
-        //Toast.makeText(applicationContext, getArguments().getInt("selected_duration") + "", Toast.LENGTH_SHORT).show();
-*/
-        Log.e(TAG, "  onCreateView");
-        v = inflater.inflate(R.layout.settlement_duration_fragment, container, false);
-        rvSettlement =  v.findViewById(R.id.rv_settlement);
-        initSettlementItemList();
-        loadListsData();
-        return v;
-        //return dataBinding.getRoot();//wrapNavigationLayout(inflater, container, dataBinding.getRoot());
+        return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        /*settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
-                SettlementViewModel.class);*/
+        settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+                SettlementViewModel.class);
+        initSettlementItemList();
 
-
+        SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
+                settlementItem -> {
+                    //navigationController.navigateToSettlementDetailsFragment(settlementItem);
+                });
+        this.adapter = new AutoClearedValue<>(this, adapter);
+        RecyclerView recyclerView = binding.get().rvSettlement;
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false);
+        recyclerView.setAdapter(adapter);
     }
 
     private void initSettlementItemList() {
-        Log.e(TAG, "  initSettlementItemList");
-        settlementItems = new SettlementRepository().getSettlementList();
-        settlementItemAdapter = new SettlementItemAdapter(settlementItems);
+        settlementViewModel.getSettlements().observe(this, resource -> {
+            switch (resource.status) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    updateAdapter(resource);
+                    break;
+                case ERROR:
+                    break;
+            }
+        });
     }
 
-    private void loadListsData() {
-        Log.e(TAG, "  loadListsData");
-        rvSettlement.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvSettlement.setAdapter(settlementItemAdapter);
-
-
+    private void updateAdapter(Resource<List<SettlementItem>> resource) {
+        if (resource != null && resource.data != null) {
+            adapter.get().replace(resource.data);
+        } else {
+            adapter.get().replace(null);
+        }
     }
-
 }

@@ -22,6 +22,7 @@ import android.content.Context;
 
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderItemDao;
+import com.android.aksiem.eizzy.db.SettlementItemDao;
 import com.android.aksiem.eizzy.util.Logger;
 
 import dagger.Module;
@@ -51,6 +52,12 @@ class AppModule {
     @Provides
     OrderItemDao provideOrderItemDao(AppDb db) {
         return db.orderItemDao();
+    }
+
+    @AppScope
+    @Provides
+    SettlementItemDao provideSettlementItemDao(AppDb db) {
+        return db.settlementItemDao();
     }
 
 }
