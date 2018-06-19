@@ -21,17 +21,17 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
 /**
  * Main database description.
  */
-@Database(entities = {OrderItem.class, SettlementItem.class}, version = 1)
+@Database(entities = {OrderDetailItem.class, SettlementItem.class}, version = 1)
 @TypeConverters({AppTypeConverters.class})
 public abstract class AppDb extends RoomDatabase {
 
-    public abstract OrderItemDao orderItemDao();
+    public abstract OrderDetailItemDao orderItemDao();
 
     public abstract SettlementItemDao settlementItemDao();
 

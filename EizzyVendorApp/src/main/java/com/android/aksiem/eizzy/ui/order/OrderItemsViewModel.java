@@ -12,11 +12,10 @@ import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.EizzyZone;
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.StoreManager;
-import com.android.aksiem.eizzy.vo.Timestamped;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
 import java.util.ArrayList;
@@ -30,9 +29,9 @@ import javax.inject.Inject;
 
 public class OrderItemsViewModel extends ViewModel {
 
-    private LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> dummyTimestampedOrderItems;
+    private LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> dummyTimestampedOrderItems;
 
-    private LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> timestampedOrderItems;
+    private LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> timestampedOrderItems;
 
     private MutableLiveData<List<String>> orderIds = new MutableLiveData<>();
 
@@ -58,35 +57,35 @@ public class OrderItemsViewModel extends ViewModel {
     }
 
 
-    public LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> getDummyOrderItems() {
+    public LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> getDummyOrderItems() {
         dummyTimestampedOrderItems = Transformations.switchMap(
                 orderItemsRepository.loadItems(),
                 (items) -> addTimestampToList(items));
         return dummyTimestampedOrderItems;
     }
 
-    public LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> getAllOrderItems() {
+    public LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> getAllOrderItems() {
 
         timestampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItems(
                 pageIndex, status, startDate, endDate), (items) -> {
 
-            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> toReturn =
+            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> toReturn =
                     new MutableLiveData<>();
 
             if (items != null) {
-                List<TimestampedItemWrapper<OrderItem>> list = new ArrayList<>();
+                List<TimestampedItemWrapper<OrderDetailItem>> list = new ArrayList<>();
                 switch (items.status) {
                     case SUCCESS:
                         if (items.data != null && items.data.data != null
                                 && items.data.data.items != null
                                 && !items.data.data.items.isEmpty()) {
-                            for (OrderItem item : items.data.data.items) {
+                            for (OrderDetailItem item : items.data.data.items) {
                                 list.add(new TimestampedItemWrapper<>(null, item));
                             }
                         }
                         break;
                 }
-                Resource<List<TimestampedItemWrapper<OrderItem>>> resource = new Resource<>(
+                Resource<List<TimestampedItemWrapper<OrderDetailItem>>> resource = new Resource<>(
                         items.status, list, items.message);
                 toReturn.setValue(resource);
                 return toReturn;
@@ -121,20 +120,20 @@ public class OrderItemsViewModel extends ViewModel {
         this.endDate = endDate;
     }
 
-    private LiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> addTimestampToList(
-            Resource<List<OrderItem>> liveDataItems) {
+    private LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> addTimestampToList(
+            Resource<List<OrderDetailItem>> liveDataItems) {
 
-        List<OrderItem> items = liveDataItems.data;
-        List<TimestampedItemWrapper<OrderItem>> timestampedItemWrappers = new ArrayList<>();
+        List<OrderDetailItem> items = liveDataItems.data;
+        List<TimestampedItemWrapper<OrderDetailItem>> timestampedItemWrappers = new ArrayList<>();
 
         if (items != null) {
 
-            for (OrderItem item : items) {
+            for (OrderDetailItem item : items) {
                 timestampedItemWrappers.add(new TimestampedItemWrapper<>(
                         null, item));
             }
 
-            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderItem>>>> orderItemWMLD =
+            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> orderItemWMLD =
                     new MutableLiveData<>();
             orderItemWMLD.setValue(Resource.success(timestampedItemWrappers));
             return orderItemWMLD;

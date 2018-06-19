@@ -27,7 +27,7 @@ import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.util.Logger;
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
@@ -142,7 +142,7 @@ public class OrderItemsFragment extends NavigationFragment {
         }
     }
 
-    private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderItem>>> resource) {
+    private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderDetailItem>>> resource) {
         if (resource != null && resource.data != null) {
             adapter.get().replace(resource.data);
         } else {

@@ -16,7 +16,7 @@
 
 package com.android.aksiem.eizzy.util;
 
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
@@ -35,15 +35,15 @@ import java.util.Random;
 
 public class OrderItemsUtil {
 
-    public static List<OrderItem> createOrderItem(int pageSize) {
-        List<OrderItem> items = new ArrayList<>();
+    public static List<OrderDetailItem> createOrderItem(int pageSize) {
+        List<OrderDetailItem> items = new ArrayList<>();
         for (int i = 0; i < pageSize; i++) {
             items.add(generateSingleRandomOrder().item);
         }
         return items;
     }
 
-    private static TimestampedItemWrapper<OrderItem> generateSingleRandomOrder() {
+    private static TimestampedItemWrapper<OrderDetailItem> generateSingleRandomOrder() {
         Random random = new Random();
         String orderId = generateOrderItemId(16);
         Actor customer = generateActor(ActorRole.CUSTOMER);
@@ -55,9 +55,9 @@ public class OrderItemsUtil {
         OrderType orderType = OrderType.FOOD;
         int size = OrderState.values().length;
         OrderState orderState = OrderState.values()[random.nextInt(size)];
-        OrderItem orderItem = new OrderItem(orderId, details, customer, price, timestamp,
+        OrderDetailItem orderDetailItem = new OrderDetailItem(orderId, details, customer, price, timestamp,
                 stringTimestamp, orderType, orderState);
-        return new TimestampedItemWrapper<>(null, orderItem);
+        return new TimestampedItemWrapper<>(null, orderDetailItem);
     }
 
     private static Actor generateActor(ActorRole role) {

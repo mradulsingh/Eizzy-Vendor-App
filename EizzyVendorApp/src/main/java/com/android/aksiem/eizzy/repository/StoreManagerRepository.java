@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
-import com.android.aksiem.eizzy.api.DispatcherService;
 import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.util.StringUtils;
@@ -26,15 +25,12 @@ import javax.inject.Inject;
 public class StoreManagerRepository {
 
     private final AppService appService;
-    private final DispatcherService dispatcherService;
     private final AppExecutors appExecutors;
 
     @Inject
     public StoreManagerRepository(AppService appService,
-                                  DispatcherService dispatcherService,
                                   AppExecutors appExecutors) {
         this.appService = appService;
-        this.dispatcherService = dispatcherService;
         this.appExecutors = appExecutors;
     }
 
@@ -90,7 +86,7 @@ public class StoreManagerRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<EizzyApiRespone<StoreManager>>> createCall() {
-                return dispatcherService.doUserLogin(
+                return appService.doUserLogin(
                         RequestConstants.Language.english,
                         StringUtils.getPlainTextRequestBody(phone),
                         StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india),

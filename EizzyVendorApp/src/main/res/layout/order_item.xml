@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.android.aksiem.eizzy.vo.OrderItem" />
+            type="com.android.aksiem.eizzy.vo.OrderDetailItem" />
 
         <variable
             name="resourceManager"

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
-import com.android.aksiem.eizzy.api.DispatcherService;
 import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.app.AppPrefManager;
 import com.android.aksiem.eizzy.app.EizzyAppState;
@@ -37,8 +36,6 @@ public class SettlementRepository {
 
     private final AppService appService;
 
-    private final DispatcherService dispatcherService;
-
     private final AppExecutors appExecutors;
 
     protected final AppPrefManager appPrefManager;
@@ -46,13 +43,11 @@ public class SettlementRepository {
     @Inject
     public SettlementRepository(AppDb appDb, SettlementItemDao settlementItemDao,
                                 AppService appService,
-                                DispatcherService dispatcherService,
                                 AppExecutors appExecutors,
                                 AppPrefManager appPrefManager) {
         this.appDb = appDb;
         this.settlementItemDao = settlementItemDao;
         this.appService = appService;
-        this.dispatcherService = dispatcherService;
         this.appExecutors = appExecutors;
         this.appPrefManager = appPrefManager;
     }

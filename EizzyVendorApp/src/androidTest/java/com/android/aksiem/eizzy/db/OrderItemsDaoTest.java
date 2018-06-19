@@ -3,7 +3,7 @@ package com.android.aksiem.eizzy.db;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.aksiem.eizzy.util.OrderItemsUtil;
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,16 +19,16 @@ public class OrderItemsDaoTest extends DbTest {
 
     @Test
     public void insertAndLoadOrderItems() throws InterruptedException {
-        List<OrderItem> orderItems = OrderItemsUtil.createOrderItem(1);
+        List<OrderDetailItem> orderDetailItems = OrderItemsUtil.createOrderItem(1);
         db.beginTransaction();
         try {
-            db.orderItemDao().insertOrderItems(orderItems);
+            db.orderItemDao().insertOrderItems(orderDetailItems);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
-        List<OrderItem> list = getValue(db.orderItemDao().getOrderItems());
+        List<OrderDetailItem> list = getValue(db.orderItemDao().getOrderItems());
         assertThat(list.size(), is(1));
-        OrderItem first = list.get(0);
+        OrderDetailItem first = list.get(0);
     }
 }

@@ -35,7 +35,7 @@ import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
 import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.EizzyZone;
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 
 import java.util.ArrayList;
 
@@ -62,8 +62,8 @@ public class NavigationController {
         addFragment(fragment, true, false);
     }
 
-    public void navigateToOrderDetailsFragment(OrderItem orderItem) {
-        OrderDetailsFragment fragment = OrderDetailsFragment.create(orderItem);
+    public void navigateToOrderDetailsFragment(OrderDetailItem orderDetailItem) {
+        OrderDetailsFragment fragment = OrderDetailsFragment.create(orderDetailItem);
         String tag = OrderDetailsFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)

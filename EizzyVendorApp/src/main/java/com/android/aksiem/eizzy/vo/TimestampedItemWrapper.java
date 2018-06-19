@@ -16,9 +16,9 @@ public class TimestampedItemWrapper<T extends Timestamped> {
 
     public TimestampedItemWrapper(Long timestamp, T item) {
         if (item != null && timestamp != null) {
-            throw new IllegalArgumentException("OrderItem and Timestamp can't both be non-null");
+            throw new IllegalArgumentException("OrderDetailItem and Timestamp can't both be non-null");
         } else if (item == null && timestamp == null) {
-            throw new IllegalArgumentException("OrderItem and Timestamp can't both be null");
+            throw new IllegalArgumentException("OrderDetailItem and Timestamp can't both be null");
         }
         if (item != null) {
             this.type = TimestampedItemWrapperType.ITEM;

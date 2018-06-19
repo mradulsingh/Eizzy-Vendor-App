@@ -21,6 +21,7 @@ import android.arch.lifecycle.LiveData;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.Store;
+import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.User;
 import com.android.aksiem.eizzy.vo.support.order.OrderItemsList;
 import com.android.aksiem.eizzy.vo.support.settlement.SettlementItemsList;
@@ -68,6 +69,17 @@ public interface AppService {
             @Part("mobile") RequestBody phone,
             @Part("countryCode") RequestBody countryCode,
             @Part("code") RequestBody otp);
+
+    @Multipart
+    @POST("dispatcher/logIn")
+    LiveData<ApiResponse<EizzyApiRespone<StoreManager>>> doUserLogin(
+            @Header("language") String language,
+            @Part("phone") RequestBody phone,
+            @Part("countryCode") RequestBody countryCode,
+            @Part("password") RequestBody password,
+            @Part("deviceId") RequestBody deviceId,
+            @Part("deviceType") int deviceType,
+            @Part("deviceTime") long deviceTime);
 
     @Multipart
     @PATCH("dispatcher/password")

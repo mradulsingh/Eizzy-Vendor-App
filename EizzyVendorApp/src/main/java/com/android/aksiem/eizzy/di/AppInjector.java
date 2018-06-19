@@ -40,7 +40,7 @@ public class AppInjector {
     public static void init(EizzyApp app) {
         DaggerAppComponent.builder()
                 .application(app)
-                .networkModule(new NetworkModule(AppGlobal.APP_ENV.getBaseURL(), AppGlobal.APP_ENV.getDispatcherServiceURL()))
+                .networkModule(new NetworkModule(AppGlobal.APP_ENV.getBaseURL()))
                 .mqttClientModule(new MqttClientModule(AppGlobal.APP_ENV.getMqttServerUri(), "ClientId1"))
                 .build().inject(app);
 

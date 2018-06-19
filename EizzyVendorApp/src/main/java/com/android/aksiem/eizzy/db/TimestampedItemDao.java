@@ -2,7 +2,7 @@ package com.android.aksiem.eizzy.db;
 
 import android.arch.lifecycle.LiveData;
 
-import com.android.aksiem.eizzy.vo.OrderItem;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.Timestamped;
 
 import java.util.List;
@@ -17,12 +17,12 @@ public interface TimestampedItemDao<T extends Timestamped> {
 
     int getOrderItemCount();
 
-    List<OrderItem> getOrderItems();
+    List<OrderDetailItem> getOrderItems();
 
     LiveData<List<T>> getAllItems();
 
     LiveData<List<T>> getItemsFrom(Float timestamp);
 
-    LiveData<List<OrderItem>> getItemsFromTo(Float start, Float end);
+    LiveData<List<OrderDetailItem>> getItemsFromTo(Float start, Float end);
 
 }

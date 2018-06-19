@@ -21,7 +21,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.android.aksiem.eizzy.db.AppDb;
-import com.android.aksiem.eizzy.db.OrderItemDao;
+import com.android.aksiem.eizzy.db.OrderDetailItemDao;
 import com.android.aksiem.eizzy.db.SettlementItemDao;
 import com.android.aksiem.eizzy.util.Logger;
 
@@ -50,7 +50,7 @@ class AppModule {
 
     @AppScope
     @Provides
-    OrderItemDao provideOrderItemDao(AppDb db) {
+    OrderDetailItemDao provideOrderItemDao(AppDb db) {
         return db.orderItemDao();
     }
 

@@ -4,33 +4,144 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.android.aksiem.eizzy.vo.support.Actor;
-import com.android.aksiem.eizzy.vo.support.Price;
-import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
+import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
-import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
 import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by pdubey on 09/04/18.
  */
 
-@Entity(primaryKeys = "orderId", tableName = "order_item")
-public class OrderItem implements Serializable, Timestamped {
+@Entity(primaryKeys = "orderId", tableName = "order_detail_item")
+public class OrderDetailItem implements Serializable, Timestamped {
+
+    /**
+     * The following attributes are received when we create an order:
+     *      estimatedId: PURPOSE UNKNOWN
+     *      storeId: id of store where order was placed
+     *      storeCoordinates: Lat/Lng in an object
+     *      cartTotal: total value of items in the cart
+     *      cartDiscount: any discount value applied to the cart
+     *      storeLogo: url of logo
+     *      storeName: name of store
+     *      forcedAccept: PURPOSE UNKNOWN
+     *      storeCommission: commission to be added to the store's account
+     *      storeCommissionType: ENUM UNKNOWN AND PURPOSE UNKNOWN
+     *      storeCommissionTypeMsg: PURPOSE UNKNOWN
+     *      driverType: ENUM UNKNOWN AND PURPOSE UNKNOWN
+     *      storeAddress: Stringified address of the store
+     *      subTotalAmountWithExcTax: Total amount after tax
+     *      orderId: id of the order created (ideally shouldn't be just the id)
+     *      cartId: id of the cart being processed
+     *      deliveryCharge: delivery charge levied (before or after tax?)
+     *      subTotalAmount: total value of items in cart not including exclusive tax
+     *      excTax: total value of exclusive tax
+     *      exclusiveTaxes: list of breakdown of all taxes levied on the transaction
+     *      driverMobile: driver's mobile number
+     *      driverImage: driver's profile pic url
+     *      driverEmail: driver's email
+     *      orderType: (0: Food, 1: Grocery, 2: Daily Needs, 4: Online)
+     *      orderTypeMsg: ENUM UNKNOWN AND PURPOSE UNKNOWN
+     *      discount: PURPOSE UNKNOWN (how is it different from cartDiscount)
+     *      totalAmount: PURPOSE UNKNOWN (how is it different from subTotalAmount/subTotalAmountWithExcTax/cartTotal)
+     *      Items: list of items in the order (how to deal with when this info is unavailable)
+     *      couponCode: string representing an applicable coupon code
+     *      paymentType: (1: card, 2: cash, 3: wallet)
+     *      paymentTypeMsg: string representation of paymentType
+     *      coinpayTransaction: tracking of payment using payment gateway
+     *      customerCoordinates: Lat/Lng in an object
+     *      bookingDate: string time
+     *      bookingDateTimeStamp: millisecond representation of epoch time (record creation time)
+     *      dueDatetime: string time
+     *      dueDatetimeTimeStamp: millisecond representation of time of scheduled delivery
+     *      city: string city name
+     *      cityId: city id
+     *      status: (
+     *          1: New order,
+     *          2: Cancelled by manager,
+     *          3: Rejected by manager,
+     *          4: Accepted by manager,
+     *          5: Order ready,
+     *          6: Order picked,
+     *          7: Order completed,
+     *          8: Accepted by driver,
+     *          9: Rejected by driver,
+     *          10: Enroute to Store,
+     *          11: At Store,
+     *          12: Enroute to Customer,
+     *          13: Customer Location,
+     *          14: Delivered,
+     *          15: Order completed,
+     *          16: Cancelled by customer,
+     *          17: Cancelled by driver,
+     *          18: Order delayed,
+     *          19: Central dispatch,
+     *          20: Order expired
+     *      )
+     *      statusMsg: string representation of status
+     *      serviceType: (1: Delivery, 2: Pickup)
+     *      bookingType: (1: Deliver ASAP, 2: Deliver Later)
+     *      pricingModel: ENUM UNKNOWN AND PURPOSE UNKNOWN
+     *      zoneType: ENUM UNKNOWN AND PURPOSE UNKNOWN
+     *      extraNote: extra note added by customer during order creation
+     *      customerDetails: details of customers as an object
+     *      pickup: Location object of pickup
+     *      timeStamp: REDUNDANT
+     *      activityLogs: activities performed on the order (state ENUM UNKNOWN)
+     *      abbreviation: PURPOSE UNKNOWN
+     *      abbreviationText: PURPOSE UNKNOWN
+     *      currency: currency code
+     *      currencySymbol: currency symbol
+     *      mileageMetric: PURPOSE UNKNOWN
+     *      paidBy: payment breakdown by mode of payments
+     *      accounting: settlement related info
+     *      _id: server specific id
+     *
+     * When we receive order via list, this is what we receive:
+     *      orderId: same as above
+     *      bookingDate: same as above
+     *      pickAddress: string representation of pickup address
+     *      pickupLong: Lng of pickup
+     *      pickupLat: Lat of pickup
+     *      dropLat: Lat of drop
+     *      dropLong: Lng of drop
+     *      dropAddress: string representation of drop address
+     *      statusMessage: same as statusMsg above
+     *      statusCode: same as status
+     *      storeName: same as above
+     *      storeAddress: same as above
+     *      totalAmount: same as above
+     *      serviceType: same as above
+     *      items: same as above
+     *      bookingType: same as above
+     *      dueDatetime: same as above
+     *      timeStamp: long representation of epoch time of creation (refer bookingDateTimestamp)
+     *      driverId: same as above
+     *      driverName: same as above
+     *      subTotalAmountWithExcTax: same as above
+     *      subTotalAmount: same as above
+     *      deliveryCharge: same as above
+     *      excTax: same as above
+     *      exclusiveTaxes: same as above
+     *      driverMobile: same as above
+     *      driverImage: same as above
+     *      driverEmail: same as above
+     *      activityLogs: same as above
+     *      bookingDateTimeStamp: same as above
+     *      dueDatetimeTimeStamp: same as above
+     *      storeType: same as above
+     *      storeTypeMsg: same as above
+     */
+
 
     @SerializedName("estimatedId")
     private String estimatedId;
@@ -65,7 +176,7 @@ public class OrderItem implements Serializable, Timestamped {
 
     @NonNull
     @SerializedName("storeCommissionType")
-    public final Integer storeCommisionType;
+    public final Integer storeCommissionType;
 
     @SerializedName("storeCommisionTypeMsg")
     public final String storeCommissionTypeMessage;
@@ -99,7 +210,7 @@ public class OrderItem implements Serializable, Timestamped {
     private Float excTax;
 
     @SerializedName("exclusiveTaxes")
-    private ArrayList<String> exclusiveTaxes;
+    private ArrayList<ExclusiveTax> exclusiveTaxes;
 
     @NonNull
     @SerializedName("orderType")
@@ -236,9 +347,9 @@ public class OrderItem implements Serializable, Timestamped {
     @Ignore
     private String stringTimestamp;
 
-    public OrderItem(
+    public OrderDetailItem(
             @NonNull String storeId, @NonNull LatLng storeCoordinates, @NonNull String storeName,
-            @NonNull Integer forcedAccept, @NonNull int storeCommisionType,
+            @NonNull Integer forcedAccept, @NonNull int storeCommissionType,
             String storeCommissionTypeMessage, @NonNull Integer driverType,
             @NonNull String storeAddress, @NonNull String cartId, @NonNull Float deliveryCharge,
             @NonNull OrderType orderType, @NonNull String orderTypeMsg,
@@ -256,7 +367,7 @@ public class OrderItem implements Serializable, Timestamped {
         this.storeCoordinates = storeCoordinates;
         this.storeName = storeName;
         this.forcedAccept = forcedAccept;
-        this.storeCommisionType = storeCommisionType;
+        this.storeCommissionType = storeCommissionType;
         this.storeCommissionTypeMessage = storeCommissionTypeMessage;
         this.driverType = driverType;
         this.storeAddress = storeAddress;
@@ -354,11 +465,11 @@ public class OrderItem implements Serializable, Timestamped {
         this.excTax = excTax;
     }
 
-    public ArrayList<String> getExclusiveTaxes() {
+    public ArrayList<ExclusiveTax> getExclusiveTaxes() {
         return exclusiveTaxes;
     }
 
-    public void setExclusiveTaxes(ArrayList<String> exclusiveTaxes) {
+    public void setExclusiveTaxes(ArrayList<ExclusiveTax> exclusiveTaxes) {
         this.exclusiveTaxes = exclusiveTaxes;
     }
 
@@ -495,11 +606,11 @@ public class OrderItem implements Serializable, Timestamped {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderItem orderItem = (OrderItem) o;
+        OrderDetailItem orderDetailItem = (OrderDetailItem) o;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return Objects.equals(orderId, orderItem.orderId);
+            return Objects.equals(orderId, orderDetailItem.orderId);
         } else {
-            return orderItem.orderId.equals(orderId);
+            return orderDetailItem.orderId.equals(orderId);
         }
     }
 

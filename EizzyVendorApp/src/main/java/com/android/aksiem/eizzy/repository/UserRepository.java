@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.api.ApiResponse;
 import com.android.aksiem.eizzy.api.AppService;
-import com.android.aksiem.eizzy.api.DispatcherService;
 import com.android.aksiem.eizzy.app.AppExecutors;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.vo.Resource;
@@ -35,12 +34,10 @@ import javax.inject.Inject;
  */
 @AppScope
 public class UserRepository {
-    private final DispatcherService appService;
     private final AppExecutors appExecutors;
 
     @Inject
-    UserRepository(AppExecutors appExecutors, DispatcherService appService) {
-        this.appService = appService;
+    UserRepository(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
     }
 

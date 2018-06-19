@@ -27,6 +27,8 @@ import com.android.aksiem.eizzy.vo.OrderActivityLog;
 import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.Price;
+import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
+import com.android.aksiem.eizzy.vo.support.order.ExclusiveTaxType;
 import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
@@ -301,6 +303,46 @@ public class AppTypeConverters {
     @TypeConverter
     public static CoinPayTransaction stringToCoinPayTransaction(String state) {
         return new Gson().fromJson(state, CoinPayTransaction.class);
+    }
+
+    @TypeConverter
+    public static String exclusiveTaxTypeToString(ExclusiveTaxType type) {
+        return new Gson().toJson(type, ExclusiveTaxType.class);
+    }
+
+    @TypeConverter
+    public static ExclusiveTaxType stringToExclusiveTaxType(String type) {
+        return new Gson().fromJson(type, ExclusiveTaxType.class);
+    }
+
+    @TypeConverter
+    public static String exclusiveTaxToString(ExclusiveTax tax) {
+        return new Gson().toJson(tax, ExclusiveTax.class);
+    }
+
+    @TypeConverter
+    public static ExclusiveTax stringToExclusiveTax(String tax) {
+        return new Gson().fromJson(tax, ExclusiveTax.class);
+    }
+
+    @TypeConverter
+    public static String arrayListOfExclusiveTaxToString(ArrayList<ExclusiveTax> arrayList) {
+        if (arrayList == null) {
+            return null;
+        }
+        Type type = new TypeToken<ArrayList<ExclusiveTax>>(){
+        }.getType();
+        return new Gson().toJson(arrayList, type);
+    }
+
+    @TypeConverter
+    public static ArrayList<ExclusiveTax> stringToArrayListOfExclusiveTax(String string) {
+        if (string == null) {
+            return null;
+        }
+        Type type = new TypeToken<ArrayList<ExclusiveTax>>(){
+        }.getType();
+        return new Gson().fromJson(string, type);
     }
 
 }
