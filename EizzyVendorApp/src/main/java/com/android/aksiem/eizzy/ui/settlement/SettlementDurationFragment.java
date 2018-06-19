@@ -15,15 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
-import com.android.aksiem.eizzy.app.NavigationFragment;
+import com.android.aksiem.eizzy.app.BaseInjectableFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.SettlementDurationFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
-import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
-import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
-import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
-import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
@@ -32,10 +28,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
-
-public class SettlementDurationFragment extends NavigationFragment {
+public class SettlementDurationFragment extends BaseInjectableFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -57,24 +51,6 @@ public class SettlementDurationFragment extends NavigationFragment {
     @ApplicationContext
     Context applicationContext;
 
-    @Override
-    public NavigationBuilder buildNavigation() {
-        return mainCollapsableToolbar()
-                .includeBottomNavBar(true)
-                .includeDrawerNav(true)
-                .toolbarTitleRes(R.string.screen_title_settlements)
-                .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed())
-                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
-                        buildMenuActions());
-    }
-
-    private MenuActions buildMenuActions() {
-        return new MenuActions.Builder()
-                .action(R.id.nav_checkout, new MenuToastAction(applicationContext,
-                        "Do Checkout"))
-                .build();
-    }
 
     @Nullable
     @Override
@@ -83,7 +59,7 @@ public class SettlementDurationFragment extends NavigationFragment {
         SettlementDurationFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
                 R.layout.settlement_duration_fragment, container, false);
         binding = new AutoClearedValue<>(this, dataBinding);
-        return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
+        return dataBinding.getRoot();
     }
 
     @Override

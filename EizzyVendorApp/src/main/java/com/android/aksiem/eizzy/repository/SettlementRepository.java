@@ -19,7 +19,6 @@ import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
-import com.android.aksiem.eizzy.vo.support.settlement.SettlementItemsList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,37 +51,37 @@ public class SettlementRepository {
         this.appPrefManager = appPrefManager;
     }
 
-    public LiveData<Resource<EizzyApiRespone<SettlementItemsList>>> loadItems(
+    public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> loadItems(
             long pageIndex, long startDate, long endDate) {
 
-        return new DbNetworkBoundResource<EizzyApiRespone<SettlementItemsList>,
-                EizzyApiRespone<SettlementItemsList>>(appExecutors) {
+        return new DbNetworkBoundResource<EizzyApiRespone<ArrayList<SettlementItem>>,
+                EizzyApiRespone<ArrayList<SettlementItem>>>(appExecutors) {
 
             @Override
-            protected void saveCallResult(@NonNull EizzyApiRespone<SettlementItemsList> item) {
-                if (item != null && item.data != null && item.data.items != null
-                        && item.data.items.isEmpty()) {
-                    settlementItemDao.insertSettlementItems(item.data.items);
+            protected void saveCallResult(@NonNull EizzyApiRespone<ArrayList<SettlementItem>> item) {
+                if (item != null && item.data != null && item.data != null
+                        && item.data.isEmpty()) {
+                    settlementItemDao.insertSettlementItems(item.data);
                 }
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable EizzyApiRespone<SettlementItemsList> data) {
-                return data == null || data.data == null || data.data.items == null
-                        || data.data.items.isEmpty();
+            protected boolean shouldFetch(@Nullable EizzyApiRespone<ArrayList<SettlementItem>> data) {
+                return data == null || data.data == null || data.data == null
+                        || data.data.isEmpty();
             }
 
             @NonNull
             @Override
-            protected LiveData<EizzyApiRespone<SettlementItemsList>> loadFromDb() {
+            protected LiveData<EizzyApiRespone<ArrayList<SettlementItem>>> loadFromDb() {
                 LiveData<List<SettlementItem>> orderItems = settlementItemDao.getAllItems();
                 ArrayList<SettlementItem> arrayList = new ArrayList<>();
                 if (orderItems.getValue() != null) {
                     arrayList.addAll(orderItems.getValue());
-                    SettlementItemsList list = new SettlementItemsList(arrayList);
-                    EizzyApiRespone<SettlementItemsList> eizzyApiRespone =
+                    ArrayList<SettlementItem> list = new ArrayList<SettlementItem>();
+                    EizzyApiRespone<ArrayList<SettlementItem>> eizzyApiRespone =
                             new EizzyApiRespone<>("", list);
-                    MutableLiveData<EizzyApiRespone<SettlementItemsList>> mutableLiveData =
+                    MutableLiveData<EizzyApiRespone<ArrayList<SettlementItem>>> mutableLiveData =
                             new MutableLiveData<>();
                     mutableLiveData.setValue(eizzyApiRespone);
                     return mutableLiveData;
@@ -92,16 +91,16 @@ public class SettlementRepository {
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<EizzyApiRespone<SettlementItemsList>>> createCall() {
+            protected LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> createCall() {
                 StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
                         appPrefManager);
                 return appService.getAllSettlements(
                         RequestConstants.Language.english,
                         manager.token,
-                        manager.storeId,
+                        "5ac35cc8e360ea4c1e3afc2f"/*,
                         0,
                         0,
-                        0);
+                        0*/);
             }
         }.asLiveData();
 
