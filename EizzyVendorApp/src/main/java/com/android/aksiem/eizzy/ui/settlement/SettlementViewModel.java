@@ -53,9 +53,8 @@ public class SettlementViewModel extends ViewModel {
                 switch (items.status) {
                     case SUCCESS:
                         if (items.data != null && items.data.data != null
-                                && items.data.data != null
                                 && !items.data.data.isEmpty()) {
-                            list.addAll(items.data.data);
+                            list.addAll(items.data.data.get(0));
                         }
                         break;
                 }

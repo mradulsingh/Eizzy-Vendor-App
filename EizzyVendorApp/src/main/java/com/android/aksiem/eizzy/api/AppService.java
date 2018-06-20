@@ -141,7 +141,7 @@ public interface AppService {
             @Path("endDate") long endDate);
 
     @GET("/accounting/store/wallet/{storeId}")
-    LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
+    LiveData<ApiResponse<EizzyApiRespone<ArrayList<ArrayList<SettlementItem>>>>> getAllSettlements(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId/*,
