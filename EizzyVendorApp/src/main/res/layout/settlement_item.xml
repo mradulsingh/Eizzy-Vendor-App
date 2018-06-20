@@ -62,7 +62,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="DKJJIHIJSHHJDG"
+                        android:text="@{settlementItem.transactionId}"
                         android:textColor="#0F3762"
                         android:textSize="17sp"
                         android:textStyle="bold" />
@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="450"
+                        android:text="@{settlementItem.getAmountString()}"
                         android:textColor="#0F3762"
                         android:textSize="17sp"
                         android:textStyle="bold" />
@@ -89,7 +89,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="DKJJIHIJSHHJDG" />
+                        android:text="@{settlementItem.getOrderTime()}" />
 
                     <com.android.aksiem.eizzy.view.AppTextView
                         android:id="@+id/cus_tv_type"
@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="ORD + DEL" />
+                        android:text="@{settlementItem.txnType}" />
 
                 </LinearLayout>
             </LinearLayout>

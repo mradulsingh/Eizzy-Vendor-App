@@ -4,9 +4,12 @@ import android.arch.persistence.room.Entity;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.util.Logger;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
 
@@ -173,12 +176,28 @@ public class SettlementItem implements Serializable {
         return amount;
     }
 
+    public String getAmountString() {
+        try {
+            return String.valueOf(amount);
+        } catch (NumberFormatException nfe) {
+            Logger.e(nfe, "Exception on converting amount to String");
+        }
+        return "";
+    }
+
     public double getClosingBal() {
         return closingBal;
     }
 
     public double getCashCollected() {
         return cashCollected;
+    }
+
+    public String getOrderTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        return formatter.format(calendar.getTime());
     }
 
     @Override
