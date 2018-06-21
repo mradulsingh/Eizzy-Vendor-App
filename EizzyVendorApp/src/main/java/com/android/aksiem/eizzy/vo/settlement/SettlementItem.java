@@ -10,7 +10,10 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 
 @Entity(primaryKeys = "transactionId", tableName = "settlement_item")
@@ -149,6 +152,11 @@ public class SettlementItem implements Serializable {
     }
 
     @NonNull
+    public String getDpOrderId() {
+        return "#" + orderId;
+    }
+
+    @NonNull
     public String getPaymentTypeText() {
         return paymentTypeText;
     }
@@ -178,7 +186,7 @@ public class SettlementItem implements Serializable {
 
     public String getAmountString() {
         try {
-            return String.valueOf(amount);
+            return "₹ " + String.valueOf(amount);
         } catch (NumberFormatException nfe) {
             Logger.e(nfe, "Exception on converting amount to String");
         }
@@ -194,9 +202,10 @@ public class SettlementItem implements Serializable {
     }
 
     public String getOrderTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp);
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a | MMM dd, yyyy", Locale.US);
+        TimeZone currentTimezone = TimeZone.getDefault();
+        Calendar calendar = Calendar.getInstance(currentTimezone);
+        calendar.setTime(new Date(timestamp * 1000));
         return formatter.format(calendar.getTime());
     }
 
