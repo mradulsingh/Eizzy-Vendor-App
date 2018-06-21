@@ -140,12 +140,12 @@ public interface AppService {
             @Path("startDate") long startDate,
             @Path("endDate") long endDate);
 
-    @GET("/accounting/store/wallet/{storeId}")
-    LiveData<ApiResponse<EizzyApiRespone<ArrayList<ArrayList<SettlementItem>>>>> getAllSettlements(
+    @GET("/accounting/store/wallet/{storeId}/{pageIndex}")
+    LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
             @Header("language") String language,
             @Header("authorization") String token,
-            @Path("storeId") String storeId/*,
-            @Path("pageIndex") long pageIndex,
+            @Path("storeId") String storeId,
+            @Path("pageIndex") long pageIndex/*,
             @Path("startDate") long startDate,
             @Path("endDate") long endDate*/);
 

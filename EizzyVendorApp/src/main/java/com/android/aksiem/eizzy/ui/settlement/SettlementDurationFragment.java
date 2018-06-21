@@ -67,7 +67,6 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
         super.onActivityCreated(savedInstanceState);
         settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 SettlementViewModel.class);
-        initSettlementItemList();
 
         SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
                 settlementItem -> {
@@ -77,6 +76,8 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
         RecyclerView recyclerView = binding.get().rvSettlement;
         ViewCompat.setNestedScrollingEnabled(recyclerView, false);
         recyclerView.setAdapter(adapter);
+
+        initSettlementItemList();
     }
 
     private void initSettlementItemList() {
