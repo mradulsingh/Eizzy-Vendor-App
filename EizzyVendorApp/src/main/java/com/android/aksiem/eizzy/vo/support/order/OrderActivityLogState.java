@@ -11,6 +11,14 @@ public enum OrderActivityLogState {
         public OrderState getOrderState() {
             return OrderState.CONFIRMED;
         }
+    },
+
+    @SerializedName("confirmed")
+    CONFIRMED {
+        @Override
+        public OrderState getOrderState() {
+            return OrderState.CONFIRMED;
+        }
     };
 
     public abstract OrderState getOrderState();

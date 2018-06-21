@@ -11,7 +11,7 @@ public class OrderActivityLog implements Serializable {
 
     @NonNull
     @SerializedName("state")
-    public final OrderActivityLogState state;
+    private OrderActivityLogState state;
 
     @NonNull
     @SerializedName("statusUpdatedBy")
@@ -22,7 +22,7 @@ public class OrderActivityLog implements Serializable {
     public final String userId;
 
     @NonNull
-    @SerializedName("timestamp")
+    @SerializedName("timeStamp")
     public final Long timestamp;
 
     @NonNull
@@ -48,5 +48,17 @@ public class OrderActivityLog implements Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @NonNull
+    public OrderActivityLogState getState() {
+        if (state == null) {
+            state = OrderActivityLogState.CONFIRMED;
+        }
+        return state;
+    }
+
+    public void setState(@NonNull OrderActivityLogState state) {
+        this.state = state;
     }
 }

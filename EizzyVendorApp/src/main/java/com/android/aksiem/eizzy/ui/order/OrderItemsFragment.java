@@ -28,6 +28,7 @@ import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.OrderListItem;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 
@@ -113,8 +114,8 @@ public class OrderItemsFragment extends NavigationFragment {
                     Logger.tag(OrderItemsFragment.class.getSimpleName())
                             .d("orderId = " + orderItem.orderId);
                     Logger.tag(OrderItemsFragment.class.getSimpleName())
-                            .d("order_item::::" + orderItem.toString());
-                    navigationController.navigateToOrderDetailsFragment(orderItem);
+                            .d("order_list_item::::" + orderItem.toString());
+                    //navigationController.navigateToOrderDetailsFragment(orderItem);
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         RecyclerView recyclerView = binding.get().orderList;
@@ -125,7 +126,7 @@ public class OrderItemsFragment extends NavigationFragment {
     private void initOrdersList() {
         if (runningInDummyMode) {
             orderItemsViewModel.getDummyOrderItems().observe(this, resource -> {
-                updateAdapter(resource);
+                //updateAdapter(resource);
             });
         } else {
             orderItemsViewModel.getAllOrderItems().observe(this, resource -> {
@@ -142,7 +143,7 @@ public class OrderItemsFragment extends NavigationFragment {
         }
     }
 
-    private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderDetailItem>>> resource) {
+    private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderListItem>>> resource) {
         if (resource != null && resource.data != null) {
             adapter.get().replace(resource.data);
         } else {

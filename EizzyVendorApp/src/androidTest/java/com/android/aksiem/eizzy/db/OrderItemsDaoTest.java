@@ -22,12 +22,12 @@ public class OrderItemsDaoTest extends DbTest {
         List<OrderDetailItem> orderDetailItems = OrderItemsUtil.createOrderItem(1);
         db.beginTransaction();
         try {
-            db.orderItemDao().insertOrderItems(orderDetailItems);
+            db.orderDetailItemDao().insertOrderItems(orderDetailItems);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
-        List<OrderDetailItem> list = getValue(db.orderItemDao().getOrderItems());
+        List<OrderDetailItem> list = getValue(db.orderDetailItemDao().getOrderItems());
         assertThat(list.size(), is(1));
         OrderDetailItem first = list.get(0);
     }

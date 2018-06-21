@@ -20,11 +20,11 @@ import android.arch.lifecycle.LiveData;
 
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.OrderListWrapper;
 import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.User;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
-import com.android.aksiem.eizzy.vo.support.order.OrderItemsList;
 
 import java.util.ArrayList;
 
@@ -131,7 +131,7 @@ public interface AppService {
     );
 
     @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{startDate}/{endDate}")
-    LiveData<ApiResponse<EizzyApiRespone<OrderItemsList>>> getAllOrders(
+    LiveData<ApiResponse<EizzyApiRespone<OrderListWrapper>>> getAllOrders(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,

@@ -22,6 +22,7 @@ import android.content.Context;
 
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderDetailItemDao;
+import com.android.aksiem.eizzy.db.OrderListItemDao;
 import com.android.aksiem.eizzy.db.SettlementItemDao;
 import com.android.aksiem.eizzy.util.Logger;
 
@@ -50,8 +51,14 @@ class AppModule {
 
     @AppScope
     @Provides
-    OrderDetailItemDao provideOrderItemDao(AppDb db) {
-        return db.orderItemDao();
+    OrderDetailItemDao provideOrderDetailItemDao(AppDb db) {
+        return db.orderDetailItemDao();
+    }
+
+    @AppScope
+    @Provides
+    OrderListItemDao provideOrderListItemDao(AppDb db) {
+        return db.orderListItemDao();
     }
 
     @AppScope

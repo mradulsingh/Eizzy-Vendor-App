@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.android.aksiem.eizzy.vo.OrderDetailItem" />
+            type="com.android.aksiem.eizzy.vo.OrderListItem" />
 
         <variable
             name="resourceManager"
@@ -39,7 +39,7 @@
             app:infoItem2DrawableLeftCompat="@drawable/ic_phone"
             app:infoItem2Text="@{item.customerDetails.mobile}"
             app:infoItem3DrawableLeftCompat="@drawable/ic_phone"
-            app:infoItem3Text="@{item.orderType.getOrderType()}"
+            app:infoItem3Text="@{item.storeType.getOrderType()}"
             app:themeColor="@{item.getOrderState.getTheme(resourceManager)}" />
 
     </android.support.v7.widget.CardView>

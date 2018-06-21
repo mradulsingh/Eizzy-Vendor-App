@@ -2,6 +2,7 @@ package com.android.aksiem.eizzy.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -13,6 +14,7 @@ import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.OrderDetailItemDao;
+import com.android.aksiem.eizzy.db.OrderListItemDao;
 import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
@@ -26,6 +28,8 @@ import com.android.aksiem.eizzy.vo.LatLng;
 import com.android.aksiem.eizzy.vo.Location;
 import com.android.aksiem.eizzy.vo.OrderActivityLog;
 import com.android.aksiem.eizzy.vo.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.OrderListItem;
+import com.android.aksiem.eizzy.vo.OrderListWrapper;
 import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
@@ -37,7 +41,6 @@ import com.android.aksiem.eizzy.vo.support.TitlizedList;
 import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
 import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
 import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
-import com.android.aksiem.eizzy.vo.support.order.OrderItemsList;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
@@ -67,6 +70,8 @@ public class OrderItemsRepository {
 
     protected final OrderDetailItemDao orderDetailItemDao;
 
+    protected final OrderListItemDao orderListItemDao;
+
     protected final AppService appService;
 
     protected final AppExecutors appExecutors;
@@ -79,13 +84,18 @@ public class OrderItemsRepository {
             TimeUnit.SECONDS);
 
     @Inject
-    public OrderItemsRepository(AppDb appDb, OrderDetailItemDao orderDetailItemDao,
-                                AppService appService, AppExecutors appExecutors,
-                                AppResourceManager appResourceManager,
-                                AppPrefManager appPrefManager) {
+    public OrderItemsRepository(
+            AppDb appDb,
+            OrderDetailItemDao orderDetailItemDao,
+            OrderListItemDao orderListItemDao,
+            AppService appService,
+            AppExecutors appExecutors,
+            AppResourceManager appResourceManager,
+            AppPrefManager appPrefManager) {
 
         this.appDb = appDb;
         this.orderDetailItemDao = orderDetailItemDao;
+        this.orderListItemDao = orderListItemDao;
         this.appService = appService;
         this.appExecutors = appExecutors;
         this.appResourceManager = appResourceManager;
@@ -93,97 +103,123 @@ public class OrderItemsRepository {
 
     }
 
-    public LiveData<Resource<EizzyApiRespone<OrderItemsList>>> loadItems(
+    public LiveData<Resource<EizzyApiRespone<OrderListWrapper>>> loadItemsToList(
             long pageIndex, long status, long startDate, long endDate) {
 
-        return new DbNetworkBoundResource<EizzyApiRespone<OrderItemsList>,
-                EizzyApiRespone<OrderItemsList>>(appExecutors) {
+        return new DbNetworkBoundResource<EizzyApiRespone<OrderListWrapper>,
+                EizzyApiRespone<OrderListWrapper>>(appExecutors) {
 
             @Override
-            protected void saveCallResult(@NonNull EizzyApiRespone<OrderItemsList> item) {
+            protected void saveCallResult(@NonNull EizzyApiRespone<OrderListWrapper> item) {
                 if (item != null && item.data != null && item.data.items != null
                         && !item.data.items.isEmpty()) {
-                    orderDetailItemDao.upsert(item.data.items);
+                    orderListItemDao.insert(item.data.items);
                 }
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderItemsList> data) {
+            protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderListWrapper> data) {
                 return data == null || data.data == null || data.data.items == null
                         || data.data.items.isEmpty();
             }
 
             @NonNull
             @Override
-            protected LiveData<EizzyApiRespone<OrderItemsList>> loadFromDb() {
-                LiveData<List<OrderDetailItem>> orderItems = orderDetailItemDao.getAllItems();
-                ArrayList<OrderDetailItem> arrayList = new ArrayList<>();
-                if (orderItems.getValue() != null) {
-                    arrayList.addAll(orderItems.getValue());
-                    OrderItemsList list = new OrderItemsList(arrayList);
-                    EizzyApiRespone<OrderItemsList> eizzyApiRespone =
-                            new EizzyApiRespone<>("", list);
-                    MutableLiveData<EizzyApiRespone<OrderItemsList>> mutableLiveData =
-                            new MutableLiveData<>();
-                    mutableLiveData.setValue(eizzyApiRespone);
-                    return mutableLiveData;
-                }
-                return AbsentLiveData.create();
+            protected LiveData<EizzyApiRespone<OrderListWrapper>> loadFromDb() {
+
+                return Transformations.switchMap(
+                        orderListItemDao.getAllItems(), (orderListItems) -> {
+
+                            if (orderListItems != null && !orderListItems.isEmpty()) {
+                                ArrayList<OrderListItem> items = new ArrayList<>();
+                                items.addAll(orderListItems);
+                                OrderListWrapper wrapper = new OrderListWrapper(items);
+                                EizzyApiRespone<OrderListWrapper> eizzyApiRespone =
+                                        new EizzyApiRespone<>("", wrapper);
+                                MutableLiveData<EizzyApiRespone<OrderListWrapper>> mutableLiveData =
+                                        new MutableLiveData<>();
+                                mutableLiveData.setValue(eizzyApiRespone);
+                                return mutableLiveData;
+                            } else {
+                                return AbsentLiveData.create();
+                            }
+
+                });
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<EizzyApiRespone<OrderItemsList>>> createCall() {
+            protected LiveData<ApiResponse<EizzyApiRespone<OrderListWrapper>>> createCall() {
                 StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
                         appPrefManager);
-                LiveData<ApiResponse<EizzyApiRespone<OrderItemsList>>> ld =  appService.getAllOrders(
+                return appService.getAllOrders(
                         RequestConstants.Language.english,
                         manager.token,
                         manager.storeId,
                         pageIndex,
-                        RequestConstants.OrderItemsList.all,
+                        status,
                         startDate,
                         endDate);
-                return ld;
             }
         }.asLiveData();
 
     }
 
-    public LiveData<Resource<List<OrderDetailItem>>> loadItems(List<String> orderIds) {
-        return new DbNetworkBoundResource<List<OrderDetailItem>,
-                List<OrderDetailItem>>(appExecutors) {
+    public LiveData<Resource<ArrayList<OrderDetailItem>>> loadDummyItems(List<String> orderIds) {
+        return new DbNetworkBoundResource<ArrayList<OrderDetailItem>,
+                ArrayList<OrderDetailItem>>(appExecutors) {
 
             @Override
-            protected void saveCallResult(@NonNull List<OrderDetailItem> items) {
+            protected void saveCallResult(@NonNull ArrayList<OrderDetailItem> items) {
                 orderDetailItemDao.upsert(items);
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable List<OrderDetailItem> data) {
+            protected boolean shouldFetch(@Nullable ArrayList<OrderDetailItem> data) {
                 return data == null || data.isEmpty();
             }
 
             @NonNull
             @Override
-            protected LiveData<List<OrderDetailItem>> loadFromDb() {
-                LiveData<List<OrderDetailItem>> orderItems;
-                if (orderIds == null)
-                    orderItems = orderDetailItemDao.getAllItems();
-                else
-                    orderItems = orderDetailItemDao.getItemsByIds(orderIds);
-                return orderItems;
+            protected LiveData<ArrayList<OrderDetailItem>> loadFromDb() {
+                if (orderIds == null) {
+                    return Transformations.switchMap(orderDetailItemDao.getAllItems(), (items) -> {
+                        if (items != null && !items.isEmpty()) {
+                            MutableLiveData<ArrayList<OrderDetailItem>> mutableLiveData =
+                                    new MutableLiveData<>();
+                            ArrayList<OrderDetailItem> detailItems = new ArrayList<>();
+                            detailItems.addAll(items);
+                            mutableLiveData.setValue(detailItems);
+                            return mutableLiveData;
+                        }
+                        return AbsentLiveData.create();
+                    });
+                } else {
+                    return Transformations.switchMap(orderDetailItemDao.getItemsByIds(orderIds),
+                            (items) -> {
+
+                        if (items != null && !items.isEmpty()) {
+                            MutableLiveData<ArrayList<OrderDetailItem>> mutableLiveData =
+                                    new MutableLiveData<>();
+                            ArrayList<OrderDetailItem> detailItems = new ArrayList<>();
+                            detailItems.addAll(items);
+                            mutableLiveData.setValue(detailItems);
+                            return mutableLiveData;
+                        }
+                        return AbsentLiveData.create();
+                    });
+                }
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<List<OrderDetailItem>>> createCall() {
+            protected LiveData<ApiResponse<ArrayList<OrderDetailItem>>> createCall() {
                 // TODO integrate with backend API
-                Response<List<OrderDetailItem>> response =
+                Response<ArrayList<OrderDetailItem>> response =
                         Response.success(mockData(orderIds, 30));
-                ApiResponse<List<OrderDetailItem>> apiItems =
+                ApiResponse<ArrayList<OrderDetailItem>> apiItems =
                         new ApiResponse<>(response);
-                MutableLiveData<ApiResponse<List<OrderDetailItem>>> mld =
+                MutableLiveData<ApiResponse<ArrayList<OrderDetailItem>>> mld =
                         new MutableLiveData<>();
                 mld.setValue(apiItems);
                 return mld;
@@ -191,37 +227,46 @@ public class OrderItemsRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<List<OrderDetailItem>>> loadItems() {
-        return new DbNetworkBoundResource<List<OrderDetailItem>,
-                List<OrderDetailItem>>(appExecutors) {
+    public LiveData<Resource<ArrayList<OrderDetailItem>>> loadDummyItems() {
+        return new DbNetworkBoundResource<ArrayList<OrderDetailItem>,
+                ArrayList<OrderDetailItem>>(appExecutors) {
 
             @Override
-            protected void saveCallResult(@NonNull List<OrderDetailItem> items) {
+            protected void saveCallResult(@NonNull ArrayList<OrderDetailItem> items) {
                 orderDetailItemDao.upsert(items);
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable List<OrderDetailItem> data) {
+            protected boolean shouldFetch(@Nullable ArrayList<OrderDetailItem> data) {
                 return data == null || data.isEmpty();
             }
 
             @NonNull
             @Override
-            protected LiveData<List<OrderDetailItem>> loadFromDb() {
-                LiveData<List<OrderDetailItem>> orderItems;
-                orderItems = orderDetailItemDao.getAllItems();
-                return orderItems;
+            protected LiveData<ArrayList<OrderDetailItem>> loadFromDb() {
+
+                return Transformations.switchMap(orderDetailItemDao.getAllItems(), (items) -> {
+                    if (items != null && !items.isEmpty()) {
+                        ArrayList<OrderDetailItem> orderDetailItems = new ArrayList<>();
+                        orderDetailItems.addAll(items);
+                        MutableLiveData<ArrayList<OrderDetailItem>> mutableLiveData =
+                                new MutableLiveData<>();
+                        mutableLiveData.setValue(orderDetailItems);
+                        return mutableLiveData;
+                    }
+                    return AbsentLiveData.create();
+                });
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<List<OrderDetailItem>>> createCall() {
+            protected LiveData<ApiResponse<ArrayList<OrderDetailItem>>> createCall() {
                 // TODO integrate with backend API
-                Response<List<OrderDetailItem>> response =
+                Response<ArrayList<OrderDetailItem>> response =
                         Response.success(mockData(null, 30));
-                ApiResponse<List<OrderDetailItem>> apiItems =
+                ApiResponse<ArrayList<OrderDetailItem>> apiItems =
                         new ApiResponse<>(response);
-                MutableLiveData<ApiResponse<List<OrderDetailItem>>> mld =
+                MutableLiveData<ApiResponse<ArrayList<OrderDetailItem>>> mld =
                         new MutableLiveData<>();
                 mld.setValue(apiItems);
                 return mld;
@@ -284,8 +329,8 @@ public class OrderItemsRepository {
         return null;
     }
 
-    private List<OrderDetailItem> mockData(List<String> orderIds, int pageSize) {
-        List<OrderDetailItem> items = new ArrayList<>();
+    private ArrayList<OrderDetailItem> mockData(List<String> orderIds, int pageSize) {
+        ArrayList<OrderDetailItem> items = new ArrayList<>();
         if (orderIds == null) {
             for (int i = 0; i < pageSize; i++) {
                 items.add(generateSingleRandomOrder(null, i + 1));

@@ -17,12 +17,12 @@ public interface TimestampedItemDao<T extends Timestamped> {
 
     int getOrderItemCount();
 
-    List<OrderDetailItem> getOrderItems();
+    List<T> getOrderItems();
 
     LiveData<List<T>> getAllItems();
 
     LiveData<List<T>> getItemsFrom(Float timestamp);
 
-    LiveData<List<OrderDetailItem>> getItemsFromTo(Float start, Float end);
+    LiveData<List<T>> getItemsFromTo(Float start, Float end);
 
 }
