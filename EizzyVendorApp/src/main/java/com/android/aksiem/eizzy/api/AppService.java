@@ -20,6 +20,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.OrderListWrapper;
 import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.StoreManager;
@@ -140,8 +141,14 @@ public interface AppService {
             @Path("startDate") long startDate,
             @Path("endDate") long endDate);
 
-    @GET("/accounting/store/wallet/{storeId}/{pageIndex}")
-    LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
+    @GET("dispatcher/order/detail/{orderId}")
+    LiveData<ApiResponse<EizzyApiRespone<OrderDetailItem>>> getItemById(
+            @Header("language") String language,
+            @Header("authorization") String token,
+            @Path("orderId") String orderId);
+
+    @GET("/accounting/store/wallet/{storeId}")
+    LiveData<ApiResponse<EizzyApiRespone<ArrayList<ArrayList<SettlementItem>>>>> getAllSettlements(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,

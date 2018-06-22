@@ -18,6 +18,7 @@ import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class OrderItemsViewModel extends ViewModel {
     private Long startDate = 0l;
 
     private Long endDate = 0l;
+
+    private String orderIdToFetch;
 
     @Inject
     AppResourceManager appResourceManager;
@@ -107,6 +110,13 @@ public class OrderItemsViewModel extends ViewModel {
         return timestampedOrderItems;
     }
 
+    public LiveData<Resource<EizzyApiRespone<OrderDetailItem>>> getDetailedItem() {
+        if (orderIdToFetch == null) {
+            return AbsentLiveData.create();
+        }
+        return orderItemsRepository.getDetailedItem(orderIdToFetch);
+    }
+
     public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones() {
         StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
         return orderItemsRepository.getEizzyZones(manager.token, manager.cityId);
@@ -130,6 +140,10 @@ public class OrderItemsViewModel extends ViewModel {
 
     public void setEndDate(Long endDate) {
         this.endDate = endDate;
+    }
+
+    public void setOrderIdToFetch(String orderIdToFetch) {
+        this.orderIdToFetch = orderIdToFetch;
     }
 
     private LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> addTimestampToList(

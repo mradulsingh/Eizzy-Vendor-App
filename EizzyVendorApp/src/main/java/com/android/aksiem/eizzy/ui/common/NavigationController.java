@@ -62,8 +62,8 @@ public class NavigationController {
         addFragment(fragment, true, false);
     }
 
-    public void navigateToOrderDetailsFragment(OrderDetailItem orderDetailItem) {
-        OrderDetailsFragment fragment = OrderDetailsFragment.create(orderDetailItem);
+    public void navigateToOrderDetailsFragment(String orderId) {
+        OrderDetailsFragment fragment = OrderDetailsFragment.create(orderId);
         String tag = OrderDetailsFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)

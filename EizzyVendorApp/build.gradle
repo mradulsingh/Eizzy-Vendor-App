@@ -113,6 +113,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.multidex
     implementation deps.room.runtime
+    implementation deps.paging.runtime
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.java8

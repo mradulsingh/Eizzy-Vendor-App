@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
@@ -497,5 +498,47 @@ public class OrderListItem implements Serializable, Timestamped {
         } else {
             return orderId.hashCode();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "OrderListItem{" +
+                "orderId='" + orderId + '\'' +
+                ", bookingDate='" + bookingDate + '\'' +
+                ", dropLat=" + dropLat +
+                ", dropLong=" + dropLong +
+                ", dropAddress='" + dropAddress + '\'' +
+                ", statusMsg='" + statusMsg + '\'' +
+                ", pickup=" + pickup +
+                ", status=" + status +
+                ", storeName='" + storeName + '\'' +
+                ", storeAddress='" + storeAddress + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", serviceType=" + serviceType +
+                ", bookingType=" + bookingType +
+                ", dueDatetime='" + dueDatetime + '\'' +
+                ", driverId='" + driverId + '\'' +
+                ", driverName='" + driverName + '\'' +
+                ", subTotalAmountWithExcTax=" + subTotalAmountWithExcTax +
+                ", subTotalAmount=" + subTotalAmount +
+                ", deliveryCharge=" + deliveryCharge +
+                ", excTax=" + excTax +
+                ", exclusiveTaxes=" + exclusiveTaxes +
+                ", driverMobile='" + driverMobile + '\'' +
+                ", driverImageUrl='" + driverImageUrl + '\'' +
+                ", driverEmail='" + driverEmail + '\'' +
+                ", activityLogs=" + activityLogs +
+                ", timestamp=" + timestamp +
+                ", dueDatetimeTimeStamp=" + dueDatetimeTimeStamp +
+                ", storeType=" + storeType +
+                ", storeTypeMsg='" + storeTypeMsg + '\'' +
+                ", customerDetails=" + customerDetails +
+                ", customerSignatureRequired=" + customerSignatureRequired +
+                ", cashOnDeliveryEnabled=" + cashOnDeliveryEnabled +
+                ", eizzyZoneId='" + eizzyZoneId + '\'' +
+                ", currentState=" + currentState +
+                ", orderState=" + orderState +
+                ", stringTimestamp='" + stringTimestamp + '\'' +
+                '}';
     }
 }

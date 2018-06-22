@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
+import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
 import com.android.aksiem.eizzy.vo.support.order.OrderType;
 import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
 import com.google.gson.annotations.SerializedName;
@@ -230,6 +231,9 @@ public class OrderDetailItem implements Serializable, Timestamped {
 
     @Ignore
     private String stringTimestamp;
+
+    @Ignore
+    private ArrayList<OrderStateTransition> orderTracking;
 
     public OrderDetailItem(
             @NonNull String storeId, @NonNull LatLng storeCoordinates, @NonNull String storeName,
@@ -492,6 +496,19 @@ public class OrderDetailItem implements Serializable, Timestamped {
             stringTimestamp = dateFormatter.format(new Date(timestamp));
         }
         return stringTimestamp;
+    }
+
+    public ArrayList<OrderStateTransition> getOrderTracking() {
+        if (orderTracking == null) {
+            orderTracking = new ArrayList<>();
+            if (activityLogs != null && !activityLogs.isEmpty()) {
+                for (OrderActivityLog log : activityLogs) {
+                    orderTracking.add(new OrderStateTransition(log.getState().getOrderState(),
+                            log.timestamp, log.getLocation().city));
+                }
+            }
+        }
+        return orderTracking;
     }
 
     @Override

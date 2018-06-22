@@ -11,7 +11,7 @@ public class OrderActivityLog implements Serializable {
 
     @NonNull
     @SerializedName("state")
-    private OrderActivityLogState state;
+    public OrderActivityLogState state;
 
     @NonNull
     @SerializedName("statusUpdatedBy")
@@ -53,12 +53,24 @@ public class OrderActivityLog implements Serializable {
     @NonNull
     public OrderActivityLogState getState() {
         if (state == null) {
-            state = OrderActivityLogState.CONFIRMED;
+            state = OrderActivityLogState.CREATED;
         }
         return state;
     }
 
     public void setState(@NonNull OrderActivityLogState state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderActivityLog{" +
+                "state=" + state +
+                ", statusUpdatedBy='" + statusUpdatedBy + '\'' +
+                ", userId='" + userId + '\'' +
+                ", timestamp=" + timestamp +
+                ", isoDate='" + isoDate + '\'' +
+                ", location=" + location +
+                '}';
     }
 }

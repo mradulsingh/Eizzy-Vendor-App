@@ -115,7 +115,7 @@ public class OrderItemsFragment extends NavigationFragment {
                             .d("orderId = " + orderItem.orderId);
                     Logger.tag(OrderItemsFragment.class.getSimpleName())
                             .d("order_list_item::::" + orderItem.toString());
-                    //navigationController.navigateToOrderDetailsFragment(orderItem);
+                    navigationController.navigateToOrderDetailsFragment(orderItem.orderId);
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         RecyclerView recyclerView = binding.get().orderList;

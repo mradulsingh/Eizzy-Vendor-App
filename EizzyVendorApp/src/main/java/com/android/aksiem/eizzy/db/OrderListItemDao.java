@@ -25,6 +25,8 @@ public abstract class OrderListItemDao implements TimestampedItemDao<OrderListIt
     @Update(onConflict = OnConflictStrategy.REPLACE)
     public abstract void update(List<OrderListItem> orderDetailItems);
 
+    //public abstract LivePagedListProvider<Integer, OrderListItem>
+
     @Override
     @Query("SELECT * FROM order_list_item")
     public abstract List<OrderListItem> getOrderItems();

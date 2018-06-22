@@ -20,22 +20,15 @@ import java.util.List;
 public abstract class OrderDetailItemDao implements TimestampedItemDao<OrderDetailItem> {
 
     @Override
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(OrderDetailItem... items);
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(List<OrderDetailItem> orderDetailItems);
 
-    @Update(onConflict = OnConflictStrategy.FAIL)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     public abstract void update(List<OrderDetailItem> orderDetailItems);
 
-    public void upsert(List<OrderDetailItem> orderDetailItems) {
-        try {
-            insert(orderDetailItems);
-        } catch (SQLiteConstraintException exception) {
-            update(orderDetailItems);
-        }
-    }
 
     @Override
     @Query("SELECT * FROM order_detail_item")

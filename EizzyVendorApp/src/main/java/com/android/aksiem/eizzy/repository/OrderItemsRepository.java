@@ -165,13 +165,59 @@ public class OrderItemsRepository {
 
     }
 
+    public LiveData<Resource<EizzyApiRespone<OrderDetailItem>>> getDetailedItem(String orderId) {
+        return new DbNetworkBoundResource<EizzyApiRespone<OrderDetailItem>,
+                EizzyApiRespone<OrderDetailItem>>(appExecutors) {
+
+            @Override
+            protected void saveCallResult(@NonNull EizzyApiRespone<OrderDetailItem> item) {
+                if (item != null && item.data != null) {
+                    orderDetailItemDao.insert(item.data);
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderDetailItem> data) {
+                return data == null || data.data == null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<OrderDetailItem>> loadFromDb() {
+                List<String> orderIds = new ArrayList<>();
+                orderIds.add(orderId);
+                return Transformations.switchMap(orderDetailItemDao.getItemsByIds(orderIds),
+                        (items) -> {
+                    if (items != null && !items.isEmpty()) {
+                        EizzyApiRespone<OrderDetailItem> item = new EizzyApiRespone<>("",
+                                items.get(0));
+                        MutableLiveData<EizzyApiRespone<OrderDetailItem>> mutableLiveData =
+                                new MutableLiveData<>();
+                        mutableLiveData.setValue(item);
+                        return mutableLiveData;
+                    }
+                    return AbsentLiveData.create();
+                });
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<OrderDetailItem>>> createCall() {
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                        appPrefManager);
+                return appService.getItemById(RequestConstants.Language.english, manager.token,
+                        orderId);
+            }
+        }.asLiveData();
+    }
+
     public LiveData<Resource<ArrayList<OrderDetailItem>>> loadDummyItems(List<String> orderIds) {
         return new DbNetworkBoundResource<ArrayList<OrderDetailItem>,
                 ArrayList<OrderDetailItem>>(appExecutors) {
 
             @Override
             protected void saveCallResult(@NonNull ArrayList<OrderDetailItem> items) {
-                orderDetailItemDao.upsert(items);
+                orderDetailItemDao.insert(items);
             }
 
             @Override
@@ -195,14 +241,14 @@ public class OrderItemsRepository {
                         return AbsentLiveData.create();
                     });
                 } else {
-                    return Transformations.switchMap(orderDetailItemDao.getItemsByIds(orderIds),
+                    return Transformations.switchMap(orderListItemDao.getItemsByIds(orderIds),
                             (items) -> {
 
                         if (items != null && !items.isEmpty()) {
                             MutableLiveData<ArrayList<OrderDetailItem>> mutableLiveData =
                                     new MutableLiveData<>();
                             ArrayList<OrderDetailItem> detailItems = new ArrayList<>();
-                            detailItems.addAll(items);
+                            detailItems.addAll(detailItems);
                             mutableLiveData.setValue(detailItems);
                             return mutableLiveData;
                         }
@@ -233,7 +279,7 @@ public class OrderItemsRepository {
 
             @Override
             protected void saveCallResult(@NonNull ArrayList<OrderDetailItem> items) {
-                orderDetailItemDao.upsert(items);
+                orderDetailItemDao.insert(items);
             }
 
             @Override
