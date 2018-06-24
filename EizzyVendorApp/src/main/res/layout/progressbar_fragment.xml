@@ -17,7 +17,7 @@
         android:id="@+id/loadingProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#55000000"
+        android:background="#22000000"
         app:visibleGone="@{resource != null &amp;&amp; resource.status == Status.LOADING}">
 
         <ProgressBar

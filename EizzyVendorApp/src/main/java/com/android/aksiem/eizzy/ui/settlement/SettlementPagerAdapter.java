@@ -20,14 +20,11 @@ public class SettlementPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-
-            Bundle bundle = new Bundle();
-            bundle.putInt("selected_duration", position);
-            SettlementDurationFragment settlementDurationFragment = new SettlementDurationFragment();
-            settlementDurationFragment.setArguments(bundle);
-            return settlementDurationFragment;
-
+        Bundle bundle = new Bundle();
+        bundle.putInt("selected_duration", position);
+        SettlementDurationFragment settlementDurationFragment = new SettlementDurationFragment();
+        settlementDurationFragment.setArguments(bundle);
+        return settlementDurationFragment;
     }
 
     @Override

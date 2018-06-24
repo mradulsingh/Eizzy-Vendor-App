@@ -25,8 +25,10 @@
             android:layout_marginRight="@dimen/atom_9"
             android:elevation="@dimen/atom_1"
             android:orientation="vertical"
+            card_view:cardPreventCornerOverlap="true"
             card_view:cardCornerRadius="@dimen/atom_1"
             card_view:cardElevation="5dp"
+            card_view:contentPadding="5dp"
             card_view:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -45,12 +47,13 @@
             android:layout_marginTop="@dimen/atom_4"
             android:background="@drawable/card_edge"
             android:orientation="vertical"
+            card_view:cardPreventCornerOverlap="true"
             card_view:cardCornerRadius="@dimen/atom_1"
             card_view:cardElevation="5dp"
+            card_view:contentPadding="5dp"
             card_view:cardUseCompatPadding="true">
 
             <LinearLayout
-                clipChildren="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

@@ -98,6 +98,7 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
 
     private void initSettlementItemList() {
         settlementViewModel.getSettlements().observe(this, resource -> {
+            binding.get().setResource(resource);
             switch (resource.status) {
                 case LOADING:
                     break;

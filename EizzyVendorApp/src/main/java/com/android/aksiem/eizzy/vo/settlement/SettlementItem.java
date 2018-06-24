@@ -186,7 +186,10 @@ public class SettlementItem implements Serializable {
 
     public String getAmountString() {
         try {
-            return "₹ " + String.valueOf(amount);
+            StringBuilder builder = new StringBuilder(currencySymbol);
+            builder.append(" ");
+            builder.append(String.valueOf(amount));
+            return builder.toString();
         } catch (NumberFormatException nfe) {
             Logger.e(nfe, "Exception on converting amount to String");
         }

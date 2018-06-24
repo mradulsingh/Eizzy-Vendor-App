@@ -76,7 +76,7 @@ public class SettlementViewModel extends ViewModel {
 
     @VisibleForTesting
     public void loadNextPage() {
-        //nextPageHandler.getNextPage(nextPageIndex);
+        //nextPageHandler.getNextPage(nextPageIndex, startDate, endDate);
     }
 
     static class LoadMoreState {
