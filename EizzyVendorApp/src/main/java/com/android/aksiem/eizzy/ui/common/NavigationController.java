@@ -27,16 +27,14 @@ import com.android.aksiem.eizzy.ui.login.CreateUserAccountFragment;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordFragment;
 import com.android.aksiem.eizzy.ui.login.LoginFragment;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPFragment;
+import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 import com.android.aksiem.eizzy.ui.order.CreateOrderFragment;
 import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
-import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
-import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.EizzyZone;
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
 
 import java.util.ArrayList;
 
@@ -65,11 +63,7 @@ public class NavigationController {
 
     public void navigateToOrderDetailsFragment(String orderId) {
         OrderDetailsFragment fragment = OrderDetailsFragment.create(orderId);
-        String tag = OrderDetailsFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+        addFragment(fragment, true);
     }
 
     public void navigateToSettlementFragment() {

@@ -71,7 +71,7 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
         initRecyclerView();
         SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
                 settlementItem -> {
-                    //navigationController.navigateToSettlementDetailsFragment(settlementItem);
+                    navigationController.navigateToOrderDetailsFragment(settlementItem.orderId);
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         RecyclerView recyclerView = binding.get().rvSettlement;
