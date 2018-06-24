@@ -1,5 +1,6 @@
 package com.android.aksiem.eizzy.vo;
 
+import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
@@ -32,6 +33,9 @@ public class OrderActivityLog implements Serializable {
     @SerializedName("location")
     private Location location;
 
+    @Ignore
+    private String message;
+
     public OrderActivityLog(@NonNull OrderActivityLogState state, @NonNull String statusUpdatedBy,
                             @NonNull String userId, @NonNull Long timestamp,
                             @NonNull String isoDate) {
@@ -60,6 +64,13 @@ public class OrderActivityLog implements Serializable {
 
     public void setState(@NonNull OrderActivityLogState state) {
         this.state = state;
+    }
+
+    public String getMessage() {
+        if (message == null) {
+            message = String.format("%s by %s", state.getStateName(), statusUpdatedBy);
+        }
+        return message;
     }
 
     @Override

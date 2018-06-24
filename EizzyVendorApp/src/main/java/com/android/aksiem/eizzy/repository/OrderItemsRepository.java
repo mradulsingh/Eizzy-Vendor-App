@@ -57,6 +57,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import okhttp3.RequestBody;
 import retrofit2.Response;
 
 /**
@@ -82,6 +83,9 @@ public class OrderItemsRepository {
 
     protected RateLimiter<String> orderItemsRateLimiter = new RateLimiter<>(120,
             TimeUnit.SECONDS);
+
+    private boolean shouldLoadItemsToList = false;
+    private boolean shouldGetDetailedItem = false;
 
     @Inject
     public OrderItemsRepository(
@@ -120,7 +124,7 @@ public class OrderItemsRepository {
             @Override
             protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderListWrapper> data) {
                 return data == null || data.data == null || data.data.items == null
-                        || data.data.items.isEmpty();
+                        || data.data.items.isEmpty() || checkAndToggle(shouldLoadItemsToList);
             }
 
             @NonNull
@@ -178,7 +182,7 @@ public class OrderItemsRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderDetailItem> data) {
-                return data == null || data.data == null;
+                return data == null || data.data == null || checkAndToggle(shouldGetDetailedItem);
             }
 
             @NonNull
@@ -345,34 +349,98 @@ public class OrderItemsRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<EizzyApiRespone<String>>> createOrder(
+    public LiveData<Resource<EizzyApiRespone<OrderDetailItem>>> createOrder(
             String name, String mobile, Boolean cashOnDelivery, String locality,
-            String customerAddress, String eizzyZoneId, String billAmount, String billNumber,
-            String orderWeight, String totalItems, String orderDetails, Boolean customerSignature,
+            String customerAddress, String eizzyZoneId, Float billAmount, String billNumber,
+            Integer orderWeight, Integer totalItems, String orderDetails, Boolean customerSignature,
             Boolean orderLater, Long scheduleTime) {
 
-//        @Header("language") String language,
-//        @Header("authorization") String token,
-//        @Part("name") RequestBody customerName,
-//        @Part("countryCode") RequestBody customerCountryCode,
-//        @Part("mobile") RequestBody customerMobile,
-//        @Part("cashOnDelivery") RequestBody cashOnDelivery,
-//        @Part("address2") RequestBody locality,
-//        @Part("address1") RequestBody customerAddress,
-//        @Part("eizzyZone") RequestBody eizzyZoneId,
-//        @Part("unitPrice") RequestBody billAmount,
-//        @Part("billNumber") RequestBody billNumber,
-//        @Part("orderWeight") RequestBody orderWeight,
-//        @Part("totalItems") RequestBody totalItems,
-//        @Part("orderDetails") RequestBody orderDetails,
-//        @Part("customerSignature") RequestBody customerSignature,
-//        @Part("bookingType") RequestBody bookingType,
-//        @Part("bookingDate") RequestBody bookingDate,
-//        @Part("dueDatetime") RequestBody dueDatetime,
-//        @Part("deviceType") RequestBody deviceType,
-//        @Part("paymentType") RequestBody paymentType,
-//        @Part("requestType") RequestBody requestType
-        return null;
+
+        return new DbNetworkBoundResource<EizzyApiRespone<OrderDetailItem>,
+                EizzyApiRespone<OrderDetailItem>>(appExecutors) {
+
+            private String orderId;
+
+            @Override
+            protected void saveCallResult(@NonNull EizzyApiRespone<OrderDetailItem> item) {
+                if (item != null && item.data != null) {
+                    orderId = item.data.orderId;
+                    orderDetailItemDao.insert(item.data);
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable EizzyApiRespone<OrderDetailItem> data) {
+                return data == null || data.data == null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<OrderDetailItem>> loadFromDb() {
+                return Transformations.switchMap(orderDetailItemDao.getItemById(orderId),
+                        (item) -> {
+                    if (item != null) {
+                        EizzyApiRespone<OrderDetailItem> respone =
+                                new EizzyApiRespone<>("", item);
+                        MutableLiveData<EizzyApiRespone<OrderDetailItem>> mutableLiveData =
+                                new MutableLiveData<>();
+                        mutableLiveData.setValue(respone);
+                    }
+                    return AbsentLiveData.create();
+                });
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<OrderDetailItem>>> createCall() {
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
+                long creationTime = System.currentTimeMillis();
+                return appService.createOrder(
+                        RequestConstants.Language.english,
+                        manager.token,
+                        StringUtils.getPlainTextRequestBody(name),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.CountryCode.india),
+                        StringUtils.getPlainTextRequestBody(mobile),
+                        StringUtils.getPlainTextRequestBody(cashOnDelivery.toString()),
+                        StringUtils.getPlainTextRequestBody(locality),
+                        StringUtils.getPlainTextRequestBody(customerAddress),
+                        StringUtils.getPlainTextRequestBody(eizzyZoneId),
+                        StringUtils.getPlainTextRequestBody(billAmount.toString()),
+                        StringUtils.getPlainTextRequestBody(billNumber),
+                        StringUtils.getPlainTextRequestBody(orderWeight.toString()),
+                        StringUtils.getPlainTextRequestBody(totalItems.toString()),
+                        StringUtils.getPlainTextRequestBody(orderDetails),
+                        StringUtils.getPlainTextRequestBody(customerSignature.toString()),
+                        StringUtils.getPlainTextRequestBody(Integer.toString(
+                                RequestConstants.OrderSchedule.getOrderScheduleCode(orderLater))),
+                        StringUtils.getPlainTextRequestBody(Long.toString(creationTime)),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.OrderSchedule
+                                .getOrderScheduledTime(orderLater, scheduleTime, creationTime)),
+                        StringUtils.getPlainTextRequestBody(
+                                Integer.toString(RequestConstants.Platform.android)),
+                        StringUtils.getPlainTextRequestBody(Integer.toString(RequestConstants
+                                .OrderPayment.getOrderPaymentTypeCode(cashOnDelivery))),
+                        StringUtils.getPlainTextRequestBody(Integer.toString(
+                                RequestConstants.StoreType.getStoreType(manager.serviceType))),
+                        StringUtils.getPlainTextRequestBody(Integer.toString(
+                                RequestConstants.OrderToCustomerStrategy.delivery)),
+                        StringUtils.getPlainTextRequestBody(manager.storeId));
+            }
+        }.asLiveData();
+    }
+
+    public void setShouldLoadItemsToList(boolean shouldLoadItemsToList) {
+        this.shouldLoadItemsToList = shouldLoadItemsToList;
+    }
+
+    public void setShouldGetDetailedItem(boolean shouldGetDetailedItem) {
+        this.shouldGetDetailedItem = shouldGetDetailedItem;
+    }
+
+    private boolean checkAndToggle(boolean value) {
+        boolean toReturn = value;
+        value = !value;
+        return toReturn;
     }
 
     private ArrayList<OrderDetailItem> mockData(List<String> orderIds, int pageSize) {

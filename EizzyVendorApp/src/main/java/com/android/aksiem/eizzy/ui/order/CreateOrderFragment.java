@@ -53,6 +53,8 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+
 /**
  * Created by napendersingh on 31/03/18.
  */
@@ -104,7 +106,7 @@ public class CreateOrderFragment extends NavigationFragment {
     }
 
     private void onBottomActionClicked(View view) {
-        toastController.showErrorToast("Order Creation Failed");
+        createOrderListing(view);
     }
 
     @Nullable
@@ -177,6 +179,7 @@ public class CreateOrderFragment extends NavigationFragment {
     }
 
     private void initScheduleDetailListener() {
+        toggleSchedulingVisibility(binding.get().switchScheduleDetails.isChecked());
         binding.get().switchScheduleDetails.setOnCheckedChangeListener((buttonView, isChecked) -> {
             toggleSchedulingVisibility(isChecked);
         });
@@ -236,7 +239,30 @@ public class CreateOrderFragment extends NavigationFragment {
         dismissKeyboard(v.getWindowToken());
 
         if (formValid()) {
-            createOrderViewModel.createOrderListing();
+            createOrderViewModel.createOrderListing().observe(this, (resource) -> {
+                switch (resource.status) {
+                    case LOADING:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.startAnimation();
+                        }
+                        break;
+                    case SUCCESS:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        onBackPressed();
+                        break;
+                    case ERROR:
+                        if (v instanceof CircularProgressButton) {
+                            CircularProgressButton button = (CircularProgressButton) v;
+                            button.revertAnimation();
+                        }
+                        toastController.showErrorToast(resource.message);
+                        break;
+                }
+            });
         }
     }
 
@@ -250,20 +276,20 @@ public class CreateOrderFragment extends NavigationFragment {
             Float amount = isValidCurrency(
                     binding.get().billAmount,
                     binding.get().textInputLayoutBillAmount,
-                    StringUtils.titleize(binding.get().billAmount.getHint().toString()));
+                    StringUtils.titleize(binding.get().textInputLayoutBillAmount.getHint().toString()));
             Integer orderWeight = isValidInteger(
                     binding.get().orderWeight,
                     binding.get().textInputLayoutOrderWeight,
-                    StringUtils.titleize(binding.get().orderWeight.getHint().toString()));
+                    StringUtils.titleize(binding.get().textInputLayoutOrderWeight.getHint().toString()));
             Integer itemsCount = isValidInteger(
                     binding.get().itemsCount,
                     binding.get().textInputLayoutItemsCount,
-                    StringUtils.titleize(binding.get().itemsCount.getHint().toString()));
+                    StringUtils.titleize(binding.get().textInputLayoutItemsCount.getHint().toString()));
 
             Boolean scheduleRequired = binding.get().switchScheduleDetails.isChecked();
 
             if (customerMobile != null && amount != null && orderWeight != null
-                    && itemsCount != null && scheduleRequired) {
+                    && itemsCount != null) {
 
                 createOrderViewModel.setCustomerName(binding.get().customerName.getText().toString());
                 createOrderViewModel.setCustomerMobile(customerMobile);
@@ -294,35 +320,39 @@ public class CreateOrderFragment extends NavigationFragment {
         boolean customerNamePresent = isRequiredFieldPresent(
                 binding.get().customerName,
                 binding.get().textInputLayoutCustomerName,
-                StringUtils.titleize(binding.get().customerName.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutCustomerName.getHint()
+                        .toString()));
         boolean customerMobielPresent = isRequiredFieldPresent(
                 binding.get().customerMobile,
                 binding.get().textInputLayoutCustomerMobile,
-                StringUtils.titleize(binding.get().customerMobile.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutCustomerMobile.getHint()
+                        .toString()));
         boolean localityPresent = isRequiredFieldPresent(
                 binding.get().locality,
                 binding.get().textInputLayoutLocality,
-                StringUtils.titleize(binding.get().locality.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutLocality.getHint().toString()));
         boolean customerAddressPresent = isRequiredFieldPresent(
                 binding.get().customerAddress,
                 binding.get().textInputLayoutCustomerAddress,
-                StringUtils.titleize(binding.get().customerAddress.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutCustomerAddress.getHint()
+                        .toString()));
         boolean eizzyZonePicked = isEizzyZonePicked();
         boolean billAmountPresent = isRequiredFieldPresent(
                 binding.get().billAmount,
                 binding.get().textInputLayoutBillAmount,
-                StringUtils.titleize(binding.get().billAmount.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutBillAmount.getHint().toString()));
         boolean billNumberPresent = isRequiredFieldPresent(binding.get().billNumber,
                 binding.get().textInputLayoutBillNumber,
-                StringUtils.titleize(binding.get().billNumber.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutBillNumber.getHint().toString()));
         boolean orderWeightPresent = isRequiredFieldPresent(
                 binding.get().orderWeight,
                 binding.get().textInputLayoutOrderWeight,
-                StringUtils.titleize(binding.get().orderWeight.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutOrderWeight.getHint()
+                        .toString()));
         boolean itemsCountPresent = isRequiredFieldPresent(
                 binding.get().itemsCount,
                 binding.get().textInputLayoutItemsCount,
-                StringUtils.titleize(binding.get().itemsCount.getHint().toString()));
+                StringUtils.titleize(binding.get().textInputLayoutItemsCount.getHint().toString()));
         return customerNamePresent && customerMobielPresent && localityPresent &&
                 customerAddressPresent && eizzyZonePicked && billAmountPresent &&
                 billNumberPresent && orderWeightPresent && itemsCountPresent;
@@ -332,7 +362,7 @@ public class CreateOrderFragment extends NavigationFragment {
                                            String elementName) {
 
         String value = editText.getText().toString();
-        if (value != null && !value.isEmpty()) {
+        if (value == null || value.isEmpty()) {
             layout.setError(String.format(getString(R.string.validation_field_required_message),
                     elementName));
             return false;

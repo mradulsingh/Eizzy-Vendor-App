@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
+import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
 import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
 import com.android.aksiem.eizzy.vo.support.order.OrderState;
 import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
@@ -143,15 +144,15 @@ public class OrderDetailItem implements Serializable, Timestamped {
     public final String bookingDate;
 
     @NonNull
-    @SerializedName("bookingDateTimestamp")
+    @SerializedName("bookingDateTimeStamp")
     public final Long timestamp;
 
     @NonNull
-    @SerializedName("dueDate")
+    @SerializedName("dueDatetime")
     public final String dueDate;
 
     @NonNull
-    @SerializedName("dueDateTimestamp")
+    @SerializedName("dueDatetimeTimeStamp")
     public final Long dueDateTimestamp;
 
     @SerializedName("city")
@@ -195,7 +196,7 @@ public class OrderDetailItem implements Serializable, Timestamped {
     public final Location pickupLocation;
 
     @NonNull
-    @SerializedName("activtyLogs")
+    @SerializedName("activityLogs")
     private ArrayList<OrderActivityLog> activityLogs;
 
     @SerializedName("abbreviation")
@@ -502,9 +503,16 @@ public class OrderDetailItem implements Serializable, Timestamped {
         if (orderTracking == null) {
             orderTracking = new ArrayList<>();
             if (activityLogs != null && !activityLogs.isEmpty()) {
-                for (OrderActivityLog log : activityLogs) {
-                    orderTracking.add(new OrderStateTransition(log.getState().getOrderState(),
-                            log.timestamp, log.getLocation().city));
+                for (int i = 0; i < activityLogs.size(); i++) {
+                    OrderActivityLog log = activityLogs.get(i);
+                    OrderStateTransition transition = new OrderStateTransition(
+                            log.getState().getOrderState(),
+                            log.timestamp,
+                            log.getLocation().city);
+                    transition.setState(AppTimelinePointView.TimelinePointState.COMPLETE);
+                    transition.setMessage(log.getMessage());
+                    transition.setIndex(i);
+                    orderTracking.add(transition);
                 }
             }
         }

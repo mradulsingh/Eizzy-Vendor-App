@@ -107,7 +107,7 @@ public interface AppService {
 
     @Multipart
     @POST("dispatcher/order")
-    LiveData<ApiResponse<EizzyApiRespone<String>>> createOrder(
+    LiveData<ApiResponse<EizzyApiRespone<OrderDetailItem>>> createOrder(
             @Header("language") String language,
             @Header("authorization") String token,
             @Part("name") RequestBody customerName,
@@ -128,7 +128,9 @@ public interface AppService {
             @Part("dueDatetime") RequestBody dueDatetime,
             @Part("deviceType") RequestBody deviceType,
             @Part("paymentType") RequestBody paymentType,
-            @Part("requestType") RequestBody requestType
+            @Part("storeType") RequestBody storeType,
+            @Part("serviceType") RequestBody serviceType,
+            @Part("storeId") RequestBody storeId
     );
 
     @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{startDate}/{endDate}")
@@ -148,7 +150,7 @@ public interface AppService {
             @Path("orderId") String orderId);
 
     @GET("/accounting/store/wallet/{storeId}")
-    LiveData<ApiResponse<EizzyApiRespone<ArrayList<ArrayList<SettlementItem>>>>> getAllSettlements(
+    LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,

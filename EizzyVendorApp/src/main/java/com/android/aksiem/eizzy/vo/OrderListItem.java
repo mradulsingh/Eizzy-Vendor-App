@@ -472,7 +472,7 @@ public class OrderListItem implements Serializable, Timestamped {
 
     public String getStringTimestamp() {
         if (stringTimestamp == null) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
             stringTimestamp = dateFormatter.format(new Date(timestamp));
         }
         return stringTimestamp;
@@ -482,11 +482,11 @@ public class OrderListItem implements Serializable, Timestamped {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderDetailItem orderDetailItem = (OrderDetailItem) o;
+        OrderListItem orderListItem = (OrderListItem) o;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return Objects.equals(orderId, orderDetailItem.orderId);
+            return Objects.equals(orderId, orderListItem.orderId);
         } else {
-            return orderDetailItem.orderId.equals(orderId);
+            return orderListItem.orderId.equals(orderId);
         }
     }
 

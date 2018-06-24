@@ -16,10 +16,14 @@
 
 package com.android.aksiem.eizzy.ui.order;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
+import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.Resource;
 
 import javax.inject.Inject;
 
@@ -52,8 +56,11 @@ public class CreateOrderViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    void createOrderListing() {
-
+    public LiveData<Resource<EizzyApiRespone<OrderDetailItem>>> createOrderListing() {
+        orderItemsRepository.setShouldLoadItemsToList(true);
+        return orderItemsRepository.createOrder(customerName, customerMobile, cashOnDelivery,
+                locality, customerAddress, eizzyZoneId, amount, billNumber, orderWeight,
+                itemCount, orderDetails, customerSignature, scheduleDetails, scheduleTimeStart);
     }
 
     @VisibleForTesting

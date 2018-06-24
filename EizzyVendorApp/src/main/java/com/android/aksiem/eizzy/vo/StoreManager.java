@@ -75,13 +75,16 @@ public class StoreManager implements Serializable {
     @SerializedName("serviceZones")
     public List<String> serviceZones;
 
+    @SerializedName("serviceType")
+    public final String serviceType;
+
     public StoreManager(@NonNull String token, @NonNull String id, @NonNull String name,
                         String imageUrl, @NonNull String phone, @NonNull String countryCode,
                         @NonNull String email, @NonNull String storeId, @NonNull String storeName,
                         @NonNull String fcmManagerTopic, @NonNull String fcmStoreTopic,
                         @NonNull String fcmTopic, @NonNull String mqttTopic,
                         @NonNull String mqttManagerTopic, @NonNull String mqttStoreTopic,
-                        @NonNull String cityId, List<String> serviceZones) {
+                        @NonNull String cityId, List<String> serviceZones, String serviceType) {
 
         this.token = token;
         this.id = id;
@@ -100,6 +103,7 @@ public class StoreManager implements Serializable {
         this.mqttStoreTopic = mqttStoreTopic;
         this.cityId = cityId;
         this.serviceZones = serviceZones;
+        this.serviceType = serviceType;
 
     }
 

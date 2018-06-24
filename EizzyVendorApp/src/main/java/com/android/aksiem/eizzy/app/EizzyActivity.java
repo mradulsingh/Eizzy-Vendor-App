@@ -26,6 +26,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -122,6 +123,10 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         } else {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
+    }
+
+    public void openDrawer() {
+        binding.drawerLayout.openDrawer(Gravity.START);
     }
 
     public void setBottomNavigationViewVisibility(boolean visible) {

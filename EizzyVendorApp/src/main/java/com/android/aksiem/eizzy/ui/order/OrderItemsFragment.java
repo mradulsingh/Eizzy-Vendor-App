@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
+import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.OrderItemsFragmentBinding;
@@ -79,8 +80,10 @@ public class OrderItemsFragment extends NavigationFragment {
                 .includeBottomNavBar(true)
                 .includeDrawerNav(true)
                 .toolbarTitleRes(R.string.screen_title_orders)
-                .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed())
+                .toolbarNavIconRes(R.drawable.ic_drawer_menu)
+                .setToolbarNavClickListener(v -> {
+                    ((EizzyActivity) getActivity()).openDrawer();
+                })
                 .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
                         buildMenuActions());
     }

@@ -1,6 +1,8 @@
 package com.android.aksiem.eizzy.db;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
+import android.arch.paging.LivePagedListProvider;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -11,6 +13,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import com.android.aksiem.eizzy.vo.OrderListItem;
 
 import java.util.List;
+
 
 @Dao
 public abstract class OrderListItemDao implements TimestampedItemDao<OrderListItem> {
@@ -25,7 +28,8 @@ public abstract class OrderListItemDao implements TimestampedItemDao<OrderListIt
     @Update(onConflict = OnConflictStrategy.REPLACE)
     public abstract void update(List<OrderListItem> orderDetailItems);
 
-    //public abstract LivePagedListProvider<Integer, OrderListItem>
+    @Query("SELECT * FROM order_list_item ORDER by orderId DESC")
+    public abstract DataSource.Factory<Integer, OrderListItem> getOrderListItemById();
 
     @Override
     @Query("SELECT * FROM order_list_item")

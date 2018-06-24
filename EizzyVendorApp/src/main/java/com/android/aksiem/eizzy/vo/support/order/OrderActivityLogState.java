@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public enum OrderActivityLogState {
 
     @SerializedName("created")
-    CREATED {
+    CREATED("Created") {
 
         @Override
         public OrderState getOrderState() {
@@ -14,7 +14,7 @@ public enum OrderActivityLogState {
     },
 
     @SerializedName("accepted")
-    ACCEPTED {
+    ACCEPTED("Accepted") {
         @Override
         public OrderState getOrderState() {
             return OrderState.CONFIRMED;
@@ -22,7 +22,7 @@ public enum OrderActivityLogState {
     },
 
     @SerializedName("onTheWay")
-    ON_THE_WAY {
+    ON_THE_WAY("On The Way") {
 
         @Override
         public OrderState getOrderState() {
@@ -31,7 +31,7 @@ public enum OrderActivityLogState {
     },
 
     @SerializedName("arrived")
-    ARRIVED {
+    ARRIVED("Arrived") {
 
         @Override
         public OrderState getOrderState() {
@@ -40,7 +40,7 @@ public enum OrderActivityLogState {
     },
 
     @SerializedName("journeyStart")
-    JOURNEY_START {
+    JOURNEY_START("Journey Started") {
 
         @Override
         public OrderState getOrderState() {
@@ -49,7 +49,7 @@ public enum OrderActivityLogState {
     },
 
     @SerializedName("reached")
-    REACHED {
+    REACHED("Reached") {
 
         @Override
         public OrderState getOrderState() {
@@ -58,7 +58,7 @@ public enum OrderActivityLogState {
     },
 
     @SerializedName("completed")
-    COMPLETED {
+    COMPLETED("Completed") {
 
         @Override
         public OrderState getOrderState() {
@@ -67,6 +67,16 @@ public enum OrderActivityLogState {
     };
 
     public abstract OrderState getOrderState();
+
+    private String stateName;
+
+    OrderActivityLogState(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
 
     @Override
     public String toString() {
