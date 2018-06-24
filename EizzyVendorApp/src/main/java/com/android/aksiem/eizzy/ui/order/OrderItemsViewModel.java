@@ -118,8 +118,7 @@ public class OrderItemsViewModel extends ViewModel {
     }
 
     public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones() {
-        StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
-        return orderItemsRepository.getEizzyZones(manager.token, manager.cityId);
+        return orderItemsRepository.getEizzyZones();
     }
 
     public void setOrderIds(List<String> listOrderIds) {

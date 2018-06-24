@@ -324,8 +324,7 @@ public class OrderItemsRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones(
-            String authorizationToken, String cityId) {
+    public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones() {
         return new NoCacheNetworkBoundResource<EizzyApiRespone<ArrayList<EizzyZone>>,
                 EizzyApiRespone<ArrayList<EizzyZone>>>(appExecutors) {
 
@@ -341,10 +340,12 @@ public class OrderItemsRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<EizzyApiRespone<ArrayList<EizzyZone>>>> createCall() {
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                        appPrefManager);
                 return appService.getEizzyZones(
                         RequestConstants.Language.english,
-                        authorizationToken,
-                        StringUtils.getPlainTextRequestBody(cityId));
+                        manager.token,
+                        StringUtils.getPlainTextRequestBody(manager.cityId));
             }
         }.asLiveData();
     }

@@ -136,6 +136,26 @@ public class CreateOrderFragment extends NavigationFragment {
     private void initData(@Nullable Bundle savedInstanceState) {
         Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
         eizzyZones = (ArrayList<EizzyZone>) args.getSerializable(BUNDLE_EIZZY_ZONES_KEY);
+        if (eizzyZones == null) {
+            initEizzyZones();
+        }
+    }
+
+    private void initEizzyZones() {
+        createOrderViewModel.getEizzyZones().observe(this, resource -> {
+            binding.get().setResource(resource);
+            switch (resource.status) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    eizzyZones = resource.data.data;
+                    break;
+                case ERROR:
+                    toastController.showErrorToast(resource.message);
+                    onBackPressed();
+                    break;
+            }
+        });
     }
 
     private void initListeners() {

@@ -20,10 +20,15 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.EizzyZone;
 import com.android.aksiem.eizzy.vo.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.StoreManager;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -61,6 +66,11 @@ public class CreateOrderViewModel extends ViewModel {
         return orderItemsRepository.createOrder(customerName, customerMobile, cashOnDelivery,
                 locality, customerAddress, eizzyZoneId, amount, billNumber, orderWeight,
                 itemCount, orderDetails, customerSignature, scheduleDetails, scheduleTimeStart);
+    }
+
+    @VisibleForTesting
+    public LiveData<Resource<EizzyApiRespone<ArrayList<EizzyZone>>>> getEizzyZones() {
+        return orderItemsRepository.getEizzyZones();
     }
 
     @VisibleForTesting

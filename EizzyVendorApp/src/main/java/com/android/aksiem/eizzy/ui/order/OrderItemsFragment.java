@@ -155,18 +155,7 @@ public class OrderItemsFragment extends NavigationFragment {
     }
 
     private void navigateToCreateOrder() {
-        orderItemsViewModel.getEizzyZones().observe(this, resource -> {
-            binding.get().included.setResource(resource);
-            switch (resource.status) {
-                case LOADING:
-                    break;
-                case SUCCESS:
-                    navigationController.navigateToCreateOrderFragment(resource.data.data);
-                    break;
-                case ERROR:
-                    break;
-            }
-        });
+        navigationController.navigateToCreateOrderFragment(null);
     }
 
 }
