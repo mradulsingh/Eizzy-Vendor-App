@@ -20,71 +20,71 @@
     <data>
 
         <variable
-            name="user"
-            type="com.android.aksiem.eizzy.vo.User" />
+            name="manager"
+            type="com.android.aksiem.eizzy.vo.StoreManager" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mainLayout"
-        visibleGone="@{user != null}"
+        visibleGone="@{manager != null}"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.android.aksiem.eizzy.view.AppLabelledTextView
             android:id="@+id/lTvBusinessName"
             style="@style/AppLabelledTextView"
-            visibleGone="@{user.businessName != null}"
+            visibleGone="@{manager.storeName != null}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:text="@{user.businessName}"
+            app:text="@{manager.storeName}"
             app:labelText="@string/edittext.hint.business.name" />
 
         <com.android.aksiem.eizzy.view.AppLabelledTextView
             android:id="@+id/lTvContactPerson"
             style="@style/AppLabelledTextView"
-            visibleGone="@{user.contactPerson != null}"
+            visibleGone="@{manager.name != null}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lTvBusinessName"
-            app:text="@{user.contactPerson}"
+            app:text="@{manager.name}"
             app:labelText="@string/edittext.hint.business.contact.name" />
 
         <com.android.aksiem.eizzy.view.AppLabelledTextView
             android:id="@+id/lTvContactMobile"
             style="@style/AppLabelledTextView"
-            visibleGone="@{user.mobile != null}"
+            visibleGone="@{manager.getStringPhone() != null}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lTvContactPerson"
-            app:text="@{user.mobile}"
+            app:text="@{manager.getStringPhone()}"
             app:labelText="@string/edittext.hint.business.contact.mobile" />
 
         <com.android.aksiem.eizzy.view.AppLabelledTextView
             android:id="@+id/lTvContactEmail"
             style="@style/AppLabelledTextView"
-            visibleGone="@{user.email != null}"
+            visibleGone="@{manager.email != null}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lTvContactMobile"
-            app:text="@{user.email}"
+            app:text="@{manager.email}"
             app:labelText="@string/edittext.hint.business.contact.email" />
 
-        <com.android.aksiem.eizzy.view.AppLabelledTextView
-            android:id="@+id/lTvAadhaar"
-            style="@style/AppLabelledTextView"
-            visibleGone="@{user.aadhaar != null}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lTvContactEmail"
-            app:text="@{user.aadhaar}"
-            app:labelText="@string/edittext.hint.business.contact.aadhaar" />
+        <!--<com.android.aksiem.eizzy.view.AppLabelledTextView-->
+            <!--android:id="@+id/lTvAadhaar"-->
+            <!--style="@style/AppLabelledTextView"-->
+            <!--visibleGone="@{user.aadhaar != null}"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/lTvContactEmail"-->
+            <!--app:text="@{user.aadhaar}"-->
+            <!--app:labelText="@string/edittext.hint.business.contact.aadhaar" />-->
 
     </android.support.constraint.ConstraintLayout>
 

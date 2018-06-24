@@ -107,6 +107,10 @@ public class StoreManager implements Serializable {
 
     }
 
+    public String getStringPhone() {
+        return countryCode + phone;
+    }
+
     @Override
     public String toString() {
         return "StoreManager{" +

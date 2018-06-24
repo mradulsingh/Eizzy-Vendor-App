@@ -31,7 +31,8 @@ import com.android.aksiem.eizzy.ui.order.CreateOrderFragment;
 import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
-import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
+import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
+import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
 import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.EizzyZone;
@@ -131,9 +132,9 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToUserDetailFragment() {
-        UserDetailFragment fragment = new UserDetailFragment();
-        String tag = UserDetailFragment.class.getSimpleName();
+    public void navigateToStoreManagerFragment() {
+        StoreManagerDetailFragment fragment = new StoreManagerDetailFragment();
+        String tag = StoreManagerDetailFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)

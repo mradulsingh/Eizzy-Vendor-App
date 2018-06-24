@@ -17,7 +17,6 @@
 package com.android.aksiem.eizzy.ui.user;
 
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -27,13 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.AppPrefManager;
+import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
-import com.android.aksiem.eizzy.databinding.UserDetailFragmentBinding;
+import com.android.aksiem.eizzy.databinding.StoreManagerDetailFragmentBinding;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
-import com.android.aksiem.eizzy.vo.User;
+import com.android.aksiem.eizzy.vo.StoreManager;
 
 import javax.inject.Inject;
 
@@ -41,16 +42,24 @@ import javax.inject.Inject;
  * Created by napendersingh on 06/05/18.
  */
 
-public class UserDetailFragment extends NavigationFragment {
+public class StoreManagerDetailFragment extends NavigationFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    AutoClearedValue<UserDetailFragmentBinding> binding;
+    @Inject
+    AppPrefManager appPrefManager;
 
-    private UserDetailViewModel userDetailViewModel;
+    private StoreManager manager;
+
+    AutoClearedValue<StoreManagerDetailFragmentBinding> binding;
 
     protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+
+    public static StoreManagerDetailFragment newInstance() {
+        StoreManagerDetailFragment fragment = new StoreManagerDetailFragment();
+        return fragment;
+    }
 
     @Override
     public NavigationBuilder buildNavigation() {
@@ -65,9 +74,9 @@ public class UserDetailFragment extends NavigationFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        UserDetailFragmentBinding dataBinding = DataBindingUtil
-                .inflate(inflater, R.layout.user_detail_fragment, container, false,
-                        dataBindingComponent);
+        StoreManagerDetailFragmentBinding dataBinding = DataBindingUtil
+                .inflate(inflater, R.layout.store_manager_detail_fragment, container,
+                        false, dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
@@ -75,16 +84,13 @@ public class UserDetailFragment extends NavigationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        userDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserDetailViewModel.class);
-        userDetailViewModel.getUser().observe(this, userResource -> {
-            binding.get().setUser(userResource);
-        });
-        userDetailViewModel.setUser(getUser());
+        init();
     }
 
-    private User getUser() {
-        return new User("1", "", "Napender Singh",
-                "Aksiem", "7259412526", "napender.singh@gmail.com", "772373737373");
+    private void init() {
+        manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
+        binding.get().setManager(manager);
     }
+
 
 }

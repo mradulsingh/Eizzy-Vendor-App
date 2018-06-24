@@ -28,7 +28,8 @@ import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementDurationFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
-import com.android.aksiem.eizzy.ui.user.UserDetailFragment;
+import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
+import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
 import com.android.aksiem.eizzy.ui.login.VendorOnboardingFragment;
 
 import dagger.Module;
@@ -56,7 +57,7 @@ public abstract class FragmentBuildersModule {
     abstract CreatePasswordFragment contributeCreatePasswordFragment();
 
     @ContributesAndroidInjector
-    abstract UserDetailFragment contributeUserDetailFragment();
+    abstract StoreManagerDetailFragment contributeUserDetailFragment();
 
     @ContributesAndroidInjector
     abstract OrderItemsFragment contributeOrderItemsFragment();

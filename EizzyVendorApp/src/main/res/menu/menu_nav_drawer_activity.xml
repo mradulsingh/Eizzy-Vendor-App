@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_account"
+        android:icon="@null"
+        android:title="@string/nav.item.account" />
+
+    <item
         android:id="@+id/nav_tnc"
         android:icon="@null"
         android:title="@string/nav.item.termsconditon" />

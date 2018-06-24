@@ -36,6 +36,7 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.api.MqttClientService;
 import com.android.aksiem.eizzy.databinding.EizzyActivityBinding;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.StoreManager;
 
@@ -52,6 +53,9 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
 
     @Inject
     MqttClientService mqttClientService;
+
+    @Inject
+    ToastController toastController;
 
     @Inject
     AppPrefManager appPrefManager;
@@ -71,8 +75,9 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         if (savedInstanceState == null) {
 
             if (EizzyAppState.ManagerLoggedIn.isManagerLoggedIn(appPrefManager)) {
-                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
-                Logger.tag("prakhar").d(manager.toString());
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                        appPrefManager);
+                Logger.tag("eizzyAppManager").d(manager.toString());
                 navigationController.navigateToOrderItemsFragment();
             } else {
                 navigationController.navigateToVendorOnboardingFragment();
@@ -169,12 +174,19 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_tnc) {
-            Toast.makeText(this, "show tnc", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_support) {
-            Toast.makeText(this, "show support info", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_about_us) {
-            Toast.makeText(this, "show about us", Toast.LENGTH_LONG).show();
+        switch (id) {
+            case R.id.nav_account:
+                navigationController.navigateToStoreManagerFragment();
+                break;
+            case R.id.nav_tnc:
+                toastController.showSuccessToast("show T&C");
+                break;
+            case R.id.nav_support:
+                toastController.showSuccessToast("show Support");
+                break;
+            case R.id.nav_about_us:
+                toastController.showSuccessToast("show About Us");
+                break;
         }
 
         return true;
