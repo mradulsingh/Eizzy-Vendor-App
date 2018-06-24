@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/atom_10"
             android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_6"
             android:ellipsize="end"
             android:paddingBottom="0dp"
             android:text="@string/header.customer.details"
@@ -78,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/atom_10"
             android:layout_marginRight="@dimen/atom_10"
-            android:layout_marginTop="@dimen/atom_2"
+            android:layout_marginTop="@dimen/atom_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCustomerMobile">
@@ -129,6 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/atom_10"
             android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_10"
             android:ellipsize="end"
             android:paddingBottom="0dp"
             android:text="@string/header.address.details"
@@ -207,6 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/atom_10"
             android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_10"
             android:ellipsize="end"
             android:paddingBottom="0dp"
             android:text="@string/header.billing.details"
@@ -262,6 +265,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/atom_10"
             android:layout_marginRight="@dimen/atom_10"
+            android:layout_marginTop="@dimen/atom_10"
             android:ellipsize="end"
             android:paddingBottom="0dp"
             android:text="@string/header.order.details"
@@ -323,10 +327,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/edittext.hint.order.item.detail"
+                android:imeOptions="actionDone"
                 android:inputType="textNoSuggestions"
                 android:maxLines="5"
                 android:scrollbars="vertical"
-                android:imeOptions="actionDone"
                 tools:text="@string/edittext.hint.order.item.detail" />
         </com.android.aksiem.eizzy.view.AppTextInputLayout>
 
@@ -336,7 +340,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/atom_10"
             android:layout_marginRight="@dimen/atom_10"
-            android:layout_marginTop="@dimen/atom_2"
+            android:layout_marginTop="@dimen/atom_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutItemDetails">
