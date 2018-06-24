@@ -149,14 +149,14 @@ public interface AppService {
             @Header("authorization") String token,
             @Path("orderId") String orderId);
 
-    @GET("/accounting/store/wallet/{storeId}")
+    @GET("/accounting/store/wallet/{storeId}/{pageIndex}/{startDate}/{endDate}")
     LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,
-            @Path("pageIndex") long pageIndex/*,
+            @Path("pageIndex") long pageIndex,
             @Path("startDate") long startDate,
-            @Path("endDate") long endDate*/);
+            @Path("endDate") long endDate);
 
     @POST("user/resetPassword")
     LiveData<ApiResponse<User>> resetPassword(@Field("password") String password);

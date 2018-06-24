@@ -51,8 +51,14 @@ public class SettlementRepository {
         this.appPrefManager = appPrefManager;
     }
 
+    public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> getNextPage(int pageIndex, long startDate, long endDate) {
+        FetchNextPageTask nextPageTask = new FetchNextPageTask(this, pageIndex, startDate, endDate);
+        appExecutors.networkIO().execute(nextPageTask);
+        return nextPageTask.getLiveData();
+    }
+
     public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> loadItems(
-            long pageIndex, long startDate, long endDate) {
+            int pageIndex, long startDate, long endDate) {
 
         return new DbNetworkBoundResource<EizzyApiRespone<ArrayList<SettlementItem>>,
                 EizzyApiRespone<ArrayList<SettlementItem>>>(appExecutors) {
@@ -98,11 +104,44 @@ public class SettlementRepository {
                         RequestConstants.Language.english,
                         manager.token,
                         "5ac35cc8e360ea4c1e3afc2f",
-                        pageIndex/*,
+                        pageIndex,
                         0,
-                        0*/);
+                        0);
+            }
+
+            @Override
+            protected EizzyApiRespone<ArrayList<SettlementItem>> processResponse(ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>> response) {
+                EizzyApiRespone<ArrayList<SettlementItem>> body = response.body;
+                if (body != null) {
+                    body.setNextPage(pageIndex + 1);
+                }
+                return body;
             }
         }.asLiveData();
 
+    }
+
+    private static class FetchNextPageTask implements Runnable {
+        private LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> liveData = new MutableLiveData<>();
+        private int pageIndex;
+        private long startDate;
+        private long endDate;
+        private SettlementRepository repository;
+
+        FetchNextPageTask(SettlementRepository repository, int pageIndex, long startDate, long endDate) {
+            this.repository = repository;
+            this.pageIndex = pageIndex;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        @Override
+        public void run() {
+            liveData = repository.loadItems(pageIndex, startDate, endDate);
+        }
+
+        public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> getLiveData() {
+            return liveData;
+        }
     }
 }

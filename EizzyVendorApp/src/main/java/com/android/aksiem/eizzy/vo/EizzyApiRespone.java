@@ -16,8 +16,18 @@ public class EizzyApiRespone<T extends Serializable> {
     @SerializedName("data")
     public final T data;
 
+    private Integer nextPage;
+
     public EizzyApiRespone(@NonNull String message, @NonNull T data) {
         this.message = message;
         this.data = data;
+    }
+
+    public void setNextPage(Integer nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    public Integer getNextPage() {
+        return nextPage;
     }
 }
