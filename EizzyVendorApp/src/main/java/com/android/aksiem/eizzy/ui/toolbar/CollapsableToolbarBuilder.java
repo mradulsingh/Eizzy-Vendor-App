@@ -3,7 +3,7 @@ package com.android.aksiem.eizzy.ui.toolbar;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +26,8 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
     private String bottomActionTitle;
 
     private int bottomActionTitleRes;
+
+    private NestedScrollView.OnScrollChangeListener onScrollChangeListener;
 
     @Override
     protected CollapsableToolbarBuilder getThis() {
@@ -65,19 +67,19 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
         dataBinding.toolbar.setNavigationIcon(getToolbarNavIcon(context));
         dataBinding.toolbar.setNavigationOnClickListener(toolbarNavClickListener);
 
-        dataBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        dataBinding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            dataBinding.tvTitle.setAlpha(Math.abs(verticalOffset / (float)
+                    appBarLayout.getTotalScrollRange()));
 
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                dataBinding.tvTitle.setAlpha(Math.abs(verticalOffset / (float)
-                        appBarLayout.getTotalScrollRange()));
-
-                dataBinding.tvExpandedTitle.setAlpha(1 - (Math.abs(verticalOffset / (float)
-                        appBarLayout.getTotalScrollRange())));
-            }
+            dataBinding.tvExpandedTitle.setAlpha(1 - (Math.abs(verticalOffset / (float)
+                    appBarLayout.getTotalScrollRange())));
         });
 
         setupMenu(dataBinding.toolbar);
+
+        if (onScrollChangeListener != null) {
+            dataBinding.scrollviewContainer.setOnScrollChangeListener(onScrollChangeListener);
+        }
     }
 
     @Override
@@ -114,6 +116,11 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
 
     public CollapsableToolbarBuilder setBottomActionTitleRes(int bottomActionTitleRes) {
         this.bottomActionTitleRes = bottomActionTitleRes;
+        return getThis();
+    }
+
+    public CollapsableToolbarBuilder setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener onScrollChangeListener) {
+        this.onScrollChangeListener = onScrollChangeListener;
         return getThis();
     }
 

@@ -25,8 +25,6 @@ import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
-import java.util.Collections;
-
 import javax.inject.Inject;
 
 import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
@@ -44,7 +42,6 @@ public class SettlementFragment extends NavigationFragment {
 
     DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     AutoClearedValue<SettlementFragmentBinding> binding;
-    AutoClearedValue<SettlementItemAdapter> adapter;
 
     public static SettlementFragment newInstance() {
         SettlementFragment fragment = new SettlementFragment();
@@ -64,8 +61,23 @@ public class SettlementFragment extends NavigationFragment {
                 .toolbarTitleRes(R.string.screen_title_settlements)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed())
+                .setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                    if (v.getChildAt(v.getChildCount() - 1) != null) {
+                        if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                                scrollY > oldScrollY) {
+                            onPageEndReached();
+                        }
+                    }
+                })
                 .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
                         buildMenuActions());
+    }
+
+    private void onPageEndReached() {
+        int index = binding.get().viewpager.getCurrentItem();
+        SettlementPagerAdapter adapter = ((SettlementPagerAdapter) binding.get().viewpager.getAdapter());
+        SettlementDurationFragment fragment = adapter.getFragment(index);
+        fragment.onLoadNextPage();
     }
 
     private MenuActions buildMenuActions() {
@@ -88,11 +100,8 @@ public class SettlementFragment extends NavigationFragment {
         binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab().setText("1 WEEK"));
         binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab().setText("1 MONTH"));
 
-        binding.get().viewpager.setAdapter(new SettlementPagerAdapter(getFragmentManager(), binding.get().settlementTabs.getTabCount()));
-        //binding.get().viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.get().settlementTabs));
-        //binding.get().settlementTabs.setupWithViewPager(binding.get().viewpager);
-
-
+        SettlementPagerAdapter pagerAdapter = new SettlementPagerAdapter(getFragmentManager(), binding.get().settlementTabs.getTabCount());
+        binding.get().viewpager.setAdapter(pagerAdapter);
 
         binding.get().settlementTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -121,25 +130,6 @@ public class SettlementFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 SettlementViewModel.class);
-        //initOrdersList();
-     /*   SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
-                orderItem -> {
-                    //TODO
-                });
-        this.adapter = new AutoClearedValue<>(this, adapter);*/
-
-
     }
-
-  /*  private void initOrdersList() {
-        settlementViewModel.getOrderItems().observe(this, listResource -> {
-            if (listResource != null && listResource.data != null) {
-                //adapter.get().replace(listResource.data);
-            } else {
-                adapter.get().replace(Collections.emptyList());
-            }
-        });
-    }*/
-
 
 }
