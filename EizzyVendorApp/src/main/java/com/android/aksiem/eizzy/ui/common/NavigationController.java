@@ -33,6 +33,7 @@ import com.android.aksiem.eizzy.ui.order.OrderDetailsFragment;
 import com.android.aksiem.eizzy.ui.order.OrderItemsFragment;
 import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
+import com.android.aksiem.eizzy.ui.webviews.WebviewFragment;
 import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.EizzyZone;
 
@@ -147,6 +148,11 @@ public class NavigationController {
     public void openOrderSortFilterDialogFragment() {
         SortFilterDialogFragment fragment = new SortFilterDialogFragment();
         fragment.show(fragmentManager, "OrderSortFilterDialog");
+    }
+
+    public void navigateToWebViewFragment(String url, String screenTitle) {
+        WebviewFragment fragment = WebviewFragment.newInstance(url, screenTitle);
+        addFragment(fragment, true);
     }
 
 

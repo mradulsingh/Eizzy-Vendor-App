@@ -8,11 +8,12 @@ import com.android.aksiem.eizzy.ui.login.CreateUserAccountViewModel;
 import com.android.aksiem.eizzy.ui.login.ForgotPasswordViewModel;
 import com.android.aksiem.eizzy.ui.login.LoginViewModel;
 import com.android.aksiem.eizzy.ui.login.ValidateOTPViewModel;
+import com.android.aksiem.eizzy.ui.login.VendorOnboardingViewModel;
 import com.android.aksiem.eizzy.ui.order.CreateOrderViewModel;
 import com.android.aksiem.eizzy.ui.order.OrderItemsViewModel;
 import com.android.aksiem.eizzy.ui.settlement.SettlementViewModel;
 import com.android.aksiem.eizzy.ui.user.UserDetailViewModel;
-import com.android.aksiem.eizzy.ui.login.VendorOnboardingViewModel;
+import com.android.aksiem.eizzy.ui.webviews.WebviewViewModel;
 import com.android.aksiem.eizzy.viewmodel.ViewModelFactory;
 
 import dagger.Binds;
@@ -71,6 +72,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(VendorOnboardingViewModel.class)
     abstract ViewModel bindVendorOnboardingViewModel(VendorOnboardingViewModel vendorOnboardingViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WebviewViewModel.class)
+    abstract ViewModel bindWebviewViewModel(WebviewViewModel webviewViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

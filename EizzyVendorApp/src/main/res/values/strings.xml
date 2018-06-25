@@ -29,6 +29,7 @@
     <string name="title.sortby">Sort by</string>
     <string name="title.filterby">Filter by</string>
     <string name="button.action.apply">APPLY</string>
+    <string name="webpage_error_dialog_message">Seems like there is something wrong. Please check the Internet connectivity and press Ok to try again.</string>
 
     <!-- Nav Drawer -->
     <string name="nav.item.termsconditon">TERMS &amp; CONDITIONS</string>
