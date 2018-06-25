@@ -30,6 +30,7 @@ import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -149,8 +150,16 @@ public interface AppService {
             @Header("authorization") String token,
             @Path("orderId") String orderId);
 
-    @GET("/accounting/store/wallet/{storeId}/{pageIndex}/{startDate}/{endDate}")
+    @GET("/accounting/store/wallet/{storeId}/0/{startDate}/{endDate}")
     LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
+            @Header("language") String language,
+            @Header("authorization") String token,
+            @Path("storeId") String storeId,
+            @Path("startDate") long startDate,
+            @Path("endDate") long endDate);
+
+    @GET("/accounting/store/wallet/{storeId}/{pageIndex}/{startDate}/{endDate}")
+    Call<EizzyApiRespone<ArrayList<SettlementItem>>> getSettlementsNextPage(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,

@@ -21,9 +21,12 @@ import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
+
+import retrofit2.Response;
 
 
 @AppScope
@@ -51,14 +54,15 @@ public class SettlementRepository {
         this.appPrefManager = appPrefManager;
     }
 
-    public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> getNextPage(int pageIndex, long startDate, long endDate) {
-        FetchNextPageTask nextPageTask = new FetchNextPageTask(this, pageIndex, startDate, endDate);
+    public LiveData<Resource<Boolean>> getNextPage(int pageIndex, long startDate, long endDate) {
+        StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                appPrefManager);
+        FetchNextPageTask nextPageTask = new FetchNextPageTask(appService, appDb, manager, pageIndex, startDate, endDate);
         appExecutors.networkIO().execute(nextPageTask);
         return nextPageTask.getLiveData();
     }
 
-    public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> loadItems(
-            int pageIndex, long startDate, long endDate) {
+    public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> loadItems(long startDate, long endDate) {
 
         return new DbNetworkBoundResource<EizzyApiRespone<ArrayList<SettlementItem>>,
                 EizzyApiRespone<ArrayList<SettlementItem>>>(appExecutors) {
@@ -104,7 +108,6 @@ public class SettlementRepository {
                         RequestConstants.Language.english,
                         manager.token,
                         "5ac35cc8e360ea4c1e3afc2f",
-                        pageIndex,
                         0,
                         0);
             }
@@ -113,23 +116,27 @@ public class SettlementRepository {
             protected EizzyApiRespone<ArrayList<SettlementItem>> processResponse(ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>> response) {
                 EizzyApiRespone<ArrayList<SettlementItem>> body = response.body;
                 if (body != null) {
-                    body.setNextPage(pageIndex + 1);
+                    body.setNextPage(1);
                 }
                 return body;
             }
         }.asLiveData();
-
     }
 
     private static class FetchNextPageTask implements Runnable {
-        private LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> liveData = new MutableLiveData<>();
+        private MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
         private int pageIndex;
         private long startDate;
         private long endDate;
-        private SettlementRepository repository;
+        private final AppService appService;
+        private final StoreManager manager;
+        private final AppDb appDb;
 
-        FetchNextPageTask(SettlementRepository repository, int pageIndex, long startDate, long endDate) {
-            this.repository = repository;
+        FetchNextPageTask(AppService appService, AppDb appDb, StoreManager manager,
+                          int pageIndex, long startDate, long endDate) {
+            this.appService = appService;
+            this.manager = manager;
+            this.appDb = appDb;
             this.pageIndex = pageIndex;
             this.startDate = startDate;
             this.endDate = endDate;
@@ -137,10 +144,39 @@ public class SettlementRepository {
 
         @Override
         public void run() {
-            liveData = repository.loadItems(pageIndex, startDate, endDate);
+            try {
+                Response<EizzyApiRespone<ArrayList<SettlementItem>>> response = appService
+                        .getSettlementsNextPage(
+                                RequestConstants.Language.english,
+                                manager.token,
+                                "5ac35cc8e360ea4c1e3afc2f",
+                                pageIndex,
+                                startDate,
+                                endDate).execute();
+                ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>> apiResponse = new ApiResponse<>(response);
+                if (apiResponse.isSuccessful()) {
+                    ArrayList<SettlementItem> data = apiResponse.body.data;
+                    if (data != null && !data.isEmpty()) {
+                        try {
+                            appDb.beginTransaction();
+                            appDb.settlementItemDao().insertSettlementItems(apiResponse.body.data);
+                            appDb.setTransactionSuccessful();
+                        } finally {
+                            appDb.endTransaction();
+                        }
+                        liveData.postValue(Resource.success(true));
+                    } else {
+                        liveData.postValue(Resource.success(false));
+                    }
+                } else {
+                    liveData.postValue(Resource.error(apiResponse.errorMessage, true));
+                }
+            } catch (IOException e) {
+                liveData.postValue(Resource.error(e.getMessage(), true));
+            }
         }
 
-        public LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> getLiveData() {
+        public LiveData<Resource<Boolean>> getLiveData() {
             return liveData;
         }
     }

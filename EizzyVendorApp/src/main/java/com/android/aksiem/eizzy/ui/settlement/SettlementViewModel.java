@@ -10,7 +10,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.SettlementRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
-import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
@@ -30,7 +29,7 @@ public class SettlementViewModel extends ViewModel {
 
     private final NextPageHandler nextPageHandler;
 
-    private int nextPageIndex = 0;
+    private MutableLiveData<Integer> nextPageIndex = new MutableLiveData<>();
 
     private Long startDate = 0l;
 
@@ -44,12 +43,12 @@ public class SettlementViewModel extends ViewModel {
     public SettlementViewModel(SettlementRepository settlementRepository) {
         this.nextPageHandler = new NextPageHandler(settlementRepository);
         this.settlementRepository = settlementRepository;
+        nextPageIndex.setValue(0);
     }
 
     @VisibleForTesting
     public LiveData<Resource<List<SettlementItem>>> getSettlements() {
-        settlementItems = Transformations.switchMap(settlementRepository.loadItems(
-                nextPageIndex, startDate, endDate), (items) -> {
+        settlementItems = Transformations.switchMap(settlementRepository.loadItems(startDate, endDate), (items) -> {
 
             MutableLiveData<Resource<List<SettlementItem>>> toReturn =
                     new MutableLiveData<>();
@@ -61,6 +60,9 @@ public class SettlementViewModel extends ViewModel {
                         if (items.data != null && items.data.data != null
                                 && !items.data.data.isEmpty()) {
                             list.addAll(items.data.data);
+                            nextPageIndex.setValue(1);
+                        } else {
+                            nextPageIndex.setValue(-1);
                         }
                         break;
                 }
@@ -75,8 +77,15 @@ public class SettlementViewModel extends ViewModel {
     }
 
     @VisibleForTesting
+    public LiveData<LoadMoreState> getLoadMoreStatus() {
+        return nextPageHandler.getLoadMoreState();
+    }
+
+    @VisibleForTesting
     public void loadNextPage() {
-        //nextPageHandler.getNextPage(nextPageIndex, startDate, endDate);
+        if (nextPageHandler.hasMore && nextPageIndex.getValue() >= 0) {
+            nextPageHandler.getNextPage(nextPageIndex, startDate, endDate);
+        }
     }
 
     static class LoadMoreState {
@@ -107,11 +116,12 @@ public class SettlementViewModel extends ViewModel {
     }
 
     @VisibleForTesting
-    static class NextPageHandler implements Observer<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> {
+    static class NextPageHandler implements Observer<Resource<Boolean>> {
         @Nullable
-        private LiveData<Resource<EizzyApiRespone<ArrayList<SettlementItem>>>> nextPageLiveData;
+        private LiveData<Resource<Boolean>> nextPageLiveData;
         private final MutableLiveData<LoadMoreState> loadMoreState = new MutableLiveData<>();
         private final SettlementRepository repository;
+        private MutableLiveData<Integer> nextPageIndex;
 
         @VisibleForTesting
         boolean hasMore;
@@ -122,21 +132,23 @@ public class SettlementViewModel extends ViewModel {
             reset();
         }
 
-        void getNextPage(int nextPageIndex, long startDate, long endDate) {
+        void getNextPage(MutableLiveData<Integer> nextPageIndex, long startDate, long endDate) {
             unregister();
-            nextPageLiveData = repository.getNextPage(nextPageIndex, startDate, endDate);
+            this.nextPageIndex = nextPageIndex;
+            nextPageLiveData = repository.getNextPage(nextPageIndex.getValue(), startDate, endDate);
             loadMoreState.setValue(new LoadMoreState(true, null));
             nextPageLiveData.observeForever(this);
         }
 
         @Override
-        public void onChanged(@Nullable Resource<EizzyApiRespone<ArrayList<SettlementItem>>> result) {
+        public void onChanged(@Nullable Resource<Boolean> result) {
             if (result == null) {
                 reset();
             } else {
                 switch (result.status) {
                     case SUCCESS:
                         hasMore = Boolean.TRUE.equals(result.data);
+                        nextPageIndex.setValue(hasMore ? nextPageIndex.getValue() + 1 : -1);
                         unregister();
                         loadMoreState.setValue(new LoadMoreState(false, null));
                         break;

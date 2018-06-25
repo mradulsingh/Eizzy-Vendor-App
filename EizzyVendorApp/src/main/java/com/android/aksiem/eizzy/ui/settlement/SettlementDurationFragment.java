@@ -20,6 +20,7 @@ import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.SettlementDurationFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
@@ -46,6 +47,9 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
     public static SettlementDurationFragment create() {
         return new SettlementDurationFragment();
     }
+
+    @Inject
+    ToastController toastController;
 
     @Inject
     @ApplicationContext
@@ -81,7 +85,9 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
     }
 
     public void onLoadNextPage() {
-        settlementViewModel.loadNextPage();
+        if (!binding.get().getLoadingMore()) {
+            settlementViewModel.loadNextPage();
+        }
     }
 
     private void initSettlementItemList() {
@@ -96,6 +102,19 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
                 case ERROR:
                     break;
             }
+        });
+
+        settlementViewModel.getLoadMoreStatus().observe(this, loadingMore -> {
+            if (loadingMore == null) {
+                binding.get().setLoadingMore(false);
+            } else {
+                binding.get().setLoadingMore(loadingMore.isRunning());
+                String error = loadingMore.getErrorMessageIfNotHandled();
+                if (error != null) {
+                    toastController.showErrorToast(error);
+                }
+            }
+            binding.get().executePendingBindings();
         });
     }
 
