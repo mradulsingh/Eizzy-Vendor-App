@@ -130,7 +130,7 @@
     <string name="timeline_section_title">Order Tracking</string>
     <string name="order_breakdown_section_title">Order Details</string>
     <string name="payment_section_title">Payment</string>
-    <string name="order_detail_total_key">Total</string>
+    <string name="order_detail_total_key">Total Amount</string>
     <string name="validation.business.name.message">Please Enter a Valid Business Name</string>
     <string name="validation.user.name.message">Please Enter a Name containing letters and spaces only</string>
     <string name="validation.phone.message">Please Enter a Valid Phone Number</string>
@@ -161,4 +161,6 @@
     <string name="action.create.order">Create Order</string>
     <string name="action.update.filter">UPDATE FILTER</string>
     <string name="menu.create.order">Create Order</string>
+    <string name="order.details.order.weight">Order Weight</string>
+    <string name="order.details.additional.info">Details</string>
 </resources>

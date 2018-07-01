@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -27,9 +28,13 @@
 
         <TextView
             android:id="@+id/timelineSectionTitle"
+            style="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/timeline_section_title"
+            android:textAllCaps="true"
+            android:textColor="@color/khaki"
+            android:textSize="@dimen/font_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,46 +51,102 @@
 
         <TextView
             android:id="@+id/orderBreakdownSectionTitle"
+            style="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/atom_8"
             android:layout_marginTop="@dimen/atom_10"
             android:text="@string/order_breakdown_section_title"
+            android:textAllCaps="true"
+            android:textColor="@color/khaki"
+            android:textSize="@dimen/font_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timelineDetailsContainer" />
 
-        <com.android.aksiem.eizzy.view.AppLabelledTextView
-            android:id="@+id/numItems"
-            style="@style/AppLabelledTextView"
+        <TextView
+            android:id="@+id/numItemsLabel"
+            style="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelText="@string/order.detail.number.items.label"
+            android:layout_marginBottom="@dimen/atom_2"
+            android:text="@string/order.detail.number.items.label"
+            android:textColor="@color/darkMidnightBlue"
+            android:textSize="@dimen/font_14"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/orderBreakdownSectionTitle"
-            app:text="@{item.orderInfo.numberOfItems}" />
+            app:layout_constraintTop_toBottomOf="@id/orderBreakdownSectionTitle" />
 
-        <com.android.aksiem.eizzy.view.AppLabelledTextView
-            android:id="@+id/orderWeight"
-            style="@style/AppLabelledTextView"
+        <TextView
+            android:id="@+id/numItemsValue"
+            style="@style/FontMontserratRegular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelText="@string/order.detail.number.items.label"
+            android:layout_marginBottom="@dimen/atom_4"
+            android:text="@{item.orderInfo.numberOfItems}"
+            android:textColor="@color/seaBlue"
+            android:textSize="@dimen/font_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/numItems"
-            app:text="@{item.orderInfo.weight}" />
+            app:layout_constraintTop_toBottomOf="@id/numItemsLabel"
+            tools:text="5" />
 
-        <com.android.aksiem.eizzy.view.AppLabelledTextView
-            android:id="@+id/additionalInfo"
-            visibleGone="@{item.orderType != OrderType.BULK_ORDER}"
+        <TextView
+            android:id="@+id/orderWeightLabel"
+            style="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelText="@string/order.detail.number.items.label"
+            android:layout_marginBottom="@dimen/atom_2"
+            android:text="@string/order.details.order.weight"
+            android:textColor="@color/darkMidnightBlue"
+            android:textSize="@dimen/font_14"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/orderWeight"
-            app:text="@{item.orderInfo.details}" />
+            app:layout_constraintTop_toBottomOf="@id/numItemsValue" />
+
+        <TextView
+            android:id="@+id/orderWeightValue"
+            style="@style/FontMontserratRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/atom_4"
+            android:text="@{item.orderInfo.weight}"
+            android:textColor="@color/seaBlue"
+            android:textSize="@dimen/font_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderWeightLabel"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/additionalInfoLabel"
+            style="@style/FontMontserratBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/atom_2"
+            android:text="@string/order.details.additional.info"
+            android:textColor="@color/darkMidnightBlue"
+            android:textSize="@dimen/font_14"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderWeightValue" />
+
+        <TextView
+            android:id="@+id/additionalInfoValue"
+            style="@style/FontMontserratRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/atom_8"
+            android:text="@{item.orderInfo.details}"
+            android:textColor="@color/seaBlue"
+            android:textSize="@dimen/font_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/additionalInfoLabel"
+            tools:text="5" />
 
         <LinearLayout
             android:id="@+id/totalContainer"
@@ -94,41 +155,56 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/additionalInfo">
+            app:layout_constraintTop_toBottomOf="@id/additionalInfoValue">
 
             <TextView
                 android:id="@+id/totalKey"
+                style="@style/FontMontserratBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
-                android:text="@string/order_detail_total_key" />
+                android:text="@string/order_detail_total_key"
+                android:textColor="@color/darkMidnightBlue"
+                android:textSize="@dimen/font_14"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/totalValue"
+                style="@style/FontMontserratRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="@{item.getStringTotal()}" />
+                android:text="@{item.getStringTotal()}"
+                android:textColor="@color/seaBlue"
+                android:textSize="@dimen/font_14"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
 
         <TextView
             android:id="@+id/paymentSectionTitle"
+            style="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/atom_9"
+            android:layout_marginTop="@dimen/atom_8"
             android:text="@string/payment_section_title"
+            android:textAllCaps="true"
+            android:textColor="@color/khaki"
+            android:textSize="@dimen/font_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/totalContainer" />
 
         <TextView
             android:id="@+id/paymentDetails"
+            style="@style/FontMontserratRegular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/atom_2"
             android:text="@{item.paymentTypeMessage}"
+            android:textColor="@color/seaBlue"
+            android:textSize="@dimen/font_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/paymentSectionTitle" />

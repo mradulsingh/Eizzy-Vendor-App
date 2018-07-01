@@ -518,7 +518,7 @@ public class OrderDetailItem implements Serializable, Timestamped {
     }
 
     public String getStringTotal() {
-        return String.format("%s %.2f", currencySymbol, totalAmount);
+        return String.format("₹ %.2f", totalAmount);
     }
 
     public String getStringTimestamp() {
@@ -532,16 +532,17 @@ public class OrderDetailItem implements Serializable, Timestamped {
     public ArrayList<OrderStateTransition> getOrderTracking() {
         if (orderTracking == null) {
             orderTracking = new ArrayList<>();
+            int index = 0;
             if (activityLogs != null && !activityLogs.isEmpty()) {
-                for (int i = 0; i < activityLogs.size(); i++) {
-                    OrderActivityLog log = activityLogs.get(i);
+                for (; index < activityLogs.size(); index++) {
+                    OrderActivityLog log = activityLogs.get(index);
                     OrderStateTransition transition = new OrderStateTransition(
                             log.getState().getOrderState(),
                             log.timestamp,
                             log.getLocation().city);
                     transition.setState(AppTimelinePointView.TimelinePointState.COMPLETE);
                     transition.setMessage(log.getMessage());
-                    transition.setIndex(i);
+                    transition.setIndex(index);
                     orderTracking.add(transition);
                 }
             }

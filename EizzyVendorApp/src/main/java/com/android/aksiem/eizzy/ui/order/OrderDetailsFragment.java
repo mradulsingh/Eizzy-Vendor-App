@@ -66,7 +66,7 @@ public class OrderDetailsFragment extends NavigationFragment {
     @Override
     public NavigationBuilder buildNavigation() {
         return CollapsableToolbarBuilder.mainCollapsableToolbar()
-                .toolbarTitle(orderId)
+                .toolbarTitle("#" + orderId)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed());
     }
