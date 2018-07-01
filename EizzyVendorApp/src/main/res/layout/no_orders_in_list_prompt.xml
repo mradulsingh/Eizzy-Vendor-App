@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/promptContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/shoppingCartImage"
+            android:layout_width="@dimen/atom_25"
+            android:layout_height="@dimen/atom_25"
+            android:layout_marginEnd="@dimen/atom_2"
+            android:layout_marginStart="@dimen/atom_2"
+            android:layout_marginTop="@dimen/atom_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/shopping_cart" />
+
+        <TextView
+            android:id="@+id/textPrompt"
+            style="@style/FontMontserratRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/atom_19"
+            android:layout_marginStart="@dimen/atom_19"
+            android:layout_marginTop="@dimen/atom_4"
+            android:text="@string/no.order.prompt"
+            android:textAlignment="center"
+            android:textColor="@color/seaBlue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shoppingCartImage" />
+
+        <Button
+            android:id="@+id/actionCreateOrder"
+            style="@style/FontMontserratBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/atom_19"
+            android:layout_marginStart="@dimen/atom_19"
+            android:layout_marginTop="@dimen/atom_6"
+            android:background="@color/transparent"
+            android:text="@string/action.create.order"
+            android:textColor="@color/seaBlue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textPrompt" />
+
+        <Button
+            android:id="@+id/actionUpdateFilter"
+            style="@style/FontMontserratBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/atom_19"
+            android:layout_marginStart="@dimen/atom_19"
+            android:layout_marginTop="@dimen/atom_2"
+            android:background="@color/transparent"
+            android:text="@string/action.update.filter"
+            android:textColor="@color/seaBlue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionCreateOrder" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

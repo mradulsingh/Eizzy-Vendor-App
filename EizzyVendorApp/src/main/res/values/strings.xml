@@ -157,4 +157,7 @@
     <string name="validation.currency.field.message">Please enter a valid number/amount for %s</string>
     <string name="nav.item.account">ACCOUNT</string>
     <string name="order.detail.number.items.label">Number of Items</string>
+    <string name="no.order.prompt">Currently there is no order in your list. Please create a new order or update filters</string>
+    <string name="action.create.order">Create Order</string>
+    <string name="action.update.filter">UPDATE FILTER</string>
 </resources>

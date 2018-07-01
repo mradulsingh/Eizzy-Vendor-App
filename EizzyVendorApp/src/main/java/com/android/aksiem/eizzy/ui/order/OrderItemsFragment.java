@@ -28,7 +28,6 @@ import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
-import com.android.aksiem.eizzy.util.Logger;
 import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
@@ -122,39 +121,20 @@ public class OrderItemsFragment extends NavigationFragment {
                 OrderItemsViewModel.class);
 
         OrderItemsAdapter adapter = new OrderItemsAdapter(appResourceManager, dataBindingComponent,
-                orderItem -> {
-                    Logger.tag(OrderItemsFragment.class.getSimpleName())
-                            .d("orderId = " + orderItem.orderId);
-                    Logger.tag(OrderItemsFragment.class.getSimpleName())
-                            .d("order_list_item::::" + orderItem.toString());
-                    navigationController.navigateToOrderDetailsFragment(orderItem.orderId);
-                },
-                () -> {
-                    if (filterDialogFragment == null) {
-                        filterDialogFragment = new SortFilterDialogFragment();
-                        filterDialogFragment.setOnApplyFilter(() -> {
-                            orderItemsViewModel.setStartDate(filterDialogFragment.getStartDate());
-                            orderItemsViewModel.setEndDate(filterDialogFragment.getEndDate());
-                            orderItemsViewModel.setStateFilter(filterDialogFragment
-                                    .getStateFilter());
-                            updateAdapter(null);
-                            initFilteredList();
-                        });
-                    }
-                    filterDialogFragment.show(getFragmentManager(),
-                            OrderItemsFragment.class.getSimpleName());
-                });
+                orderItem -> navigationController.navigateToOrderDetailsFragment(orderItem.orderId),
+                () -> showFilterDialog());
         this.adapter = new AutoClearedValue<>(this, adapter);
         RecyclerView recyclerView = binding.get().orderList;
         ViewCompat.setNestedScrollingEnabled(recyclerView, false);
         recyclerView.setAdapter(adapter);
-
+        binding.get().noOrderPrompt.getRoot().setVisibility(View.GONE);
         initOrdersList();
     }
 
     private void initOrdersList() {
         initInitialList();
         initPaginatedList();
+        initPrompt();
     }
 
     private void initInitialList() {
@@ -165,8 +145,10 @@ public class OrderItemsFragment extends NavigationFragment {
                     break;
                 case SUCCESS:
                     updateAdapter(resource);
+                    updatePrompt();
                     break;
                 case ERROR:
+                    updatePrompt();
                     break;
             }
         });
@@ -180,8 +162,10 @@ public class OrderItemsFragment extends NavigationFragment {
                     break;
                 case SUCCESS:
                     updateAdapter(resource);
+                    updatePrompt();
                     break;
                 case ERROR:
+                    updatePrompt();
                     break;
             }
         });
@@ -202,11 +186,26 @@ public class OrderItemsFragment extends NavigationFragment {
         });
     }
 
+    private void initPrompt() {
+        binding.get().noOrderPrompt.actionCreateOrder.setOnClickListener(v ->
+                navigateToCreateOrder());
+        binding.get().noOrderPrompt.actionUpdateFilter.setOnClickListener(v -> showFilterDialog());
+    }
+
     private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderListItem>>> resource) {
         if (resource != null && resource.data != null) {
             adapter.get().replace(resource.data);
         } else {
             adapter.get().replace(null);
+        }
+
+    }
+
+    private void updatePrompt() {
+        if (adapter.get().getItemCount() == 0) {
+            binding.get().noOrderPrompt.getRoot().setVisibility(View.VISIBLE);
+        } else {
+            binding.get().noOrderPrompt.getRoot().setVisibility(View.GONE);
         }
     }
 
@@ -222,6 +221,21 @@ public class OrderItemsFragment extends NavigationFragment {
         if (!binding.get().getLoadingMore()) {
             orderItemsViewModel.loadNextPage();
         }
+    }
+
+    private void showFilterDialog() {
+        if (filterDialogFragment == null) {
+            filterDialogFragment = new SortFilterDialogFragment();
+            filterDialogFragment.setOnApplyFilter(() -> {
+                orderItemsViewModel.setStartDate(filterDialogFragment.getStartDate());
+                orderItemsViewModel.setEndDate(filterDialogFragment.getEndDate());
+                orderItemsViewModel.setStateFilter(filterDialogFragment
+                        .getStateFilter());
+                updateAdapter(null);
+                initFilteredList();
+            });
+        }
+        filterDialogFragment.show(getFragmentManager(), OrderItemsFragment.class.getSimpleName());
     }
 
 }

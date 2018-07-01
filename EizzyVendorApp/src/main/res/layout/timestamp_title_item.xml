@@ -24,6 +24,7 @@
 
         <TextView
             android:id="@+id/timestamp"
+            tyle="@style/FontMontserratBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -32,8 +33,7 @@
             android:text="@{timestamp}"
             android:textAllCaps="true"
             android:textColor="@color/khaki"
-            android:textSize="@dimen/font_14"
-            android:textStyle="bold" />
+            android:textSize="@dimen/font_14" />
 
         <com.android.aksiem.eizzy.view.AppButton
             android:id="@+id/filter"
