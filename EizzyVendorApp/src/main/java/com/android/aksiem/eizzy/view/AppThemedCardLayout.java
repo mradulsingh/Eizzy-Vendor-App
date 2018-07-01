@@ -109,8 +109,6 @@ public class AppThemedCardLayout extends RelativeLayout {
 
     private void initView(Context context) {
 
-
-
         binding = DataBindingUtil.inflate(LayoutInflater.from(context),
                 R.layout.app_themed_card_layout, this, true);
 
@@ -161,12 +159,10 @@ public class AppThemedCardLayout extends RelativeLayout {
     private void setInfoItem(String textValue, Drawable drawableLeftValue, AppTextView textView) {
         if (textValue != null && textValue.trim().length() > 0) {
             textView.setText(textValue);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                textView.setDrawableLeft(drawableLeftValue, true);
+            textView.setDrawableLeft(drawableLeftValue, true);
         } else {
             textView.setText("");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                textView.setDrawableLeft(null, true);
+            textView.setDrawableLeft(null, true);
         }
     }
 
