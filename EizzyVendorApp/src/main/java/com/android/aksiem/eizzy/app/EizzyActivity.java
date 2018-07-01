@@ -30,6 +30,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.api.MqttClientService;
@@ -78,9 +79,7 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         if (savedInstanceState == null) {
 
             if (EizzyAppState.ManagerLoggedIn.isManagerLoggedIn(appPrefManager)) {
-                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
-                        appPrefManager);
-                Logger.tag("eizzyAppManager").d(manager.toString());
+                initNavigationDrawerInfo();
                 navigationController.navigateToOrderItemsFragment();
             } else {
                 navigationController.navigateToVendorOnboardingFragment();
@@ -196,5 +195,18 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         }
 
         return true;
+    }
+
+    private void initNavigationDrawerInfo() {
+        StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                appPrefManager);
+        Logger.tag("eizzyAppManager").d(manager.toString());
+        View v = binding.navView.getHeaderView(0);
+        TextView title = v.findViewById(R.id.tvUserName);
+        if (title != null)
+            title.setText(manager.name);
+        TextView subtitle = v.findViewById(R.id.tvUserEmail);
+        if (subtitle != null)
+            subtitle.setText(manager.email);
     }
 }

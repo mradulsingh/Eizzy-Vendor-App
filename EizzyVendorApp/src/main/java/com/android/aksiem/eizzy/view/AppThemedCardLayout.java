@@ -161,10 +161,12 @@ public class AppThemedCardLayout extends RelativeLayout {
     private void setInfoItem(String textValue, Drawable drawableLeftValue, AppTextView textView) {
         if (textValue != null && textValue.trim().length() > 0) {
             textView.setText(textValue);
-            textView.setDrawableLeft(drawableLeftValue, true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                textView.setDrawableLeft(drawableLeftValue, true);
         } else {
             textView.setText("");
-            textView.setDrawableLeft(null, true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                textView.setDrawableLeft(null, true);
         }
     }
 

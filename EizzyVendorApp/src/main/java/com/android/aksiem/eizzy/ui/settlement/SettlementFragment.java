@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
+import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.SettlementFragmentBinding;
@@ -59,8 +60,10 @@ public class SettlementFragment extends NavigationFragment {
                 .includeBottomNavBar(true)
                 .includeDrawerNav(true)
                 .toolbarTitleRes(R.string.screen_title_settlements)
-                .toolbarNavIconRes(R.drawable.ic_back)
-                .setToolbarNavClickListener(v -> onBackPressed())
+                .toolbarNavIconRes(R.drawable.ic_drawer_menu)
+                .setToolbarNavClickListener(v -> {
+                    ((EizzyActivity) getActivity()).openDrawer();
+                })
                 .setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
                     if (v.getChildAt(v.getChildCount() - 1) != null) {
                         if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
@@ -68,9 +71,9 @@ public class SettlementFragment extends NavigationFragment {
                             onPageEndReached();
                         }
                     }
-                })
-                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
-                        buildMenuActions());
+                });
+//                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
+//                        buildMenuActions());
     }
 
     private void onPageEndReached() {

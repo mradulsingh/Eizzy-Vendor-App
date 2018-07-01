@@ -477,15 +477,19 @@ public class OrderListItem implements Serializable, Timestamped {
     }
 
     public String getStringTotal() {
-        return String.format("%.2f", totalAmount);
+        return String.format("₹ %.2f", totalAmount);
     }
 
     public String getStringTimestamp() {
         if (stringTimestamp == null) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("hh:mm a | MMM dd, yyyy");
             stringTimestamp = dateFormatter.format(new Date(timestamp * 1000));
         }
         return stringTimestamp;
+    }
+
+    public String getDpOrderId() {
+        return "#" + orderId;
     }
 
     @Override

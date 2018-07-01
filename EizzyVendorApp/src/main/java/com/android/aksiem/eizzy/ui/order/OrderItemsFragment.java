@@ -92,13 +92,13 @@ public class OrderItemsFragment extends NavigationFragment {
                         }
                     }
                 })
-                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
+                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_order_items_fragment),
                         buildMenuActions());
     }
 
     private MenuActions buildMenuActions() {
         return new MenuActions.Builder()
-                .action(R.id.nav_checkout, () -> {
+                .action(R.id.nav_create_order, () -> {
                     navigateToCreateOrder();
                 })
                 .build();

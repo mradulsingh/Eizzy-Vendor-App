@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             app:additionalInfo="@{item.stringTimestamp}"
             app:atcvSubtitle="@{item.getStringTotal()}"
-            app:atcvTitle="@{item.orderId}"
+            app:atcvTitle="@{item.getDpOrderId()}"
             app:btnText="@{item.getOrderState().getState()}"
             app:infoItem1DrawableLeftCompat="@drawable/ic_user"
             app:infoItem1Text="@{item.customerDetails.name}"

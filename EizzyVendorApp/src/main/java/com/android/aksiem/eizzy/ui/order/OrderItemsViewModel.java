@@ -172,7 +172,7 @@ public class OrderItemsViewModel extends ViewModel {
 
                         for (OrderListItem item : items.data.data.items) {
                             String timestampString = StringUtils.getTimestamp(
-                                    item.getTimestamp(), appResourceManager);
+                                    item.getTimestamp() * 1000, appResourceManager);
                             if (prevTimestampString == null ||
                                     !prevTimestampString.equals(timestampString)) {
                                 list.add(new TimestampedItemWrapper<>(timestampString,

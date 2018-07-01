@@ -160,4 +160,5 @@
     <string name="no.order.prompt">Currently there is no order in your list. Please create a new order or update filters</string>
     <string name="action.create.order">Create Order</string>
     <string name="action.update.filter">UPDATE FILTER</string>
+    <string name="menu.create.order">Create Order</string>
 </resources>

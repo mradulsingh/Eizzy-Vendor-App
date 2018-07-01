@@ -24,11 +24,15 @@
 
             <TextView
                 android:id="@+id/title"
+                style="@style/FontMontserratBold"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left|center_vertical"
+                android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/font_20"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/darkMidnightBlue"
                 android:textSize="@dimen/font_16"
                 android:textStyle="bold"
@@ -36,11 +40,13 @@
 
             <TextView
                 android:id="@+id/subtitle"
+                style="@style/FontMontserratBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/title"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/font_20"
                 android:textColor="@color/darkMidnightBlue"
                 android:textSize="@dimen/font_14"
@@ -104,9 +110,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/white"
                 android:drawablePadding="@dimen/atom_2"
                 android:padding="@dimen/atom_1"
+                android:textColor="@color/white"
                 tools:text="btn" />
 
 

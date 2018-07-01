@@ -224,7 +224,7 @@ public class CreateOrderFragment extends NavigationFragment {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, month, dayOfMonth);
-                        binding.get().orderTime.setText(formatter.format(newDate.getTime()));
+                        binding.get().orderDate.setText(formatter.format(newDate.getTime()));
                         v.clearFocus();
 
                     }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
@@ -394,7 +394,7 @@ public class CreateOrderFragment extends NavigationFragment {
         if (pickedEizzyZone == null) {
             binding.get().textInputLayoutEizzyZone.setError(
                     String.format(getString(R.string.validation_field_required_message),
-                            binding.get().eizzyZone.getHint().toString()));
+                            binding.get().textInputLayoutEizzyZone.getHint().toString()));
             return false;
         }
         return true;

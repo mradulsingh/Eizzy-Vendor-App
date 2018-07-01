@@ -4,6 +4,7 @@ import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.aksiem.eizzy.R;
@@ -100,6 +101,9 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
             TimestampTitleItemBinding timestampItemBinding = (TimestampTitleItemBinding) binding;
             timestampItemBinding.setTimestamp(item.timestamp);
             timestampItemBinding.setPosition(position);
+            if (position > 0) {
+                timestampItemBinding.filter.setVisibility(View.GONE);
+            }
         }
     }
 
