@@ -46,9 +46,9 @@ import dagger.android.DispatchingAndroidInjector;
 
 public class EizzyActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String LINK_TnC = "www.google.com";
-    private static final String LINK_SUPPORT = "www.edelweiss.in";
-    private static final String LINK_ABOUT_US = "www.yahoo.com";
+    private static final String LINK_TnC = "https://www.google.com";
+    private static final String LINK_SUPPORT = "https://www.edelweiss.in";
+    private static final String LINK_ABOUT_US = "https://www.yahoo.com";
 
     @Inject
     NavigationController navigationController;

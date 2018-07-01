@@ -110,13 +110,12 @@ public class WebviewFragment extends NavigationFragment {
 
     private void setupWebView() {
         WebView webView = binding.get().webView;
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setJavaScriptEnabled(true);
 
-        webView.setInitialScale(1);
+        webView.setInitialScale(0);
         webView.setWebViewClient(new Callback());
         webView.setOnKeyListener((v, keyCode, event) -> {
             if (event.getAction() == KeyEvent.ACTION_UP) {
@@ -160,16 +159,16 @@ public class WebviewFragment extends NavigationFragment {
 
         private boolean overriddenUrlLoading(WebView view, String url) {
             Logger.d("url :: " + url);
-            if (launchInBrowser(url)) {
-                view.loadUrl(url);
-            } else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse(url));
-                if (browserIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(browserIntent);
-                }
-            }
-            return true;
+//            if (launchInBrowser(url)) {
+//                view.loadUrl(url);
+//            } else {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+//                browserIntent.setData(Uri.parse(url));
+//                if (browserIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//                    startActivity(browserIntent);
+//                }
+//            }
+            return false;
         }
 
         public void onPageFinished(WebView view, String url) {
