@@ -48,6 +48,11 @@ public class RequestConstants {
                 return formatter.format(new Date(defaultTime)).toString();
             }
         }
+
+        public static String getOrderCreationTime(long defaultTime) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            return formatter.format(new Date(defaultTime)).toString();
+        }
     }
 
     public static class OrderPayment {

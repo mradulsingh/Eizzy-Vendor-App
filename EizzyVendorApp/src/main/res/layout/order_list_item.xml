@@ -4,13 +4,13 @@
 
     <data>
 
-        <import type="com.android.aksiem.eizzy.vo.CustomerDetails" />
-        <import type="com.android.aksiem.eizzy.vo.support.order.OrderType" />
-        <import type="com.android.aksiem.eizzy.vo.support.order.OrderState" />
+        <import type="com.android.aksiem.eizzy.vo.order.CustomerDetails" />
+        <import type="com.android.aksiem.eizzy.vo.order.ServiceType" />
+        <import type="com.android.aksiem.eizzy.vo.order.OrderState" />
 
         <variable
             name="item"
-            type="com.android.aksiem.eizzy.vo.OrderListItem" />
+            type="com.android.aksiem.eizzy.vo.order.OrderListItem" />
 
         <variable
             name="resourceManager"

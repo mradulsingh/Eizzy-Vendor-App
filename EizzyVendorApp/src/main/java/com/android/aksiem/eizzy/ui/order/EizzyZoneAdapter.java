@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.databinding.EizzyZoneItemBinding;
-import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.vo;
+package com.android.aksiem.eizzy.vo.order;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -6,11 +6,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
-import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
-import com.android.aksiem.eizzy.vo.support.order.OrderState;
-import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
-import com.android.aksiem.eizzy.vo.support.order.OrderType;
-import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
+import com.android.aksiem.eizzy.vo.LatLng;
+import com.android.aksiem.eizzy.vo.Location;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -118,8 +115,8 @@ public class OrderDetailItem implements Serializable, Timestamped {
     @SerializedName("totalAmount")
     private Float totalAmount;
 
-    @SerializedName("Items")
-    private ArrayList<OrderedItem> items;
+    @SerializedName("orderDetails")
+    private OrderInfo orderInfo;
 
     @SerializedName("couponCode")
     private String couponCode;
@@ -171,7 +168,7 @@ public class OrderDetailItem implements Serializable, Timestamped {
 
     @NonNull
     @SerializedName("serviceType")
-    public final Integer serviceType;
+    public final ServiceType serviceType;
 
     @NonNull
     @SerializedName("bookingType")
@@ -224,6 +221,15 @@ public class OrderDetailItem implements Serializable, Timestamped {
     @SerializedName("accounting")
     public final Accounting accounting;
 
+    @SerializedName("customerSignature")
+    private Boolean customerSignatureRequired;
+
+    @SerializedName("cashOnDelivery")
+    private Boolean cashOnDeliveryEnabled;
+
+    @SerializedName("eizzyZone")
+    private String eizzyZoneId;
+
     @Ignore
     private OrderActivityLog currentState;
 
@@ -244,7 +250,7 @@ public class OrderDetailItem implements Serializable, Timestamped {
             @NonNull OrderType orderType, @NonNull String orderTypeMsg,
             @NonNull Integer paymentType, @NonNull String paymentTypeMessage,
             @NonNull String bookingDate, @NonNull Long timestamp, @NonNull String dueDate,
-            @NonNull Long dueDateTimestamp, @NonNull Integer serviceType,
+            @NonNull Long dueDateTimestamp, @NonNull ServiceType serviceType,
             @NonNull Integer bookingType, @NonNull Integer pricingModel, String zoneType,
             String extraNote, @NonNull CustomerDetails customerDetails,
             @NonNull Location pickupLocation, String abbreviation, String abbreviationText,
@@ -388,12 +394,12 @@ public class OrderDetailItem implements Serializable, Timestamped {
         this.totalAmount = totalAmount;
     }
 
-    public ArrayList<OrderedItem> getItems() {
-        return items;
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
     }
 
-    public void setItems(ArrayList<OrderedItem> items) {
-        this.items = items;
+    public void setOrderInfo(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
     public String getCouponCode() {
@@ -462,6 +468,30 @@ public class OrderDetailItem implements Serializable, Timestamped {
 
     public void setActivityLogs(@NonNull ArrayList<OrderActivityLog> activityLogs) {
         this.activityLogs = activityLogs;
+    }
+
+    public Boolean getCustomerSignatureRequired() {
+        return customerSignatureRequired;
+    }
+
+    public void setCustomerSignatureRequired(Boolean customerSignatureRequired) {
+        this.customerSignatureRequired = customerSignatureRequired;
+    }
+
+    public Boolean getCashOnDeliveryEnabled() {
+        return cashOnDeliveryEnabled;
+    }
+
+    public void setCashOnDeliveryEnabled(Boolean cashOnDeliveryEnabled) {
+        this.cashOnDeliveryEnabled = cashOnDeliveryEnabled;
+    }
+
+    public String getEizzyZoneId() {
+        return eizzyZoneId;
+    }
+
+    public void setEizzyZoneId(String eizzyZoneId) {
+        this.eizzyZoneId = eizzyZoneId;
     }
 
     public OrderActivityLog getCurrentState() {

@@ -16,118 +16,21 @@
 
 package com.android.aksiem.eizzy.util;
 
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.ActorRole;
-import com.android.aksiem.eizzy.vo.support.Price;
-import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
-import com.android.aksiem.eizzy.vo.support.order.OrderState;
-import com.android.aksiem.eizzy.vo.support.order.OrderType;
-import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
-import com.android.aksiem.eizzy.vo.support.order.PriceComponent;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 public class OrderItemsUtil {
 
-    public static List<OrderDetailItem> createOrderItem(int pageSize) {
-        List<OrderDetailItem> items = new ArrayList<>();
-        for (int i = 0; i < pageSize; i++) {
-            items.add(generateSingleRandomOrder().item);
-        }
-        return items;
-    }
-
-    private static TimestampedItemWrapper<OrderDetailItem> generateSingleRandomOrder() {
-        Random random = new Random();
-        String orderId = generateOrderItemId(16);
-        Actor customer = generateActor(ActorRole.CUSTOMER);
-        OrderDetails details = generateSingleOrderItemDetails();
-        Price price = details.total.price;
-        long timestamp = System.currentTimeMillis();
-        SimpleDateFormat format = new SimpleDateFormat("h:mm a '|' MMM d',' yyyy");
-        String stringTimestamp = format.format(new Date(timestamp));
-        OrderType orderType = OrderType.FOOD;
-        int size = OrderState.values().length;
-        OrderState orderState = OrderState.values()[random.nextInt(size)];
-        OrderDetailItem orderDetailItem = new OrderDetailItem(orderId, details, customer, price, timestamp,
-                stringTimestamp, orderType, orderState);
-        return new TimestampedItemWrapper<>(null, orderDetailItem);
-    }
 
     private static Actor generateActor(ActorRole role) {
         Random random = new Random();
         List<String> actorNames = getActorNames();
         return new Actor(random.nextInt(), actorNames.get(random.nextInt(actorNames.size())),
                 generatePhoneNumber(), role);
-    }
-
-    private static OrderDetails generateSingleOrderItemDetails() {
-        List<OrderedItem> orderedItems = generateListOfOrderedItems();
-        List<PriceComponent> priceComponents = generateAdditionalPriceComponents(orderedItems);
-        PriceComponent total = generateTotal(orderedItems, priceComponents);
-        OrderDetails orderDetails = new OrderDetails(orderedItems, priceComponents, total,
-                "Cash");
-        return orderDetails;
-    }
-
-    private static List<OrderedItem> generateListOfOrderedItems() {
-        List<OrderedItem> toReturn = new ArrayList<>();
-        List<String> orderableItems = getOrderableItems();
-        Random random = new Random();
-        int max = random.nextInt(10) + 1;
-        for (int i = 0; i < max; i++) {
-            String itemName = orderableItems.get(random.nextInt(orderableItems.size()));
-            double quantity = random.nextInt(5) + 1;
-            double unitPrice = random.nextInt(500) + 100;
-            double totalPrice = quantity * unitPrice;
-            OrderedItem item = new OrderedItem(itemName, quantity, "order", 1,
-                    unitPrice, totalPrice, "Rs.");
-            toReturn.add(item);
-        }
-        return toReturn;
-    }
-
-    private static List<PriceComponent> generateAdditionalPriceComponents(List<OrderedItem> items) {
-        float rawTotal = getOrderedItemsTotal(items);
-        PriceComponent cgst = new PriceComponent("cgst @2.5%",
-                new Price(rawTotal * 1.025f, "Rs."));
-        PriceComponent sgst = new PriceComponent("sgst @2.5%",
-                new Price(rawTotal * 1.025f, "Rs."));
-        PriceComponent serviceCharge = new PriceComponent("service charge @10%",
-                new Price(rawTotal * 1.1f, "Rs."));
-        List<PriceComponent> additionalCharges = new ArrayList<>();
-        additionalCharges.add(cgst);
-        additionalCharges.add(sgst);
-        Random random = new Random();
-        if (random.nextInt(10) < 5) {
-            additionalCharges.add(serviceCharge);
-        }
-        return additionalCharges;
-    }
-
-    private static float getOrderedItemsTotal(List<OrderedItem> items) {
-        float total = 0.0f;
-        for (OrderedItem item : items) {
-            total += item.totalPrice;
-        }
-        return total;
-    }
-
-    private static PriceComponent generateTotal(List<OrderedItem> items,
-                                                List<PriceComponent> additionalCharges) {
-        String componentName = "Total";
-        String currency = "Rs.";
-        float total = getOrderedItemsTotal(items);
-        for (PriceComponent additionalCharge : additionalCharges) {
-            total += additionalCharge.price.amount;
-        }
-        return new PriceComponent(componentName, new Price(total, currency));
     }
 
     private static String generatePhoneNumber() {

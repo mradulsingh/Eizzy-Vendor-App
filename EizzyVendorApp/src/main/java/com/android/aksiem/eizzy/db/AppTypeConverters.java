@@ -18,24 +18,24 @@ package com.android.aksiem.eizzy.db;
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.android.aksiem.eizzy.vo.Accounting;
-import com.android.aksiem.eizzy.vo.CoinPayTransaction;
-import com.android.aksiem.eizzy.vo.CustomerDetails;
+import com.android.aksiem.eizzy.vo.order.Accounting;
+import com.android.aksiem.eizzy.vo.order.CoinPayTransaction;
+import com.android.aksiem.eizzy.vo.order.CustomerDetails;
 import com.android.aksiem.eizzy.vo.LatLng;
 import com.android.aksiem.eizzy.vo.Location;
-import com.android.aksiem.eizzy.vo.OrderActivityLog;
-import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
+import com.android.aksiem.eizzy.vo.order.OrderActivityLog;
+import com.android.aksiem.eizzy.vo.order.OrderInfo;
+import com.android.aksiem.eizzy.vo.order.OrderType;
+import com.android.aksiem.eizzy.vo.order.PaymentBreakupByMode;
+import com.android.aksiem.eizzy.vo.order.ServiceType;
 import com.android.aksiem.eizzy.vo.support.Actor;
 import com.android.aksiem.eizzy.vo.support.Price;
-import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
-import com.android.aksiem.eizzy.vo.support.order.ExclusiveTaxType;
-import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
-import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
-import com.android.aksiem.eizzy.vo.support.order.OrderState;
-import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
-import com.android.aksiem.eizzy.vo.support.order.OrderType;
-import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
-import com.android.aksiem.eizzy.vo.support.order.PriceComponent;
+import com.android.aksiem.eizzy.vo.order.ExclusiveTax;
+import com.android.aksiem.eizzy.vo.order.ExclusiveTaxType;
+import com.android.aksiem.eizzy.vo.order.OrderActivityLogState;
+import com.android.aksiem.eizzy.vo.order.OrderState;
+import com.android.aksiem.eizzy.vo.order.OrderStateTransition;
+import com.android.aksiem.eizzy.vo.order.OrderedItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -63,6 +63,16 @@ public class AppTypeConverters {
     @TypeConverter
     public static String orderStateToString(OrderState orderState) {
         return new Gson().toJson(orderState, OrderState.class);
+    }
+
+    @TypeConverter
+    public static OrderInfo stringToOrderInfo(String orderInfo) {
+        return new Gson().fromJson(orderInfo, OrderInfo.class);
+    }
+
+    @TypeConverter
+    public static String orderInfoToString(OrderInfo orderInfo) {
+        return new Gson().toJson(orderInfo, OrderInfo.class);
     }
 
     @TypeConverter
@@ -106,6 +116,16 @@ public class AppTypeConverters {
     }
 
     @TypeConverter
+    public static ServiceType stringToServiceType(String orderType) {
+        return new Gson().fromJson(orderType, ServiceType.class);
+    }
+
+    @TypeConverter
+    public static String serviceTypeToString(ServiceType serviceType) {
+        return new Gson().toJson(serviceType, ServiceType.class);
+    }
+
+    @TypeConverter
     public static OrderType stringToOrderType(String orderType) {
         return new Gson().fromJson(orderType, OrderType.class);
     }
@@ -143,46 +163,6 @@ public class AppTypeConverters {
         Type type = new TypeToken<ArrayList<OrderedItem>>() {
         }.getType();
         return new Gson().toJson(listOI, type);
-    }
-
-    @TypeConverter
-    public static PriceComponent stringToPriceComponent(String priceComponent) {
-        return new Gson().fromJson(priceComponent, PriceComponent.class);
-    }
-
-    @TypeConverter
-    public static String priceComponentToString(PriceComponent priceComponent) {
-        return new Gson().toJson(priceComponent, PriceComponent.class);
-    }
-
-    @TypeConverter
-    public static List<PriceComponent> stringToListOfPriceComponent(String stringPC) {
-        if (stringPC == null)
-            return null;
-
-        Type type = new TypeToken<List<PriceComponent>>() {
-        }.getType();
-        return new Gson().fromJson(stringPC, type);
-    }
-
-    @TypeConverter
-    public static String listOfPriceComponentToString(List<PriceComponent> listPC) {
-        if (listPC == null)
-            return null;
-
-        Type type = new TypeToken<List<PriceComponent>>() {
-        }.getType();
-        return new Gson().toJson(listPC, type);
-    }
-
-    @TypeConverter
-    public static OrderDetails stringToOrderDetails(String orderDetails) {
-        return new Gson().fromJson(orderDetails, OrderDetails.class);
-    }
-
-    @TypeConverter
-    public static String orderDetailsToString(OrderDetails orderDetails) {
-        return new Gson().toJson(orderDetails, OrderDetails.class);
     }
 
     @TypeConverter

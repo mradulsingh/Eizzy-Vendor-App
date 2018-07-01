@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.vo.support.order;
+package com.android.aksiem.eizzy.vo.order;
 
 import android.support.annotation.NonNull;
 
@@ -6,6 +6,7 @@ import com.android.aksiem.eizzy.vo.support.TitledAndSubtitled;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by pdubey on 09/04/18.
@@ -55,7 +56,7 @@ public class OrderedItem implements Serializable {
 
     @NonNull
     @SerializedName("taxes")
-    public final String taxes;
+    public final ArrayList<ExclusiveTax> taxes;
 
     @NonNull
     @SerializedName("productName")
@@ -65,7 +66,7 @@ public class OrderedItem implements Serializable {
                        @NonNull Float unitPrice, @NonNull Float finalPrice,
                        @NonNull Float appliedDiscount, @NonNull String itemImageURL,
                        @NonNull String parentProductId, @NonNull String offerId,
-                       @NonNull String childProductId, @NonNull String taxes,
+                       @NonNull String childProductId, @NonNull ArrayList<ExclusiveTax> taxes,
                        @NonNull String productName) {
 
         this.item = item;

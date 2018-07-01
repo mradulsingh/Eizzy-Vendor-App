@@ -20,13 +20,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.VisibleForTesting;
 
-import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
-import com.android.aksiem.eizzy.vo.EizzyZone;
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.Resource;
-import com.android.aksiem.eizzy.vo.StoreManager;
 
 import java.util.ArrayList;
 

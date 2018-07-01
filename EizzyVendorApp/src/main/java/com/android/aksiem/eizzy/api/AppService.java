@@ -19,9 +19,9 @@ package com.android.aksiem.eizzy.api;
 import android.arch.lifecycle.LiveData;
 
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
-import com.android.aksiem.eizzy.vo.EizzyZone;
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.OrderListWrapper;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.order.OrderListWrapper;
 import com.android.aksiem.eizzy.vo.Store;
 import com.android.aksiem.eizzy.vo.StoreManager;
 import com.android.aksiem.eizzy.vo.User;
@@ -134,8 +134,18 @@ public interface AppService {
             @Part("storeId") RequestBody storeId
     );
 
-    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{startDate}/{endDate}")
+    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/100/{startDate}/{endDate}")
     LiveData<ApiResponse<EizzyApiRespone<OrderListWrapper>>> getAllOrders(
+            @Header("language") String language,
+            @Header("authorization") String token,
+            @Path("storeId") String storeId,
+            @Path("pageIndex") int pageIndex,
+            @Path("status") long status,
+            @Path("startDate") long startDate,
+            @Path("endDate") long endDate);
+
+    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{startDate}/{endDate}")
+    Call<EizzyApiRespone<OrderListWrapper>> getOrdersNextPage(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,
@@ -150,7 +160,7 @@ public interface AppService {
             @Header("authorization") String token,
             @Path("orderId") String orderId);
 
-    @GET("/accounting/store/wallet/{storeId}/0/{startDate}/{endDate}")
+    @GET("accounting/store/wallet/{storeId}/0/{startDate}/{endDate}")
     LiveData<ApiResponse<EizzyApiRespone<ArrayList<SettlementItem>>>> getAllSettlements(
             @Header("language") String language,
             @Header("authorization") String token,
@@ -158,7 +168,7 @@ public interface AppService {
             @Path("startDate") long startDate,
             @Path("endDate") long endDate);
 
-    @GET("/accounting/store/wallet/{storeId}/{pageIndex}/{startDate}/{endDate}")
+    @GET("accounting/store/wallet/{storeId}/{pageIndex}/{startDate}/{endDate}")
     Call<EizzyApiRespone<ArrayList<SettlementItem>>> getSettlementsNextPage(
             @Header("language") String language,
             @Header("authorization") String token,

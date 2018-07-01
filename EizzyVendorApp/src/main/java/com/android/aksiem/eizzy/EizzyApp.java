@@ -23,6 +23,8 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import com.android.aksiem.eizzy.di.AppInjector;
 import com.android.aksiem.eizzy.util.Logger;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
@@ -41,6 +43,7 @@ public class EizzyApp extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         Logger.init();
         AppInjector.init(this);
         initLibs();

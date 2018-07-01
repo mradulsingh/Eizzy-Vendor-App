@@ -48,7 +48,8 @@ public class SettlementViewModel extends ViewModel {
 
     @VisibleForTesting
     public LiveData<Resource<List<SettlementItem>>> getSettlements() {
-        settlementItems = Transformations.switchMap(settlementRepository.loadItems(startDate, endDate), (items) -> {
+        settlementItems = Transformations.switchMap(settlementRepository.loadItems(startDate,
+                endDate), (items) -> {
 
             MutableLiveData<Resource<List<SettlementItem>>> toReturn =
                     new MutableLiveData<>();

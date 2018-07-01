@@ -2,25 +2,24 @@ package com.android.aksiem.eizzy.ui.order;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.app.AppPrefManager;
 import com.android.aksiem.eizzy.app.AppResourceManager;
-import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
-import com.android.aksiem.eizzy.vo.EizzyZone;
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.OrderListItem;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
-import com.android.aksiem.eizzy.vo.StoreManager;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
-import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
+import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,11 @@ public class OrderItemsViewModel extends ViewModel {
 
     private OrderItemsRepository orderItemsRepository;
 
-    private Long pageIndex = 0l;
+    private final NextPageHandler nextPageHandler;
+
+    private MutableLiveData<Integer> nextPageIndex = new MutableLiveData<>();
+
+    private Integer pageIndex = 0;
 
     private Long status = RequestConstants.OrderItemsList.all;
 
@@ -60,6 +63,8 @@ public class OrderItemsViewModel extends ViewModel {
     @Inject
     public OrderItemsViewModel(OrderItemsRepository orderItemsRepository) {
         this.orderItemsRepository = orderItemsRepository;
+        nextPageHandler = new NextPageHandler(this.orderItemsRepository);
+        nextPageIndex.setValue(pageIndex);
     }
 
 
@@ -114,6 +119,7 @@ public class OrderItemsViewModel extends ViewModel {
         if (orderIdToFetch == null) {
             return AbsentLiveData.create();
         }
+        orderItemsRepository.setShouldGetDetailedItem(true);
         return orderItemsRepository.getDetailedItem(orderIdToFetch);
     }
 
@@ -121,11 +127,23 @@ public class OrderItemsViewModel extends ViewModel {
         return orderItemsRepository.getEizzyZones();
     }
 
+    @VisibleForTesting
+    public LiveData<LoadMoreState> getLoadMoreStatus() {
+        return nextPageHandler.getLoadMoreState();
+    }
+
+    @VisibleForTesting
+    public void loadNextPage() {
+        if (nextPageHandler.hasMore && nextPageIndex.getValue() >= 0) {
+            nextPageHandler.getNextPage(nextPageIndex, status, startDate, endDate);
+        }
+    }
+
     public void setOrderIds(List<String> listOrderIds) {
         this.orderIds.setValue(listOrderIds);
     }
 
-    public void setPageIndex(Long pageIndex) {
+    public void setPageIndex(Integer pageIndex) {
         this.pageIndex = pageIndex;
     }
 
@@ -167,6 +185,101 @@ public class OrderItemsViewModel extends ViewModel {
 
             return AbsentLiveData.create();
 
+        }
+    }
+
+    public static class LoadMoreState {
+
+        private final boolean running;
+        private final String errorMessage;
+        private boolean handleError = false;
+
+        public LoadMoreState(boolean running, String errorMessage) {
+            this.running = running;
+            this.errorMessage = errorMessage;
+        }
+
+        public boolean isRunning() {
+            return running;
+        }
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public String getErrorMessageIfNotHandled() {
+            if (handleError) {
+                return null;
+            }
+            handleError = true;
+            return errorMessage;
+        }
+    }
+
+    @VisibleForTesting
+    public static class NextPageHandler implements Observer<Resource<Boolean>> {
+
+        @Nullable
+        private LiveData<Resource<Boolean>> nextPageLiveData;
+        private final MutableLiveData<LoadMoreState> loadMoreState = new MutableLiveData<>();
+        private final OrderItemsRepository repository;
+        private MutableLiveData<Integer> nextPageIndex;
+
+        @VisibleForTesting
+        boolean hasMore;
+
+        public NextPageHandler(OrderItemsRepository repository) {
+            this.repository = repository;
+            reset();
+        }
+
+        public void getNextPage(MutableLiveData<Integer> nextPageIndex, long status, long startDate,
+                                long endDate) {
+
+            unregister();
+            this.nextPageIndex = nextPageIndex;
+            nextPageLiveData = repository.getNextPage(nextPageIndex.getValue(), status, startDate,
+                    endDate);
+            loadMoreState.setValue(new LoadMoreState(true, null));
+            nextPageLiveData.observeForever(this);
+        }
+
+        @Override
+        public void onChanged(@Nullable Resource<Boolean> result) {
+            if (result == null) {
+                reset();
+            } else {
+                switch (result.status) {
+                    case SUCCESS:
+                        hasMore = Boolean.TRUE.equals(result.data);
+                        nextPageIndex.setValue(hasMore ? nextPageIndex.getValue() + 1 : -1);
+                        unregister();
+                        loadMoreState.setValue(new LoadMoreState(false, null));
+                        break;
+                    case ERROR:
+                        hasMore = true;
+                        unregister();
+                        loadMoreState.setValue(new LoadMoreState(false, result.message));
+                        break;
+                }
+            }
+        }
+
+        private void unregister() {
+            if (nextPageLiveData != null) {
+                nextPageLiveData.removeObserver(this);
+                nextPageLiveData = null;
+            }
+        }
+
+        private void reset() {
+            unregister();
+            hasMore = true;
+            loadMoreState.setValue(new LoadMoreState(false, null));
+        }
+
+        public MutableLiveData<LoadMoreState> getLoadMoreState() {
+            return loadMoreState;
         }
     }
 }

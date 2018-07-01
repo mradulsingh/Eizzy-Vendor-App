@@ -149,7 +149,7 @@ public class SettlementRepository {
                         .getSettlementsNextPage(
                                 RequestConstants.Language.english,
                                 manager.token,
-                                "5ac35cc8e360ea4c1e3afc2f",
+                                manager.storeId,
                                 pageIndex,
                                 startDate,
                                 endDate).execute();

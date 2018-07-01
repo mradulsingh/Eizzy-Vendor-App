@@ -21,8 +21,8 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.OrderListItem;
+import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
 /**

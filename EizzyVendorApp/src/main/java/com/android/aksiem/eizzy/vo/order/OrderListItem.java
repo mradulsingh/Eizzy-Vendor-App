@@ -1,14 +1,11 @@
-package com.android.aksiem.eizzy.vo;
+package com.android.aksiem.eizzy.vo.order;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
-import com.android.aksiem.eizzy.util.Logger;
-import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
-import com.android.aksiem.eizzy.vo.support.order.OrderState;
-import com.android.aksiem.eizzy.vo.support.order.OrderType;
+import com.android.aksiem.eizzy.vo.Location;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -66,7 +63,7 @@ public class OrderListItem implements Serializable, Timestamped {
 
     @NonNull
     @SerializedName("serviceType")
-    private Integer serviceType;
+    private ServiceType serviceType;
 
     @NonNull
     @SerializedName("bookingType")
@@ -117,6 +114,10 @@ public class OrderListItem implements Serializable, Timestamped {
     private String driverEmail;
 
     @NonNull
+    @SerializedName("orderDetails")
+    private OrderInfo orderInfo;
+
+    @NonNull
     @SerializedName("activityLogs")
     private ArrayList<OrderActivityLog> activityLogs;
 
@@ -130,7 +131,7 @@ public class OrderListItem implements Serializable, Timestamped {
 
     @NonNull
     @SerializedName("storeType")
-    private OrderType storeType;
+    private ServiceType storeType;
 
     @SerializedName("storeTypeMsg")
     private String storeTypeMsg;
@@ -252,11 +253,11 @@ public class OrderListItem implements Serializable, Timestamped {
     }
 
     @NonNull
-    public Integer getServiceType() {
+    public ServiceType getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(@NonNull Integer serviceType) {
+    public void setServiceType(@NonNull ServiceType serviceType) {
         this.serviceType = serviceType;
     }
 
@@ -369,6 +370,15 @@ public class OrderListItem implements Serializable, Timestamped {
     }
 
     @NonNull
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(@NonNull OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
+    }
+
+    @NonNull
     public ArrayList<OrderActivityLog> getActivityLogs() {
         return activityLogs;
     }
@@ -394,11 +404,11 @@ public class OrderListItem implements Serializable, Timestamped {
     }
 
     @NonNull
-    public OrderType getStoreType() {
+    public ServiceType getStoreType() {
         return storeType;
     }
 
-    public void setStoreType(@NonNull OrderType storeType) {
+    public void setStoreType(@NonNull ServiceType storeType) {
         this.storeType = storeType;
     }
 
@@ -473,7 +483,7 @@ public class OrderListItem implements Serializable, Timestamped {
     public String getStringTimestamp() {
         if (stringTimestamp == null) {
             SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-            stringTimestamp = dateFormatter.format(new Date(timestamp));
+            stringTimestamp = dateFormatter.format(new Date(timestamp * 1000));
         }
         return stringTimestamp;
     }

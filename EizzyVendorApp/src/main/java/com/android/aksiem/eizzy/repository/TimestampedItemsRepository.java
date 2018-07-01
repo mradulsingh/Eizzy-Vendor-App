@@ -12,8 +12,8 @@ import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
 import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.vo.Resource;
-import com.android.aksiem.eizzy.vo.Timestamped;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+import com.android.aksiem.eizzy.vo.order.Timestamped;
+import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

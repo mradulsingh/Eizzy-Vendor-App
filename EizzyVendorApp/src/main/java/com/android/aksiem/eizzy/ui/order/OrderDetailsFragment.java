@@ -21,8 +21,8 @@ import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.view.timeline.TimelineConfigBuilder;
 import com.android.aksiem.eizzy.view.timeline.TimelinePointListAdapter;
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
+import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.order.OrderStateTransition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +76,10 @@ public class OrderDetailsFragment extends NavigationFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         OrderDetailsFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
-                R.layout.order_details_fragment, container,
-                false, dataBindingComponent);
+                R.layout.order_details_fragment, container, false,
+                dataBindingComponent);
         binding = new AutoClearedValue<>(this, dataBinding);
+        extractOrderId(savedInstanceState);
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
@@ -87,55 +88,21 @@ public class OrderDetailsFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 OrderItemsViewModel.class);
-        setOrderDetailItem(savedInstanceState);
+        fetchOrderDetails();
     }
 
-    private void populateData() {
-        if (orderDetailItem != null) {
-
-            // Set order tracking view
-            if (orderDetailItem.getOrderTracking() != null
-                    && !orderDetailItem.getOrderTracking().isEmpty()) {
-
-                TimelineConfigBuilder builder = new TimelineConfigBuilder()
-                        .setVerbose(true)
-                        .setVertical(true);
-                TimelinePointListAdapter<OrderStateTransition> ostAdapter =
-                        new TimelinePointListAdapter<>(getContext(), R.layout.timeline_row,
-                                orderDetailItem.getOrderTracking(), builder);
-                this.ostAdapter = new AutoClearedValue<>(this, ostAdapter);
-                binding.get().timelineDetailsContainer.setAdapter(ostAdapter);
-            }
-
-            // Set order breakdown and price breakdown
-//            if (orderDetailItem.orderDetails != null) {
-//
-//                if (orderDetailItem.orderDetails.items != null
-//                        && orderDetailItem.orderDetails.items.items != null
-//                        && !orderDetailItem.orderDetails.items.items.isEmpty()) {
-//
-//                    binding.get().orderItemsBreakdown.setItems(orderDetailItem.orderDetails.items.items);
-//                }
-//
-//                if (orderDetailItem.orderDetails.priceComponents != null
-//                        && orderDetailItem.orderDetails.priceComponents.items != null
-//                        && !orderDetailItem.orderDetails.priceComponents.items.isEmpty()) {
-//
-//                    binding.get().surchargesBreakdown.setItems(orderDetailItem.orderDetails
-//                            .priceComponents.items);
-//                }
-//            }
-        }
-    }
-
-    private void setOrderDetailItem(@Nullable Bundle args) {
+    private void extractOrderId(@Nullable Bundle args) {
         Bundle bundle = args == null ? getArguments() : args;
         orderId = bundle.getString(BUNDLE_ORDER_ID);
+    }
+
+    private void fetchOrderDetails() {
         if (orderId != null) {
             List<String> orderIds = new ArrayList<>();
             orderIds.add(orderId);
             orderItemsViewModel.setOrderIdToFetch(orderId);
             orderItemsViewModel.getDetailedItem().observe(this, (resource) -> {
+                binding.get().setResource(resource);
                 switch (resource.status) {
                     case LOADING:
                         break;
@@ -148,6 +115,41 @@ public class OrderDetailsFragment extends NavigationFragment {
                         break;
                 }
             });
+        }
+    }
+
+    private void populateData() {
+        if (orderDetailItem != null) {
+
+            binding.get().setItem(orderDetailItem);
+            populateOrderTracking();
+
+            switch (orderDetailItem.orderType) {
+                case GENERAL_ORDER:
+                    // TODO
+                    break;
+                case CUSTOM_ORDER:
+                    // TODO
+                    break;
+                case BULK_ORDER:
+                    // TODO
+                    break;
+            }
+        }
+    }
+
+    private void populateOrderTracking() {
+        if (orderDetailItem.getOrderTracking() != null
+                && !orderDetailItem.getOrderTracking().isEmpty()) {
+
+            TimelineConfigBuilder builder = new TimelineConfigBuilder()
+                    .setVerbose(true)
+                    .setVertical(true);
+            TimelinePointListAdapter<OrderStateTransition> ostAdapter =
+                    new TimelinePointListAdapter<>(getContext(), R.layout.timeline_row,
+                            orderDetailItem.getOrderTracking(), builder);
+            this.ostAdapter = new AutoClearedValue<>(this, ostAdapter);
+            binding.get().timelineDetailsContainer.setAdapter(ostAdapter);
         }
     }
 }

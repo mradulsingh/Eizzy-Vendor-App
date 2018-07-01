@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.vo;
+package com.android.aksiem.eizzy.vo.order;
 
 import android.support.annotation.NonNull;
 

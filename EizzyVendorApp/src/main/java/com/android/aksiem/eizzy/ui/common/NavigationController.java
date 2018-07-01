@@ -35,7 +35,7 @@ import com.android.aksiem.eizzy.ui.settlement.SettlementFragment;
 import com.android.aksiem.eizzy.ui.user.StoreManagerDetailFragment;
 import com.android.aksiem.eizzy.ui.webviews.WebviewFragment;
 import com.android.aksiem.eizzy.util.Logger;
-import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
 
 import java.util.ArrayList;
 

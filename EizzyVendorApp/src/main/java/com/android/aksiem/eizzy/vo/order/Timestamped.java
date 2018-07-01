@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.vo;
+package com.android.aksiem.eizzy.vo.order;
 
 /**
  * Created by pdubey on 15/04/18.

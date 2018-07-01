@@ -43,7 +43,7 @@ import com.android.aksiem.eizzy.ui.toolbar.AppToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.util.StringUtils;
-import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

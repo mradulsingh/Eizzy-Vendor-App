@@ -182,13 +182,16 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
                 navigationController.navigateToStoreManagerFragment();
                 break;
             case R.id.nav_tnc:
-                navigationController.navigateToWebViewFragment(LINK_TnC, getString(R.string.nav_item_termsconditon));
+                navigationController.navigateToWebViewFragment(LINK_TnC,
+                        getString(R.string.nav_item_termsconditon));
                 break;
             case R.id.nav_support:
-                navigationController.navigateToWebViewFragment(LINK_SUPPORT, getString(R.string.nav_item_support));
+                navigationController.navigateToWebViewFragment(LINK_SUPPORT,
+                        getString(R.string.nav_item_support));
                 break;
             case R.id.nav_about_us:
-                navigationController.navigateToWebViewFragment(LINK_ABOUT_US, getString(R.string.nav_item_aboutus));
+                navigationController.navigateToWebViewFragment(LINK_ABOUT_US,
+                        getString(R.string.nav_item_aboutus));
                 break;
         }
 

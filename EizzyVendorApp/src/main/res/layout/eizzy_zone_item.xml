@@ -4,7 +4,7 @@
     <data>
         <variable
             name="eizzyZoneItem"
-            type="com.android.aksiem.eizzy.vo.EizzyZone" />
+            type="com.android.aksiem.eizzy.vo.order.EizzyZone" />
     </data>
 
     <TextView

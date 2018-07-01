@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.vo.support.order;
+package com.android.aksiem.eizzy.vo.order;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by pdubey on 09/04/18.
  */
 
-public enum OrderType implements Serializable {
+public enum ServiceType implements Serializable {
 
     @SerializedName("0")
     FOOD(0),
@@ -24,7 +24,7 @@ public enum OrderType implements Serializable {
 
     private Integer orderType;
 
-    OrderType(int orderType) {
+    ServiceType(int orderType) {
         this.orderType = orderType;
     }
 
@@ -44,8 +44,8 @@ public enum OrderType implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderType{" +
-                "orderType='" + orderType + '\'' +
+        return "ServiceType{" +
+                "serviceType='" + orderType + '\'' +
                 '}';
     }
 }

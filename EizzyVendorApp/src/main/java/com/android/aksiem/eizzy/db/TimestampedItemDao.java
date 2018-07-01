@@ -2,8 +2,7 @@ package com.android.aksiem.eizzy.db;
 
 import android.arch.lifecycle.LiveData;
 
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.Timestamped;
+import com.android.aksiem.eizzy.vo.order.Timestamped;
 
 import java.util.List;
 

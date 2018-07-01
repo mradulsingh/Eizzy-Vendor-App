@@ -28,9 +28,9 @@ import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.util.Logger;
-import com.android.aksiem.eizzy.vo.OrderListItem;
+import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.Resource;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
 import java.util.List;
 
@@ -43,8 +43,6 @@ import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.main
  */
 
 public class OrderItemsFragment extends NavigationFragment {
-
-    private final boolean runningInDummyMode = false;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -83,6 +81,15 @@ public class OrderItemsFragment extends NavigationFragment {
                 .setToolbarNavClickListener(v -> {
                     ((EizzyActivity) getActivity()).openDrawer();
                 })
+                .setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                    if (v.getChildAt(v.getChildCount() - 1) != null) {
+                        if ((scrollY >= (v.getChildAt(v.getChildCount() - 1)
+                                .getMeasuredHeight() - v.getMeasuredHeight())) &&
+                                scrollY > oldScrollY) {
+                            onPageEndReached();
+                        }
+                    }
+                })
                 .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
                         buildMenuActions());
     }
@@ -110,7 +117,7 @@ public class OrderItemsFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         orderItemsViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 OrderItemsViewModel.class);
-        initOrdersList();
+
         OrderItemsAdapter adapter = new OrderItemsAdapter(appResourceManager, dataBindingComponent,
                 orderItem -> {
                     Logger.tag(OrderItemsFragment.class.getSimpleName())
@@ -123,27 +130,43 @@ public class OrderItemsFragment extends NavigationFragment {
         RecyclerView recyclerView = binding.get().orderList;
         ViewCompat.setNestedScrollingEnabled(recyclerView, false);
         recyclerView.setAdapter(adapter);
+
+        initOrdersList();
     }
 
     private void initOrdersList() {
-        if (runningInDummyMode) {
-            orderItemsViewModel.getDummyOrderItems().observe(this, resource -> {
-                //updateAdapter(resource);
-            });
-        } else {
-            orderItemsViewModel.getAllOrderItems().observe(this, resource -> {
-                binding.get().setResource(resource);
-                switch (resource.status) {
-                    case LOADING:
-                        break;
-                    case SUCCESS:
-                        updateAdapter(resource);
-                        break;
-                    case ERROR:
-                        break;
+        initInitialList();
+        initPaginatedList();
+    }
+
+    private void initInitialList() {
+        orderItemsViewModel.getAllOrderItems().observe(this, resource -> {
+            binding.get().setResource(resource);
+            switch (resource.status) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    updateAdapter(resource);
+                    break;
+                case ERROR:
+                    break;
+            }
+        });
+    }
+
+    private void initPaginatedList() {
+        orderItemsViewModel.getLoadMoreStatus().observe(this, loadMoreState -> {
+            if (loadMoreState == null) {
+                binding.get().setLoadingMore(false);
+            } else {
+                binding.get().setLoadingMore(loadMoreState.isRunning());
+                String error = loadMoreState.getErrorMessageIfNotHandled();
+                if (error != null) {
+                    toastController.showErrorToast(error);
                 }
-            });
-        }
+            }
+            binding.get().executePendingBindings();
+        });
     }
 
     private void updateAdapter(Resource<List<TimestampedItemWrapper<OrderListItem>>> resource) {
@@ -156,6 +179,16 @@ public class OrderItemsFragment extends NavigationFragment {
 
     private void navigateToCreateOrder() {
         navigationController.navigateToCreateOrderFragment(null);
+    }
+
+    private void onPageEndReached() {
+        onLoadNextPage();
+    }
+
+    private void onLoadNextPage() {
+        if (!binding.get().getLoadingMore()) {
+            orderItemsViewModel.loadNextPage();
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.android.aksiem.eizzy.vo.support.order;
+package com.android.aksiem.eizzy.vo.order;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;

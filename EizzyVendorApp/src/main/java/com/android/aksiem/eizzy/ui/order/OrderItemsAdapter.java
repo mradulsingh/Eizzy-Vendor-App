@@ -12,8 +12,8 @@ import com.android.aksiem.eizzy.databinding.OrderListItemBinding;
 import com.android.aksiem.eizzy.databinding.TimestampTitleItemBinding;
 import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
 import com.android.aksiem.eizzy.util.Objects;
-import com.android.aksiem.eizzy.vo.OrderListItem;
-import com.android.aksiem.eizzy.vo.TimestampedItemWrapper;
+import com.android.aksiem.eizzy.vo.order.OrderListItem;
+import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
 /**
  * Created by pdubey on 14/04/18.
@@ -83,7 +83,9 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
     }
 
     @Override
-    protected void bind(ViewDataBinding binding, int viewType, TimestampedItemWrapper<OrderListItem> item) {
+    protected void bind(ViewDataBinding binding, int viewType,
+                        TimestampedItemWrapper<OrderListItem> item) {
+
         if (isItem(viewType)) {
             OrderListItemBinding orderItemBinding = ((OrderListItemBinding) binding);
             orderItemBinding.setItem(item.item);

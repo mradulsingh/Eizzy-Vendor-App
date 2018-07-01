@@ -19,34 +19,27 @@ import com.android.aksiem.eizzy.di.AppScope;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
 import com.android.aksiem.eizzy.util.StringUtils;
-import com.android.aksiem.eizzy.view.timeline.AppTimelinePointView;
-import com.android.aksiem.eizzy.vo.Accounting;
-import com.android.aksiem.eizzy.vo.CustomerDetails;
+import com.android.aksiem.eizzy.vo.order.Accounting;
+import com.android.aksiem.eizzy.vo.order.CustomerDetails;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
-import com.android.aksiem.eizzy.vo.EizzyZone;
+import com.android.aksiem.eizzy.vo.order.EizzyZone;
 import com.android.aksiem.eizzy.vo.LatLng;
 import com.android.aksiem.eizzy.vo.Location;
-import com.android.aksiem.eizzy.vo.OrderActivityLog;
-import com.android.aksiem.eizzy.vo.OrderDetailItem;
-import com.android.aksiem.eizzy.vo.OrderListItem;
-import com.android.aksiem.eizzy.vo.OrderListWrapper;
-import com.android.aksiem.eizzy.vo.PaymentBreakupByMode;
+import com.android.aksiem.eizzy.vo.order.OrderActivityLog;
+import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
+import com.android.aksiem.eizzy.vo.order.OrderListItem;
+import com.android.aksiem.eizzy.vo.order.OrderListWrapper;
+import com.android.aksiem.eizzy.vo.order.OrderType;
+import com.android.aksiem.eizzy.vo.order.PaymentBreakupByMode;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.StoreManager;
-import com.android.aksiem.eizzy.vo.support.Actor;
-import com.android.aksiem.eizzy.vo.support.ActorRole;
-import com.android.aksiem.eizzy.vo.support.Price;
-import com.android.aksiem.eizzy.vo.support.TitlizedList;
-import com.android.aksiem.eizzy.vo.support.order.ExclusiveTax;
-import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
-import com.android.aksiem.eizzy.vo.support.order.OrderDetails;
-import com.android.aksiem.eizzy.vo.support.order.OrderState;
-import com.android.aksiem.eizzy.vo.support.order.OrderStateTransition;
-import com.android.aksiem.eizzy.vo.support.order.OrderType;
-import com.android.aksiem.eizzy.vo.support.order.OrderedItem;
-import com.android.aksiem.eizzy.vo.support.order.PriceComponent;
+import com.android.aksiem.eizzy.vo.order.ExclusiveTax;
+import com.android.aksiem.eizzy.vo.order.OrderActivityLogState;
+import com.android.aksiem.eizzy.vo.order.ServiceType;
+import com.android.aksiem.eizzy.vo.order.OrderedItem;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +50,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import okhttp3.RequestBody;
 import retrofit2.Response;
 
 /**
@@ -108,7 +100,7 @@ public class OrderItemsRepository {
     }
 
     public LiveData<Resource<EizzyApiRespone<OrderListWrapper>>> loadItemsToList(
-            long pageIndex, long status, long startDate, long endDate) {
+            int pageIndex, long status, long startDate, long endDate) {
 
         return new DbNetworkBoundResource<EizzyApiRespone<OrderListWrapper>,
                 EizzyApiRespone<OrderListWrapper>>(appExecutors) {
@@ -167,6 +159,16 @@ public class OrderItemsRepository {
             }
         }.asLiveData();
 
+    }
+
+    public LiveData<Resource<Boolean>> getNextPage(int pageIndex, long status, long startDate,
+                                                   long endDate) {
+
+        StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
+        FetchNextPageTask task = new FetchNextPageTask(appService, manager, appDb, pageIndex,
+                status, startDate, endDate);
+        appExecutors.networkIO().execute(task);
+        return task.getLiveData();
     }
 
     public LiveData<Resource<EizzyApiRespone<OrderDetailItem>>> getDetailedItem(String orderId) {
@@ -414,7 +416,8 @@ public class OrderItemsRepository {
                         StringUtils.getPlainTextRequestBody(customerSignature.toString()),
                         StringUtils.getPlainTextRequestBody(Integer.toString(
                                 RequestConstants.OrderSchedule.getOrderScheduleCode(orderLater))),
-                        StringUtils.getPlainTextRequestBody(Long.toString(creationTime)),
+                        StringUtils.getPlainTextRequestBody(RequestConstants.OrderSchedule
+                                .getOrderCreationTime(creationTime)),
                         StringUtils.getPlainTextRequestBody(RequestConstants.OrderSchedule
                                 .getOrderScheduledTime(orderLater, scheduleTime, creationTime)),
                         StringUtils.getPlainTextRequestBody(
@@ -472,7 +475,7 @@ public class OrderItemsRepository {
         String orderTimestamp = Long.toString(timestamp);
         String cartId = generateOrderItemId(10);
         Float deliveryCharge = 25f;
-        OrderType orderType = OrderType.FOOD;
+        ServiceType serviceType = ServiceType.FOOD;
         String orderTypeMsg = "Bulk Order";
         Integer paymentType = 1;
         String paymentTypeMessage = "card";
@@ -482,7 +485,7 @@ public class OrderItemsRepository {
         String bookingDate = dateFormatter.format(datetime);
         String dueDate = bookingDate;
 
-        Integer serviceType = 1;
+        OrderType orderType = OrderType.BULK_ORDER;
         Integer bookingType = 1;
         Integer pricingModel = 0;
         String zoneType = null;
@@ -574,129 +577,12 @@ public class OrderItemsRepository {
         return activityLogs;
     }
 
-    private List<OrderStateTransition> generateOrderStateTransitions() {
-        Long t0 = System.currentTimeMillis();
-        OrderState o0 = OrderState.PLACED;
-        String l0 = "Bengaluru";
-        String m0 = "Order Placed by User";
-        AppTimelinePointView.TimelinePointState s0 = AppTimelinePointView.TimelinePointState.COMPLETE;
-        OrderStateTransition ost0 = new OrderStateTransition(o0, t0, l0)
-                .setIndex(0)
-                .setMessage(m0)
-                .setState(s0);
-        Long t1 = System.currentTimeMillis();
-        OrderState o1 = OrderState.CONFIRMED;
-        String l1 = "Bengaluru";
-        String m1 = "Order Confirmed by Shanmukha Restaurant";
-        AppTimelinePointView.TimelinePointState s1 = AppTimelinePointView.TimelinePointState.COMPLETE;
-        OrderStateTransition ost1 = new OrderStateTransition(o1, t1, l1)
-                .setIndex(1)
-                .setMessage(m1)
-                .setState(s1);
-        Long t2 = System.currentTimeMillis();
-        OrderState o2 = OrderState.ASSIGNED;
-        String l2 = "Bengaluru";
-        String m2 = "Order Assigned To Rajesh Kumar";
-        AppTimelinePointView.TimelinePointState s2 = AppTimelinePointView.TimelinePointState.COMPLETE;
-        OrderStateTransition ost2 = new OrderStateTransition(o2, t2, l2)
-                .setIndex(2)
-                .setMessage(m2)
-                .setState(s2);
-        Long t3 = System.currentTimeMillis();
-        OrderState o3 = OrderState.PICKED;
-        String l3 = "Bengaluru";
-        String m3 = "Order Picked for More Mega Store";
-        AppTimelinePointView.TimelinePointState s3 = AppTimelinePointView.TimelinePointState.IN_PROGRESS;
-        OrderStateTransition ost3 = new OrderStateTransition(o3, t3, l3)
-                .setIndex(3)
-                .setMessage(m3)
-                .setState(s3);
-        Long t4 = System.currentTimeMillis();
-        OrderState o4 = OrderState.DELIVERED;
-        String l4 = "Bengaluru";
-        String m4 = "Order Delivered To User";
-        AppTimelinePointView.TimelinePointState s4 = AppTimelinePointView.TimelinePointState.PENDING;
-        OrderStateTransition ost4 = new OrderStateTransition(o4, t4, l4)
-                .setIndex(4)
-                .setMessage(m4)
-                .setState(s4);
-        List<OrderStateTransition> ostList = new ArrayList<>();
-        ostList.add(ost0);
-        ostList.add(ost1);
-        ostList.add(ost2);
-        ostList.add(ost3);
-        ostList.add(ost4);
-        return ostList;
-    }
-
-    private Actor generateActor(ActorRole role) {
-        Random random = new Random();
-        List<String> actorNames = getActorNames();
-        return new Actor(random.nextInt(), actorNames.get(random.nextInt(actorNames.size())),
-                generatePhoneNumber(), role);
-    }
-
-    private OrderDetails generateSingleOrderItemDetails() {
-        TitlizedList<OrderedItem> orderedItems = generateListOfOrderedItems();
-        TitlizedList<PriceComponent> priceComponents = generateAdditionalPriceComponents(orderedItems.items);
-        PriceComponent total = generateTotal(orderedItems.items, priceComponents.items);
-        OrderDetails orderDetails = new OrderDetails(orderedItems, priceComponents, total,
-                "Cash");
-        return orderDetails;
-    }
-
-    private TitlizedList<OrderedItem> generateListOfOrderedItems() {
-        List<OrderedItem> items = new ArrayList<>();
-
-        List<String> orderableItems = getOrderableItems();
-        Random random = new Random();
-        int max = random.nextInt(10) + 1;
-        for (int i = 0; i < max; i++) {
-            String itemName = orderableItems.get(random.nextInt(orderableItems.size()));
-            double quantity = random.nextInt(5) + 1;
-            double unitPrice = random.nextInt(500) + 100;
-            double totalPrice = quantity * unitPrice;
-            items.add(null);
-        }
-        return new TitlizedList<>("Orders", items);
-    }
-
-    private TitlizedList<PriceComponent> generateAdditionalPriceComponents(
-            List<OrderedItem> items) {
-        float rawTotal = getOrderedItemsTotal(items);
-        PriceComponent cgst = new PriceComponent("cgst @2.5%",
-                new Price(rawTotal * 1.025f, "Rs."));
-        PriceComponent sgst = new PriceComponent("sgst @2.5%",
-                new Price(rawTotal * 1.025f, "Rs."));
-        PriceComponent serviceCharge = new PriceComponent("service charge @10%",
-                new Price(rawTotal * 1.1f, "Rs."));
-        List<PriceComponent> additionalCharges = new ArrayList<>();
-        additionalCharges.add(cgst);
-        additionalCharges.add(sgst);
-        Random random = new Random();
-        if (random.nextInt(10) < 5) {
-            additionalCharges.add(serviceCharge);
-        }
-        return new TitlizedList<>("Surcharges", additionalCharges);
-    }
-
     private float getOrderedItemsTotal(List<OrderedItem> items) {
         float total = 0.0f;
         for (OrderedItem item : items) {
             //total += item.totalPrice;
         }
         return total;
-    }
-
-    private PriceComponent generateTotal(List<OrderedItem> items,
-                                         List<PriceComponent> additionalCharges) {
-        String componentName = "Total";
-        String currency = "Rs.";
-        float total = getOrderedItemsTotal(items);
-        for (PriceComponent additionalCharge : additionalCharges) {
-            total += additionalCharge.price.amount;
-        }
-        return new PriceComponent(componentName, new Price(total, currency));
     }
 
     private String generatePhoneNumber() {
@@ -723,45 +609,6 @@ public class OrderItemsRepository {
         return stringBuilder.toString();
     }
 
-    private List<String> getOrderableItems() {
-        List<String> orderableItems = new ArrayList<>();
-        orderableItems.add("Chicken Malai Tikka");
-        orderableItems.add("Tandoori Chicken");
-        orderableItems.add("Kalmi Kebab");
-        orderableItems.add("Steamed Chicken Momos");
-        orderableItems.add("Drums of Heaven");
-        orderableItems.add("Chicken Lollipop");
-        orderableItems.add("Chilli Chicken");
-        orderableItems.add("Dijej Al Faham");
-        orderableItems.add("BBQ Chicken");
-        orderableItems.add("Paneer Butter Masala");
-        orderableItems.add("Kadhai Paneer");
-        orderableItems.add("Dal Makhani");
-        orderableItems.add("Chicken Butter Masala");
-        orderableItems.add("Egg Fried Rice");
-        orderableItems.add("Veg Fried Rice");
-        orderableItems.add("Chicken Fried Rice");
-        orderableItems.add("Shawarma Roll");
-        orderableItems.add("Tandoori Roll");
-        orderableItems.add("Butter Naan");
-        orderableItems.add("Ghee Rice");
-        orderableItems.add("Malabar Chicken Biriyani");
-        orderableItems.add("Hyderabadi Dum Biriyani");
-        orderableItems.add("Chicken Tikka Biriyani");
-        orderableItems.add("Malabar Family Biriyani");
-        orderableItems.add("Hyderabadi Mutton Biriyani");
-        orderableItems.add("Veg Meal");
-        orderableItems.add("Big Crunch Meal");
-        orderableItems.add("Big Crunch Combo");
-        orderableItems.add("Coke");
-        orderableItems.add("Thums Up");
-        orderableItems.add("Pepsi");
-        orderableItems.add("Baby Meal Box");
-        orderableItems.add("Chicken Meal Box");
-        orderableItems.add("Chicken Snack Box");
-        return orderableItems;
-    }
-
     private List<String> getActorNames() {
         List<String> names = new ArrayList<>();
         names.add("Sandeep");
@@ -771,6 +618,69 @@ public class OrderItemsRepository {
         names.add("Satish");
         names.add("Harish");
         return names;
+    }
+
+    private static class FetchNextPageTask implements Runnable {
+
+        private MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+        private int pageIndex;
+        private long status;
+        private long startDate;
+        private long endDate;
+        private final AppService appService;
+        private final StoreManager storeManager;
+        private final AppDb appDb;
+
+        public FetchNextPageTask(AppService appService, StoreManager storeManager, AppDb appDb,
+                                 int pageIndex, long status, long startDate, long endDate) {
+            this.appService = appService;
+            this.storeManager = storeManager;
+            this.appDb = appDb;
+            this.pageIndex = pageIndex;
+            this.status = status;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Response<EizzyApiRespone<OrderListWrapper>> response = appService
+                        .getOrdersNextPage(
+                                RequestConstants.Language.english,
+                                storeManager.token,
+                                storeManager.storeId,
+                                pageIndex,
+                                status,
+                                startDate,
+                                endDate).execute();
+                ApiResponse<EizzyApiRespone<OrderListWrapper>> apiResponse =
+                        new ApiResponse<>(response);
+                if (apiResponse.isSuccessful()) {
+                    OrderListWrapper data = apiResponse.body.data;
+                    if (data != null && data.items != null && !data.items.isEmpty()) {
+                        try {
+                            appDb.beginTransaction();
+                            appDb.orderListItemDao().insert(data.items);
+                            appDb.setTransactionSuccessful();
+                        } finally {
+                            appDb.endTransaction();
+                        }
+                        liveData.postValue(Resource.success(true));
+                    } else {
+                        liveData.postValue(Resource.success(false));
+                    }
+                } else {
+                    liveData.postValue(Resource.error(apiResponse.errorMessage, true));
+                }
+            } catch (IOException e) {
+                liveData.postValue(Resource.error(e.getMessage(), true));
+            }
+        }
+
+        public MutableLiveData<Resource<Boolean>> getLiveData() {
+            return liveData;
+        }
     }
 
 }

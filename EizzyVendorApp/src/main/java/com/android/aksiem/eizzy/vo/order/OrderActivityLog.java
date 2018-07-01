@@ -1,9 +1,9 @@
-package com.android.aksiem.eizzy.vo;
+package com.android.aksiem.eizzy.vo.order;
 
 import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
-import com.android.aksiem.eizzy.vo.support.order.OrderActivityLogState;
+import com.android.aksiem.eizzy.vo.Location;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
