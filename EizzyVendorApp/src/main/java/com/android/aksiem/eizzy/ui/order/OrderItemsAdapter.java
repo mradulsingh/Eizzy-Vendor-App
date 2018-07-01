@@ -11,6 +11,7 @@ import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.databinding.OrderListItemBinding;
 import com.android.aksiem.eizzy.databinding.TimestampTitleItemBinding;
 import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
+import com.android.aksiem.eizzy.ui.common.SortFilterDialogFragment;
 import com.android.aksiem.eizzy.util.Objects;
 import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
@@ -25,14 +26,17 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
     private final AppResourceManager appResourceManager;
     private final DataBindingComponent dataBindingComponent;
     private final ItemClickCallback itemClickCallback;
+    private final FilterClickCallback filterClickCallback;
 
     public OrderItemsAdapter(AppResourceManager appResourceManager,
                              DataBindingComponent dataBindingComponent,
-                             ItemClickCallback itemClickCallback) {
+                             ItemClickCallback itemClickCallback,
+                             FilterClickCallback filterClickCallback) {
 
         this.appResourceManager = appResourceManager;
         this.dataBindingComponent = dataBindingComponent;
         this.itemClickCallback = itemClickCallback;
+        this.filterClickCallback = filterClickCallback;
     }
 
     @Override
@@ -71,8 +75,11 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
                 LayoutInflater.from(parent.getContext()),
                 R.layout.timestamp_title_item, parent, false,
                 dataBindingComponent);
-        binding.getRoot().setOnClickListener(v -> {
+        binding.timestamp.setOnClickListener(v -> {
             // TODO: Does anything happen on the click of timestamp?
+        });
+        binding.filter.setOnClickListener(v -> {
+            filterClickCallback.onClick();
         });
         return binding;
     }
@@ -83,15 +90,16 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
     }
 
     @Override
-    protected void bind(ViewDataBinding binding, int viewType,
-                        TimestampedItemWrapper<OrderListItem> item) {
-
+    protected void bind(ViewDataBinding binding, int viewType, int position) {
+        TimestampedItemWrapper<OrderListItem> item = getItems().get(position);
         if (isItem(viewType)) {
             OrderListItemBinding orderItemBinding = ((OrderListItemBinding) binding);
             orderItemBinding.setItem(item.item);
             orderItemBinding.setResourceManager(appResourceManager);
         } else {
-            ((TimestampTitleItemBinding) binding).setTimestamp(Long.toString(item.timestamp));
+            TimestampTitleItemBinding timestampItemBinding = (TimestampTitleItemBinding) binding;
+            timestampItemBinding.setTimestamp(item.timestamp);
+            timestampItemBinding.setPosition(position);
         }
     }
 
@@ -123,6 +131,10 @@ public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapp
 
     public interface ItemClickCallback {
         void onClick(OrderListItem item);
+    }
+
+    public interface FilterClickCallback {
+        void onClick();
     }
 
 }

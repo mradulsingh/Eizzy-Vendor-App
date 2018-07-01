@@ -25,8 +25,8 @@
     <string name="screen.title.onboarding">@string/app.name</string>
     <string name="screen.subtitle.onboarding">Eizzy Delivery is Uber for Courier services. We deliver products all around Metro cities.</string>
 
-    <string name="title.dialog.sortnfilter">Sort &amp; Filter</string>
-    <string name="title.sortby">Sort by</string>
+    <string name="title.dialog.sortnfilter">Filter</string>
+    <string name="title.filter.by.date">Filter by Date</string>
     <string name="title.filterby">Filter by</string>
     <string name="button.action.apply">APPLY</string>
     <string name="webpage_error_dialog_message">Seems like there is something wrong. Please check the Internet connectivity and press Ok to try again.</string>

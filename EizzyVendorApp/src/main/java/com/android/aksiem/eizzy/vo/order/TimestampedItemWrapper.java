@@ -11,10 +11,10 @@ public class TimestampedItemWrapper<T extends Timestamped> {
     }
 
     public final TimestampedItemWrapperType type;
-    public final Long timestamp;
+    public final String timestamp;
     public final T item;
 
-    public TimestampedItemWrapper(Long timestamp, T item) {
+    public TimestampedItemWrapper(String timestamp, T item) {
         if (item != null && timestamp != null) {
             throw new IllegalArgumentException("OrderDetailItem and Timestamp can't both be non-null");
         } else if (item == null && timestamp == null) {

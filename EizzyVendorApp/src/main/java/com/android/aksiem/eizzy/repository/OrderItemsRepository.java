@@ -100,7 +100,7 @@ public class OrderItemsRepository {
     }
 
     public LiveData<Resource<EizzyApiRespone<OrderListWrapper>>> loadItemsToList(
-            int pageIndex, long status, long startDate, long endDate) {
+            int pageIndex, long status, String stateFilter, long startDate, long endDate) {
 
         return new DbNetworkBoundResource<EizzyApiRespone<OrderListWrapper>,
                 EizzyApiRespone<OrderListWrapper>>(appExecutors) {
@@ -154,6 +154,7 @@ public class OrderItemsRepository {
                         manager.storeId,
                         pageIndex,
                         status,
+                        stateFilter,
                         startDate,
                         endDate);
             }
@@ -161,12 +162,45 @@ public class OrderItemsRepository {
 
     }
 
-    public LiveData<Resource<Boolean>> getNextPage(int pageIndex, long status, long startDate,
-                                                   long endDate) {
+    public LiveData<Resource<EizzyApiRespone<OrderListWrapper>>> loadItemsToListWithoutDb(
+            int pageIndex, long status, String stateFilter, long startDate, long endDate) {
+
+        return new NoCacheNetworkBoundResource<EizzyApiRespone<OrderListWrapper>,
+                EizzyApiRespone<OrderListWrapper>> (appExecutors) {
+
+            @NonNull
+            @Override
+            protected LiveData<EizzyApiRespone<OrderListWrapper>> getCallResult(
+                    @NonNull EizzyApiRespone<OrderListWrapper> item) {
+                MutableLiveData<EizzyApiRespone<OrderListWrapper>> mld = new MutableLiveData<>();
+                mld.setValue(item);
+                return mld;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<EizzyApiRespone<OrderListWrapper>>> createCall() {
+                StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
+                        appPrefManager);
+                return appService.getAllOrders(
+                        RequestConstants.Language.english,
+                        manager.token,
+                        manager.storeId,
+                        pageIndex,
+                        status,
+                        stateFilter,
+                        startDate,
+                        endDate);
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<Boolean>> getNextPage(int pageIndex, long status, String stateFilter,
+                                                   long startDate, long endDate) {
 
         StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(appPrefManager);
         FetchNextPageTask task = new FetchNextPageTask(appService, manager, appDb, pageIndex,
-                status, startDate, endDate);
+                status, stateFilter, startDate, endDate);
         appExecutors.networkIO().execute(task);
         return task.getLiveData();
     }
@@ -625,6 +659,7 @@ public class OrderItemsRepository {
         private MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
         private int pageIndex;
         private long status;
+        private String stateFilter;
         private long startDate;
         private long endDate;
         private final AppService appService;
@@ -632,12 +667,14 @@ public class OrderItemsRepository {
         private final AppDb appDb;
 
         public FetchNextPageTask(AppService appService, StoreManager storeManager, AppDb appDb,
-                                 int pageIndex, long status, long startDate, long endDate) {
+                                 int pageIndex, long status, String stateFilter, long startDate,
+                                 long endDate) {
             this.appService = appService;
             this.storeManager = storeManager;
             this.appDb = appDb;
             this.pageIndex = pageIndex;
             this.status = status;
+            this.stateFilter = stateFilter;
             this.startDate = startDate;
             this.endDate = endDate;
         }
@@ -652,6 +689,7 @@ public class OrderItemsRepository {
                                 storeManager.storeId,
                                 pageIndex,
                                 status,
+                                stateFilter,
                                 startDate,
                                 endDate).execute();
                 ApiResponse<EizzyApiRespone<OrderListWrapper>> apiResponse =

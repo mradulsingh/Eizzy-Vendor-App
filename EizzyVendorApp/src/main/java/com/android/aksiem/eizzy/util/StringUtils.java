@@ -6,7 +6,9 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
 
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
@@ -28,6 +30,49 @@ public class StringUtils {
         for (int i = 0; i < len; i++)
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
         return sb.toString();
+    }
+
+    public static long getDayStart(long timestamp) {
+        Date date = new Date(timestamp - timestamp % (24 * 60 * 60 * 1000));
+        return date.getTime() / 1000;
+    }
+
+    public static long getMonthStart(long timestamp) {
+        Date date = new Date(timestamp);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        return c.getTimeInMillis() / 1000;
+    }
+
+    public static long getPreviousMonthStart(long timestamp) {
+        Date date = new Date(timestamp);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.MONTH, c.get(Calendar.MONTH) - 1);
+        return c.getTimeInMillis() / 1000;
+    }
+
+    public static long getYearStart(long timestamp) {
+        Date date = new Date(timestamp);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.MONTH, 1);
+        return c.getTimeInMillis() / 1000;
     }
 
     public static String getTimestamp(long timestamp, AppResourceManager resourceManager) {
@@ -60,8 +105,8 @@ public class StringUtils {
                 c.setTimeInMillis(now);
                 Calendar ts = Calendar.getInstance();
                 int year = ts.get(Calendar.YEAR);
-                String m = ts.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH);
-                String y = ts.getDisplayName(Calendar.YEAR, Calendar.SHORT, Locale.ENGLISH);
+                String m = ts.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
+                String y = ts.getDisplayName(Calendar.YEAR, Calendar.LONG, Locale.ENGLISH);
                 if (year < c.get(Calendar.YEAR)) {
                     toReturn = String.format("%s, %s", m, y);
                 } else {

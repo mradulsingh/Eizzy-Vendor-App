@@ -59,7 +59,7 @@ public abstract class TimestampedItemsRepository<T extends Timestamped> {
                 String currTS = StringUtils.getTimestamp(item.getTimestamp(),
                         appResourceManager);
                 if (initialTS == null || !initialTS.equals(currTS)) {
-                    timestampedItemWrappers.add(new TimestampedItemWrapper<T>(Long.decode(currTS), null));
+                    timestampedItemWrappers.add(new TimestampedItemWrapper<T>(currTS, null));
                     initialTS = currTS;
                 }
                 timestampedItemWrappers.add(new TimestampedItemWrapper<T>(null, item));

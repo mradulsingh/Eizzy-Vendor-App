@@ -12,12 +12,14 @@ import com.android.aksiem.eizzy.app.AppPrefManager;
 import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
+import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
 import com.android.aksiem.eizzy.vo.order.EizzyZone;
 import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.RequestConstants;
 import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.order.OrderListWrapper;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
 import java.util.ArrayList;
@@ -51,6 +53,8 @@ public class OrderItemsViewModel extends ViewModel {
     private Long startDate = 0l;
 
     private Long endDate = 0l;
+
+    private String stateFilter = "100";
 
     private String orderIdToFetch;
 
@@ -87,31 +91,14 @@ public class OrderItemsViewModel extends ViewModel {
     public LiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> getAllOrderItems() {
 
         timestampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItemsToList(
-                pageIndex, status, startDate, endDate), (items) -> {
+                pageIndex, status, stateFilter, startDate, endDate), (items) -> transform(items));
+        return timestampedOrderItems;
+    }
 
-            MutableLiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> toReturn =
-                    new MutableLiveData<>();
-
-            if (items != null) {
-                List<TimestampedItemWrapper<OrderListItem>> list = new ArrayList<>();
-                switch (items.status) {
-                    case SUCCESS:
-                        if (items.data != null && items.data.data != null
-                                && items.data.data.items != null
-                                && !items.data.data.items.isEmpty()) {
-                            for (OrderListItem item : items.data.data.items) {
-                                list.add(new TimestampedItemWrapper<>(null, item));
-                            }
-                        }
-                        break;
-                }
-                Resource<List<TimestampedItemWrapper<OrderListItem>>> resource = new Resource<>(
-                        items.status, list, items.message);
-                toReturn.setValue(resource);
-                return toReturn;
-            }
-            return AbsentLiveData.create();
-        });
+    public LiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> getAllItemsWithoutDb() {
+        timestampedOrderItems = Transformations.switchMap(orderItemsRepository
+                .loadItemsToListWithoutDb(pageIndex, status, stateFilter, startDate, endDate),
+                (items) -> transform(items));
         return timestampedOrderItems;
     }
 
@@ -135,7 +122,7 @@ public class OrderItemsViewModel extends ViewModel {
     @VisibleForTesting
     public void loadNextPage() {
         if (nextPageHandler.hasMore && nextPageIndex.getValue() >= 0) {
-            nextPageHandler.getNextPage(nextPageIndex, status, startDate, endDate);
+            nextPageHandler.getNextPage(nextPageIndex, status, stateFilter, startDate, endDate);
         }
     }
 
@@ -151,6 +138,10 @@ public class OrderItemsViewModel extends ViewModel {
         this.status = status;
     }
 
+    public void setStateFilter(String stateFilter) {
+        this.stateFilter = stateFilter;
+    }
+
     public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
@@ -161,6 +152,44 @@ public class OrderItemsViewModel extends ViewModel {
 
     public void setOrderIdToFetch(String orderIdToFetch) {
         this.orderIdToFetch = orderIdToFetch;
+    }
+
+    private LiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> transform(
+            Resource<EizzyApiRespone<OrderListWrapper>> items) {
+
+        MutableLiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> toReturn =
+                new MutableLiveData<>();
+
+        if (items != null) {
+            List<TimestampedItemWrapper<OrderListItem>> list = new ArrayList<>();
+            switch (items.status) {
+                case SUCCESS:
+                    if (items.data != null && items.data.data != null
+                            && items.data.data.items != null
+                            && !items.data.data.items.isEmpty()) {
+
+                        String prevTimestampString = null;
+
+                        for (OrderListItem item : items.data.data.items) {
+                            String timestampString = StringUtils.getTimestamp(
+                                    item.getTimestamp(), appResourceManager);
+                            if (prevTimestampString == null ||
+                                    !prevTimestampString.equals(timestampString)) {
+                                list.add(new TimestampedItemWrapper<>(timestampString,
+                                        null));
+                                prevTimestampString = timestampString;
+                            }
+                            list.add(new TimestampedItemWrapper<>(null, item));
+                        }
+                    }
+                    break;
+            }
+            Resource<List<TimestampedItemWrapper<OrderListItem>>> resource = new Resource<>(
+                    items.status, list, items.message);
+            toReturn.setValue(resource);
+            return toReturn;
+        }
+        return AbsentLiveData.create();
     }
 
     private LiveData<Resource<List<TimestampedItemWrapper<OrderDetailItem>>>> addTimestampToList(
@@ -233,13 +262,13 @@ public class OrderItemsViewModel extends ViewModel {
             reset();
         }
 
-        public void getNextPage(MutableLiveData<Integer> nextPageIndex, long status, long startDate,
-                                long endDate) {
+        public void getNextPage(MutableLiveData<Integer> nextPageIndex, long status,
+                                String stateFilter, long startDate, long endDate) {
 
             unregister();
             this.nextPageIndex = nextPageIndex;
-            nextPageLiveData = repository.getNextPage(nextPageIndex.getValue(), status, startDate,
-                    endDate);
+            nextPageLiveData = repository.getNextPage(nextPageIndex.getValue(), status, stateFilter,
+                    startDate, endDate);
             loadMoreState.setValue(new LoadMoreState(true, null));
             nextPageLiveData.observeForever(this);
         }

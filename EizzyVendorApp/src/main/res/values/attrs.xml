@@ -64,6 +64,10 @@
         <attr name="drawableBottomCompat" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="AppButton">
+        <attr name="vectorDrawable" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="AppLabelledTextView" parent="AppTextView">
         <attr name="drawableLabelLeftCompat" format="reference" />
         <attr name="drawableLabelRightCompat" format="reference" />

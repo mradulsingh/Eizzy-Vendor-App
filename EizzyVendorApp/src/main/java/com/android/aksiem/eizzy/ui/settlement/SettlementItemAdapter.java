@@ -42,8 +42,8 @@ public class SettlementItemAdapter extends DataBoundListAdapter<SettlementItem,
     }
 
     @Override
-    protected void bind(SettlementItemBinding binding, int viewType, SettlementItem item) {
-        binding.setSettlementItem(item);
+    protected void bind(SettlementItemBinding binding, int viewType, int position) {
+        binding.setSettlementItem(getItems().get(position));
     }
 
     @Override

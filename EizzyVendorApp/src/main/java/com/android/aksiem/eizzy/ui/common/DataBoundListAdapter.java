@@ -53,7 +53,7 @@ public abstract class DataBoundListAdapter<T, V extends ViewDataBinding>
     @Override
     public final void onBindViewHolder(DataBoundViewHolder<V> holder, int position) {
         //noinspection ConstantConditions
-        bind(holder.binding, getItemViewType(position), items.get(position));
+        bind(holder.binding, getItemViewType(position), position);
         holder.binding.executePendingBindings();
     }
 
@@ -118,7 +118,7 @@ public abstract class DataBoundListAdapter<T, V extends ViewDataBinding>
         }
     }
 
-    protected abstract void bind(V binding, int viewType, T item);
+    protected abstract void bind(V binding, int viewType, int position);
 
     protected abstract boolean areItemsTheSame(T oldItem, T newItem);
 

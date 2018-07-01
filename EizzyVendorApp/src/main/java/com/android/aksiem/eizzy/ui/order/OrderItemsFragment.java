@@ -22,6 +22,7 @@ import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.OrderItemsFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.common.SortFilterDialogFragment;
 import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
@@ -61,6 +62,8 @@ public class OrderItemsFragment extends NavigationFragment {
     DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     AutoClearedValue<OrderItemsFragmentBinding> binding;
     AutoClearedValue<OrderItemsAdapter> adapter;
+
+    private SortFilterDialogFragment filterDialogFragment;
 
     public static OrderItemsFragment create() {
         return new OrderItemsFragment();
@@ -125,6 +128,21 @@ public class OrderItemsFragment extends NavigationFragment {
                     Logger.tag(OrderItemsFragment.class.getSimpleName())
                             .d("order_list_item::::" + orderItem.toString());
                     navigationController.navigateToOrderDetailsFragment(orderItem.orderId);
+                },
+                () -> {
+                    if (filterDialogFragment == null) {
+                        filterDialogFragment = new SortFilterDialogFragment();
+                        filterDialogFragment.setOnApplyFilter(() -> {
+                            orderItemsViewModel.setStartDate(filterDialogFragment.getStartDate());
+                            orderItemsViewModel.setEndDate(filterDialogFragment.getEndDate());
+                            orderItemsViewModel.setStateFilter(filterDialogFragment
+                                    .getStateFilter());
+                            updateAdapter(null);
+                            initFilteredList();
+                        });
+                    }
+                    filterDialogFragment.show(getFragmentManager(),
+                            OrderItemsFragment.class.getSimpleName());
                 });
         this.adapter = new AutoClearedValue<>(this, adapter);
         RecyclerView recyclerView = binding.get().orderList;
@@ -141,6 +159,21 @@ public class OrderItemsFragment extends NavigationFragment {
 
     private void initInitialList() {
         orderItemsViewModel.getAllOrderItems().observe(this, resource -> {
+            binding.get().setResource(resource);
+            switch (resource.status) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    updateAdapter(resource);
+                    break;
+                case ERROR:
+                    break;
+            }
+        });
+    }
+
+    private void initFilteredList() {
+        orderItemsViewModel.getAllItemsWithoutDb().observe(this, resource -> {
             binding.get().setResource(resource);
             switch (resource.status) {
                 case LOADING:

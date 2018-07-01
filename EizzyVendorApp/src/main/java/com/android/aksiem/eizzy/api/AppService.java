@@ -134,23 +134,25 @@ public interface AppService {
             @Part("storeId") RequestBody storeId
     );
 
-    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/100/{startDate}/{endDate}")
+    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{stateFilter}/{startDate}/{endDate}")
     LiveData<ApiResponse<EizzyApiRespone<OrderListWrapper>>> getAllOrders(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,
             @Path("pageIndex") int pageIndex,
             @Path("status") long status,
+            @Path("stateFilter") String stateFilter,
             @Path("startDate") long startDate,
             @Path("endDate") long endDate);
 
-    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{startDate}/{endDate}")
+    @GET("dispatcher/order/{storeId}/{pageIndex}/{status}/{stateFilter}/{startDate}/{endDate}")
     Call<EizzyApiRespone<OrderListWrapper>> getOrdersNextPage(
             @Header("language") String language,
             @Header("authorization") String token,
             @Path("storeId") String storeId,
             @Path("pageIndex") long pageIndex,
             @Path("status") long status,
+            @Path("stateFilter") String stateFilter,
             @Path("startDate") long startDate,
             @Path("endDate") long endDate);
 

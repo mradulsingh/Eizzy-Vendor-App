@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -7,13 +8,43 @@
             name="timestamp"
             type="String" />
 
+        <variable
+            name="position"
+            type="Integer" />
+
     </data>
 
-    <TextView
-        android:id="@+id/timestamp"
+    <RelativeLayout
+        android:id="@+id/timestampTitleContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/atom_2"
-        android:text="@{timestamp}" />
+        android:layout_marginLeft="@dimen/atom_4"
+        android:layout_marginRight="@dimen/atom_4"
+        android:layout_marginTop="@dimen/atom_2">
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:text="@{timestamp}"
+            android:textAllCaps="true"
+            android:textColor="@color/khaki"
+            android:textSize="@dimen/font_14"
+            android:textStyle="bold" />
+
+        <com.android.aksiem.eizzy.view.AppButton
+            android:id="@+id/filter"
+            android:layout_width="@dimen/atom_6"
+            android:layout_height="@dimen/atom_6"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            app:vectorDrawable="@drawable/ic_filter" />
+
+    </RelativeLayout>
+
 
 </layout>
