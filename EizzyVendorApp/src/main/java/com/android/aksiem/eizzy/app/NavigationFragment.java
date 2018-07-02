@@ -21,6 +21,10 @@ public abstract class NavigationFragment extends BaseInjectableFragment {
 
     public abstract NavigationBuilder buildNavigation();
 
+    public NavigationBuilder getNavigationBuilder() {
+        return navigationBuilder;
+    }
+
     @Override
     public void onResume() {
         super.onResume();

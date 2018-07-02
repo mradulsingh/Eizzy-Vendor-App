@@ -44,10 +44,6 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
     AutoClearedValue<SettlementDurationFragmentBinding> binding;
     AutoClearedValue<SettlementItemAdapter> adapter;
 
-    public static SettlementDurationFragment create() {
-        return new SettlementDurationFragment();
-    }
-
     @Inject
     ToastController toastController;
 
@@ -126,5 +122,19 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
         } else {
             adapter.get().replace(null);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setBottomNavigationViewVisibility(true);
+        setNavDrawerMode(true);
+    }
+
+    @Override
+    public void onFragmentResume() {
+        super.onFragmentResume();
+        setBottomNavigationViewVisibility(true);
+        setNavDrawerMode(true);
     }
 }

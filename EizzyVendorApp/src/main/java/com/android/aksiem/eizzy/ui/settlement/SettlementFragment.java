@@ -22,7 +22,6 @@ import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
-import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 
@@ -48,7 +47,6 @@ public class SettlementFragment extends NavigationFragment {
         SettlementFragment fragment = new SettlementFragment();
         return fragment;
     }
-
 
     @Inject
     @ApplicationContext
@@ -145,9 +143,4 @@ public class SettlementFragment extends NavigationFragment {
         getActivity().finish();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setBottomNavigationViewVisibility(true);
-    }
 }
