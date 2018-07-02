@@ -11,7 +11,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.SettlementRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
-import com.android.aksiem.eizzy.util.StringUtils;
+import com.android.aksiem.eizzy.util.TimeUtils;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
@@ -58,13 +58,13 @@ public class SettlementViewModel extends ViewModel {
         this.durationType.setValue(durationType);
         switch (durationType.intValue()) {
             case DAY:
-                startDate = StringUtils.getDayStart(System.currentTimeMillis());
+                startDate = TimeUtils.getDayStart(System.currentTimeMillis());
                 break;
             case WEEK:
-                startDate = StringUtils.getMonthStart(System.currentTimeMillis());
+                startDate = TimeUtils.getMonthStart(System.currentTimeMillis());
                 break;
             case MONTH:
-                startDate = StringUtils.getMonthStart(System.currentTimeMillis());
+                startDate = TimeUtils.getMonthStart(System.currentTimeMillis());
                 break;
         }
     }

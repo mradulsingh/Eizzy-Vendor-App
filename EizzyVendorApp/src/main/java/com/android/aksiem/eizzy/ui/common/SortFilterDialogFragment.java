@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,7 +13,7 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.databinding.SortFilterDialogFragmentBinding;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
-import com.android.aksiem.eizzy.util.StringUtils;
+import com.android.aksiem.eizzy.util.TimeUtils;
 import com.android.aksiem.eizzy.vo.FilterItem;
 import com.android.aksiem.eizzy.vo.SortItem;
 import com.android.aksiem.eizzy.vo.order.OrderTrackingStatusCode;
@@ -81,17 +80,17 @@ public class SortFilterDialogFragment extends BaseSortFilterDialogFragment {
             if (button.isChecked()) {
                 switch (tag) {
                     case "Today":
-                        startDate = StringUtils.getDayStart(currentTimeInMillis);
+                        startDate = TimeUtils.getDayStart(currentTimeInMillis);
                         break;
                     case "Current Month":
-                        startDate = StringUtils.getMonthStart(currentTimeInMillis);
+                        startDate = TimeUtils.getMonthStart(currentTimeInMillis);
                         break;
                     case "Last Month":
-                        startDate = StringUtils.getPreviousMonthStart(currentTimeInMillis);
-                        endDate = StringUtils.getMonthStart(currentTimeInMillis);
+                        startDate = TimeUtils.getPreviousMonthStart(currentTimeInMillis);
+                        endDate = TimeUtils.getMonthStart(currentTimeInMillis);
                         break;
                     case "This Year":
-                        startDate = StringUtils.getYearStart(currentTimeInMillis);
+                        startDate = TimeUtils.getYearStart(currentTimeInMillis);
                         break;
                 }
             }
