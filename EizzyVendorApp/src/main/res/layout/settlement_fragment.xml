@@ -14,6 +14,7 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/settlement_tabs"
+            fontPath="fonts/Montserrat-Regular.ttf"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:background="@color/sandstorm"
@@ -22,7 +23,7 @@
             app:tabIndicatorHeight="3dp"
             app:tabMode="fixed"
             app:tabTextAppearance="?android:attr/textAppearanceLargePopupMenu"
-            app:tabTextColor="@color/black" />
+            app:tabTextColor="@color/oxfordBlue" />
 
         <com.android.aksiem.eizzy.view.AppViewPager
             android:id="@+id/viewpager"

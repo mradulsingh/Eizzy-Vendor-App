@@ -14,12 +14,19 @@ public class SettlementPagerAdapter extends FragmentStatePagerAdapter {
 
     Map<Integer, SettlementDurationFragment> mPageReferenceMap;
 
-    public SettlementPagerAdapter(FragmentManager fm, int NumOfTabs) {
+    private String[] tabTitles = new String[]{"1 DAY", "1 WEEK", "1 MONTH"};
+
+    public SettlementPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.mNumOfTabs = NumOfTabs;
+        this.mNumOfTabs = tabTitles.length;
         mPageReferenceMap = new HashMap<>();
     }
 
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabTitles[position];
+    }
 
     @Override
     public Fragment getItem(int position) {

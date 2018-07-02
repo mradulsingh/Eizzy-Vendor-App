@@ -8,7 +8,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,38 +95,6 @@ public class SettlementFragment extends NavigationFragment {
         SettlementFragmentBinding dataBinding = DataBindingUtil.inflate(inflater,
                 R.layout.settlement_fragment, container, false);
         binding = new AutoClearedValue<>(this, dataBinding);
-
-
-        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab()
-                .setText(R.string.settlement_filter_day));
-        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab()
-                .setText(R.string.settlement_filter_week));
-        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab()
-                .setText(R.string.settlement_filter_month));
-
-        SettlementPagerAdapter pagerAdapter = new SettlementPagerAdapter(getFragmentManager(),
-                binding.get().settlementTabs.getTabCount());
-        binding.get().viewpager.setAdapter(pagerAdapter);
-
-        binding.get().settlementTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                binding.get().viewpager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-
         return wrapNavigationLayout(inflater, container, dataBinding.getRoot());
     }
 
@@ -136,6 +103,10 @@ public class SettlementFragment extends NavigationFragment {
         super.onActivityCreated(savedInstanceState);
         settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 SettlementViewModel.class);
+        SettlementPagerAdapter pagerAdapter = new SettlementPagerAdapter(getFragmentManager());
+        binding.get().viewpager.setAdapter(pagerAdapter);
+        binding.get().viewpager.setOffscreenPageLimit(0);
+        binding.get().settlementTabs.setupWithViewPager(binding.get().viewpager);
     }
 
     @Override
