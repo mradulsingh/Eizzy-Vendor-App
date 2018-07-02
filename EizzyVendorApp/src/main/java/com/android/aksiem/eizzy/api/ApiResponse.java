@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 
 import com.android.aksiem.eizzy.util.Logger;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import retrofit2.Response;
 
 /**
  * Common class used by API responses.
+ *
  * @param <T>
  */
 public class ApiResponse<T> {
@@ -56,14 +58,19 @@ public class ApiResponse<T> {
 
     public ApiResponse(Response<T> response) {
         code = response.code();
-        if(response.isSuccessful()) {
+        if (response.isSuccessful()) {
             body = response.body();
             errorMessage = null;
         } else {
             String message = null;
             if (response.errorBody() != null) {
                 try {
-                    message = response.errorBody().string();
+                    try {
+                        ApiError apiError = new Gson().fromJson(response.errorBody().string(), ApiError.class);
+                        message = apiError.getMessage();
+                    } catch (Exception e) {
+                        message = response.errorBody().string();
+                    }
                 } catch (IOException ignored) {
                     Logger.e(ignored, "error while parsing response");
                 }
