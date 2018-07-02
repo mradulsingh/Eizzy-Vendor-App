@@ -55,7 +55,8 @@ public interface AppService {
             @Part("phone") RequestBody contactMobile,
             @Part("email") RequestBody contactEmail,
             @Part("deviceId") RequestBody deviceId,
-            @Part("deviceType") int deviceType);
+            @Part("deviceType") int deviceType,
+            @Part("cityId") RequestBody cityId);
 
     @Multipart
     @POST("dispatcher/sendOtp")
