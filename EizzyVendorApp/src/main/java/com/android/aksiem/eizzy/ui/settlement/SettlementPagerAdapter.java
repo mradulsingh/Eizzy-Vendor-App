@@ -11,9 +11,6 @@ import java.util.Map;
 
 public class SettlementPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
-    static final int DAY = 0;
-    static final int WEEK = 1;
-    static final int MONTH = 2;
 
     Map<Integer, SettlementDurationFragment> mPageReferenceMap;
 

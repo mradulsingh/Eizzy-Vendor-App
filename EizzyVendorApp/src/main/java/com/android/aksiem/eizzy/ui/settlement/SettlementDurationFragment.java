@@ -55,6 +55,7 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
     @ApplicationContext
     Context applicationContext;
 
+    private int selectedPeriod = -1;
 
     @Nullable
     @Override
@@ -69,9 +70,10 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        selectedPeriod = getArguments().getInt("selected_duration");
         settlementViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 SettlementViewModel.class);
-
+        settlementViewModel.setDurationType(selectedPeriod);
         SettlementItemAdapter adapter = new SettlementItemAdapter(dataBindingComponent,
                 settlementItem -> {
                     navigationController.navigateToOrderDetailsFragment(settlementItem.orderId);

@@ -5,11 +5,13 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.aksiem.eizzy.repository.SettlementRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
+import com.android.aksiem.eizzy.util.StringUtils;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
@@ -21,7 +23,13 @@ import javax.inject.Inject;
 
 public class SettlementViewModel extends ViewModel {
 
+    static final int DAY = 0;
+    static final int WEEK = 1;
+    static final int MONTH = 2;
+
     private LiveData<Resource<List<SettlementItem>>> settlementItems;
+
+    private final MutableLiveData<Integer> durationType = new MutableLiveData<>();
 
     private MutableLiveData<String> storeId = new MutableLiveData<>();
 
@@ -44,6 +52,21 @@ public class SettlementViewModel extends ViewModel {
         this.nextPageHandler = new NextPageHandler(settlementRepository);
         this.settlementRepository = settlementRepository;
         nextPageIndex.setValue(0);
+    }
+
+    public void setDurationType(@NonNull Integer durationType) {
+        this.durationType.setValue(durationType);
+        switch (durationType.intValue()) {
+            case DAY:
+                startDate = StringUtils.getDayStart(System.currentTimeMillis());
+                break;
+            case WEEK:
+                startDate = StringUtils.getMonthStart(System.currentTimeMillis());
+                break;
+            case MONTH:
+                startDate = StringUtils.getMonthStart(System.currentTimeMillis());
+                break;
+        }
     }
 
     @VisibleForTesting

@@ -6,11 +6,9 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppResourceManager;
 
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -34,6 +32,11 @@ public class StringUtils {
 
     public static long getDayStart(long timestamp) {
         Date date = new Date(timestamp - timestamp % (24 * 60 * 60 * 1000));
+        return date.getTime() / 1000;
+    }
+
+    public static long getDateWeekBefore(long timestamp) {
+        Date date = new Date(timestamp - 7 * 24 * 60 * 60 * 1000);
         return date.getTime() / 1000;
     }
 
