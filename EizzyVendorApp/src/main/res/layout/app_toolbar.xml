@@ -64,37 +64,32 @@
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollviewContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/fragment_bottom_layout_container"
+            android:background="@color/colorBgScreen"
+            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/scrollviewContainer"
+            <FrameLayout
+                android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:layout_above="@+id/fragment_bottom_layout_container"
-                android:background="@color/colorBgScreen">
+                android:orientation="vertical"></FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/atom_2"></FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            </android.support.v4.widget.NestedScrollView>
+        <LinearLayout
+            android:id="@+id/fragment_bottom_layout_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" />
 
-            <FrameLayout
-                android:id="@+id/fragment_bottom_layout_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:visibility="gone" />
-        </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
