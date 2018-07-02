@@ -2,6 +2,7 @@ package com.android.aksiem.eizzy.app;
 
 import android.content.Context;
 import android.os.IBinder;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -58,6 +59,14 @@ public abstract class BaseInjectableFragment extends Fragment implements Injecta
         if (activity instanceof EizzyActivity) {
             ((EizzyActivity) activity).onBackPressed();
         }
+    }
+
+    @CallSuper
+    public void onFragmentResume() {
+    }
+
+    @CallSuper
+    public void onFragmentPause() {
     }
 }
 

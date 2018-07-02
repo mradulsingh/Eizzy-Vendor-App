@@ -12,13 +12,13 @@ import com.android.aksiem.eizzy.app.AppPrefManager;
 import com.android.aksiem.eizzy.app.AppResourceManager;
 import com.android.aksiem.eizzy.repository.OrderItemsRepository;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
-import com.android.aksiem.eizzy.util.StringUtils;
+import com.android.aksiem.eizzy.util.TimeUtils;
 import com.android.aksiem.eizzy.vo.EizzyApiRespone;
+import com.android.aksiem.eizzy.vo.RequestConstants;
+import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.order.EizzyZone;
 import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
 import com.android.aksiem.eizzy.vo.order.OrderListItem;
-import com.android.aksiem.eizzy.vo.RequestConstants;
-import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.order.OrderListWrapper;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
@@ -171,7 +171,7 @@ public class OrderItemsViewModel extends ViewModel {
                         String prevTimestampString = null;
 
                         for (OrderListItem item : items.data.data.items) {
-                            String timestampString = StringUtils.getTimestamp(
+                            String timestampString = TimeUtils.getTimestamp(
                                     item.getTimestamp() * 1000, appResourceManager);
                             if (prevTimestampString == null ||
                                     !prevTimestampString.equals(timestampString)) {

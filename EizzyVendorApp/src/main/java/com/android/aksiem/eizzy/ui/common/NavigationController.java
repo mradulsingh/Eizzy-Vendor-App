@@ -59,7 +59,7 @@ public class NavigationController {
 
     public void navigateToOrderItemsFragment() {
         OrderItemsFragment fragment = OrderItemsFragment.create();
-        addFragment(fragment, false, false);
+        addFragment(fragment, false, true);
     }
 
     public void navigateToOrderDetailsFragment(String orderId) {
@@ -69,79 +69,47 @@ public class NavigationController {
 
     public void navigateToSettlementFragment() {
         SettlementFragment fragment = SettlementFragment.newInstance();
-        String tag = SettlementFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .commitAllowingStateLoss();
+        addFragment(fragment, false, true);
     }
 
     public void navigateToLogin() {
         LoginFragment loginFragment = LoginFragment.newInstance();
-        String tag = LoginFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, loginFragment, tag)
-                .addToBackStack(tag)
-                .commitAllowingStateLoss();
+        addFragment(loginFragment, true);
     }
 
     public void navigateToCreateUserAccount() {
         CreateUserAccountFragment fragment = new CreateUserAccountFragment();
-        String tag = CreateUserAccountFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .add(containerId, fragment, tag)
-                .addToBackStack(tag)
-                .commitAllowingStateLoss();
+        addFragment(fragment, true);
     }
 
     public void navigateToForgotPasswordFragment() {
         ForgotPasswordFragment fragment = new ForgotPasswordFragment();
-        String tag = ForgotPasswordFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+        addFragment(fragment, true);
     }
 
     public void navigateToValidateOTPFragment(String phone) {
         ValidateOTPFragment fragment = ValidateOTPFragment.newInstance(phone);
-        String tag = ValidateOTPFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+        addFragment(fragment, true);
     }
 
     public void navigateToCreatePasswordFragment(String phone, String otp) {
         CreatePasswordFragment fragment = CreatePasswordFragment.newInstance(phone, otp);
-        String tag = CreatePasswordFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .commitAllowingStateLoss();
+        addFragment(fragment, false, true);
     }
 
     public void navigateToVendorOnboardingFragment() {
         VendorOnboardingFragment fragment = VendorOnboardingFragment.newInstance();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
-                .commitAllowingStateLoss();
+        addFragment(fragment, false, true);
     }
 
     public void navigateToStoreManagerFragment() {
         StoreManagerDetailFragment fragment = new StoreManagerDetailFragment();
-        String tag = StoreManagerDetailFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+        addFragment(fragment, true);
     }
 
     public void navigateToCreateOrderFragment(ArrayList<EizzyZone> eizzyZones) {
         CreateOrderFragment fragment = CreateOrderFragment.newInstance(eizzyZones);
-        String tag = CreateOrderFragment.class.getSimpleName();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+        addFragment(fragment, true);
     }
 
     public void openOrderSortFilterDialogFragment() {

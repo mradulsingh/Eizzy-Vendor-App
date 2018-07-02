@@ -64,12 +64,16 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
     @Inject
     AppPrefManager appPrefManager;
 
+    private FragmentBackStackStateManager mFragmentBackStackStateManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.eizzy_activity,
                 null, false);
         setContentView(binding.getRoot());
+        mFragmentBackStackStateManager = new FragmentBackStackStateManager();
+        mFragmentBackStackStateManager.apply(getSupportFragmentManager());
         setupBottomNavigation();
         setupNavDrawer();
 

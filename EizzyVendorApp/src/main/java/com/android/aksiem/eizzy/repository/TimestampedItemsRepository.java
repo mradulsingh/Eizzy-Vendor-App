@@ -10,7 +10,7 @@ import com.android.aksiem.eizzy.db.AppDb;
 import com.android.aksiem.eizzy.db.TimestampedItemDao;
 import com.android.aksiem.eizzy.util.AbsentLiveData;
 import com.android.aksiem.eizzy.util.RateLimiter;
-import com.android.aksiem.eizzy.util.StringUtils;
+import com.android.aksiem.eizzy.util.TimeUtils;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.order.Timestamped;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
@@ -56,7 +56,7 @@ public abstract class TimestampedItemsRepository<T extends Timestamped> {
         String initialTS = null;
         if (items != null) {
             for (T item : items) {
-                String currTS = StringUtils.getTimestamp(item.getTimestamp(),
+                String currTS = TimeUtils.getTimestamp(item.getTimestamp(),
                         appResourceManager);
                 if (initialTS == null || !initialTS.equals(currTS)) {
                     timestampedItemWrappers.add(new TimestampedItemWrapper<T>(currTS, null));
