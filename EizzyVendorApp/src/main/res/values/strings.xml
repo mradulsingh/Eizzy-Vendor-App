@@ -163,4 +163,7 @@
     <string name="menu.create.order">Create Order</string>
     <string name="order.details.order.weight">Order Weight</string>
     <string name="order.details.additional.info">Details</string>
+    <string name="settlement.filter.day">1 DAY</string>
+    <string name="settlement.filter.week">1 WEEK</string>
+    <string name="settlement.filter.month">1 MONTH</string>
 </resources>

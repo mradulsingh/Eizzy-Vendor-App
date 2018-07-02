@@ -95,4 +95,9 @@ public class VendorOnboardingFragment extends NavigationFragment {
     public NavigationBuilder buildNavigation() {
         return includeNoNavigationItems();
     }
+
+    @Override
+    protected void onBackPressed() {
+        getActivity().finish();
+    }
 }

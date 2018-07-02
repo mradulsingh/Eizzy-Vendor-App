@@ -164,8 +164,7 @@ public class CreateUserAccountFragment extends NavigationFragment {
                                 getString(R.string.confirmation_account_creation_subtitle),
                                 getString(R.string.confirmation_account_creation_action),
                                 (v1, args) -> {
-                                    // TODO: find a fix for this
-                                    //getActivity().getSupportFragmentManager().popBackStack();
+                                    navigationController.navigateToVendorOnboardingFragment();
                                 }, true, false);
                         break;
                     case ERROR:

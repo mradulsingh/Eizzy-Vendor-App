@@ -62,7 +62,9 @@ public class StoreManagerRepository {
                         StringUtils.getPlainTextRequestBody(contactMobile),
                         StringUtils.getPlainTextRequestBody(contactEmail),
                         StringUtils.getPlainTextRequestBody(Settings.Secure.ANDROID_ID),
-                        RequestConstants.Platform.android);
+                        RequestConstants.Platform.android,
+                        // TODO: A hard coded city Id should not be required to create an account
+                        StringUtils.getPlainTextRequestBody("5b0e5256e0dc3f181b0ad064"));
             }
         }.asLiveData();
     }

@@ -69,6 +69,18 @@ public class OrderDetailItem implements Serializable, Timestamped {
     public final Integer driverType;
 
     @NonNull
+    @SerializedName("driverId")
+    private String driverId;
+
+    @NonNull
+    @SerializedName("driverMobile")
+    private String driverMobile;
+
+    @NonNull
+    @SerializedName("driverName")
+    private String driverName;
+
+    @NonNull
     @SerializedName("storeAddress")
     public final String storeAddress;
 
@@ -193,6 +205,10 @@ public class OrderDetailItem implements Serializable, Timestamped {
     public final Location pickupLocation;
 
     @NonNull
+    @SerializedName("drop")
+    public final Location dropLocation;
+
+    @NonNull
     @SerializedName("activityLogs")
     private ArrayList<OrderActivityLog> activityLogs;
 
@@ -253,10 +269,10 @@ public class OrderDetailItem implements Serializable, Timestamped {
             @NonNull Long dueDateTimestamp, @NonNull ServiceType serviceType,
             @NonNull Integer bookingType, @NonNull Integer pricingModel, String zoneType,
             String extraNote, @NonNull CustomerDetails customerDetails,
-            @NonNull Location pickupLocation, String abbreviation, String abbreviationText,
-            @NonNull String currency, @NonNull String currencySymbol, String mileageMetric,
-            @NonNull PaymentBreakupByMode paidBy, @NonNull Accounting accounting,
-            @NonNull String orderId) {
+            @NonNull Location pickupLocation, @NonNull Location dropLocation, String abbreviation,
+            String abbreviationText, @NonNull String currency, @NonNull String currencySymbol,
+            String mileageMetric, @NonNull PaymentBreakupByMode paidBy,
+            @NonNull Accounting accounting, @NonNull String orderId) {
 
         this.storeId = storeId;
         this.storeCoordinates = storeCoordinates;
@@ -283,6 +299,7 @@ public class OrderDetailItem implements Serializable, Timestamped {
         this.extraNote = extraNote;
         this.customerDetails = customerDetails;
         this.pickupLocation = pickupLocation;
+        this.dropLocation = dropLocation;
         this.abbreviation = abbreviation;
         this.abbreviationText = abbreviationText;
         this.currency = currency;
@@ -339,6 +356,33 @@ public class OrderDetailItem implements Serializable, Timestamped {
 
     public void setStoreCommission(@NonNull float storeCommission) {
         this.storeCommission = storeCommission;
+    }
+
+    @NonNull
+    public String getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(@NonNull String driverId) {
+        this.driverId = driverId;
+    }
+
+    @NonNull
+    public String getDriverMobile() {
+        return driverMobile;
+    }
+
+    public void setDriverMobile(@NonNull String driverMobile) {
+        this.driverMobile = driverMobile;
+    }
+
+    @NonNull
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(@NonNull String driverName) {
+        this.driverName = driverName;
     }
 
     @NonNull
@@ -532,22 +576,100 @@ public class OrderDetailItem implements Serializable, Timestamped {
     public ArrayList<OrderStateTransition> getOrderTracking() {
         if (orderTracking == null) {
             orderTracking = new ArrayList<>();
-            int index = 0;
             if (activityLogs != null && !activityLogs.isEmpty()) {
+                OrderState finalState = null;
+                int index = 0;
                 for (; index < activityLogs.size(); index++) {
                     OrderActivityLog log = activityLogs.get(index);
+                    String message;
+                    String location;
+                    finalState = log.getState().getOrderState();
+                    switch (finalState) {
+                        case PLACED:
+                            message = "Order placed by " + customerDetails.name;
+                            location = storeName;
+                            break;
+                        case CONFIRMED:
+                            message = "Order confirmed by " + log.statusUpdatedBy;
+                            location = storeName;
+                            break;
+                        case ASSIGNED:
+                            message = "Order assigned to " + driverName;
+                            location = storeName;
+                            break;
+                        case PICKED:
+                            message = "Order picked from " + storeName;
+                            location = "En Route";
+                            break;
+                        case DELIVERED:
+                            message = "Order delivered to " + dropLocation.getShortStringAddress();
+                            location = dropLocation.locality;
+                            break;
+                        default:
+                            message = log.getMessage();
+                            location = "";
+                            break;
+                    }
                     OrderStateTransition transition = new OrderStateTransition(
                             log.getState().getOrderState(),
                             log.timestamp,
-                            log.getLocation().city);
+                            location);
                     transition.setState(AppTimelinePointView.TimelinePointState.COMPLETE);
-                    transition.setMessage(log.getMessage());
+                    transition.setMessage(message);
                     transition.setIndex(index);
                     orderTracking.add(transition);
                 }
+                addPendingStates(finalState, index);
             }
         }
         return orderTracking;
+    }
+
+    private void addPendingStates(OrderState currentState, int currentIndex) {
+        switch (currentState) {
+            case PLACED:
+                orderTracking.add(getPendingTransition(OrderState.CONFIRMED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.IN_PROGRESS));
+                orderTracking.add(getPendingTransition(OrderState.ASSIGNED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.PENDING));
+                orderTracking.add(getPendingTransition(OrderState.PICKED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.PENDING));
+                orderTracking.add(getPendingTransition(OrderState.DELIVERED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.PENDING));
+                break;
+            case CONFIRMED:
+                orderTracking.add(getPendingTransition(OrderState.ASSIGNED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.IN_PROGRESS));
+                orderTracking.add(getPendingTransition(OrderState.PICKED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.PENDING));
+                orderTracking.add(getPendingTransition(OrderState.DELIVERED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.PENDING));
+                break;
+            case ASSIGNED:
+                orderTracking.add(getPendingTransition(OrderState.PICKED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.IN_PROGRESS));
+                orderTracking.add(getPendingTransition(OrderState.DELIVERED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.PENDING));
+                break;
+            case PICKED:
+                orderTracking.add(getPendingTransition(OrderState.DELIVERED, ++currentIndex,
+                        AppTimelinePointView.TimelinePointState.IN_PROGRESS));
+                break;
+        }
+    }
+
+    private OrderStateTransition getPendingTransition(OrderState state, int index,
+                                                      AppTimelinePointView
+                                                              .TimelinePointState taskState) {
+
+        OrderStateTransition transition = new OrderStateTransition(
+                state,
+                0l,
+                "");
+        transition.setState(taskState);
+        transition.setMessage("Not yet " + state.getState());
+        transition.setIndex(index);
+        return transition;
     }
 
     @Override

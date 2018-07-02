@@ -38,7 +38,7 @@ public class TimelinePointListAdapter<V extends TimelinePoint> extends ArrayAdap
         binding.rowItem.setVerbose(timelineConfig.isVerbose());
         binding.rowItem.setLast((getCount() - 1) == position);
         binding.rowItem.setState(item.getState());
-        binding.rowItem.setTimestamp(item.getTimestamp());
+        binding.rowItem.setTimestamp(item.getTimestamp() * 1000);
         binding.rowItem.setLocation(item.getStringLocation());
         binding.rowItem.setMessage(item.getMessage());
         return binding.getRoot();

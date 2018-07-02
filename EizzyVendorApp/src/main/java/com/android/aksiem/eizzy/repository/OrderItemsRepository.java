@@ -543,8 +543,9 @@ public class OrderItemsRepository {
                 storeCommissionType, storeCommissionTypeMessage, driverType, storeAddress, cartId,
                 deliveryCharge, orderType, orderTypeMsg, paymentType, paymentTypeMessage,
                 bookingDate, timestamp, dueDate, timestamp, serviceType, bookingType, pricingModel,
-                zoneType, extraNote, customerDetails, location, abbreviation, abbreviationText,
-                currency, currencySymbol, mileageMetric, paidBy, accounting, orderId);
+                zoneType, extraNote, customerDetails, location, location, abbreviation,
+                abbreviationText, currency, currencySymbol, mileageMetric, paidBy, accounting,
+                orderId);
         item.setActivityLogs(generateActivityLogs());
         item.setCartTotal(250f);
         item.setCartDiscount(0f);

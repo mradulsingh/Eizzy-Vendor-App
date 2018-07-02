@@ -2,12 +2,114 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9bea005e17feab1323e2017aa29feaf2",
+    "identityHash": "f356ea53e7f82b364f456732b2635ecd",
     "entities": [
       {
-        "tableName": "order_item",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`orderId` TEXT NOT NULL, `orderDetails` TEXT NOT NULL, `customer` TEXT NOT NULL, `price` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `stringTimestamp` TEXT NOT NULL, `orderType` TEXT NOT NULL, `orderState` TEXT NOT NULL, `orderTracking` TEXT, `deliveryAssociate` TEXT, PRIMARY KEY(`orderId`))",
+        "tableName": "order_detail_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`estimatedId` TEXT, `storeId` TEXT NOT NULL, `storeCoordinates` TEXT NOT NULL, `cartTotal` REAL NOT NULL, `cartDiscount` REAL NOT NULL, `storeLogo` TEXT, `storeName` TEXT NOT NULL, `forcedAccept` INTEGER NOT NULL, `storeCommission` REAL NOT NULL, `storeCommissionType` INTEGER NOT NULL, `storeCommissionTypeMessage` TEXT, `driverType` INTEGER NOT NULL, `driverId` TEXT NOT NULL, `driverMobile` TEXT NOT NULL, `driverName` TEXT NOT NULL, `storeAddress` TEXT NOT NULL, `subTotalAmountWithExcTax` REAL NOT NULL, `orderId` TEXT NOT NULL, `cartId` TEXT NOT NULL, `deliveryCharge` REAL NOT NULL, `subTotalAmount` REAL NOT NULL, `excTax` REAL NOT NULL, `exclusiveTaxes` TEXT, `orderType` TEXT NOT NULL, `orderTypeMsg` TEXT NOT NULL, `discount` REAL NOT NULL, `totalAmount` REAL NOT NULL, `orderInfo` TEXT, `couponCode` TEXT, `paymentType` INTEGER NOT NULL, `paymentTypeMessage` TEXT NOT NULL, `coinPayTransaction` TEXT NOT NULL, `customerCoordinates` TEXT, `bookingDate` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `dueDate` TEXT NOT NULL, `dueDateTimestamp` INTEGER NOT NULL, `city` TEXT, `cityId` TEXT, `status` INTEGER NOT NULL, `statusMessage` TEXT NOT NULL, `serviceType` TEXT NOT NULL, `bookingType` INTEGER NOT NULL, `pricingModel` INTEGER NOT NULL, `zoneType` TEXT, `extraNote` TEXT, `customerDetails` TEXT NOT NULL, `pickupLocation` TEXT NOT NULL, `dropLocation` TEXT NOT NULL, `activityLogs` TEXT NOT NULL, `abbreviation` TEXT, `abbreviationText` TEXT, `currency` TEXT NOT NULL, `currencySymbol` TEXT NOT NULL, `mileageMetric` TEXT, `paidBy` TEXT NOT NULL, `accounting` TEXT NOT NULL, `customerSignatureRequired` INTEGER, `cashOnDeliveryEnabled` INTEGER, `eizzyZoneId` TEXT, PRIMARY KEY(`orderId`))",
         "fields": [
+          {
+            "fieldPath": "estimatedId",
+            "columnName": "estimatedId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "storeId",
+            "columnName": "storeId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeCoordinates",
+            "columnName": "storeCoordinates",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cartTotal",
+            "columnName": "cartTotal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cartDiscount",
+            "columnName": "cartDiscount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeLogo",
+            "columnName": "storeLogo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "storeName",
+            "columnName": "storeName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "forcedAccept",
+            "columnName": "forcedAccept",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeCommission",
+            "columnName": "storeCommission",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeCommissionType",
+            "columnName": "storeCommissionType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeCommissionTypeMessage",
+            "columnName": "storeCommissionTypeMessage",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "driverType",
+            "columnName": "driverType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverId",
+            "columnName": "driverId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverMobile",
+            "columnName": "driverMobile",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverName",
+            "columnName": "driverName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeAddress",
+            "columnName": "storeAddress",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTotalAmountWithExcTax",
+            "columnName": "subTotalAmountWithExcTax",
+            "affinity": "REAL",
+            "notNull": true
+          },
           {
             "fieldPath": "orderId",
             "columnName": "orderId",
@@ -15,20 +117,98 @@
             "notNull": true
           },
           {
-            "fieldPath": "orderDetails",
-            "columnName": "orderDetails",
+            "fieldPath": "cartId",
+            "columnName": "cartId",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "customer",
-            "columnName": "customer",
+            "fieldPath": "deliveryCharge",
+            "columnName": "deliveryCharge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTotalAmount",
+            "columnName": "subTotalAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "excTax",
+            "columnName": "excTax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exclusiveTaxes",
+            "columnName": "exclusiveTaxes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "orderType",
+            "columnName": "orderType",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "price",
-            "columnName": "price",
+            "fieldPath": "orderTypeMsg",
+            "columnName": "orderTypeMsg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "discount",
+            "columnName": "discount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalAmount",
+            "columnName": "totalAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderInfo",
+            "columnName": "orderInfo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "couponCode",
+            "columnName": "couponCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "paymentType",
+            "columnName": "paymentType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentTypeMessage",
+            "columnName": "paymentTypeMessage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coinPayTransaction",
+            "columnName": "coinPayTransaction",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customerCoordinates",
+            "columnName": "customerCoordinates",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bookingDate",
+            "columnName": "bookingDate",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -39,32 +219,152 @@
             "notNull": true
           },
           {
-            "fieldPath": "stringTimestamp",
-            "columnName": "stringTimestamp",
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "orderType",
-            "columnName": "orderType",
-            "affinity": "TEXT",
+            "fieldPath": "dueDateTimestamp",
+            "columnName": "dueDateTimestamp",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "orderState",
-            "columnName": "orderState",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "orderTracking",
-            "columnName": "orderTracking",
+            "fieldPath": "city",
+            "columnName": "city",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "deliveryAssociate",
-            "columnName": "deliveryAssociate",
+            "fieldPath": "cityId",
+            "columnName": "cityId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statusMessage",
+            "columnName": "statusMessage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serviceType",
+            "columnName": "serviceType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookingType",
+            "columnName": "bookingType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pricingModel",
+            "columnName": "pricingModel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zoneType",
+            "columnName": "zoneType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "extraNote",
+            "columnName": "extraNote",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerDetails",
+            "columnName": "customerDetails",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pickupLocation",
+            "columnName": "pickupLocation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dropLocation",
+            "columnName": "dropLocation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activityLogs",
+            "columnName": "activityLogs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "abbreviation",
+            "columnName": "abbreviation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "abbreviationText",
+            "columnName": "abbreviationText",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currencySymbol",
+            "columnName": "currencySymbol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mileageMetric",
+            "columnName": "mileageMetric",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "paidBy",
+            "columnName": "paidBy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accounting",
+            "columnName": "accounting",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customerSignatureRequired",
+            "columnName": "customerSignatureRequired",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cashOnDeliveryEnabled",
+            "columnName": "cashOnDeliveryEnabled",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eizzyZoneId",
+            "columnName": "eizzyZoneId",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -77,11 +377,369 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "order_list_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`orderId` TEXT NOT NULL, `bookingDate` TEXT NOT NULL, `dropLat` REAL NOT NULL, `dropLong` REAL NOT NULL, `dropAddress` TEXT NOT NULL, `statusMsg` TEXT NOT NULL, `pickup` TEXT NOT NULL, `status` INTEGER NOT NULL, `storeName` TEXT NOT NULL, `storeAddress` TEXT NOT NULL, `totalAmount` REAL NOT NULL, `serviceType` TEXT NOT NULL, `bookingType` INTEGER NOT NULL, `dueDatetime` TEXT NOT NULL, `driverId` TEXT NOT NULL, `driverName` TEXT NOT NULL, `subTotalAmountWithExcTax` REAL NOT NULL, `subTotalAmount` REAL NOT NULL, `deliveryCharge` REAL NOT NULL, `excTax` REAL NOT NULL, `exclusiveTaxes` TEXT NOT NULL, `driverMobile` TEXT NOT NULL, `driverImageUrl` TEXT NOT NULL, `driverEmail` TEXT NOT NULL, `orderInfo` TEXT NOT NULL, `activityLogs` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `dueDatetimeTimeStamp` INTEGER NOT NULL, `storeType` TEXT NOT NULL, `storeTypeMsg` TEXT, `customerDetails` TEXT NOT NULL, `customerSignatureRequired` INTEGER, `cashOnDeliveryEnabled` INTEGER, `eizzyZoneId` TEXT, PRIMARY KEY(`orderId`))",
+        "fields": [
+          {
+            "fieldPath": "orderId",
+            "columnName": "orderId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookingDate",
+            "columnName": "bookingDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dropLat",
+            "columnName": "dropLat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dropLong",
+            "columnName": "dropLong",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dropAddress",
+            "columnName": "dropAddress",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statusMsg",
+            "columnName": "statusMsg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pickup",
+            "columnName": "pickup",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeName",
+            "columnName": "storeName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeAddress",
+            "columnName": "storeAddress",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalAmount",
+            "columnName": "totalAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serviceType",
+            "columnName": "serviceType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookingType",
+            "columnName": "bookingType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDatetime",
+            "columnName": "dueDatetime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverId",
+            "columnName": "driverId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverName",
+            "columnName": "driverName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTotalAmountWithExcTax",
+            "columnName": "subTotalAmountWithExcTax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTotalAmount",
+            "columnName": "subTotalAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deliveryCharge",
+            "columnName": "deliveryCharge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "excTax",
+            "columnName": "excTax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exclusiveTaxes",
+            "columnName": "exclusiveTaxes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverMobile",
+            "columnName": "driverMobile",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverImageUrl",
+            "columnName": "driverImageUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "driverEmail",
+            "columnName": "driverEmail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderInfo",
+            "columnName": "orderInfo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activityLogs",
+            "columnName": "activityLogs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDatetimeTimeStamp",
+            "columnName": "dueDatetimeTimeStamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeType",
+            "columnName": "storeType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storeTypeMsg",
+            "columnName": "storeTypeMsg",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerDetails",
+            "columnName": "customerDetails",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customerSignatureRequired",
+            "columnName": "customerSignatureRequired",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cashOnDeliveryEnabled",
+            "columnName": "cashOnDeliveryEnabled",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eizzyZoneId",
+            "columnName": "eizzyZoneId",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "orderId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "settlement_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `transactionId` TEXT NOT NULL, `userId` TEXT NOT NULL, `txnType` TEXT NOT NULL, `trigger` TEXT, `comment` TEXT, `cityId` TEXT, `currency` TEXT NOT NULL, `currencyAbbr` TEXT, `currencySymbol` TEXT, `orderId` TEXT NOT NULL, `paymentTypeText` TEXT NOT NULL, `cityName` TEXT, `serviceTypeText` TEXT NOT NULL, `paymentTxnId` TEXT NOT NULL, `intiatedBy` TEXT NOT NULL, `openingBal` REAL NOT NULL, `amount` REAL NOT NULL, `closingBal` REAL NOT NULL, `cashCollected` REAL NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`transactionId`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionId",
+            "columnName": "transactionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "txnType",
+            "columnName": "txnType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trigger",
+            "columnName": "trigger",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cityId",
+            "columnName": "cityId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currencyAbbr",
+            "columnName": "currencyAbbr",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currencySymbol",
+            "columnName": "currencySymbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "orderId",
+            "columnName": "orderId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentTypeText",
+            "columnName": "paymentTypeText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cityName",
+            "columnName": "cityName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "serviceTypeText",
+            "columnName": "serviceTypeText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentTxnId",
+            "columnName": "paymentTxnId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intiatedBy",
+            "columnName": "intiatedBy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "openingBal",
+            "columnName": "openingBal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "closingBal",
+            "columnName": "closingBal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cashCollected",
+            "columnName": "cashCollected",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "transactionId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9bea005e17feab1323e2017aa29feaf2\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f356ea53e7f82b364f456732b2635ecd\")"
     ]
   }
 }

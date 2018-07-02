@@ -59,7 +59,7 @@ public class NavigationController {
 
     public void navigateToOrderItemsFragment() {
         OrderItemsFragment fragment = OrderItemsFragment.create();
-        addFragment(fragment, true, false);
+        addFragment(fragment, false, false);
     }
 
     public void navigateToOrderDetailsFragment(String orderId) {
@@ -72,7 +72,6 @@ public class NavigationController {
         String tag = SettlementFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
-                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
@@ -81,7 +80,7 @@ public class NavigationController {
         String tag = LoginFragment.class.getSimpleName();
         fragmentManager.beginTransaction()
                 .replace(containerId, loginFragment, tag)
-                .addToBackStack(null)
+                .addToBackStack(tag)
                 .commitAllowingStateLoss();
     }
 

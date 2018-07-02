@@ -197,7 +197,7 @@ public class EizzyActivity extends BaseActivity implements NavigationView.OnNavi
         return true;
     }
 
-    private void initNavigationDrawerInfo() {
+    public void initNavigationDrawerInfo() {
         StoreManager manager = EizzyAppState.ManagerLoggedIn.getManagerDetails(
                 appPrefManager);
         Logger.tag("eizzyAppManager").d(manager.toString());

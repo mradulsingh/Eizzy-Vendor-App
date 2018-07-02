@@ -66,7 +66,8 @@ public class SettlementFragment extends NavigationFragment {
                 })
                 .setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
                     if (v.getChildAt(v.getChildCount() - 1) != null) {
-                        if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                        if ((scrollY >= (v.getChildAt(v.getChildCount() - 1)
+                                .getMeasuredHeight() - v.getMeasuredHeight())) &&
                                 scrollY > oldScrollY) {
                             onPageEndReached();
                         }
@@ -99,11 +100,15 @@ public class SettlementFragment extends NavigationFragment {
         binding = new AutoClearedValue<>(this, dataBinding);
 
 
-        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab().setText("1 DAY"));
-        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab().setText("1 WEEK"));
-        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab().setText("1 MONTH"));
+        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab()
+                .setText(R.string.settlement_filter_day));
+        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab()
+                .setText(R.string.settlement_filter_week));
+        binding.get().settlementTabs.addTab(binding.get().settlementTabs.newTab()
+                .setText(R.string.settlement_filter_month));
 
-        SettlementPagerAdapter pagerAdapter = new SettlementPagerAdapter(getFragmentManager(), binding.get().settlementTabs.getTabCount());
+        SettlementPagerAdapter pagerAdapter = new SettlementPagerAdapter(getFragmentManager(),
+                binding.get().settlementTabs.getTabCount());
         binding.get().viewpager.setAdapter(pagerAdapter);
 
         binding.get().settlementTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -135,4 +140,14 @@ public class SettlementFragment extends NavigationFragment {
                 SettlementViewModel.class);
     }
 
+    @Override
+    protected void onBackPressed() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setBottomNavigationViewVisibility(true);
+    }
 }

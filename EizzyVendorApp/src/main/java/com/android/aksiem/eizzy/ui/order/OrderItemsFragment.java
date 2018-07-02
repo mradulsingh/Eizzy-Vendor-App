@@ -131,6 +131,17 @@ public class OrderItemsFragment extends NavigationFragment {
         initOrdersList();
     }
 
+    @Override
+    protected void onBackPressed() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setBottomNavigationViewVisibility(true);
+    }
+
     private void initOrdersList() {
         initInitialList();
         initPaginatedList();

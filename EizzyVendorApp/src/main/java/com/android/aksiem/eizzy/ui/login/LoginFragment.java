@@ -31,6 +31,7 @@ import android.view.inputmethod.EditorInfo;
 
 import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.app.AppPrefManager;
+import com.android.aksiem.eizzy.app.EizzyActivity;
 import com.android.aksiem.eizzy.app.EizzyAppState;
 import com.android.aksiem.eizzy.app.NavigationFragment;
 import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
@@ -109,8 +110,10 @@ public class LoginFragment extends NavigationFragment {
         loginViewModel = ViewModelProviders.of(this, viewModelFactory).get(
                 LoginViewModel.class);
         //initInputListener();
-        binding.get().tvActionForgetPassword.setOnClickListener(v ->
-                navigationController.navigateToForgotPasswordFragment());
+        binding.get().tvActionForgetPassword.setOnClickListener(v -> {
+            dismissKeyboard(v.getWindowToken());
+            navigationController.navigateToForgotPasswordFragment();
+        });
     }
 
     private void initInputListener() {
@@ -155,7 +158,7 @@ public class LoginFragment extends NavigationFragment {
                             CircularProgressButton button = (CircularProgressButton) v;
                             button.revertAnimation();
                         }
-                        //TODO: remove everything from the backstack
+                        ((EizzyActivity) getActivity()).initNavigationDrawerInfo();
                         navigationController.navigateToOrderItemsFragment();
                         break;
                     case ERROR:

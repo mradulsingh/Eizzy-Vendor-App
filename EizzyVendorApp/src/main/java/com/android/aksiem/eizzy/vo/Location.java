@@ -39,4 +39,7 @@ public class Location implements Serializable {
     @SerializedName("pickupZone")
     public Integer pickUpZone;
 
+    public String getShortStringAddress() {
+        return address + ", " + locality;
+    }
 }

@@ -149,11 +149,18 @@ public class AppTimelinePointView extends RelativeLayout {
     }
 
     public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String date = format.format(new Date(timestamp));
-        format = new SimpleDateFormat("h:mm a");
-        String time = format.format(new Date(timestamp));
+        String date;
+        String time;
+        if (timestamp == 0) {
+            date = "--/--/----";
+            time = "--:-- --";
+        } else {
+            this.timestamp = timestamp;
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            date = format.format(new Date(timestamp));
+            format = new SimpleDateFormat("h:mm a");
+            time = format.format(new Date(timestamp));
+        }
         binding.dateContainer.setText(date);
         binding.timeContainer.setText(time);
     }
