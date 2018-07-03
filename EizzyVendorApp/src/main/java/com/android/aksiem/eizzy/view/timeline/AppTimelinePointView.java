@@ -3,7 +3,10 @@ package com.android.aksiem.eizzy.view.timeline;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
@@ -110,20 +113,43 @@ public class AppTimelinePointView extends RelativeLayout {
         switch (newState) {
             case PENDING:
                 this.state = newState;
-                binding.milestoneIndicator.setPending();
-                binding.milestoneProgressLine.setPending();
+                setIndicatorAndProgressState(binding.getRoot().getContext(),
+                        R.drawable.bg_timeline_indicator_pending_in_progress,
+                        R.drawable.bg_timeline_progress_pending);
+//                binding.milestoneIndicator.setPending();
+//                binding.milestoneProgressLine.setPending();
                 break;
             case IN_PROGRESS:
                 this.state = newState;
-                binding.milestoneIndicator.setInProgress();
-                binding.milestoneProgressLine.setInProgress();
+                setIndicatorAndProgressState(binding.getRoot().getContext(),
+                        R.drawable.bg_timeline_indicator_pending_in_progress,
+                        R.drawable.bg_timeline_progress_in_progress);
+//                binding.milestoneIndicator.setInProgress();
+//                binding.milestoneProgressLine.setInProgress();
                 break;
             case COMPLETE:
                 this.state = newState;
-                binding.milestoneIndicator.setComplete();
-                binding.milestoneProgressLine.setComplete();
+                setIndicatorAndProgressState(binding.getRoot().getContext(),
+                        R.drawable.bg_timeline_indicator_complete,
+                        R.drawable.bg_timeline_progress_complete);
+//                binding.milestoneIndicator.setComplete();
+//                binding.milestoneProgressLine.setComplete();
                 break;
         }
+    }
+
+    private void setIndicatorAndProgressState(Context context, int iResId, int pResId) {
+        Drawable indicator;
+        Drawable progress;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            indicator = context.getDrawable(iResId);
+            progress = context.getDrawable(pResId);
+        } else {
+            indicator = AppCompatResources.getDrawable(context, iResId);
+            progress = AppCompatResources.getDrawable(context, pResId);
+        }
+        binding.milestoneIndicator.setBackground(indicator);
+        binding.milestoneProgressLine.setBackground(progress);
     }
 
     public String getLocation() {

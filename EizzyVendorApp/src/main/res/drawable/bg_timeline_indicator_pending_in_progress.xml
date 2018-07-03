@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <size
+        android:width="@dimen/timeline_milestone_wh"
+        android:height="@dimen/timeline_milestone_wh" />
+    <stroke
+        android:width="@dimen/timeline_milestone_indicator_stroke"
+        android:color="@color/indianYellow" />
+</shape>
