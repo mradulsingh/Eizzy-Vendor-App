@@ -85,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCustomerMobile">
 
             <TextView
-                style="@style/ExpandedTitleTextAppearance"
+                style="@style/SwitchLabelAppearence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -346,7 +346,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutItemDetails">
 
             <TextView
-                style="@style/ExpandedTitleTextAppearance"
+                style="@style/SwitchLabelAppearence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -396,7 +396,7 @@
             app:layout_constraintTop_toBottomOf="@+id/switchContainerCustomerSignature">
 
             <TextView
-                style="@style/ExpandedTitleTextAppearance"
+                style="@style/SwitchLabelAppearence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

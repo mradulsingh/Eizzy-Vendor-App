@@ -31,6 +31,12 @@
         <item name="android:textSize">0.1sp</item>
     </style>
 
+    <style name="SwitchLabelAppearence" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorScreenTitle</item>
+        <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
+        <item name="android:textSize">@dimen/font_24</item>
+    </style>
+
     <style name="ExpandedTitleTextAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorScreenTitle</item>
         <item name="fontPath">fonts/Montserrat-Bold.ttf</item>
