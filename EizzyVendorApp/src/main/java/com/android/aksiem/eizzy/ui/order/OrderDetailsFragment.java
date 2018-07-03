@@ -18,6 +18,7 @@ import com.android.aksiem.eizzy.databinding.OrderDetailsFragmentBinding;
 import com.android.aksiem.eizzy.ui.common.ToastController;
 import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
+import com.android.aksiem.eizzy.ui.toolbar.OrderBookToolbarBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.view.timeline.TimelineConfigBuilder;
 import com.android.aksiem.eizzy.view.timeline.TimelinePointListAdapter;
@@ -43,6 +44,8 @@ public class OrderDetailsFragment extends NavigationFragment {
     @Inject
     ToastController toastController;
 
+    OrderBookToolbarBuilder orderBookToolbarBuilder;
+
     private String orderId;
 
     private OrderDetailItem orderDetailItem;
@@ -65,10 +68,11 @@ public class OrderDetailsFragment extends NavigationFragment {
 
     @Override
     public NavigationBuilder buildNavigation() {
-        return CollapsableToolbarBuilder.mainCollapsableToolbar()
+        orderBookToolbarBuilder = OrderBookToolbarBuilder.mainOrderBookToolbar()
                 .toolbarTitle("#" + orderId)
                 .toolbarNavIconRes(R.drawable.ic_back)
                 .setToolbarNavClickListener(v -> onBackPressed());
+        return orderBookToolbarBuilder;
     }
 
     @Nullable
@@ -121,6 +125,8 @@ public class OrderDetailsFragment extends NavigationFragment {
     private void populateData() {
         if (orderDetailItem != null) {
 
+            populateToolbar();
+
             binding.get().setItem(orderDetailItem);
             populateOrderTracking();
 
@@ -136,6 +142,14 @@ public class OrderDetailsFragment extends NavigationFragment {
                     break;
             }
         }
+    }
+
+    private void populateToolbar() {
+        orderBookToolbarBuilder.setInfoItem1("Status", orderDetailItem.getCurrentState().state
+                .getStateName());
+        String driver = orderDetailItem.getDriverName();
+        driver = (driver == null || driver.length() == 0) ? "Not Assigned" : driver;
+        orderBookToolbarBuilder.setInfoItem2("Driver", driver);
     }
 
     private void populateOrderTracking() {

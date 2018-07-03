@@ -15,6 +15,8 @@ import com.android.aksiem.eizzy.ui.toolbar.layoutfactory.LayoutFactory;
 
 public class OrderBookToolbarBuilder extends NavigationBuilder<OrderBookToolbarBuilder> {
 
+    OrderbookCollapsableToolbarBinding dataBinding;
+
     @Override
     protected OrderBookToolbarBuilder getThis() {
         return this;
@@ -23,7 +25,7 @@ public class OrderBookToolbarBuilder extends NavigationBuilder<OrderBookToolbarB
     @Override
     public View createNavigationView(LayoutInflater inflater, @Nullable ViewGroup container, View viewAttachedFragment) {
         View toolbarView = layoutFactory().produceLayout(inflater, container);
-        OrderbookCollapsableToolbarBinding dataBinding = DataBindingUtil.bind(toolbarView);
+        dataBinding = DataBindingUtil.bind(toolbarView);
         dataBinding.fragmentContainer.addView(viewAttachedFragment);
         prepareToolbar(dataBinding);
         return dataBinding.getRoot();
@@ -35,16 +37,12 @@ public class OrderBookToolbarBuilder extends NavigationBuilder<OrderBookToolbarB
         dataBinding.toolbar.setNavigationIcon(getToolbarNavIcon(context));
         dataBinding.toolbar.setNavigationOnClickListener(toolbarNavClickListener);
 
-        dataBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        dataBinding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            dataBinding.tvTitle.setAlpha(Math.abs(verticalOffset / (float)
+                    appBarLayout.getTotalScrollRange()));
 
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                dataBinding.tvTitle.setAlpha(Math.abs(verticalOffset / (float)
-                        appBarLayout.getTotalScrollRange()));
-
-                dataBinding.tvExpandedTitle.setAlpha(1 - (Math.abs(verticalOffset / (float)
-                        appBarLayout.getTotalScrollRange())));
-            }
+            dataBinding.tvExpandedTitle.setAlpha(1 - (Math.abs(verticalOffset / (float)
+                    appBarLayout.getTotalScrollRange())));
         });
 
         setupMenu(dataBinding.toolbar);
@@ -58,6 +56,18 @@ public class OrderBookToolbarBuilder extends NavigationBuilder<OrderBookToolbarB
 
     public OrderBookToolbarBuilder(LayoutFactory mainLayoutFactory) {
         super(mainLayoutFactory, NavigationDefaults.getInstance());
+    }
+
+    public OrderBookToolbarBuilder setInfoItem1(String key, String value) {
+        dataBinding.info1Key.setText(key);
+        dataBinding.info1Value.setText(value);
+        return getThis();
+    }
+
+    public OrderBookToolbarBuilder setInfoItem2(String key, String value) {
+        dataBinding.info2Key.setText(key);
+        dataBinding.info2Value.setText(value);
+        return getThis();
     }
 
 }
