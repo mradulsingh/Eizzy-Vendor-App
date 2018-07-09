@@ -1,0 +1,107 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_themed_card_view_height"
+    android:layout_marginBottom="@dimen/atom_2"
+    android:layout_marginLeft="@dimen/atom_4"
+    android:layout_marginRight="@dimen/atom_4"
+    android:layout_marginTop="@dimen/atom_2"
+    app:cardCornerRadius="@dimen/atom_2"
+    app:cardElevation="@dimen/atom_1"
+    app:cardPreventCornerOverlap="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/atom_2"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <View
+            android:id="@+id/viewPrice"
+            android:layout_width="@dimen/atom_16"
+            android:layout_height="@dimen/atom_5"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:alpha="0.2"
+            android:background="@color/darkMidnightBlue" />
+
+        <View
+            android:id="@+id/viewStatus"
+            android:layout_width="@dimen/atom_20"
+            android:layout_height="@dimen/atom_7"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:alpha="0.1"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/llOrderDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/atom_5"
+            android:layout_toLeftOf="@id/viewStatus"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/atom_6"
+                android:layout_marginBottom="@dimen/atom_1"
+                android:alpha="0.2"
+                android:background="@color/darkMidnightBlue" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/atom_3"
+                android:layout_marginTop="@dimen/atom_2"
+                android:alpha="0.2"
+                android:background="@color/khaki" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/atom_25"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="@dimen/atom_3"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/atom_4"
+                android:layout_marginBottom="@dimen/atom_3"
+                android:alpha="0.2"
+                android:background="@color/seaBlue" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/atom_4"
+                android:layout_marginBottom="@dimen/atom_3"
+                android:alpha="0.2"
+                android:background="@color/seaBlue" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/atom_4"
+                android:alpha="0.2"
+                android:background="@color/seaBlue" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

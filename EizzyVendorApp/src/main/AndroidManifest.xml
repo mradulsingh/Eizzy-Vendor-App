@@ -25,7 +25,7 @@
         android:name=".EizzyApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app.name"
+        android:label="@string/eizzy.app.name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

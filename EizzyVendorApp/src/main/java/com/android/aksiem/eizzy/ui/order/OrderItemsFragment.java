@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +27,10 @@ import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
-import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.Resource;
+import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 
 import java.util.List;
 
@@ -124,9 +124,10 @@ public class OrderItemsFragment extends NavigationFragment {
                 orderItem -> navigationController.navigateToOrderDetailsFragment(orderItem.orderId),
                 () -> showFilterDialog());
         this.adapter = new AutoClearedValue<>(this, adapter);
-        RecyclerView recyclerView = binding.get().orderList;
+        ShimmerRecyclerView recyclerView = binding.get().orderList;
         ViewCompat.setNestedScrollingEnabled(recyclerView, false);
         recyclerView.setAdapter(adapter);
+        recyclerView.showShimmerAdapter();
         binding.get().noOrderPrompt.getRoot().setVisibility(View.GONE);
         initOrdersList();
     }
@@ -156,6 +157,7 @@ public class OrderItemsFragment extends NavigationFragment {
                     break;
                 case SUCCESS:
                     updateAdapter(resource);
+                    binding.get().orderList.hideShimmerAdapter();
                     updatePrompt();
                     break;
                 case ERROR:
@@ -173,6 +175,7 @@ public class OrderItemsFragment extends NavigationFragment {
                     break;
                 case SUCCESS:
                     updateAdapter(resource);
+                    binding.get().orderList.hideShimmerAdapter();
                     updatePrompt();
                     break;
                 case ERROR:
@@ -243,6 +246,7 @@ public class OrderItemsFragment extends NavigationFragment {
                 orderItemsViewModel.setStateFilter(filterDialogFragment
                         .getStateFilter());
                 updateAdapter(null);
+                binding.get().orderList.showShimmerAdapter();
                 initFilteredList();
             });
         }

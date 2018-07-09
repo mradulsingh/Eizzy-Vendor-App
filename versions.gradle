@@ -55,6 +55,7 @@ versions.lottie="2.5.4"
 versions.loading_button="1.14.0"
 versions.eclipse_paho_mqttv3="1.2.0"
 versions.eclipse_paho_android_service="1.1.1"
+versions.shimmer_recyclerview="v1.3"
 def deps = [:]
 
 def support = [:]
@@ -146,6 +147,7 @@ libs.secure_pref = "com.scottyab:secure-preferences-lib:$versions.secure_pref"
 libs.calligraphy = "uk.co.chrisjenx:calligraphy:$versions.calligraphy"
 libs.lottie = "com.airbnb.android:lottie:$versions.lottie"
 libs.loading_button="br.com.simplepass:loading-button-android:$versions.loading_button"
+libs.shimmer_recyclerview="com.github.sharish:ShimmerRecyclerView:$versions.shimmer_recyclerview"
 deps.libs = libs
 
 def eclipse_paho = [:]
@@ -167,6 +169,7 @@ def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
     handler.maven { url 'https://maven.google.com' }
+    handler.maven { url 'https://jitpack.io' }
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url 'https://repo.eclipse.org/content/repositories/paho-snapshots/' }
 }

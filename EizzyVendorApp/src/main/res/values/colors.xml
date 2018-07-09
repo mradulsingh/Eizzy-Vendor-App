@@ -52,6 +52,7 @@
     <color name="colorTextMessagePrimary">@color/skobeloff</color>
     <color name="colorEtErrorText">@color/fireEngineRed</color>
     <color name="colorSortItemText">@color/jungleGreen</color>
+    <color name="colorShimmer">#73ffffff</color>
 
     <!-- delivery states -->
     <color name="orderUndelivered">@color/red</color>

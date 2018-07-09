@@ -15,14 +15,14 @@
   -->
 
 <resources>
-    <string name="app.name">Eizzy B2B</string>
+    <string name="eizzy.app.name">Eizzy B2B</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="text.msg.clickhere">CLICK HERE!</string>
     <string name="button.action.getstarted">GET STARTED</string>
 
-    <string name="screen.title.onboarding">@string/app.name</string>
+    <string name="screen.title.onboarding">@string/eizzy.app.name</string>
     <string name="screen.subtitle.onboarding">Eizzy Delivery is Uber for Courier services. We deliver products all around Metro cities.</string>
 
     <string name="title.dialog.sortnfilter">Filter</string>
