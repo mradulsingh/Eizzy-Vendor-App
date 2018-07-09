@@ -127,7 +127,6 @@ public class OrderItemsFragment extends NavigationFragment {
         ShimmerRecyclerView recyclerView = binding.get().orderList;
         ViewCompat.setNestedScrollingEnabled(recyclerView, false);
         recyclerView.setAdapter(adapter);
-        recyclerView.showShimmerAdapter();
         binding.get().noOrderPrompt.getRoot().setVisibility(View.GONE);
         initOrdersList();
     }
@@ -154,6 +153,7 @@ public class OrderItemsFragment extends NavigationFragment {
             binding.get().setResource(resource);
             switch (resource.status) {
                 case LOADING:
+                    binding.get().orderList.showShimmerAdapter();
                     break;
                 case SUCCESS:
                     updateAdapter(resource);
@@ -161,6 +161,7 @@ public class OrderItemsFragment extends NavigationFragment {
                     updatePrompt();
                     break;
                 case ERROR:
+                    binding.get().orderList.hideShimmerAdapter();
                     updatePrompt();
                     break;
             }
@@ -172,6 +173,7 @@ public class OrderItemsFragment extends NavigationFragment {
             binding.get().setResource(resource);
             switch (resource.status) {
                 case LOADING:
+                    binding.get().orderList.showShimmerAdapter();
                     break;
                 case SUCCESS:
                     updateAdapter(resource);
@@ -179,6 +181,7 @@ public class OrderItemsFragment extends NavigationFragment {
                     updatePrompt();
                     break;
                 case ERROR:
+                    binding.get().orderList.hideShimmerAdapter();
                     updatePrompt();
                     break;
             }
