@@ -27,6 +27,14 @@
             name="subTitleText"
             type="String" />
 
+        <variable
+            name="isSwipeRefreshEnabled"
+            type="boolean" />
+
+        <variable
+            name="isRefreshing"
+            type="boolean" />
+
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -118,21 +126,29 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scrollviewContainer"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBgScreen"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:enabled="@{isSwipeRefreshEnabled}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:refreshing="@{isRefreshing}">
 
-            <FrameLayout
-                android:id="@+id/fragment_container"
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scrollviewContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"></FrameLayout>
+                android:background="@color/colorBgScreen"
+                android:fillViewport="true">
 
-        </android.support.v4.widget.NestedScrollView>
+                <FrameLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></FrameLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/fragment_bottom_layout_container"

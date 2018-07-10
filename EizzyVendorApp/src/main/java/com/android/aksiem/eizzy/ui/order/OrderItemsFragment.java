@@ -23,6 +23,7 @@ import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.SortFilterDialogFragment;
 import com.android.aksiem.eizzy.ui.common.ToastController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.ToolbarMenuUtil;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
@@ -92,6 +93,9 @@ public class OrderItemsFragment extends NavigationFragment {
                         }
                     }
                 })
+                .setSwipeRefreshListener(() -> {
+                    onRefresh();
+                })
                 .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_order_items_fragment),
                         buildMenuActions());
     }
@@ -102,6 +106,26 @@ public class OrderItemsFragment extends NavigationFragment {
                     navigateToCreateOrder();
                 })
                 .build();
+    }
+
+    private void onRefresh() {
+        CollapsableToolbarBuilder toolbarBuilder = (CollapsableToolbarBuilder) getNavigationBuilder();
+        orderItemsViewModel.getLatestOrderItems().observe(this, resource -> {
+            binding.get().setResource(resource);
+            switch (resource.status) {
+                case LOADING:
+                    toolbarBuilder.setRefreshing(true);
+                    break;
+                case SUCCESS:
+                    updateAdapter(resource);
+                    updatePrompt();
+                    toolbarBuilder.setRefreshing(false);
+                    break;
+                case ERROR:
+                    toolbarBuilder.setRefreshing(false);
+                    break;
+            }
+        });
     }
 
     @Nullable

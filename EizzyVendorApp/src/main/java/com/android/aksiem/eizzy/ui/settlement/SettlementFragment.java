@@ -19,6 +19,7 @@ import com.android.aksiem.eizzy.binding.FragmentDataBindingComponent;
 import com.android.aksiem.eizzy.databinding.SettlementFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.MenuToastAction;
 import com.android.aksiem.eizzy.ui.toolbar.NavigationBuilder;
 import com.android.aksiem.eizzy.ui.toolbar.menu.MenuActions;
@@ -69,9 +70,20 @@ public class SettlementFragment extends NavigationFragment {
                             onPageEndReached();
                         }
                     }
+                })
+                .setSwipeRefreshListener(() -> {
+                    onRefresh();
                 });
 //                .menuRes(ToolbarMenuUtil.generateMenuFrom(R.menu.menu_settlement_fragment),
 //                        buildMenuActions());
+    }
+
+    private void onRefresh() {
+        CollapsableToolbarBuilder toolbarBuilder = (CollapsableToolbarBuilder) getNavigationBuilder();
+        int index = binding.get().viewpager.getCurrentItem();
+        SettlementPagerAdapter adapter = ((SettlementPagerAdapter) binding.get().viewpager.getAdapter());
+        SettlementDurationFragment fragment = adapter.getFragment(index);
+        fragment.onRefresh(toolbarBuilder);
     }
 
     private void onPageEndReached() {

@@ -20,6 +20,7 @@ import com.android.aksiem.eizzy.databinding.SettlementDurationFragmentBinding;
 import com.android.aksiem.eizzy.di.ApplicationContext;
 import com.android.aksiem.eizzy.ui.common.NavigationController;
 import com.android.aksiem.eizzy.ui.common.ToastController;
+import com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder;
 import com.android.aksiem.eizzy.util.AutoClearedValue;
 import com.android.aksiem.eizzy.vo.Resource;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
@@ -86,6 +87,24 @@ public class SettlementDurationFragment extends BaseInjectableFragment {
         if (!binding.get().getLoadingMore()) {
             settlementViewModel.loadNextPage();
         }
+    }
+
+    public void onRefresh(CollapsableToolbarBuilder toolbarBuilder) {
+        settlementViewModel.getLatestSettlements().observe(this, resource -> {
+            binding.get().setResource(resource);
+            switch (resource.status) {
+                case LOADING:
+                    toolbarBuilder.setRefreshing(true);
+                    break;
+                case SUCCESS:
+                    toolbarBuilder.setRefreshing(false);
+                    updateAdapter(resource);
+                    break;
+                case ERROR:
+                    toolbarBuilder.setRefreshing(false);
+                    break;
+            }
+        });
     }
 
     private void initSettlementItemList() {

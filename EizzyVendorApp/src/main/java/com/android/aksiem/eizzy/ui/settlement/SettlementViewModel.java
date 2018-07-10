@@ -101,6 +101,34 @@ public class SettlementViewModel extends ViewModel {
     }
 
     @VisibleForTesting
+    public LiveData<Resource<List<SettlementItem>>> getLatestSettlements() {
+        settlementItems = Transformations.switchMap(settlementRepository.loadItems(startDate,
+                endDate), (items) -> {
+
+            MutableLiveData<Resource<List<SettlementItem>>> toReturn =
+                    new MutableLiveData<>();
+
+            if (items != null) {
+                List<SettlementItem> list = new ArrayList<>();
+                switch (items.status) {
+                    case SUCCESS:
+                        if (items.data != null && items.data.data != null
+                                && !items.data.data.isEmpty()) {
+                            list.addAll(items.data.data);
+                        }
+                        break;
+                }
+                Resource<List<SettlementItem>> resource = new Resource<>(
+                        items.status, list, items.message);
+                toReturn.setValue(resource);
+                return toReturn;
+            }
+            return AbsentLiveData.create();
+        });
+        return settlementItems;
+    }
+
+    @VisibleForTesting
     public LiveData<LoadMoreState> getLoadMoreStatus() {
         return nextPageHandler.getLoadMoreState();
     }

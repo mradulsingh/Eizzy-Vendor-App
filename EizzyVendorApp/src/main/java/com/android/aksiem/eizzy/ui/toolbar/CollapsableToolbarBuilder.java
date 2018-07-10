@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,10 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
 
     private NestedScrollView.OnScrollChangeListener onScrollChangeListener;
 
+    private SwipeRefreshLayout.OnRefreshListener swipeRefreshListener = null;
+
+    private CollapsableToolbarBinding binding;
+
     @Override
     protected CollapsableToolbarBuilder getThis() {
         return this;
@@ -41,6 +46,7 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
         dataBinding.fragmentContainer.addView(viewAttachedFragment);
         setupBottomActionBar(inflater, dataBinding);
         prepareToolbar(dataBinding);
+        binding = dataBinding;
         return dataBinding.getRoot();
     }
 
@@ -79,6 +85,14 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
 
         if (onScrollChangeListener != null) {
             dataBinding.scrollviewContainer.setOnScrollChangeListener(onScrollChangeListener);
+        }
+
+        if (swipeRefreshListener != null) {
+            dataBinding.setIsSwipeRefreshEnabled(true);
+            dataBinding.swipeContainer.setOnRefreshListener(swipeRefreshListener);
+        } else {
+            dataBinding.setIsSwipeRefreshEnabled(false);
+            dataBinding.setIsRefreshing(false);
         }
     }
 
@@ -124,6 +138,11 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
         return getThis();
     }
 
+    public CollapsableToolbarBuilder setSwipeRefreshListener(SwipeRefreshLayout.OnRefreshListener swipeRefreshListener) {
+        this.swipeRefreshListener = swipeRefreshListener;
+        return getThis();
+    }
+
     public CollapsableToolbarBuilder(LayoutFactory mainLayoutFactory) {
         super(mainLayoutFactory, NavigationDefaults.getInstance());
         this.bottomActionBarLayoutFactory = null;
@@ -132,6 +151,10 @@ public class CollapsableToolbarBuilder extends NavigationBuilder<CollapsableTool
     public CollapsableToolbarBuilder(LayoutFactory mainLayoutFactory, LayoutFactory bottomActionBarLayoutFactory) {
         super(mainLayoutFactory, NavigationDefaults.getInstance());
         this.bottomActionBarLayoutFactory = bottomActionBarLayoutFactory;
+    }
+
+    public void setRefreshing(boolean isRefreshing) {
+        binding.setIsRefreshing(isRefreshing);
     }
 
 }

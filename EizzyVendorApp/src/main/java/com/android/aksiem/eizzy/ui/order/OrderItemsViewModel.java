@@ -88,6 +88,12 @@ public class OrderItemsViewModel extends ViewModel {
         return dummyTimestampedOrderItems;
     }
 
+    public LiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> getLatestOrderItems() {
+        timestampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItemsToList(
+                0, status, stateFilter, startDate, endDate), (items) -> transform(items));
+        return timestampedOrderItems;
+    }
+
     public LiveData<Resource<List<TimestampedItemWrapper<OrderListItem>>>> getAllOrderItems() {
 
         timestampedOrderItems = Transformations.switchMap(orderItemsRepository.loadItemsToList(
