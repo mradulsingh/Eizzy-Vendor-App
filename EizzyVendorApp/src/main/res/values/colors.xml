@@ -32,6 +32,9 @@
     <color name="fireEngineRed">#d92727</color>
     <color name="skobeloff">#19647e</color>
     <color name="jungleGreen">#2c3135</color>
+    <color name="green">#00ff00</color>
+    <color name="orange">#FFA500</color>
+    <color name="darkGreen">#006400</color>
 
 
     <color name="colorPrimary">@color/white</color>
@@ -62,4 +65,5 @@
     <color name="orderPicked">@color/pastelGray</color>
     <color name="orderDelivered">@color/indianYellow</color>
     <color name="darkPink">#e75a7c</color>
+
 </resources>

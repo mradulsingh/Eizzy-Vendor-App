@@ -1,5 +1,6 @@
 package com.android.aksiem.eizzy.ui.order;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -180,13 +181,13 @@ public class OrderItemsFragment extends NavigationFragment {
                     binding.get().orderList.showShimmerAdapter();
                     break;
                 case SUCCESS:
-                    updateAdapter(resource);
+                    OrderItemsFragment.this.updateAdapter(resource);
                     binding.get().orderList.hideShimmerAdapter();
-                    updatePrompt();
+                    OrderItemsFragment.this.updatePrompt();
                     break;
                 case ERROR:
                     binding.get().orderList.hideShimmerAdapter();
-                    updatePrompt();
+                    OrderItemsFragment.this.updatePrompt();
                     break;
             }
         });

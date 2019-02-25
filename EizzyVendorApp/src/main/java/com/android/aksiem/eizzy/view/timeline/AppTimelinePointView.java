@@ -48,7 +48,7 @@ public class AppTimelinePointView extends RelativeLayout {
                     "id=" + id +
                     '}';
         }
-    };
+    }
 
     private int stateId;
 
