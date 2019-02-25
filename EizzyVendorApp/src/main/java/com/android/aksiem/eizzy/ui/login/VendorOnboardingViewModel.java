@@ -11,7 +11,7 @@ import com.android.aksiem.eizzy.vo.VendorOnboarding;
 import javax.inject.Inject;
 
 /**
- * Created by pdubey on 04/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class VendorOnboardingViewModel extends ViewModel {

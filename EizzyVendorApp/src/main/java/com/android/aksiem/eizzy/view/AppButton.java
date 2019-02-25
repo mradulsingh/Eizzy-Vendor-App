@@ -10,6 +10,10 @@ import android.util.AttributeSet;
 
 import com.android.aksiem.eizzy.R;
 
+/**
+ * Created by Mradul on 10/06/18.
+ */
+
 public class AppButton extends AppCompatButton {
 
     private Drawable vectorDrawable;

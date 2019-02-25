@@ -18,7 +18,7 @@ import com.android.aksiem.eizzy.vo.order.OrderListItem;
 import com.android.aksiem.eizzy.vo.order.TimestampedItemWrapper;
 
 /**
- * Created by pdubey on 14/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class OrderItemsAdapter extends DataBoundListAdapter<TimestampedItemWrapper<OrderListItem>,

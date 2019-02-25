@@ -41,7 +41,7 @@ import javax.inject.Inject;
 import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
 /**
- * Created by pdubey on 09/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class OrderItemsFragment extends NavigationFragment {

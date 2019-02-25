@@ -31,7 +31,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * Created by pdubey on 05/05/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class OrderDetailsFragment extends NavigationFragment {

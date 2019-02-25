@@ -11,6 +11,9 @@ import com.android.aksiem.eizzy.ui.common.DataBoundListAdapter;
 import com.android.aksiem.eizzy.util.Objects;
 import com.android.aksiem.eizzy.vo.settlement.SettlementItem;
 
+/**
+ * Created by Mradul on 10/06/18.
+ */
 
 public class SettlementItemAdapter extends DataBoundListAdapter<SettlementItem,
         SettlementItemBinding> {

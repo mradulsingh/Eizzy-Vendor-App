@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by Mradul on 10/06/18.
+ */
+
 public class SettlementPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 

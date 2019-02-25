@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by pdubey on 02/04/18.
+ * Created by Mradul on 02/04/18.
  */
 
 @Entity(primaryKeys = "title")

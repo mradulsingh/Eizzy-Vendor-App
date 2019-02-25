@@ -39,7 +39,7 @@ import com.android.aksiem.eizzy.vo.StoreManager;
 import javax.inject.Inject;
 
 /**
- * Created by napendersingh on 06/05/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class StoreManagerDetailFragment extends NavigationFragment {

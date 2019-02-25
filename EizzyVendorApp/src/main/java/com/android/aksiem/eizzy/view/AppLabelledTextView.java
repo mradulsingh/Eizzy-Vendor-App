@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.android.aksiem.eizzy.R;
 
 /**
- * Created by napendersingh on 06/05/18.
+ * Created by Mradul on 06/05/18.
  */
 
 public class AppLabelledTextView extends RelativeLayout {

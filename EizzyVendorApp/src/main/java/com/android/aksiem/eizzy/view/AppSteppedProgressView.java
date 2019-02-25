@@ -9,7 +9,7 @@ import android.view.View;
 import com.android.aksiem.eizzy.R;
 
 /**
- * Created by pdubey on 03/05/18.
+ * Created by Mradul on 03/05/18.
  */
 
 public class AppSteppedProgressView extends View {

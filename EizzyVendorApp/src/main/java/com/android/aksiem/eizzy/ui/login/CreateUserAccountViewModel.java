@@ -29,7 +29,7 @@ import com.android.aksiem.eizzy.vo.Store;
 import javax.inject.Inject;
 
 /**
- * Created by napendersingh on 31/03/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class CreateUserAccountViewModel extends ViewModel {

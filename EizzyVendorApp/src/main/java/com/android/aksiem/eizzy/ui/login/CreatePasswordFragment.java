@@ -49,7 +49,7 @@ import javax.inject.Inject;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
- * Created by napendersingh on 31/03/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class CreatePasswordFragment extends NavigationFragment {

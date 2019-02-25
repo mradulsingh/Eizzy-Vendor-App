@@ -10,6 +10,10 @@ import com.android.aksiem.eizzy.app.AppResourceManager;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+/**
+ * Created by Mradul on 10/06/18.
+ */
+
 public class ToastViewModel extends ViewModel {
 
     AppResourceManager appResourceManager;

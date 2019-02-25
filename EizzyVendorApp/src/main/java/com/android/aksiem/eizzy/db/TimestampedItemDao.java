@@ -7,7 +7,7 @@ import com.android.aksiem.eizzy.vo.order.Timestamped;
 import java.util.List;
 
 /**
- * Created by pdubey on 14/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public interface TimestampedItemDao<T extends Timestamped> {

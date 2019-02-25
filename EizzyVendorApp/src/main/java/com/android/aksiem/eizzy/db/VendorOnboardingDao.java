@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import com.android.aksiem.eizzy.vo.VendorOnboarding;
 
 /**
- * Created by pdubey on 04/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public interface VendorOnboardingDao {

@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import com.android.aksiem.eizzy.R;
 
 /**
- * Created by pdubey on 10/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class AppTextView extends AppCompatTextView {

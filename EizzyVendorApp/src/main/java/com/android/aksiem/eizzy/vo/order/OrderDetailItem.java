@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Created by pdubey on 09/04/18.
+ * Created by Mradul on 09/04/18.
  */
 
 @Entity(primaryKeys = "orderId", tableName = "order_detail_item")

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by pdubey on 09/04/18.
+ * Created by Mradul on 09/04/18.
  */
 
 public enum ServiceType implements Serializable {

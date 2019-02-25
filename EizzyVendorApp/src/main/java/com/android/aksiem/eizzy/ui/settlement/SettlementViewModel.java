@@ -20,6 +20,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+/**
+ * Created by Mradul on 10/06/18.
+ */
 
 public class SettlementViewModel extends ViewModel {
 

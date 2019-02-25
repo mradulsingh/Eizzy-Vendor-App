@@ -18,7 +18,7 @@ import com.android.aksiem.eizzy.R;
 import com.android.aksiem.eizzy.databinding.AppThemedCardLayoutBinding;
 
 /**
- * Created by pdubey on 15/05/18.
+ * Created by Mradul on 15/05/18.
  */
 
 public class AppThemedCardLayout extends RelativeLayout {

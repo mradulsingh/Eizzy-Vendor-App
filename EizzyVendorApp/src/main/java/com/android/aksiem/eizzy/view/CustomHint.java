@@ -7,7 +7,7 @@ import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 
 /**
- * Created by napendersingh on 15/04/18.
+ * Created by Mradul on 15/04/18.
  */
 
 public class CustomHint extends SpannableString {

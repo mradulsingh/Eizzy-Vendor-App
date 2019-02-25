@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by pdubey on 01/05/18.
+ * Created by Mradul on 10/06/18.
  */
 
 public class AppTimelinePointView extends RelativeLayout {

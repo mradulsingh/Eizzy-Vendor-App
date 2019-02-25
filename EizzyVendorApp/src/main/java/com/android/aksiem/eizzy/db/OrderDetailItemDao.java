@@ -12,7 +12,7 @@ import com.android.aksiem.eizzy.vo.order.OrderDetailItem;
 import java.util.List;
 
 /**
- * Created by pdubey on 15/04/18.
+ * Created by Mradul on 10/06/18.
  */
 
 @Dao

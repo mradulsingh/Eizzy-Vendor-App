@@ -29,6 +29,9 @@ import javax.inject.Inject;
 
 import static com.android.aksiem.eizzy.ui.toolbar.CollapsableToolbarBuilder.mainCollapsableToolbar;
 
+/**
+ * Created by Mradul on 10/06/18.
+ */
 
 public class SettlementFragment extends NavigationFragment {
 
